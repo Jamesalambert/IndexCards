@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD95FE245CDE630092CF99 /* AppDelegate.swift */; };
-		1AFD9601245CDE630092CF99 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD9600245CDE630092CF99 /* ViewController.swift */; };
+		1AFD9601245CDE630092CF99 /* EditIndexCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */; };
 		1AFD9604245CDE630092CF99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9602245CDE630092CF99 /* Main.storyboard */; };
 		1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9605245CDE650092CF99 /* Assets.xcassets */; };
 		1AFD9609245CDE650092CF99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9607245CDE650092CF99 /* LaunchScreen.storyboard */; };
+		1AFD9612245CE9C90092CF99 /* ModelOfIndexCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1AFD95FB245CDE630092CF99 /* IndexCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndexCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AFD95FE245CDE630092CF99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1AFD9600245CDE630092CF99 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIndexCardViewController.swift; sourceTree = "<group>"; };
 		1AFD9603245CDE630092CF99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1AFD9605245CDE650092CF99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AFD9608245CDE650092CF99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1AFD960A245CDE650092CF99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelOfIndexCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,23 @@
 		1AFD95FD245CDE630092CF99 /* IndexCards */ = {
 			isa = PBXGroup;
 			children = (
-				1AFD95FE245CDE630092CF99 /* AppDelegate.swift */,
-				1AFD9600245CDE630092CF99 /* ViewController.swift */,
+				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1AFD9602245CDE630092CF99 /* Main.storyboard */,
-				1AFD9605245CDE650092CF99 /* Assets.xcassets */,
-				1AFD9607245CDE650092CF99 /* LaunchScreen.storyboard */,
+				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
+				1AFD9610245CDEB60092CF99 /* support */,
 			);
 			path = IndexCards;
+			sourceTree = "<group>";
+		};
+		1AFD9610245CDEB60092CF99 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				1AFD95FE245CDE630092CF99 /* AppDelegate.swift */,
+				1AFD9605245CDE650092CF99 /* Assets.xcassets */,
+				1AFD9607245CDE650092CF99 /* LaunchScreen.storyboard */,
+			);
+			path = support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +146,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AFD9601245CDE630092CF99 /* ViewController.swift in Sources */,
+				1AFD9601245CDE630092CF99 /* EditIndexCardViewController.swift in Sources */,
 				1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */,
+				1AFD9612245CE9C90092CF99 /* ModelOfIndexCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
