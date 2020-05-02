@@ -67,6 +67,7 @@
                                     <constraint firstItem="CKH-tY-M14" firstAttribute="centerY" secondItem="RYc-gZ-o3y" secondAttribute="centerY" id="P1L-aN-WLc"/>
                                     <constraint firstAttribute="bottom" secondItem="3OA-QD-fCk" secondAttribute="bottom" id="aKO-W4-W2Z"/>
                                     <constraint firstAttribute="trailing" secondItem="CKH-tY-M14" secondAttribute="trailing" id="kga-tW-vvM"/>
+                                    <constraint firstAttribute="width" priority="750" constant="2000" id="o4B-tq-wwJ"/>
                                     <constraint firstAttribute="width" secondItem="RYc-gZ-o3y" secondAttribute="height" multiplier="1.5:1" id="vzd-XD-mqL"/>
                                 </constraints>
                             </view>
