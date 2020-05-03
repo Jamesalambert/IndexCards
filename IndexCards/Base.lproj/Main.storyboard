@@ -123,17 +123,26 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="506.5" height="30"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovz-HQ-U0d">
-                                                                <rect key="frame" x="428.5" y="0.0" width="70" height="30"/>
-                                                                <state key="normal" title="add photo"/>
+                                                                <rect key="frame" x="377.5" y="0.0" width="109" height="30"/>
+                                                                <state key="normal" title="add from library"/>
                                                                 <connections>
                                                                     <action selector="addPhoto" destination="wjJ-Db-YeB" eventType="touchUpInside" id="HhH-xq-oAB"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEw-nf-T2V">
+                                                                <rect key="frame" x="20" y="0.0" width="74" height="30"/>
+                                                                <state key="normal" title="take photo"/>
+                                                                <connections>
+                                                                    <action selector="takePhoto" destination="wjJ-Db-YeB" eventType="touchUpInside" id="yI3-Bp-45h"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="ovz-HQ-U0d" firstAttribute="top" secondItem="LSP-cD-T5s" secondAttribute="top" id="2Uc-2A-1dI"/>
-                                                            <constraint firstAttribute="trailing" secondItem="ovz-HQ-U0d" secondAttribute="trailing" constant="8" id="6AZ-Jd-tZg"/>
+                                                            <constraint firstItem="rEw-nf-T2V" firstAttribute="top" secondItem="LSP-cD-T5s" secondAttribute="top" id="2nU-lE-76h"/>
+                                                            <constraint firstItem="rEw-nf-T2V" firstAttribute="leading" secondItem="LSP-cD-T5s" secondAttribute="leading" constant="20" symbolic="YES" id="64S-tZ-RgL"/>
+                                                            <constraint firstAttribute="trailing" secondItem="ovz-HQ-U0d" secondAttribute="trailing" constant="20" symbolic="YES" id="6AZ-Jd-tZg"/>
                                                             <constraint firstAttribute="height" constant="30" id="Tkv-LE-Nwb"/>
                                                         </constraints>
                                                     </view>

@@ -44,6 +44,29 @@ UITextViewDelegate{
         
     }
     
+    
+    @IBAction func takePhoto() {
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = true
+            imagePicker.mediaTypes = ["public.image"]
+            //imagePicker.modalPresentationStyle = .popover
+          
+            if let _ = imagePicker.presentationController{
+                present(imagePicker, animated: true, completion: nil)
+            } else{
+                print("Could not present imagepicker")
+            }
+            
+            
+        }
+    }
+    
+    
     @IBAction func doneEditingFrontText() {
         textViewDidEndEditing(frontTextView)
     }
@@ -85,7 +108,7 @@ UITextViewDelegate{
     
     @IBOutlet weak var backgroundView: UIView! {
         didSet{
-            backgroundView.layer.cornerRadius = 12.0
+            backgroundView.layer.cornerRadius = 20.0
             backgroundView.clipsToBounds = true
         }
     }
