@@ -71,6 +71,14 @@ UITextViewDelegate{
         textViewDidEndEditing(frontTextView)
     }
     
+    
+    @IBAction func StopEditing(_ sender: Any) {
+        
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     //MARK:- Outlets
     @IBOutlet weak var addPhotoButton: UIButton!
     

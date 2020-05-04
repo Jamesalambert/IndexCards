@@ -11,22 +11,16 @@ import UIKit
 //private let reuseIdentifier = "Cell"
 
 class DecksCollectionViewController:
-UIViewController,
+    UIViewController,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
-UICollectionViewDelegateFlowLayout
-
+    UICollectionViewDelegateFlowLayout,
+    UIGestureRecognizerDelegate
 {
     
     //MARK:- vars
     //model
     var model = Notes()
-    
-//    var lastSelectedDeck : Deck?{
-//        didSet{
-//                indexCardCollectionController.currentDeck = lastSelectedDeck
-//        }
-//    }
     
     var indexCardCollectionController = IndexCardsCollectionViewController()
     
@@ -38,8 +32,42 @@ UICollectionViewDelegateFlowLayout
         didSet{
             indexCardsCollectionView.delegate = indexCardCollectionController
             indexCardsCollectionView.dataSource = indexCardCollectionController
+            
+            let tap = UITapGestureRecognizer()
+            tap.numberOfTouchesRequired = 1
+            tap.numberOfTapsRequired = 1
+            tap.addTarget(self, action: #selector(tap(_:)))
+            indexCardsCollectionView.addGestureRecognizer(tap)
         }
     }
+
+    @objc private func tap(_ sender: UITapGestureRecognizer){
+        //get tapped cell
+        
+        let locaton = sender.location(in: indexCardsCollectionView)
+        
+        if let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton){
+        
+            //let cell = indexCardsCollectionView.cellForItem(at: indexPath)
+            
+            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            
+            let editVC = storyboard.instantiateViewController(withIdentifier: "EditViewController")
+            
+            editVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+            
+            definesPresentationContext = true
+            
+            
+            present(editVC, animated: true, completion: nil)
+            
+        }
+        
+        
+        //trigger segue
+        
+    }
+    
     
     @IBOutlet weak var decksCollectionView: UICollectionView!{
         didSet{
@@ -215,20 +243,20 @@ UICollectionViewDelegateFlowLayout
     
     //MARK:- Navigation
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "EditCard" {
-            
-            if let activeDeckPath = decksCollectionView.indexPathsForSelectedItems?.first,
-                let tappedIndexPath = indexCardsCollectionView.indexPathsForSelectedItems?.first{
-                
-                let selectedCard = model.decks[activeDeckPath.item].cards[tappedIndexPath.item]
-                
-                if let editCardView = segue.destination as? EditIndexCardViewController{
-                    
-                    editCardView.indexCard = selectedCard
-                }
-            }
-        }//if
-    }//func
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        
+//        if segue.identifier == "EditCard" {
+//            
+//            if let activeDeckPath = decksCollectionView.indexPathsForSelectedItems?.first,
+//                let tappedIndexPath = indexCardsCollectionView.indexPathsForSelectedItems?.first{
+//                
+//                let selectedCard = model.decks[activeDeckPath.item].cards[tappedIndexPath.item]
+//                
+//                if let editCardView = segue.destination as? EditIndexCardViewController{
+//                    
+//                    editCardView.indexCard = selectedCard
+//                }
+//            }
+//        }//if
+//    }//func
 }//class

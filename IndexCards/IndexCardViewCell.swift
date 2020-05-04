@@ -33,4 +33,26 @@ class IndexCardViewCell: UICollectionViewCell {
     @IBOutlet weak var titleField: UILabel!
     
     @IBOutlet weak var frontTextView: UILabel!
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        
+        //rounded corners
+        self.layer.cornerRadius = CGFloat(12.0)
+        self.layer.masksToBounds = false
+        
+        //drop shadow
+        let shadowPath = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.cornerRadius)
+        self.layer.shadowPath = shadowPath.cgPath
+        self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 2.0
+        self.layer.shadowOpacity = 0.7
+        
+        //background color
+        self.backgroundColor = nil
+        self.layer.backgroundColor = UIColor.green.cgColor
+        
+        
+    }
 }
