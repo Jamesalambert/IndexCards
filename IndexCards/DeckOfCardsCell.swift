@@ -35,8 +35,8 @@ class DeckOfCardsCell: UICollectionViewCell {
     
     @IBOutlet weak var infoLabel: UILabel!
     
-    
     override func didMoveToWindow() {
+        //super.didMoveToWindow()
         
         //rounded corners
         self.layer.cornerRadius = CGFloat(12.0)

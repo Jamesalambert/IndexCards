@@ -19,7 +19,7 @@ class Notes {
     
     func addDeck(){
         let newDeck = Deck()
-        decks += [newDeck]
+        decks.insert(newDeck, at: 0)
     }
 }
 
@@ -47,7 +47,7 @@ class Deck {
     
     func addCard(){
         let newCard = IndexCard()
-        cards += [newCard]
+        cards.insert(newCard, at: 0)
     }
     
     func deleteCard(_ card: IndexCard){
