@@ -19,19 +19,18 @@ UICollectionViewDelegateFlowLayout
 {
     
     //MARK:- vars
-    
     //model
     var model = Notes(){
         didSet{
             if let firstDeck = model.decks.first {
-                selectedDeck = firstDeck
+                lastSelectedDeck = firstDeck
             }
         }
     }
     
-    var selectedDeck : Deck?{
+    var lastSelectedDeck : Deck?{
         didSet{
-                indexCardCollectionController.currentDeck = selectedDeck
+                indexCardCollectionController.currentDeck = lastSelectedDeck
         }
     }
     
@@ -62,7 +61,8 @@ UICollectionViewDelegateFlowLayout
             
             model.addDeck()
             
-            decksCollectionView.insertItems(at: [IndexPath(row: 0, section: 1)])
+            decksCollectionView.insertItems(
+                at: [IndexPath(row: 0, section: 1)])
             
         }, completion: nil)
     }
@@ -143,12 +143,15 @@ UICollectionViewDelegateFlowLayout
 
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
+    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
+        
+        if indexPath.section == 1 {return true}
+        
+        return false
     }
     */
 
-    /*
+    
     // Uncomment this method to specify if the specified item should be selected
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
@@ -156,7 +159,18 @@ UICollectionViewDelegateFlowLayout
         
         return false
     }
-    */
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedDeck = model.decks[indexPath.item]
+        indexCardCollectionController.currentDeck = selectedDeck
+        
+        //the delegate/datasource can't do this
+        indexCardsCollectionView.reloadData()
+        
+        
+        print(collectionView.indexPathsForSelectedItems as Any)
+    }
 
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
@@ -173,4 +187,23 @@ UICollectionViewDelegateFlowLayout
     }
     */
 
-}
+    
+    //MARK:- Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "EditCard" {
+            
+            if let activeDeckPath = decksCollectionView.indexPathsForSelectedItems?.first,
+                let tappedIndexPath = indexCardsCollectionView.indexPathsForSelectedItems?.first{
+                
+                let selectedCard = model.decks[activeDeckPath.item].cards[tappedIndexPath.item]
+                
+                if let editCardView = segue.destination as? EditIndexCardViewController{
+                    
+                    editCardView.indexCard = selectedCard
+                }
+            }
+        }//if
+    }//func
+}//class
