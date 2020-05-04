@@ -24,15 +24,14 @@ class Notes {
 }
 
 
-class Deck {
+class Deck : Hashable {
     var title : String?
     var cards = [IndexCard()] //start with 1 card
     var count : Int {
         return cards.count
     }
     
-    //unique id
-    private var identifier : Int
+    
     
     func thumbnail(forSize size: CGSize) -> UIImage?{
         
@@ -60,6 +59,13 @@ class Deck {
         self.title = "New Deck"
     }
     
+    //unique id
+    private var identifier : Int
+    var hashValue : Int {return identifier}
+    
+    static func ==(lhs:Deck,rhs:Deck)->Bool{
+        return lhs.identifier == rhs.identifier
+    }
     
     //Struct vars/funcs
     private static var identifier = 0
@@ -79,11 +85,6 @@ struct IndexCard : Hashable {
     var backText  : String?
     var title     : String?
     
-    //unique id
-    private var identifier : Int
-    
-    //Hashable
-    var hashValue : Int {return identifier}
     
     init(){
         self.identifier = IndexCard.getIdentifier()
@@ -101,5 +102,12 @@ struct IndexCard : Hashable {
     static func ==(lhs:IndexCard, rhs:IndexCard) -> Bool{
         return lhs.identifier == rhs.identifier
     }
+    
+    //unique id
+    private var identifier : Int
+    
+    //Hashable
+    var hashValue : Int {return identifier}
+    
     
 }

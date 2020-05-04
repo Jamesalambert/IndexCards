@@ -58,6 +58,7 @@ UICollectionViewDelegateFlowLayout
             decksCollectionView.insertItems(
                 at: [IndexPath(row: 0, section: 1)])
             
+            
         }, completion: nil)
     }
     
@@ -107,7 +108,7 @@ UICollectionViewDelegateFlowLayout
             
         case 1:
             
-            if selectedDeckIndexPath == indexPath  {
+            if selectedDeck == model.decks[indexPath.item]  {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddCardToDeck", for: indexPath)
                 
@@ -180,20 +181,14 @@ UICollectionViewDelegateFlowLayout
     }
     
     
-    var selectedDeckIndexPath : IndexPath?{
-        didSet{
-            
-            print(selectedDeckIndexPath)
-        }
-    }
+    var selectedDeck : Deck?
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         //save selected path so we can show the 'add card button'
-        selectedDeckIndexPath = indexPath
+        selectedDeck = model.decks[indexPath.item]
         
         //update main view
-        let selectedDeck = model.decks[indexPath.item]
         indexCardCollectionController.currentDeck = selectedDeck
         //the delegate/datasource can't do this
         indexCardsCollectionView.reloadData()
