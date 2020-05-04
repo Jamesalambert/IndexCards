@@ -48,24 +48,29 @@ class DecksCollectionViewController:
         
         if let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton){
         
-            //let cell = indexCardsCollectionView.cellForItem(at: indexPath)
+            //get location of tapped cell
+            let cell = indexCardsCollectionView.cellForItem(at: indexPath)
+            let startCenter = cell?.center
+            let startFrame = cell?.frame
             
+            //get the next VC
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            
             let editVC = storyboard.instantiateViewController(withIdentifier: "EditViewController")
             
-            editVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+            //where the Edit view springs from
+            let transitionDelegate = TransitioningDelegateforEditCardViewController()
+            transitionDelegate.startingCenter = startCenter
+            transitionDelegate.startingFrame = startFrame
             
-            definesPresentationContext = true
+            //set up transition
+            editVC.modalPresentationStyle = UIModalPresentationStyle.custom
+            editVC.transitioningDelegate = transitionDelegate
+            //self.transitioningDelegate = transitionDelegate
             
-            
+            //go
             present(editVC, animated: true, completion: nil)
             
         }
-        
-        
-        //trigger segue
-        
     }
     
     
@@ -240,6 +245,12 @@ class DecksCollectionViewController:
     }
     */
 
+    //MARK:- UIView
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //for segue to editing cards view
+        definesPresentationContext = true
+    }
     
     //MARK:- Navigation
     
