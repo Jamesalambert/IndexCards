@@ -66,15 +66,15 @@
 		1AFD95FD245CDE630092CF99 /* IndexCards */ = {
 			isa = PBXGroup;
 			children = (
+				1AFD9602245CDE630092CF99 /* Main.storyboard */,
+				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
 				1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */,
 				1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */,
 				1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */,
-				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
-				1AFD9602245CDE630092CF99 /* Main.storyboard */,
-				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
 				1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */,
-				1AFD960A245CDE650092CF99 /* Info.plist */,
+				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1A1B9960245E0ECD0016E050 /* utilities.swift */,
+				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1AFD9610245CDEB60092CF99 /* support */,
 			);
 			path = IndexCards;

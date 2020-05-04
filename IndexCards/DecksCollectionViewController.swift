@@ -20,19 +20,13 @@ UICollectionViewDelegateFlowLayout
     
     //MARK:- vars
     //model
-    var model = Notes(){
-        didSet{
-            if let firstDeck = model.decks.first {
-                lastSelectedDeck = firstDeck
-            }
-        }
-    }
+    var model = Notes()
     
-    var lastSelectedDeck : Deck?{
-        didSet{
-                indexCardCollectionController.currentDeck = lastSelectedDeck
-        }
-    }
+//    var lastSelectedDeck : Deck?{
+//        didSet{
+//                indexCardCollectionController.currentDeck = lastSelectedDeck
+//        }
+//    }
     
     var indexCardCollectionController = IndexCardsCollectionViewController()
     
@@ -67,7 +61,21 @@ UICollectionViewDelegateFlowLayout
         }, completion: nil)
     }
     
-
+    
+    @IBAction func addCard(_ sender: UIButton) {
+        
+        indexCardsCollectionView.performBatchUpdates({
+            indexCardCollectionController.currentDeck?.addCard()
+            
+            indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
+            
+        }, completion: nil
+        )
+    }
+    
+    
+    
+    
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
@@ -98,28 +106,38 @@ UICollectionViewDelegateFlowLayout
             return cell
             
         case 1:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
             
-                let deck = model.decks[indexPath.row]
-            
-                cell.title = deck.title
-                cell.infoLabel.text = String(deck.count)
+            if selectedDeckIndexPath == indexPath  {
                 
-                let collectionViewHeight = collectionView.frame.size.height
-                
-                cell.image = deck.thumbnail(
-                    forSize: CGSize(
-                        width: aspectRatio * collectionViewHeight/2,
-                        height: collectionViewHeight))
-                
-                
-                cell.backgroundColor = UIColor.green
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddCardToDeck", for: indexPath)
                 
                 return cell
+                
             } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
-                return cell
+                
+                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
+                    
+                    let deck = model.decks[indexPath.row]
+                    
+                    cell.title = deck.title
+                    cell.infoLabel.text = String(deck.count)
+                    
+                    let collectionViewHeight = collectionView.frame.size.height
+                    
+                    cell.image = deck.thumbnail(
+                        forSize: CGSize(
+                            width: aspectRatio * collectionViewHeight/2,
+                            height: collectionViewHeight))
+                    
+                    cell.backgroundColor = UIColor.green
+                    
+                    return cell
+                } else {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
+                    return cell
+                }
             }
+            
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
             return cell
@@ -129,7 +147,8 @@ UICollectionViewDelegateFlowLayout
     
     
     //MARK:- UICollectionViewDelegateFlowLayout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         //TODO: store aspectRatio somewhere nice
         let height = CGFloat(100)
@@ -160,16 +179,24 @@ UICollectionViewDelegateFlowLayout
         return false
     }
     
+    
+    var selectedDeckIndexPath : IndexPath?
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        selectedDeckIndexPath = indexPath
+        
         let selectedDeck = model.decks[indexPath.item]
+        
+        //update main view
         indexCardCollectionController.currentDeck = selectedDeck
         
         //the delegate/datasource can't do this
         indexCardsCollectionView.reloadData()
         
-        
-        print(collectionView.indexPathsForSelectedItems as Any)
+        //reload decks to show addCard button
+        decksCollectionView.reloadSections(IndexSet(integer: 1))
+        print(indexPath)
     }
 
     /*
