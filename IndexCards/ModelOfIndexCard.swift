@@ -24,7 +24,7 @@ class Notes {
 }
 
 
-struct Deck {
+class Deck {
     var title : String?
     var cards = [IndexCard()] //start with 1 card
     var count : Int {
@@ -45,12 +45,12 @@ struct Deck {
         return nil
     }
     
-    mutating func addCard(){
+    func addCard(){
         let newCard = IndexCard()
         cards += [newCard]
     }
     
-    mutating func deleteCard(_ card: IndexCard){
+    func deleteCard(_ card: IndexCard){
         cards.removeAll(where: {$0 == card})
     }
     
