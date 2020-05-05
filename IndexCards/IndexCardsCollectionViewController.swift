@@ -19,21 +19,6 @@ UICollectionViewDelegateFlowLayout
     
     //model
     var currentDeck : Deck?
-    
-
-
-    /*
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //get selected card
-        
-        
-        
-        //send relevant data
-        
-        
-    }
- */
 
     // MARK: UICollectionViewDataSource
 

@@ -13,6 +13,7 @@ NSObject,
 UIViewControllerTransitioningDelegate
 {
     
+    var duration : Double = 0.5
     var startingCenter : CGPoint?
     var startingFrame : CGRect?
     

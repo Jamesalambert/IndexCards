@@ -10,11 +10,12 @@ import UIKit
 
 class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
+    var duration : Double = 0.5
     var startingCenter : CGPoint?
     var startingFrame : CGRect?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 2.0
+        return duration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -38,15 +39,16 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         transitionContext.containerView.addSubview(destination.view)
 
         UIView.animate(
-            withDuration: 2.0,
+            withDuration: duration,
             delay: 0.0,
             options: .curveEaseInOut,
             animations: {
-                destination.view.center = originalCenter
                 
+                destination.view.center = originalCenter
                 destination.view.transform = CGAffineTransform.identity
-        },
-            completion: nil)
-        }
-    }
+            },
+            completion: {success in transitionContext.completeTransition(success)})
+            
+        }//if let
+    }//func
 }

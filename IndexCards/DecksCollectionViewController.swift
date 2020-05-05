@@ -26,6 +26,8 @@ class DecksCollectionViewController:
     
     var aspectRatio = CGFloat(1.5)
     
+    var transitionDelegate = TransitioningDelegateforEditCardViewController()
+    
     //MARK:- Outlets
     
     @IBOutlet weak var indexCardsCollectionView: UICollectionView!{
@@ -41,6 +43,17 @@ class DecksCollectionViewController:
         }
     }
 
+    var editorDidMakeChanges : Bool = false{
+        didSet{
+            if let indexPath = indexPathOfEditedCard{
+                
+                indexCardsCollectionView.reloadItems(at: [indexPath])
+            }
+        }
+    }
+    
+    var indexPathOfEditedCard : IndexPath?
+    
     @objc private func tap(_ sender: UITapGestureRecognizer){
         //get tapped cell
         
@@ -48,31 +61,40 @@ class DecksCollectionViewController:
         
         if let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton){
         
+            indexPathOfEditedCard = indexPath
+            
             //get location of tapped cell
             let cell = indexCardsCollectionView.cellForItem(at: indexPath)
             let startCenter = cell?.center
             let startFrame = cell?.frame
             
+            let chosenCard = selectedDeck?.cards[indexPath.item]
+            
+            
             //get the next VC
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let editVC = storyboard.instantiateViewController(withIdentifier: "EditViewController")
             
-            //where the Edit view springs from
-            let transitionDelegate = TransitioningDelegateforEditCardViewController()
-            transitionDelegate.startingCenter = startCenter
-            transitionDelegate.startingFrame = startFrame
-            
-            //set up transition
-            editVC.modalPresentationStyle = UIModalPresentationStyle.custom
-            editVC.transitioningDelegate = transitionDelegate
-            //self.transitioningDelegate = transitionDelegate
-            
-            //go
-            present(editVC, animated: true, completion: nil)
-            
+            if let editVC = storyboard.instantiateViewController(
+                withIdentifier: "EditViewController") as? EditIndexCardViewController{
+                
+                 //hand data to the editor
+                editVC.indexCard = chosenCard
+                
+                //where the Edit view springs from
+                transitionDelegate.startingCenter = startCenter
+                transitionDelegate.startingFrame = startFrame
+                
+                
+                //set up transition
+                editVC.modalPresentationStyle = UIModalPresentationStyle.custom
+                editVC.transitioningDelegate = transitionDelegate
+                //self.transitioningDelegate = transitionDelegate
+                
+                //go
+                present(editVC, animated: true, completion: nil)
+            }   
         }
     }
-    
     
     @IBOutlet weak var decksCollectionView: UICollectionView!{
         didSet{
@@ -252,22 +274,12 @@ class DecksCollectionViewController:
         definesPresentationContext = true
     }
     
-    //MARK:- Navigation
+    //MARK:- navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination == self {
+            //reload index cards
+        }
+    }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-//        if segue.identifier == "EditCard" {
-//            
-//            if let activeDeckPath = decksCollectionView.indexPathsForSelectedItems?.first,
-//                let tappedIndexPath = indexCardsCollectionView.indexPathsForSelectedItems?.first{
-//                
-//                let selectedCard = model.decks[activeDeckPath.item].cards[tappedIndexPath.item]
-//                
-//                if let editCardView = segue.destination as? EditIndexCardViewController{
-//                    
-//                    editCardView.indexCard = selectedCard
-//                }
-//            }
-//        }//if
-//    }//func
+    
 }//class

@@ -79,7 +79,8 @@ class Deck : Hashable {
 }
 
 
-struct IndexCard : Hashable {
+class IndexCard : Hashable {
+    
     var image     : UIImage?
     var frontText : String?
     var backText  : String?
