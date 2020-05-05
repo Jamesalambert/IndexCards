@@ -65,8 +65,12 @@ class DecksCollectionViewController:
             
             //get location of tapped cell
             let cell = indexCardsCollectionView.cellForItem(at: indexPath)
-            let startCenter = cell?.center
-            let startFrame = cell?.frame
+            let startCenter = cell?.center.offsetBy(
+                dx: -indexCardsCollectionView.contentOffset.x,
+                dy: indexCardsCollectionView.contentOffset.y)
+            let startFrame = cell?.frame.offsetBy(
+                dx: -indexCardsCollectionView.contentOffset.x,
+                dy: indexCardsCollectionView.contentOffset.y)
             
             let chosenCard = selectedDeck?.cards[indexPath.item]
             
