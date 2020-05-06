@@ -13,6 +13,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     var duration : Double = 0.5
     var endingCenter : CGPoint?
     var endingFrame : CGRect?
+    var tappedCell : UICollectionViewCell?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -44,6 +45,9 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 completion:  {success in
                     
                     transitionContext.completeTransition(success)
+                    
+                    //unhide the cell
+                    self.tappedCell?.alpha = 1.0
                     
                     //remove from superview
                     source.view.removeFromSuperview()

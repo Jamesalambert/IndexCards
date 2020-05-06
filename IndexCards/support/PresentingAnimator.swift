@@ -13,6 +13,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     var duration : Double = 0.5
     var startingCenter : CGPoint?
     var startingFrame : CGRect?
+    var tappedCell : UICollectionViewCell?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -38,6 +39,9 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         //add the new view!
         transitionContext.containerView.addSubview(destination.view)
 
+        //hide the tapped cell
+        tappedCell?.alpha = 0
+            
         UIView.animate(
             withDuration: duration,
             delay: 0.0,

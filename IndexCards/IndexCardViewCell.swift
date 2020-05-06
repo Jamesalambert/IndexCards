@@ -50,6 +50,7 @@ class IndexCardViewCell: UICollectionViewCell {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowRadius = 2.0
         self.layer.shadowOpacity = 0.7
+        self.layer.shouldRasterize = true // for performance
         
         //background color
         self.backgroundColor = nil

@@ -88,7 +88,7 @@ class DecksCollectionViewController:
                 //where the Edit view springs from
                 transitionDelegate.startingCenter = startCenter
                 transitionDelegate.startingFrame = startFrame
-                
+                transitionDelegate.tappedCell = cell
                 
                 //set up transition
                 editVC.modalPresentationStyle = UIModalPresentationStyle.custom
@@ -211,7 +211,6 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        //TODO: store aspectRatio somewhere nice
         let height = CGFloat(100)
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
@@ -245,7 +244,7 @@ class DecksCollectionViewController:
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        //save selected path so we can show the 'add card button'
+        //save selected path so we can show the 'add card button' in the right place
         selectedDeck = model.decks[indexPath.item]
         
         //update main view
@@ -279,19 +278,18 @@ class DecksCollectionViewController:
         //set up theme
         theme.chosenTheme = 0
         indexCardCollectionController.theme = theme
-        
         view.backgroundColor = theme.colorOf(.table)
         
         //for segue to editing cards view
         definesPresentationContext = true
     }
     
-    //MARK:- navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination == self {
-            //reload index cards
-        }
-    }
+//    //MARK:- navigation
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.destination == self {
+//            //reload index cards
+//        }
+//    }
     
     
 }//class
