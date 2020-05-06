@@ -31,6 +31,8 @@ class Theme : ThemeDelegateProtocol {
         switch item {
         case .cornerRadiusToBoundsWidth:
             return Theme.themes[chosenTheme].size.cornerRadiusToBoundsWidth
+        case .indexCardAspectRatio:
+            return Theme.themes[chosenTheme].size.indexCardAspectRatio
         }
     }
     
@@ -67,7 +69,7 @@ class Theme : ThemeDelegateProtocol {
     
     //defaults
     private static let defaultSize = SizeFor(
-        cornerRadiusToBoundsWidth: 0.07)
+        cornerRadiusToBoundsWidth: 0.07, indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
         editCardZoom: 0.5)
@@ -99,6 +101,7 @@ enum Item {
 
 enum Shape {
     case cornerRadiusToBoundsWidth
+    case indexCardAspectRatio
 }
 
 enum Animation{
@@ -132,4 +135,5 @@ private struct TimeFor {
 
 private struct SizeFor {
     let cornerRadiusToBoundsWidth : CGFloat
+    let indexCardAspectRatio : CGFloat
 }

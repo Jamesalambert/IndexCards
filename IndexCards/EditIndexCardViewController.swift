@@ -72,13 +72,7 @@ UITextViewDelegate{
     @IBAction func doneEditingFrontText() {
         textViewDidEndEditing(frontTextView)
     }
-    
-    
-    @IBAction func StopEditing(_ sender: Any) {
-        
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
-    }
-    
+
     
     
     //MARK:- Outlets
@@ -144,6 +138,18 @@ UITextViewDelegate{
         return font
     }()
     
+    //MARK:- helper functions
+    
+    private func dismissThisViewController(){
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func userTapped(_ sender:UITapGestureRecognizer){
+        
+        if !backgroundView.frame.contains(sender.location(in: view)){
+            dismissThisViewController()
+        }
+    }
     
     //MARK:- UIImagePicker
     
@@ -161,20 +167,22 @@ UITextViewDelegate{
                 chosenImage = image
                 
                 //zoom to fit
-                
                 scrollView.zoom(to: imageView.frame, animated: true)
+                
+                //add to model
+                indexCard?.image = image
     
             }
         case .photoLibrary:
             if let image = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 
                 chosenImage = image
-//                imageView.image = image
-//                scrollView.contentSize = image.size
                 
                 //zoom to fit
-                
                 scrollView.zoom(to: imageView.frame, animated: true)
+                
+                //add to model
+                indexCard?.image = image
                 
             }
         default: print("unknown sourceType: \(picker.sourceType)")
@@ -315,6 +323,15 @@ UITextViewDelegate{
         backgroundView.layer.shadowRadius = 2.0
         backgroundView.layer.shadowOpacity = 0.7
    
+        
+        //add tap to dismiss gesture recognizer
+        
+        let tap = UITapGestureRecognizer()
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        tap.addTarget(self, action: #selector(userTapped(_:)))
+        
+        view.addGestureRecognizer(tap)
         
     }//func
 }//Class

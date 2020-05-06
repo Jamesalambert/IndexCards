@@ -25,9 +25,7 @@ class DecksCollectionViewController:
     var theme = Theme()
     
     var indexCardCollectionController = IndexCardsCollectionViewController()
-    
-    var aspectRatio = CGFloat(1.5)
-    
+        
     var transitionDelegate = TransitioningDelegateforEditCardViewController()
     
     //MARK:- Outlets
@@ -190,12 +188,11 @@ class DecksCollectionViewController:
                     
                     cell.image = deck.thumbnail(
                         forSize: CGSize(
-                            width: aspectRatio * collectionViewHeight/2,
+                            width: theme.sizeOf(.indexCardAspectRatio) * collectionViewHeight/2,
                             height: collectionViewHeight))
                     
-                    //cell.backgroundColor = UIColor.green
-                    
                     return cell
+                    
                 } else {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
                     return cell
@@ -216,7 +213,7 @@ class DecksCollectionViewController:
         
         //TODO: store aspectRatio somewhere nice
         let height = CGFloat(100)
-        let width = aspectRatio * height
+        let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
     }
     
