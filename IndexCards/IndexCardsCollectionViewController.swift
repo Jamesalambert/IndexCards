@@ -20,6 +20,8 @@ UICollectionViewDelegateFlowLayout
     //model
     var currentDeck : Deck?
 
+    var theme : Theme?
+    
     // MARK: UICollectionViewDataSource
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -38,6 +40,8 @@ UICollectionViewDelegateFlowLayout
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath) as? IndexCardViewCell {
+            
+            cell.theme = theme
             
             if let currentIndexCard = currentDeck?.cards[indexPath.item]{
                 

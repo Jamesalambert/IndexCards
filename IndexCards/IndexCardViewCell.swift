@@ -10,6 +10,8 @@ import UIKit
 
 class IndexCardViewCell: UICollectionViewCell {
     
+    var theme : Theme?
+    
     var title: String?{
         didSet{
             titleField.text = title
@@ -38,7 +40,7 @@ class IndexCardViewCell: UICollectionViewCell {
         super.didMoveToWindow()
         
         //rounded corners
-        self.layer.cornerRadius = CGFloat(12.0)
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
         //drop shadow
@@ -51,8 +53,10 @@ class IndexCardViewCell: UICollectionViewCell {
         
         //background color
         self.backgroundColor = nil
-        self.layer.backgroundColor = UIColor.green.cgColor
-        
-        
+        self.layer.backgroundColor = theme?.colorOf(Item.card1).cgColor ?? UIColor.green.cgColor
+  
     }
+    
+    
+    
 }

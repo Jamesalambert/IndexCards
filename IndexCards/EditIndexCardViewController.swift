@@ -21,6 +21,8 @@ UITextViewDelegate{
     //model
     var indexCard : IndexCard?
     
+    var theme : Theme?
+    
     //MARK:- Actions
     @IBAction func addPhoto() {
         
@@ -116,8 +118,8 @@ UITextViewDelegate{
     
     @IBOutlet weak var backgroundView: UIView! {
         didSet{
-            backgroundView.layer.cornerRadius = 20.0
-            backgroundView.clipsToBounds = true
+            
+            
         }
     }
     
@@ -284,7 +286,7 @@ UITextViewDelegate{
                         self?.keyboardHidden()
         })
         
-        
+        //set model
         if let currentCard = indexCard {
             //read from model
             imageView.image = currentCard.image
@@ -295,10 +297,26 @@ UITextViewDelegate{
         }
         
         
+        //set up card shape and shadow
+        //rounded corners
+        backgroundView.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * backgroundView.layer.bounds.width
+        backgroundView.layer.masksToBounds = false
+        
+        //background color
+        backgroundView.backgroundColor = nil
+        backgroundView.layer.backgroundColor = theme?.colorOf(Item.card1).cgColor
+        
+        
+        //drop shadow
+        let shadowPath = UIBezierPath(roundedRect: backgroundView.layer.bounds, cornerRadius: backgroundView.layer.cornerRadius)
+        backgroundView.layer.shadowPath = shadowPath.cgPath
+        backgroundView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        backgroundView.layer.shadowColor = UIColor.black.cgColor
+        backgroundView.layer.shadowRadius = 2.0
+        backgroundView.layer.shadowOpacity = 0.7
+   
+        
     }//func
-    
-    
-
 }//Class
 
 

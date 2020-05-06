@@ -22,6 +22,8 @@ class DecksCollectionViewController:
     //model
     var model = Notes()
     
+    var theme = Theme()
+    
     var indexCardCollectionController = IndexCardsCollectionViewController()
     
     var aspectRatio = CGFloat(1.5)
@@ -81,8 +83,9 @@ class DecksCollectionViewController:
             if let editVC = storyboard.instantiateViewController(
                 withIdentifier: "EditViewController") as? EditIndexCardViewController{
                 
-                 //hand data to the editor
+                //hand data to the editor
                 editVC.indexCard = chosenCard
+                editVC.theme = theme
                 
                 //where the Edit view springs from
                 transitionDelegate.startingCenter = startCenter
@@ -177,8 +180,9 @@ class DecksCollectionViewController:
                 
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                     
-                    let deck = model.decks[indexPath.row]
+                    cell.theme = theme
                     
+                    let deck = model.decks[indexPath.row]
                     cell.title = deck.title
                     cell.infoLabel.text = String(deck.count)
                     
@@ -189,7 +193,7 @@ class DecksCollectionViewController:
                             width: aspectRatio * collectionViewHeight/2,
                             height: collectionViewHeight))
                     
-                    cell.backgroundColor = UIColor.green
+                    //cell.backgroundColor = UIColor.green
                     
                     return cell
                 } else {
@@ -274,6 +278,13 @@ class DecksCollectionViewController:
     //MARK:- UIView
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //set up theme
+        theme.chosenTheme = 0
+        indexCardCollectionController.theme = theme
+        
+        view.backgroundColor = theme.colorOf(.table)
+        
         //for segue to editing cards view
         definesPresentationContext = true
     }

@@ -10,6 +10,8 @@ import UIKit
 
 class DeckOfCardsCell: UICollectionViewCell {
     
+    var theme : Theme?
+    
     var image : UIImage? {
         didSet{
             thumbnailView.image = image
@@ -39,7 +41,7 @@ class DeckOfCardsCell: UICollectionViewCell {
         super.didMoveToWindow()
         
         //rounded corners
-        self.layer.cornerRadius = CGFloat(12.0)
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width        
         self.layer.masksToBounds = false
         
         //drop shadow
@@ -52,11 +54,8 @@ class DeckOfCardsCell: UICollectionViewCell {
         
         //background color
         self.backgroundColor = nil
-        self.layer.backgroundColor = UIColor.green.cgColor
-        
-        
+        self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
     }
-    
-    
-    
+
+  
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A1B9961245E0ECD0016E050 /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1B9960245E0ECD0016E050 /* utilities.swift */; };
+		1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26B98D24621DA7000732CB /* ThemeClass.swift */; };
 		1A7544CD245F1C20007229F4 /* DecksCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */; };
 		1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */; };
 		1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		1A1B9960245E0ECD0016E050 /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
+		1A26B98D24621DA7000732CB /* ThemeClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeClass.swift; sourceTree = "<group>"; };
 		1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksCollectionViewController.swift; sourceTree = "<group>"; };
 		1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexCardsCollectionViewController.swift; sourceTree = "<group>"; };
 		1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsCell.swift; sourceTree = "<group>"; };
@@ -74,8 +76,6 @@
 		1AFD95FD245CDE630092CF99 /* IndexCards */ = {
 			isa = PBXGroup;
 			children = (
-				1AEDB8482460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift */,
-				1AEDB846246076E700C080B4 /* zoomSegue.swift */,
 				1AFD9602245CDE630092CF99 /* Main.storyboard */,
 				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
 				1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */,
@@ -83,7 +83,6 @@
 				1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */,
 				1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */,
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
-				1A1B9960245E0ECD0016E050 /* utilities.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1AFD9610245CDEB60092CF99 /* support */,
 			);
@@ -93,6 +92,10 @@
 		1AFD9610245CDEB60092CF99 /* support */ = {
 			isa = PBXGroup;
 			children = (
+				1A1B9960245E0ECD0016E050 /* utilities.swift */,
+				1AEDB846246076E700C080B4 /* zoomSegue.swift */,
+				1A26B98D24621DA7000732CB /* ThemeClass.swift */,
+				1AEDB8482460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift */,
 				1AEDB84A2460B68400C080B4 /* PresentingAnimator.swift */,
 				1AEDB84C2460B69E00C080B4 /* DismissingAnimator.swift */,
 				1AFD95FE245CDE630092CF99 /* AppDelegate.swift */,
@@ -176,6 +179,7 @@
 				1AFD9601245CDE630092CF99 /* EditIndexCardViewController.swift in Sources */,
 				1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */,
 				1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */,
+				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
 				1AEDB8492460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift in Sources */,
 				1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */,
 				1A7544CD245F1C20007229F4 /* DecksCollectionViewController.swift in Sources */,
