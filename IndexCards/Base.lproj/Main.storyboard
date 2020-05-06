@@ -55,20 +55,16 @@
                                                             <constraint firstAttribute="height" constant="30" id="Tkv-LE-Nwb"/>
                                                         </constraints>
                                                     </view>
-                                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yuJ-kB-Cwi">
+                                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yuJ-kB-Cwi">
                                                         <rect key="frame" x="0.0" y="38" width="506.5" height="474"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="fKW-YD-61q">
-                                                                <rect key="frame" x="0.0" y="0.0" width="506.5" height="474"/>
+                                                                <rect key="frame" x="133.5" y="173" width="240" height="128"/>
                                                             </imageView>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="fKW-YD-61q" secondAttribute="trailing" id="DAh-bQ-ZXF"/>
                                                             <constraint firstItem="fKW-YD-61q" firstAttribute="centerX" secondItem="yuJ-kB-Cwi" secondAttribute="centerX" id="Hgs-1u-u7G"/>
                                                             <constraint firstItem="fKW-YD-61q" firstAttribute="centerY" secondItem="yuJ-kB-Cwi" secondAttribute="centerY" id="TSK-SE-6g8"/>
-                                                            <constraint firstItem="fKW-YD-61q" firstAttribute="leading" secondItem="yuJ-kB-Cwi" secondAttribute="leading" id="XsH-z5-6RN"/>
-                                                            <constraint firstItem="fKW-YD-61q" firstAttribute="top" secondItem="yuJ-kB-Cwi" secondAttribute="top" id="mCe-XJ-SZb"/>
-                                                            <constraint firstAttribute="bottom" secondItem="fKW-YD-61q" secondAttribute="bottom" id="xTc-aw-qSQ"/>
                                                         </constraints>
                                                     </scrollView>
                                                 </subviews>

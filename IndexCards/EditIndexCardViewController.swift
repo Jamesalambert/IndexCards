@@ -63,8 +63,6 @@ UITextViewDelegate{
             } else{
                 print("Could not present imagepicker")
             }
-            
-            
         }
     }
     
@@ -73,7 +71,6 @@ UITextViewDelegate{
         textViewDidEndEditing(frontTextView)
     }
 
-    
     
     //MARK:- Outlets
     @IBOutlet weak var addPhotoButton: UIButton!
@@ -121,8 +118,20 @@ UITextViewDelegate{
     
     private var chosenImage : UIImage? {
         didSet{
+            
+            if let size = chosenImage?.size {
+                
+                imageView.frame = CGRect(
+                    origin: CGPoint.zero,
+                    size: size)
+                
+                scrollView.contentSize = (size)
+            }
+            
             imageView.image = chosenImage
-            scrollView.contentSize = (chosenImage?.size)!
+            
+            //add to model
+            indexCard?.image = chosenImage
         }
     }
     
@@ -166,11 +175,11 @@ UITextViewDelegate{
               
                 chosenImage = image
                 
-                //zoom to fit
-                scrollView.zoom(to: imageView.frame, animated: true)
-                
-                //add to model
-                indexCard?.image = image
+//                //zoom to fit
+//                //scrollView.zoom(to: imageView.frame, animated: true)
+//
+//                //add to model
+//                indexCard?.image = image
     
             }
         case .photoLibrary:
@@ -178,11 +187,11 @@ UITextViewDelegate{
                 
                 chosenImage = image
                 
-                //zoom to fit
-                scrollView.zoom(to: imageView.frame, animated: true)
-                
-                //add to model
-                indexCard?.image = image
+//                //zoom to fit
+//                //scrollView.zoom(to: imageView.frame, animated: true)
+//
+//                //add to model
+//                indexCard?.image = image
                 
             }
         default: print("unknown sourceType: \(picker.sourceType)")

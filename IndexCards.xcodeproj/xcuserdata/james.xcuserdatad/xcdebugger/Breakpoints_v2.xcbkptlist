@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/DeckOfCardsCell.swift"
-            timestampString = "610493365.681181"
+            timestampString = "610494906.678902"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/EditIndexCardViewController.swift"
-            timestampString = "610493365.681296"
+            timestampString = "610494906.679018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "userTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
