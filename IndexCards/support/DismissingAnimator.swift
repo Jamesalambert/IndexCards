@@ -38,9 +38,16 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 options: .curveEaseInOut,
                 animations: {
                     
+                    //move card
                     source.view.center = center
-                    
                     source.view.transform = CGAffineTransform(scaleX: endScale, y: endScale)
+                    
+                    //fade out buttons
+                    if let indexCardVC = source as? EditIndexCardViewController {
+                        indexCardVC.addPhotoButton.alpha = 0
+                        indexCardVC.takePhotoButton.alpha = 0
+                        indexCardVC.doneButton.alpha = 0
+                    }
             },
                 completion:  {success in
                     
@@ -55,9 +62,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     if let destinationVC =  destination as? DecksCollectionViewController {
                         
                         destinationVC.editorDidMakeChanges = true
-                        
                     }
-                    
             })
             
             

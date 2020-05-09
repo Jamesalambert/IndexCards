@@ -67,10 +67,14 @@ class DecksCollectionViewController:
             let cell = indexCardsCollectionView.cellForItem(at: indexPath)
             let startCenter = cell?.center.offsetBy(
                 dx: -indexCardsCollectionView.contentOffset.x,
-                dy: indexCardsCollectionView.contentOffset.y)
+                dy: indexCardsCollectionView.contentOffset.y).offsetBy(
+                    dx: view.safeAreaInsets.left,
+                    dy: view.safeAreaInsets.top)
             let startFrame = cell?.frame.offsetBy(
                 dx: -indexCardsCollectionView.contentOffset.x,
-                dy: indexCardsCollectionView.contentOffset.y)
+                dy: indexCardsCollectionView.contentOffset.y).offsetBy(
+                    dx: view.safeAreaInsets.left,
+                    dy: view.safeAreaInsets.top)
             
             let chosenCard = selectedDeck?.cards[indexPath.item]
             
@@ -89,11 +93,11 @@ class DecksCollectionViewController:
                 transitionDelegate.startingCenter = startCenter
                 transitionDelegate.startingFrame = startFrame
                 transitionDelegate.tappedCell = cell
+                transitionDelegate.duration = theme.timeOf(.editCardZoom)
                 
                 //set up transition
                 editVC.modalPresentationStyle = UIModalPresentationStyle.custom
                 editVC.transitioningDelegate = transitionDelegate
-                //self.transitioningDelegate = transitionDelegate
                 
                 //go
                 present(editVC, animated: true, completion: nil)
@@ -211,7 +215,14 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let height = CGFloat(100)
+        var height = CGFloat(100)
+        
+        switch indexPath.section{
+        case 0: height = CGFloat(50)
+        case 1: height = CGFloat(100)
+        default: height = CGFloat(100)
+        }
+        
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
     }

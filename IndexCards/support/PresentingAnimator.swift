@@ -20,38 +20,55 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-
+        
         if let center = startingCenter,
             let rect = startingFrame ,
             let destination = transitionContext.viewController(forKey: .to),
             let source = transitionContext.viewController(forKey: .from){
-    
-        let originalCenter = source.view.center
             
-        destination.view.center = center
-        
-        //start position for new view
-        let startScale = CGFloat(
-            rect.width / destination.view.frame.width)
-        
-        destination.view.transform = CGAffineTransform(scaleX: startScale, y: startScale)
+            //center of the screen
+            let originalCenter = source.view.center
             
-        //add the new view!
-        transitionContext.containerView.addSubview(destination.view)
-
-        //hide the tapped cell
-        tappedCell?.alpha = 0
+            //start frame for new view
+            let startScale = CGFloat(
+                rect.width / destination.view.frame.width)
             
-        UIView.animate(
-            withDuration: duration,
-            delay: 0.0,
-            options: .curveEaseInOut,
-            animations: {
-                
-                destination.view.center = originalCenter
-                destination.view.transform = CGAffineTransform.identity
+            
+            //move card to starting position
+            destination.view.center = center
+            destination.view.transform = CGAffineTransform(scaleX: startScale, y: startScale)
+            
+            //hide buttons
+            if let indexCardVC = destination as? EditIndexCardViewController {
+                indexCardVC.addPhotoButton.alpha = 0
+                indexCardVC.takePhotoButton.alpha = 0
+                indexCardVC.doneButton.alpha = 0
+            }
+            
+            //add the new view!
+            transitionContext.containerView.addSubview(destination.view)
+            
+            //hide the tapped cell
+            tappedCell?.alpha = 0
+            
+            UIView.animate(
+                withDuration: duration,
+                delay: 0.0,
+                options: .curveEaseInOut,
+                animations: {
+                    
+                    //move card
+                    destination.view.center = originalCenter
+                    destination.view.transform = CGAffineTransform.identity
+                    
+                    //show the buttons
+                    if let indexCardVC = destination as? EditIndexCardViewController {
+                        indexCardVC.addPhotoButton.alpha = 1
+                        indexCardVC.takePhotoButton.alpha = 1
+                        indexCardVC.doneButton.alpha = 1
+                    }
             },
-            completion: {success in transitionContext.completeTransition(success)})
+                completion: {success in transitionContext.completeTransition(success)})
             
         }//if let
     }//func

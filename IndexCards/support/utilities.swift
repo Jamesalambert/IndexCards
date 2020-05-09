@@ -23,7 +23,23 @@ extension String {
 }
 
 extension CGPoint {
-    func offsetBy(dx : CGFloat,dy:CGFloat) -> CGPoint{
+    func offsetBy(dx : CGFloat, dy : CGFloat) -> CGPoint{
         return CGPoint(x: self.x + dx, y: self.y + dy)
+    }
+}
+
+extension CGRect{
+    func zoom(by factor:CGFloat) -> CGRect{
+        
+        let newWidth = self.width * factor
+        let newHeight = self.height * factor
+        
+        return CGRect(
+            origin: self.origin.offsetBy(
+                dx: -(newWidth - self.width)/2,
+                dy: -(newHeight - self.height)/2),
+            size: CGSize(
+                width: newWidth,
+                height: newHeight))
     }
 }

@@ -74,7 +74,7 @@ UITextViewDelegate{
     
     //MARK:- Outlets
     @IBOutlet weak var addPhotoButton: UIButton!
-    
+    @IBOutlet weak var takePhotoButton: UIButton!
     
     @IBOutlet weak var doneButton: UIButton!{
         didSet{
@@ -100,32 +100,27 @@ UITextViewDelegate{
         }
     }
     
-    @IBOutlet weak var titleField: UITextField!{
-        didSet{
-            titleField.delegate = self
-            titleField.font = titleFont
-        }
-    }
     
-    @IBOutlet weak var backgroundView: UIView! {
-        didSet{
-            
-            
-        }
-    }
+    
+    @IBOutlet weak var backgroundView: UIView!
     
     //MARK:- vars
     
     private var chosenImage : UIImage? {
         didSet{
             
-            if let size = chosenImage?.size {
+            if let newSize = chosenImage?.size {
+    
+                let oldSize = imageView.frame.size
+                let oldOrigin = imageView.frame.origin
+                let dw = (oldSize.width - newSize.width)
+                let dh = -(oldSize.height - newSize.height)
                 
                 imageView.frame = CGRect(
-                    origin: CGPoint.zero,
-                    size: size)
+                    origin: scrollView.center.offsetBy(dx: dw, dy: dh),
+                    size: newSize)
                 
-                scrollView.contentSize = (size)
+                scrollView.contentSize = (newSize)
             }
             
             imageView.image = chosenImage
@@ -213,12 +208,6 @@ UITextViewDelegate{
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
-    //get text
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        //update model
-        indexCard?.title = textField.text
-    }
     
     
     //MARK:- UITextViewDelegate
@@ -257,13 +246,19 @@ UITextViewDelegate{
         return nil
     }
     
-    private var keyboardHeight : CGFloat?
+    //private var keyboardHeight : CGFloat?
     private var keyboardNotificationObserver : NSObjectProtocol?
     
     
     private func keyboardShown(_ height: CGFloat){
 
-            let inset = UIEdgeInsets(top: 0, left: 0, bottom: height, right: 0)
+            let keyboardTop = view.bounds.height - height
+        
+            let overlap = cursorPosition ?? CGFloat(0) - keyboardTop
+        
+            let inset = UIEdgeInsets(top: 0, left: 0,
+                                     bottom: overlap > 0 ? overlap : 0 ,
+                                     right: 0)
             
             frontTextView.contentInset = inset
             frontTextView.scrollIndicatorInsets = inset
@@ -305,11 +300,9 @@ UITextViewDelegate{
         
         //set model
         if let currentCard = indexCard {
+            
             //read from model
             imageView.image = currentCard.image
-            
-            titleField.attributedText? = currentCard.title?.attributedText() ?? "".attributedText()
-            
             frontTextView.attributedText? = currentCard.frontText?.attributedText() ?? "".attributedText()
         }
         

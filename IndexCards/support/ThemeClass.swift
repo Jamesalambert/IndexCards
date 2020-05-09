@@ -38,7 +38,7 @@ class Theme : ThemeDelegateProtocol {
     
     func timeOf(_ animation: Animation) -> Double {
         switch animation {
-        case .EditCardZoom:
+        case .editCardZoom:
             return Theme.themes[chosenTheme].time.editCardZoom
         }
     }
@@ -64,15 +64,16 @@ class Theme : ThemeDelegateProtocol {
         size: defaultSize,
         time: defaultTime)
     
-    //more themes here
+    //more themes here...
     
     
     //defaults
     private static let defaultSize = SizeFor(
-        cornerRadiusToBoundsWidth: 0.07, indexCardAspectRatio: CGFloat(1.5))
+        cornerRadiusToBoundsWidth: 0.07,
+        indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
-        editCardZoom: 0.5)
+        editCardZoom: 0.3)
 }
 
 
@@ -105,7 +106,7 @@ enum Shape {
 }
 
 enum Animation{
-    case EditCardZoom
+    case editCardZoom
 }
 
 

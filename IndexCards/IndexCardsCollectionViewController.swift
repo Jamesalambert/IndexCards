@@ -22,6 +22,8 @@ UICollectionViewDelegateFlowLayout
 
     var theme : Theme?
     
+    var cardWidth : CGFloat = 300
+    
     // MARK: UICollectionViewDataSource
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -45,7 +47,6 @@ UICollectionViewDelegateFlowLayout
             
             if let currentIndexCard = currentDeck?.cards[indexPath.item]{
                 
-                cell.title = currentIndexCard.title
                 cell.frontText = currentIndexCard.frontText
                 cell.image = currentIndexCard.image
                  return cell
@@ -93,11 +94,20 @@ UICollectionViewDelegateFlowLayout
     }
     */
 
-    /*
+    
     //MARK:- UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        if let aspectRatio = theme?.sizeOf(.indexCardAspectRatio) {
+        
+            let height = cardWidth / aspectRatio
+        
+        return CGSize(width: cardWidth, height: height)
+        }
+        
+        //default value
+        return CGSize(width: 300, height: 200)
     }
-    */
+ 
     
 }

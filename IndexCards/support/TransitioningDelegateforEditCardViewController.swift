@@ -21,6 +21,7 @@ UIViewControllerTransitioningDelegate
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         let animator = PresentingAnimator()
+        animator.duration = duration
         animator.startingCenter = startingCenter
         animator.startingFrame = startingFrame
         animator.tappedCell = tappedCell
@@ -31,6 +32,7 @@ UIViewControllerTransitioningDelegate
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         let animator = DismissingAnimator()
+        animator.duration = duration
         animator.endingCenter = startingCenter
         animator.endingFrame = startingFrame
         animator.tappedCell = tappedCell
