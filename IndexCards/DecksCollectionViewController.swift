@@ -167,17 +167,18 @@ class DecksCollectionViewController:
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewDeckCell", for: indexPath)
-            
+
             return cell
-            
+        
         case 1:
             
             if selectedDeck == model.decks[indexPath.item]  {
                 
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddCardToDeck", for: indexPath)
-                
+                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
+                    
+                cell.theme = theme
                 return cell
-                
+                }
             } else {
                 
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
@@ -204,10 +205,10 @@ class DecksCollectionViewController:
             }
             
         default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
-            return cell
+            print("unknown section: \(indexPath.section)")
         }
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
+        return cell
     }
     
     
@@ -253,20 +254,72 @@ class DecksCollectionViewController:
     
     var selectedDeck : Deck?
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath) {
         
         //save selected path so we can show the 'add card button' in the right place
         selectedDeck = model.decks[indexPath.item]
         
         //update main view
         indexCardCollectionController.currentDeck = selectedDeck
+        
         //the delegate/datasource can't do this
         indexCardsCollectionView.reloadData()
         
         //reload decks to show addCard button
         decksCollectionView.reloadSections(IndexSet(integer: 1))
+        
+        
+        if let lastSelection = mostRecentSelection {
+            if indexPath != lastSelection{
+                //return last selection to straight
+                animateDeselectedDeck(at: lastSelection)
+                
+                //animate new selection
+                animateSelectedDeck(at: indexPath)
+            }
+        } else {
+            //animate new selection
+            animateSelectedDeck(at: indexPath)
+        }
+        
+        //upate our record
+        mostRecentSelection = indexPath
     }
 
+    var mostRecentSelection : IndexPath?
+    
+    private func animateSelectedDeck(at indexPath:IndexPath){
+        
+        if let deck = decksCollectionView.cellForItem(at: indexPath){
+        
+        UIView.transition(with: deck,
+                          duration: theme.timeOf(.tapDeckTurn),
+                          options: .curveEaseInOut,
+                          animations: {
+                            deck.transform = CGAffineTransform.identity.rotated(by: 2*CGFloat.pi/36)
+        },
+                          completion: nil)
+        }
+    }//func
+    
+    private func animateDeselectedDeck(at indexPath:IndexPath){
+        
+        if let deck = decksCollectionView.cellForItem(at: indexPath){
+            
+            UIView.transition(with: deck,
+                              duration: theme.timeOf(.tapDeckTurn),
+                              options: .curveEaseInOut,
+                              animations: {
+                                deck.transform = CGAffineTransform.identity
+            },
+                              completion: nil)
+        }
+    }//func
+    
+    
+    
+    
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {

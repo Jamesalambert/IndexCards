@@ -17,6 +17,7 @@
 		1AEDB84B2460B68400C080B4 /* PresentingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEDB84A2460B68400C080B4 /* PresentingAnimator.swift */; };
 		1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEDB84C2460B69E00C080B4 /* DismissingAnimator.swift */; };
 		1AF357272467359500F5D464 /* NewDeckCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF357262467359500F5D464 /* NewDeckCellCollectionViewCell.swift */; };
+		1AF357292467502C00F5D464 /* AddCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF357282467502C00F5D464 /* AddCardCell.swift */; };
 		1AF9E12C245F7E9500DDD4C0 /* IndexCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */; };
 		1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD95FE245CDE630092CF99 /* AppDelegate.swift */; };
 		1AFD9601245CDE630092CF99 /* EditIndexCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */; };
@@ -37,6 +38,7 @@
 		1AEDB84A2460B68400C080B4 /* PresentingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingAnimator.swift; sourceTree = "<group>"; };
 		1AEDB84C2460B69E00C080B4 /* DismissingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingAnimator.swift; sourceTree = "<group>"; };
 		1AF357262467359500F5D464 /* NewDeckCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDeckCellCollectionViewCell.swift; sourceTree = "<group>"; };
+		1AF357282467502C00F5D464 /* AddCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardCell.swift; sourceTree = "<group>"; };
 		1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexCardViewCell.swift; sourceTree = "<group>"; };
 		1AFD95FB245CDE630092CF99 /* IndexCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndexCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AFD95FE245CDE630092CF99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */,
 				1AF357262467359500F5D464 /* NewDeckCellCollectionViewCell.swift */,
 				1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */,
+				1AF357282467502C00F5D464 /* AddCardCell.swift */,
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1AFD9610245CDEB60092CF99 /* support */,
@@ -180,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AFD9601245CDE630092CF99 /* EditIndexCardViewController.swift in Sources */,
+				1AF357292467502C00F5D464 /* AddCardCell.swift in Sources */,
 				1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */,
 				1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */,
 				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
