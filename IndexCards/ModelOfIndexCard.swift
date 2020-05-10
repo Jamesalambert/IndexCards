@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 
-class Notes {
+class Notes : Codable{
     
-    var decks = [Deck()]        //starts with 1 deck
+    var decks : [Deck]        //starts with 1 deck
     var numberOfDecks : Int {
         return decks.count
     }
@@ -21,10 +21,37 @@ class Notes {
         let newDeck = Deck()
         decks.insert(newDeck, at: 0)
     }
+    
+    //encode as a json string for saving
+    var json : Data? {
+        return try? JSONEncoder().encode(decks)
+    }
+    
+    //failable initialiser from json data
+    convenience init(json: Data){
+        
+        if json.isEmpty {
+            
+            self.init()
+            
+        } else {
+            
+            self.init()
+            if let newValue = try? JSONDecoder().decode([Deck].self, from: json){
+                self.decks = newValue
+                
+            }
+        }
+    }
+    
+    init(){
+        self.decks = [Deck()]
+    }
+    
 }
 
 
-class Deck : Hashable {
+class Deck : Hashable, Codable {
     var title : String?
     var cards = [IndexCard()] //start with 1 card
     var count : Int {
@@ -79,9 +106,15 @@ class Deck : Hashable {
 }
 
 
-class IndexCard : Hashable {
+class IndexCard : Hashable, Codable {
     
-    var image     : UIImage?
+    var imageData : Data?
+    var image : UIImage? {
+        if let storedData = imageData {
+            return UIImage(data: storedData)
+        }
+       return nil
+    }
     var frontText : String?
     var backText  : String?
     var title     : String?

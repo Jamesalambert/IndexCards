@@ -231,7 +231,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5M-k5-ycQ">
                                                             <rect key="frame" x="8" y="0.0" width="134" height="86"/>
                                                             <connections>
-                                                                <action selector="addDeck" destination="Et5-KU-r5g" eventType="touchUpInside" id="SGy-sg-dUJ"/>
+                                                                <action selector="addNewDeck" destination="Et5-KU-r5g" eventType="touchUpInside" id="SGy-sg-dUJ"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -245,14 +245,14 @@
                                                 <size key="customSize" width="150" height="86"/>
                                             </collectionViewCell>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="DeckOfIndexCardsCell" id="7VR-X8-1Dz" customClass="DeckOfCardsCell" customModule="IndexCards" customModuleProvider="target">
-                                                <rect key="frame" x="170" y="7" width="150" height="86"/>
+                                                <rect key="frame" x="160" y="0.0" width="150" height="100"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="86"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XTe-Je-X5p">
-                                                            <rect key="frame" x="10" y="0.0" width="130" height="0.0"/>
+                                                            <rect key="frame" x="10" y="13" width="130" height="61"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="2Gb-hf-LGz">
                                                                     <rect key="frame" x="0.0" y="0.0" width="130" height="53"/>
@@ -281,10 +281,10 @@
                                                                 </stackView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="2Gb-hf-LGz" firstAttribute="leading" secondItem="XTe-Je-X5p" secondAttribute="leading" id="6Ez-ll-0t6"/>
-                                                                <constraint firstAttribute="trailing" secondItem="2Gb-hf-LGz" secondAttribute="trailing" id="7S9-rs-3Lk"/>
-                                                                <constraint firstAttribute="bottom" secondItem="2Gb-hf-LGz" secondAttribute="bottom" constant="20" symbolic="YES" id="Bx3-i3-r7d"/>
-                                                                <constraint firstItem="2Gb-hf-LGz" firstAttribute="top" secondItem="XTe-Je-X5p" secondAttribute="top" id="tM6-Eq-fnG"/>
+                                                                <constraint firstItem="2Gb-hf-LGz" firstAttribute="leading" secondItem="XTe-Je-X5p" secondAttribute="leading" id="UoU-Ld-IBW"/>
+                                                                <constraint firstItem="2Gb-hf-LGz" firstAttribute="top" secondItem="XTe-Je-X5p" secondAttribute="top" id="ZBI-k3-9ji"/>
+                                                                <constraint firstAttribute="bottom" secondItem="2Gb-hf-LGz" secondAttribute="bottom" id="d7X-zX-bSs"/>
+                                                                <constraint firstAttribute="trailing" secondItem="2Gb-hf-LGz" secondAttribute="trailing" id="lNV-zS-xfD"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -295,7 +295,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="XTe-Je-X5p" secondAttribute="trailing" constant="10" id="vo7-bR-Ngf"/>
                                                     <constraint firstAttribute="bottom" secondItem="XTe-Je-X5p" secondAttribute="bottom" constant="10" id="w3b-s6-oBF"/>
                                                 </constraints>
-                                                <size key="customSize" width="150" height="86"/>
+                                                <size key="customSize" width="150" height="100"/>
                                                 <connections>
                                                     <outlet property="infoLabel" destination="9Rc-Qt-zU7" id="XuB-Tn-t8V"/>
                                                     <outlet property="thumbnailView" destination="emU-WP-fl1" id="7HD-a4-CsC"/>
@@ -303,14 +303,14 @@
                                                 </connections>
                                             </collectionViewCell>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="AddCardToDeck" id="MjS-ce-gn0" customClass="AddCardCell" customModule="IndexCards" customModuleProvider="target">
-                                                <rect key="frame" x="340" y="7" width="150" height="86"/>
+                                                <rect key="frame" x="320" y="7" width="150" height="86"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="86"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuI-Wo-XaW">
-                                                            <rect key="frame" x="8" y="-18" width="134" height="36"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuI-Wo-XaW">
+                                                            <rect key="frame" x="8" y="25" width="134" height="36"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <state key="normal" title="add a card"/>
                                                             <connections>

@@ -20,7 +20,13 @@ class DecksCollectionViewController:
     
     //MARK:- vars
     //model
-    var model = Notes()
+    var model : Notes?{
+        didSet{
+            decksCollectionView.reloadData()
+            indexCardsCollectionView.reloadData()
+        }
+    }
+
     
     var theme = Theme()
     
@@ -76,7 +82,7 @@ class DecksCollectionViewController:
                     dx: view.safeAreaInsets.left,
                     dy: view.safeAreaInsets.top)
             
-            let chosenCard = selectedDeck?.cards[indexPath.item]
+            let chosenCard = lastSelectedDeck?.cards[indexPath.item]
             
             
             //get the next VC
@@ -112,12 +118,16 @@ class DecksCollectionViewController:
         }
     }
     
+    
+    
     //MARK:- actions
-    @IBAction func addDeck() {
+    @IBAction func addNewDeck() {
         
         decksCollectionView.performBatchUpdates({
             
-            model.addDeck()
+            if let currentModel = model {
+                currentModel.addDeck()
+            }
             
             decksCollectionView.insertItems(
                 at: [IndexPath(row: 0, section: 1)])
@@ -127,7 +137,8 @@ class DecksCollectionViewController:
     }
     
     
-    @IBAction func addCard(_ sender: UIButton) {
+    
+    @IBAction func addCard(_ sender: UIButton?) {
         
         indexCardsCollectionView.performBatchUpdates({
             indexCardCollectionController.currentDeck?.addCard()
@@ -138,9 +149,7 @@ class DecksCollectionViewController:
         )
     }
     
-    
-    
-    
+
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
@@ -156,13 +165,18 @@ class DecksCollectionViewController:
         case 0:
             return 1
         case 1:
-            return model.numberOfDecks
+            
+            if let currentModel = model {
+                return currentModel.numberOfDecks
+            }
+            return 0
         default:
             return 0
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         switch indexPath.section {
         case 0:
@@ -172,20 +186,23 @@ class DecksCollectionViewController:
         
         case 1:
             
-            if selectedDeck == model.decks[indexPath.item]  {
+            if lastSelectedDeck == model?.decks[indexPath.item]  {
                 
-                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
+                if let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
                     
                 cell.theme = theme
+                    
                 return cell
                 }
             } else {
                 
-                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
+                if let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                     
                     cell.theme = theme
                     
-                    let deck = model.decks[indexPath.row]
+                    if let deck = model?.decks[indexPath.row]{
                     cell.title = deck.title
                     cell.infoLabel.text = String(deck.count)
                     
@@ -197,9 +214,10 @@ class DecksCollectionViewController:
                             height: collectionViewHeight))
                     
                     return cell
-                    
+                    }
                 } else {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
                     return cell
                 }
             }
@@ -207,7 +225,8 @@ class DecksCollectionViewController:
         default:
             print("unknown section: \(indexPath.section)")
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
         return cell
     }
     
@@ -227,7 +246,6 @@ class DecksCollectionViewController:
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
     }
-    
     
     
     // MARK:- UICollectionViewDelegate
@@ -252,71 +270,26 @@ class DecksCollectionViewController:
     }
     
     
-    var selectedDeck : Deck?
+    var lastSelectedDeck : Deck?
+    var lastSelectedCell : UICollectionViewCell?
     
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
         //save selected path so we can show the 'add card button' in the right place
-        selectedDeck = model.decks[indexPath.item]
+        lastSelectedDeck = model?.decks[indexPath.item]
+        lastSelectedCell = collectionView.cellForItem(at: indexPath)
+        
+        //reload decks to show addCard button
+        decksCollectionView.reloadSections([1])
         
         //update main view
-        indexCardCollectionController.currentDeck = selectedDeck
+        indexCardCollectionController.currentDeck = lastSelectedDeck
         
         //the delegate/datasource can't do this
         indexCardsCollectionView.reloadData()
-        
-        //reload decks to show addCard button
-        decksCollectionView.reloadSections(IndexSet(integer: 1))
-        
-        
-        if let lastSelection = mostRecentSelection {
-            if indexPath != lastSelection{
-                //return last selection to straight
-                animateDeselectedDeck(at: lastSelection)
-                
-                //animate new selection
-                animateSelectedDeck(at: indexPath)
-            }
-        } else {
-            //animate new selection
-            animateSelectedDeck(at: indexPath)
-        }
-        
-        //upate our record
-        mostRecentSelection = indexPath
     }
 
-    var mostRecentSelection : IndexPath?
-    
-    private func animateSelectedDeck(at indexPath:IndexPath){
-        
-        if let deck = decksCollectionView.cellForItem(at: indexPath){
-        
-        UIView.transition(with: deck,
-                          duration: theme.timeOf(.tapDeckTurn),
-                          options: .curveEaseInOut,
-                          animations: {
-                            deck.transform = CGAffineTransform.identity.rotated(by: 2*CGFloat.pi/36)
-        },
-                          completion: nil)
-        }
-    }//func
-    
-    private func animateDeselectedDeck(at indexPath:IndexPath){
-        
-        if let deck = decksCollectionView.cellForItem(at: indexPath){
-            
-            UIView.transition(with: deck,
-                              duration: theme.timeOf(.tapDeckTurn),
-                              options: .curveEaseInOut,
-                              animations: {
-                                deck.transform = CGAffineTransform.identity
-            },
-                              completion: nil)
-        }
-    }//func
-    
     
     
     
@@ -347,6 +320,52 @@ class DecksCollectionViewController:
         //for segue to editing cards view
         definesPresentationContext = true
     }
+    
+    
+    var document : IndexCardsDocument?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Access the document
+        document?.open(completionHandler: { (success) in
+            if success {
+                
+            self.model = self.document?.model
+            
+            
+                
+            } else {
+                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
+            }
+        })
+    }
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        //choose a location and filename
+        if let saveTemplateURL = try? FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("IndexCardsDB.ic") {
+            
+            //check it exists and create if not
+            if !FileManager.default.fileExists(atPath: saveTemplateURL.path){
+                //create
+                FileManager.default.createFile(atPath: saveTemplateURL.path, contents: Data(), attributes: nil)
+            }
+            //open
+            document = IndexCardsDocument(fileURL: saveTemplateURL)
+            
+            
+            
+        }//if let
+    }
+    
+    
     
 //    //MARK:- navigation
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

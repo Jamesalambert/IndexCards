@@ -126,7 +126,7 @@ UITextViewDelegate{
             imageView.image = chosenImage
             
             //add to model
-            indexCard?.image = chosenImage
+            indexCard?.imageData = chosenImage?.jpegData(compressionQuality: 1.0)
         }
     }
     
