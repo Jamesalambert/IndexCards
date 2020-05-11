@@ -137,7 +137,6 @@ class DecksCollectionViewController:
         }, completion: nil)
         
         document?.updateChangeCount(UIDocument.ChangeKind.done)
-        
     }
     
     
@@ -200,7 +199,7 @@ class DecksCollectionViewController:
                     withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
                     
                 cell.theme = theme
-            
+                cell.delegate = self
                     
                 return cell
                 }
@@ -272,11 +271,10 @@ class DecksCollectionViewController:
 
     
     // Uncomment this method to specify if the specified item should be selected
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView,
+        shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
-        if indexPath.section == 1 {return true}
-        
-        return false
+        return indexPath.section == 1
     }
     
     
@@ -347,12 +345,25 @@ class DecksCollectionViewController:
                 decksCollectionView.deleteItems(at: [indexPath])
             }
         }, completion: nil)
+        
+        document?.updateChangeCount(.done)
     }
     
     
     
 
     //MARK:- UIView
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if let url = fileLocationURL{
+            document?.save(to: url, for: .forOverwriting, completionHandler: nil)
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -385,6 +396,8 @@ class DecksCollectionViewController:
     }
     
     
+    var fileLocationURL : URL?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -400,9 +413,13 @@ class DecksCollectionViewController:
                 //create
                 FileManager.default.createFile(atPath: saveTemplateURL.path, contents: Data(), attributes: nil)
             }
-            //open
-            document = IndexCardsDocument(fileURL: saveTemplateURL)
             
+            fileLocationURL = saveTemplateURL
+            
+            //open
+            if let url = fileLocationURL{
+                document = IndexCardsDocument(fileURL: url)
+            }
             
             
         }//if let

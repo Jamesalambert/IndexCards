@@ -11,6 +11,7 @@ import UIKit
 class AddCardCell: UICollectionViewCell {
  
     var theme : Theme?
+    var delegate : DecksCollectionViewController?
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -33,4 +34,8 @@ class AddCardCell: UICollectionViewCell {
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
     }
     
+    
+    @objc func deleteDeck(_ sender : UIMenuController){
+        delegate?.deleteTappedDeck(sender)
+    }
 }

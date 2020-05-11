@@ -91,7 +91,7 @@ class Deck : Hashable, Codable {
     private var identifier : Int
     var hashValue : Int {return identifier}
     
-    static func ==(lhs:Deck,rhs:Deck)->Bool{
+    static func ==(lhs:Deck, rhs:Deck)->Bool{
         return lhs.identifier == rhs.identifier
     }
     
@@ -99,8 +99,7 @@ class Deck : Hashable, Codable {
     private static var identifier = 0
     
     private static func getIdentifier()->Int{
-        identifier += 1
-        return identifier
+        return Int.random(in: 1...10000)
     }
     
     
@@ -130,8 +129,7 @@ class IndexCard : Hashable, Codable {
     private static var identifier = 0
     
     private static func getIdentifier()->Int{
-        identifier += 1
-        return identifier
+        return Int.random(in: 1...10000)
     }
     
     static func ==(lhs:IndexCard, rhs:IndexCard) -> Bool{
