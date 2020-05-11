@@ -11,6 +11,7 @@ import UIKit
 class IndexCardViewCell: UICollectionViewCell {
     
     var theme : Theme?
+    var delegate : IndexCardsCollectionViewController?
     
     var frontText : String?{
         didSet{
@@ -50,6 +51,8 @@ class IndexCardViewCell: UICollectionViewCell {
   
     }
     
-    
+    @objc func deleteCard(){
+        delegate?.deleteCard()
+    }
     
 }

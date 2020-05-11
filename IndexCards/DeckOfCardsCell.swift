@@ -10,6 +10,8 @@ import UIKit
 
 class DeckOfCardsCell: UICollectionViewCell {
     
+    var delegate : DecksCollectionViewController?
+    
     var theme : Theme?
     
     var image : UIImage? {
@@ -58,5 +60,8 @@ class DeckOfCardsCell: UICollectionViewCell {
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
     }
 
+    @objc func deleteDeck(_ sender : UIMenuController){
+        delegate?.deleteTappedDeck(sender)
+    }
   
 }

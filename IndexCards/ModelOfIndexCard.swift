@@ -12,7 +12,8 @@ import UIKit
 
 class Notes : Codable{
     
-    var decks : [Deck]        //starts with 1 deck
+    var decks : [Deck]       //starts with 1 deck
+    
     var numberOfDecks : Int {
         return decks.count
     }

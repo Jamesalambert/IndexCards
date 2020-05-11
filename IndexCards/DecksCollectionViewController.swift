@@ -52,7 +52,8 @@ class DecksCollectionViewController:
     var editorDidMakeChanges : Bool = false{
         didSet{
             if let indexPath = indexPathOfEditedCard{
-                
+                document?.updateChangeCount(UIDocument.ChangeKind.done)
+
                 indexCardsCollectionView.reloadItems(at: [indexPath])
             }
         }
@@ -134,6 +135,9 @@ class DecksCollectionViewController:
             
             
         }, completion: nil)
+        
+        document?.updateChangeCount(UIDocument.ChangeKind.done)
+        
     }
     
     
@@ -147,6 +151,10 @@ class DecksCollectionViewController:
             
         }, completion: nil
         )
+        
+        document?.updateChangeCount(UIDocument.ChangeKind.done)
+
+        
     }
     
 
@@ -192,6 +200,7 @@ class DecksCollectionViewController:
                     withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
                     
                 cell.theme = theme
+            
                     
                 return cell
                 }
@@ -201,6 +210,7 @@ class DecksCollectionViewController:
                     withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                     
                     cell.theme = theme
+                    cell.delegate = self
                     
                     if let deck = model?.decks[indexPath.row]{
                     cell.title = deck.title
@@ -293,20 +303,54 @@ class DecksCollectionViewController:
     
     
     
-    /*
+
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
+    func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+        
+        switch indexPath.section {
+        case 0:
+            return false
+        case 1:
+            return true
+        default:
+            return false
+        }
     }
 
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+    var actionMenuIndexPath : IndexPath?
     
+    func collectionView(_ collectionView: UICollectionView,
+        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        
+        let deleteAction = UIMenuItem(title: "Delete Deck", action: #selector(DeckOfCardsCell.deleteDeck))
+        
+        UIMenuController.shared.menuItems = [deleteAction]
+        
+        //store info so we know which one to delete
+        actionMenuIndexPath = indexPath
+
+        return action == deleteAction.action
     }
-    */
+
+    func collectionView(_ collectionView: UICollectionView,
+            performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        
+    }
+
+    @objc func deleteTappedDeck(_ sender:UIMenuController){        
+        //batch updates
+        decksCollectionView.performBatchUpdates({
+
+            if let indexPath = actionMenuIndexPath {
+                model?.decks.remove(at: indexPath.item)
+                
+                decksCollectionView.deleteItems(at: [indexPath])
+            }
+        }, completion: nil)
+    }
+    
+    
+    
 
     //MARK:- UIView
     override func viewDidLoad() {
@@ -330,11 +374,10 @@ class DecksCollectionViewController:
         // Access the document
         document?.open(completionHandler: { (success) in
             if success {
-                
-            self.model = self.document?.model
             
-            
-                
+                //update our model
+                self.model = self.document?.model
+        
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }

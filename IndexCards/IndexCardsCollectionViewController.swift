@@ -44,6 +44,7 @@ UICollectionViewDelegateFlowLayout
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath) as? IndexCardViewCell {
             
             cell.theme = theme
+            cell.delegate = self
             
             if let currentIndexCard = currentDeck?.cards[indexPath.item]{
                 
@@ -79,20 +80,46 @@ UICollectionViewDelegateFlowLayout
     }
     */
 
-    /*
+    
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
+    var actionMenuIndexPath : IndexPath?
+    var actionMenuCollectionView : UICollectionView?
+    
+    func collectionView(_ collectionView: UICollectionView,
+        shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+        
+        return true
     }
 
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
+    func collectionView(_ collectionView: UICollectionView,
+        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        
+        let deleteAction = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
+        
+        UIMenuController.shared.menuItems = [deleteAction]
+        
+        actionMenuIndexPath = indexPath
+        actionMenuCollectionView = collectionView
+        
+        return action == deleteAction.action
     }
 
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+    func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
     }
-    */
+ 
+    func deleteCard(){
+        
+        actionMenuCollectionView?.performBatchUpdates({
+            
+            if let indexPath = actionMenuIndexPath {
+                
+                currentDeck?.cards.remove(at: indexPath.item)
+                
+                actionMenuCollectionView?.deleteItems(at: [indexPath])
+            }
+        }, completion: nil)
+    }
 
     
     //MARK:- UICollectionViewDelegateFlowLayout
