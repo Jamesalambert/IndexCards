@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import MobileCoreServices
 
 class Notes : Codable{
     
@@ -52,13 +52,64 @@ class Notes : Codable{
 }
 
 
-class Deck : Hashable, Codable {
+final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReading {
+    
+    
+    
+    static var writableTypeIdentifiersForItemProvider: [String]{
+        return [(kUTTypeData) as String]
+    }
+    
+    
+    func loadData(withTypeIdentifier typeIdentifier: String,
+        forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        
+        let progress = Progress(totalUnitCount: 100)
+        
+        do{
+            //encode to JSON
+            let data = try JSONEncoder().encode(self)
+            progress.completedUnitCount = 100
+            
+            completionHandler(data,nil)
+            
+        } catch {
+            completionHandler(nil, error)
+        }
+        
+        return progress
+    }
+    
+    static var readableTypeIdentifiersForItemProvider: [String]{
+        return [(kUTTypeData) as String]
+    }
+    
+    //had to add final class Deck after changeing the return type from Self to Deck
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Deck {
+        
+        let decoder = JSONDecoder()
+        
+        do{
+            //decode back to a deck
+            let newDeck = try decoder.decode(Deck.self, from: data)
+            
+            return newDeck
+        } catch {
+            fatalError(error as! String)
+        }
+    }
+    
+
+    override var description: String {
+        return title ?? ""
+    }
+    
+
     var title : String?
     var cards = [IndexCard()] //start with 1 card
     var count : Int {
         return cards.count
     }
-    
     
     
     func thumbnail(forSize size: CGSize) -> UIImage?{
@@ -82,14 +133,15 @@ class Deck : Hashable, Codable {
     }
     
     
-    init(){
+    override init(){
         self.identifier = Deck.getIdentifier()
         self.title = "New Deck"
     }
     
+    
     //unique id
     private var identifier : Int
-    var hashValue : Int {return identifier}
+    override var hash : Int {return identifier}
     
     static func ==(lhs:Deck, rhs:Deck)->Bool{
         return lhs.identifier == rhs.identifier

@@ -15,8 +15,12 @@ class DecksCollectionViewController:
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
+    UICollectionViewDragDelegate,
+    UICollectionViewDropDelegate,
     UIGestureRecognizerDelegate
 {
+   
+    
     
     //MARK:- vars
     //model
@@ -61,6 +65,9 @@ class DecksCollectionViewController:
     
     var indexPathOfEditedCard : IndexPath?
     
+    
+    @IBOutlet weak var stackViewTopInset: NSLayoutConstraint!
+    
     @objc private func tap(_ sender: UITapGestureRecognizer){
         //get tapped cell
         
@@ -72,16 +79,15 @@ class DecksCollectionViewController:
             
             //get location of tapped cell
             let cell = indexCardsCollectionView.cellForItem(at: indexPath)
+            
+            
             let startCenter = cell?.center.offsetBy(
-                dx: -indexCardsCollectionView.contentOffset.x,
-                dy: indexCardsCollectionView.contentOffset.y).offsetBy(
-                    dx: view.safeAreaInsets.left,
-                    dy: view.safeAreaInsets.top)
-            let startFrame = cell?.frame.offsetBy(
-                dx: -indexCardsCollectionView.contentOffset.x,
-                dy: indexCardsCollectionView.contentOffset.y).offsetBy(
-                    dx: view.safeAreaInsets.left,
-                    dy: view.safeAreaInsets.top)
+                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
+                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
+            let startFrame = cell?.bounds.offsetBy(
+                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
+                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
+            
             
             let chosenCard = lastSelectedDeck?.cards[indexPath.item]
             
@@ -116,6 +122,8 @@ class DecksCollectionViewController:
         didSet{
             decksCollectionView.delegate = self
             decksCollectionView.dataSource = self
+            decksCollectionView.dragDelegate = self
+            decksCollectionView.dropDelegate = self
         }
     }
     
@@ -270,6 +278,8 @@ class DecksCollectionViewController:
     */
 
     
+    
+    
     // Uncomment this method to specify if the specified item should be selected
     func collectionView(_ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -351,6 +361,109 @@ class DecksCollectionViewController:
     
     
     
+    //MARK: - UICollectionViewDragDelegate
+    //for dragging from a collection view
+    //Remeber to add
+    //items for beginning means 'this is what we're dragging'
+    func collectionView(_ collectionView: UICollectionView,
+                        itemsForBeginning session: UIDragSession,
+                        at indexPath: IndexPath) -> [UIDragItem] {
+        
+        //lets dragged items know/report that they were dragged from the emoji collection view
+        session.localContext = collectionView
+        
+        return dragItemsAtIndexPath(at: indexPath)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        itemsForAddingTo session: UIDragSession,
+                        at indexPath: IndexPath,
+                        point: CGPoint) -> [UIDragItem] {
+        
+        return dragItemsAtIndexPath(at: indexPath)
+    }
+    
+    
+    //my own helper func
+    func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
+        
+        //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
+        if let draggedData = model?.decks[indexPath.item]{
+
+            let dragItem = UIDragItem(
+                itemProvider: NSItemProvider(object: draggedData))
+
+            //useful shortcut we can use when dragging inside our app
+            dragItem.localObject = draggedData
+
+            return [dragItem]
+        } else {
+            return []
+        }
+    }
+
+    
+    //MARK:- UIColllectionViewDropDelegate
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        canHandle session: UIDropSession) -> Bool {
+        
+        let canLoadIt = session.canLoadObjects(ofClass: Deck.self)
+        return canLoadIt
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        dropSessionDidUpdate session: UIDropSession,
+                        withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        
+        if let indexPath = destinationIndexPath, indexPath.section == 1 {
+            
+            //check to see if it came from the DecksCollectionVC
+            let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
+    
+            if isFromSelf{
+                return UICollectionViewDropProposal(
+                    operation: .move,
+                    intent: .insertAtDestinationIndexPath)
+            } else {
+                return UICollectionViewDropProposal(operation: .cancel)
+            }
+        }//if let
+        
+         return UICollectionViewDropProposal(operation: .cancel)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+        //batch updates
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 1)
+        
+        
+        for item in coordinator.items {
+            
+            if let sourceIndexPath = item.sourceIndexPath,
+                let droppedDeck = item.dragItem.localObject as? Deck{
+                
+                
+                decksCollectionView.performBatchUpdates({
+                    //model
+                    model?.decks.remove(at: sourceIndexPath.item)
+                    model?.decks.insert(droppedDeck, at: destinationIndexPath.item)
+                    
+                    //view
+                    decksCollectionView.deleteItems(at: [sourceIndexPath])
+                    decksCollectionView.insertItems(at: [destinationIndexPath])
+
+                }, completion: nil)
+                
+            }
+            
+        }
+        
+    }
+    
 
     //MARK:- UIView
     
@@ -377,7 +490,11 @@ class DecksCollectionViewController:
     }
     
     
-    var document : IndexCardsDocument?
+    var document : IndexCardsDocument? {
+        didSet{
+            indexCardCollectionController.currentDocument = document
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -388,7 +505,7 @@ class DecksCollectionViewController:
             
                 //update our model
                 self.model = self.document?.model
-        
+                
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }

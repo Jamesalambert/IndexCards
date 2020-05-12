@@ -24,6 +24,8 @@ UICollectionViewDelegateFlowLayout
     
     var cardWidth : CGFloat = 300
     
+    var currentDocument : UIDocument?
+    
     // MARK: UICollectionViewDataSource
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -119,6 +121,8 @@ UICollectionViewDelegateFlowLayout
                 actionMenuCollectionView?.deleteItems(at: [indexPath])
             }
         }, completion: nil)
+        
+        currentDocument?.updateChangeCount(.done)
     }
 
     

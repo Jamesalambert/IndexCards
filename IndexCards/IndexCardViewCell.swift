@@ -37,7 +37,9 @@ class IndexCardViewCell: UICollectionViewCell {
         self.layer.masksToBounds = false
         
         //drop shadow
-        let shadowPath = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.cornerRadius)
+        let shadowPath = UIBezierPath(
+            roundedRect: layer.bounds,
+            cornerRadius: layer.cornerRadius)
         self.layer.shadowPath = shadowPath.cgPath
         self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         self.layer.shadowColor = UIColor.black.cgColor

@@ -73,6 +73,12 @@ UITextViewDelegate{
 
     
     //MARK:- Outlets
+    
+    
+
+    @IBOutlet weak var backgroundViewLeadingOffset: NSLayoutConstraint!
+    
+    @IBOutlet weak var backgroundViewTopOffset: NSLayoutConstraint!
     @IBOutlet weak var addPhotoButton: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
     
@@ -318,16 +324,21 @@ UITextViewDelegate{
         
         
         //drop shadow
-        let shadowPath = UIBezierPath(roundedRect: backgroundView.layer.bounds, cornerRadius: backgroundView.layer.cornerRadius)
+    
+        let shadowRect = backgroundView.layer.bounds.offsetBy(
+            dx: backgroundViewLeadingOffset.constant,
+            dy: backgroundViewTopOffset.constant)
+        
+        let shadowPath = UIBezierPath(
+            roundedRect: shadowRect,
+            cornerRadius: backgroundView.layer.cornerRadius)
         backgroundView.layer.shadowPath = shadowPath.cgPath
-        backgroundView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        backgroundView.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
         backgroundView.layer.shadowColor = UIColor.black.cgColor
         backgroundView.layer.shadowRadius = 2.0
         backgroundView.layer.shadowOpacity = 0.7
-   
         
         //add tap to dismiss gesture recognizer
-        
         let tap = UITapGestureRecognizer()
         tap.numberOfTapsRequired = 1
         tap.numberOfTouchesRequired = 1

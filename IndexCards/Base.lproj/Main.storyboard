@@ -126,6 +126,8 @@
                     <connections>
                         <outlet property="addPhotoButton" destination="ovz-HQ-U0d" id="UGD-uw-3wE"/>
                         <outlet property="backgroundView" destination="E2V-pr-FQQ" id="lCS-Yf-6F6"/>
+                        <outlet property="backgroundViewLeadingOffset" destination="abn-ub-2k5" id="qlR-us-ezN"/>
+                        <outlet property="backgroundViewTopOffset" destination="lGJ-fT-u8e" id="YUd-Cy-MZ0"/>
                         <outlet property="doneButton" destination="hPk-iB-ZoU" id="ovD-47-edA"/>
                         <outlet property="frontTextView" destination="8N4-hI-Zcf" id="iOd-I3-Cov"/>
                         <outlet property="imageView" destination="fKW-YD-61q" id="e3s-bh-2Sr"/>
@@ -343,6 +345,7 @@
                     <connections>
                         <outlet property="decksCollectionView" destination="aOZ-bb-kWi" id="J4L-Qd-9lD"/>
                         <outlet property="indexCardsCollectionView" destination="NM0-K2-zbl" id="lCI-0D-4xi"/>
+                        <outlet property="stackViewTopInset" destination="Nf1-1r-gli" id="TFZ-Ty-XGA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NvB-c5-gPC" userLabel="First Responder" sceneMemberID="firstResponder"/>

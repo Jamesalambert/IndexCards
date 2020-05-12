@@ -75,7 +75,7 @@ class Theme : ThemeDelegateProtocol {
         indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
-        editCardZoom: 0.3,
+        editCardZoom: 2.0,
         tapDeckTurn: 0.2)
 }
 
