@@ -1,18 +1,18 @@
 //
-//  NewDeckCellCollectionViewCell.swift
+//  addDeckButtonView.swift
 //  IndexCards
 //
-//  Created by James Lambert on 09/05/2020.
+//  Created by James Lambert on 12/05/2020.
 //  Copyright © 2020 James Lambert. All rights reserved.
 //
 
 import UIKit
 
-class NewDeckCellCollectionViewCell: UICollectionViewCell {
+class addDeckButtonView: UIView {
 
     override func draw(_ rect: CGRect) {
         
-        let scale = CGFloat(0.5)
+        let scale = CGFloat(0.8)
         
         //border
         let path = UIBezierPath(
@@ -50,4 +50,5 @@ class NewDeckCellCollectionViewCell: UICollectionViewCell {
         plus.lineWidth = CGFloat(2.0)
         plus.stroke()
     }
+
 }

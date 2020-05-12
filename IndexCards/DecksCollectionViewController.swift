@@ -128,9 +128,21 @@ class DecksCollectionViewController:
     }
     
     
+    @IBOutlet weak var addDeckView: addDeckButtonView!{
+        didSet{
+            let tap = UITapGestureRecognizer()
+            tap.numberOfTapsRequired = 1
+            tap.numberOfTouchesRequired = 1
+            tap.addTarget(self, action: #selector(addNewDeck))
+            
+            addDeckView.addGestureRecognizer(tap)
+        }
+    }
+    
+    
     
     //MARK:- actions
-    @IBAction func addNewDeck() {
+    @objc func addNewDeck() {
         
         decksCollectionView.performBatchUpdates({
             
@@ -139,7 +151,7 @@ class DecksCollectionViewController:
             }
             
             decksCollectionView.insertItems(
-                at: [IndexPath(row: 0, section: 1)])
+                at: [IndexPath(row: 0, section: 0)])
             
             
         }, completion: nil)
@@ -169,57 +181,42 @@ class DecksCollectionViewController:
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         //1 for adding new decks and 1 for decks
-        return 2
+        return 1
     }
 
 
     func collectionView(_ collectionView: UICollectionView,
         numberOfItemsInSection section: Int) -> Int {
 
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            
-            if let currentModel = model {
-                return currentModel.numberOfDecks
-            }
-            return 0
-        default:
-            return 0
+        if let currentModel = model {
+            return currentModel.numberOfDecks
         }
+        
+        return 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch indexPath.section {
-        case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewDeckCell", for: indexPath)
-
-            return cell
-        
-        case 1:
+        if lastSelectedDeck == model?.decks[indexPath.item]  {
             
-            if lastSelectedDeck == model?.decks[indexPath.item]  {
+            if let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
                 
-                if let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
-                    
                 cell.theme = theme
                 cell.delegate = self
-                    
-                return cell
-                }
-            } else {
                 
-                if let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
-                    
-                    cell.theme = theme
-                    cell.delegate = self
-                    
-                    if let deck = model?.decks[indexPath.row]{
+                return cell
+            }
+        } else {
+            
+            if let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
+                
+                cell.theme = theme
+                cell.delegate = self
+                
+                if let deck = model?.decks[indexPath.row]{
                     cell.title = deck.title
                     cell.infoLabel.text = String(deck.count)
                     
@@ -231,17 +228,14 @@ class DecksCollectionViewController:
                             height: collectionViewHeight))
                     
                     return cell
-                    }
-                } else {
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
-                    return cell
                 }
+            } else {
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
+                return cell
             }
-            
-        default:
-            print("unknown section: \(indexPath.section)")
         }
+        
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
         return cell
@@ -253,12 +247,6 @@ class DecksCollectionViewController:
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         var height = CGFloat(100)
-        
-        switch indexPath.section{
-        case 0: height = CGFloat(50)
-        case 1: height = CGFloat(100)
-        default: height = CGFloat(100)
-        }
         
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
@@ -284,7 +272,7 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
-        return indexPath.section == 1
+        return true
     }
     
     
@@ -299,7 +287,7 @@ class DecksCollectionViewController:
         lastSelectedCell = collectionView.cellForItem(at: indexPath)
         
         //reload decks to show addCard button
-        decksCollectionView.reloadSections([1])
+        decksCollectionView.reloadData()
         
         //update main view
         indexCardCollectionController.currentDeck = lastSelectedDeck
@@ -315,14 +303,7 @@ class DecksCollectionViewController:
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
     func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
         
-        switch indexPath.section {
-        case 0:
-            return false
-        case 1:
-            return true
-        default:
-            return false
-        }
+        return true
     }
 
     var actionMenuIndexPath : IndexPath?
@@ -363,7 +344,6 @@ class DecksCollectionViewController:
     
     //MARK: - UICollectionViewDragDelegate
     //for dragging from a collection view
-    //Remeber to add
     //items for beginning means 'this is what we're dragging'
     func collectionView(_ collectionView: UICollectionView,
                         itemsForBeginning session: UIDragSession,
@@ -371,8 +351,8 @@ class DecksCollectionViewController:
         
         //lets dragged items know/report that they were dragged from the emoji collection view
         session.localContext = collectionView
-        
         return dragItemsAtIndexPath(at: indexPath)
+        
     }
     
     
@@ -409,36 +389,35 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
-        let canLoadIt = session.canLoadObjects(ofClass: Deck.self)
-        return canLoadIt
+        return session.canLoadObjects(ofClass: Deck.self)
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         dropSessionDidUpdate session: UIDropSession,
                         withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         
-        if let indexPath = destinationIndexPath, indexPath.section == 1 {
-            
-            //check to see if it came from the DecksCollectionVC
-            let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
-    
-            if isFromSelf{
-                return UICollectionViewDropProposal(
-                    operation: .move,
-                    intent: .insertAtDestinationIndexPath)
-            } else {
-                return UICollectionViewDropProposal(operation: .cancel)
-            }
-        }//if let
+        //check to see if it came from the DecksCollectionVC
+        let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
         
-         return UICollectionViewDropProposal(operation: .cancel)
+        if isFromSelf{
+            return UICollectionViewDropProposal(
+                operation: .move,
+                intent: .insertAtDestinationIndexPath)
+        } else {
+            return UICollectionViewDropProposal(operation: .cancel)
+        }
     }
+    
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
         
         //batch updates
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 1)
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
         
         
         for item in coordinator.items {
@@ -456,7 +435,9 @@ class DecksCollectionViewController:
                     decksCollectionView.deleteItems(at: [sourceIndexPath])
                     decksCollectionView.insertItems(at: [destinationIndexPath])
 
-                }, completion: nil)
+                }, completion: { finished in
+                    self.document?.updateChangeCount(.done)
+                })
                 
             }
             
