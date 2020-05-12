@@ -198,7 +198,7 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if lastSelectedDeck == model?.decks[indexPath.item]  {
+        if lastSelectedDeckIndexPath == indexPath  {
             
             if let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
@@ -276,15 +276,21 @@ class DecksCollectionViewController:
     }
     
     
-    var lastSelectedDeck : Deck?
-    var lastSelectedCell : UICollectionViewCell?
+    var lastSelectedDeck : Deck? {
+        if let indexPath = lastSelectedDeckIndexPath {
+            return model?.decks[indexPath.item]
+        }
+        return nil
+    }
+    
+    var lastSelectedDeckIndexPath : IndexPath?
     
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
         //save selected path so we can show the 'add card button' in the right place
-        lastSelectedDeck = model?.decks[indexPath.item]
-        lastSelectedCell = collectionView.cellForItem(at: indexPath)
+        //lastSelectedDeck = model?.decks[indexPath.item]
+        lastSelectedDeckIndexPath = indexPath
         
         //reload decks to show addCard button
         decksCollectionView.reloadData()
