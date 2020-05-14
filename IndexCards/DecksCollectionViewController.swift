@@ -198,7 +198,9 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if lastSelectedDeckIndexPath == indexPath  {
+        
+        //if it's selected
+        if lastSelectedDeck == model?.decks[indexPath.item]  {
             
             if let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
@@ -208,6 +210,8 @@ class DecksCollectionViewController:
                 
                 return cell
             }
+            
+        //otherwise...
         } else {
             
             if let cell = collectionView.dequeueReusableCell(
