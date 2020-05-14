@@ -80,6 +80,16 @@
 			path = cells;
 			sourceTree = "<group>";
 		};
+		1ADD73C7246E10A100A9186A /* stickers */ = {
+			isa = PBXGroup;
+			children = (
+				1ADD73C5246E0F9600A9186A /* Sticker.swift */,
+				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
+				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
+			);
+			path = stickers;
+			sourceTree = "<group>";
+		};
 		1AFD95F2245CDE630092CF99 = {
 			isa = PBXGroup;
 			children = (
@@ -99,15 +109,13 @@
 		1AFD95FD245CDE630092CF99 /* IndexCards */ = {
 			isa = PBXGroup;
 			children = (
-				1ADD73C5246E0F9600A9186A /* Sticker.swift */,
 				1AFD9602245CDE630092CF99 /* Main.storyboard */,
-				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
-				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
 				1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */,
 				1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
+				1ADD73C7246E10A100A9186A /* stickers */,
 				1A135967246B59C7001AE343 /* cells */,
 				1AFD9610245CDEB60092CF99 /* support */,
 			);
