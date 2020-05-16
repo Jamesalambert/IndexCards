@@ -10,7 +10,10 @@ import UIKit
 
 class StickerCanvas:
 UIView,
-UIDropInteractionDelegate {
+UIDropInteractionDelegate,
+UIGestureRecognizerDelegate
+{
+    var currentTextField : UITextField?
 
     var backgroundImage : UIImage?{
         didSet{
@@ -49,8 +52,9 @@ UIDropInteractionDelegate {
     }
     }
     
+    //MARK:- shape handling
     
-    func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint){
+    private func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint){
         
         let newShape = Sticker()
         
@@ -65,12 +69,76 @@ UIDropInteractionDelegate {
         
         newShape.center = dropPoint
         newShape.frame.size = CGSize(width: 100, height: 100)
-        
         newShape.backgroundColor = UIColor.clear
         
+        addStickerGestureRecognizers(to: newShape)
+        
         self.addSubview(newShape)
+    
+        currentTextField = newShape.textField
+        newShape.textField.becomeFirstResponder()
+    }
+    
+    
+    private func addStickerGestureRecognizers(to view : Sticker){
+        
+        view.isUserInteractionEnabled = true
+
+        let pan = UIPanGestureRecognizer(
+            target: self, action: #selector(panning(_:)))
+        pan.maximumNumberOfTouches = 1
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+
+        let zoom = UIPinchGestureRecognizer(
+            target: self,
+            action: #selector(zooming(_:)))
+        zoom.delegate = self
+        view.addGestureRecognizer(zoom)
         
     }
+    
+    
+    @objc func panning(_ sender : UIPanGestureRecognizer){
+        switch sender.state {
+        case .changed:
+            
+            if let oldPosition = sender.view?.center{
+                let newPosition = oldPosition.offsetBy(dx: sender.translation(in: sender.view).x, dy: sender.translation(in: sender.view).y)
+                    
+                    sender.view?.center = newPosition
+                    sender.setTranslation(CGPoint.zero, in: sender.view)
+            }
+        default:
+            return
+        }
+    }
+    
+    @objc func zooming(_ sender: UIPinchGestureRecognizer){
+        switch sender.state {
+        case .changed:
+        
+            if let currentFrame = sender.view?.frame {
+                let newFrame = currentFrame.zoom(by: sender.scale)
+                sender.view?.frame = newFrame
+                sender.scale = CGFloat(1)
+            }
+        default:
+            return
+        }
+    }
+    
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+//        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//
+//        if gestureRecognizer.view == otherGestureRecognizer.view {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+    
+    //MARK:- init()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,12 +151,13 @@ UIDropInteractionDelegate {
         setup()
     }
     
-    
-    //don't forget to add the drop interaction to the view!
-    private func setup() {
-        addInteraction(UIDropInteraction(delegate: self))
+    private func setup(){
+        self.addInteraction(UIDropInteraction(delegate: self))   
     }
     
+    
+    
+    //MARK:- UIView
     override func draw(_ rect: CGRect) {
         
         backgroundImage?.draw(in: self.bounds)

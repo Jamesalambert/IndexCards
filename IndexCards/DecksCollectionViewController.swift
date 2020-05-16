@@ -250,7 +250,7 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        var height = CGFloat(100)
+        let height = CGFloat(100)
         
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)

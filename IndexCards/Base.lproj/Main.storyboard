@@ -148,10 +148,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32h-M0-eTV">
-                                <rect key="frame" x="10" y="245.5" width="814" height="621"/>
+                                <rect key="frame" x="10" y="173.5" width="814" height="765"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iR3-Ke-bLl">
-                                        <rect key="frame" x="0.0" y="0.0" width="814" height="621"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="814" height="765"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Tt-bc-LuR">
                                                 <rect key="frame" x="0.0" y="0.0" width="814" height="70"/>
@@ -186,7 +186,7 @@
                                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                         </collectionViewFlowLayout>
                                                         <cells>
-                                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" id="ueP-lp-shq">
+                                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ueP-lp-shq">
                                                                 <rect key="frame" x="0.0" y="10" width="50" height="50"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -197,57 +197,83 @@
                                                         </cells>
                                                     </collectionView>
                                                 </subviews>
+                                                <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="70" id="J1x-dQ-tmk"/>
                                                 </constraints>
                                             </stackView>
-                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RjO-wF-7th">
-                                                <rect key="frame" x="0.0" y="78" width="814" height="543"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xdg-e8-euh">
+                                                <rect key="frame" x="0.0" y="78" width="814" height="136"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xdg-e8-euh">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Position the picture." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESq-Nc-O9H">
+                                                        <rect key="frame" x="280" y="0.0" width="254.5" height="36"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="when you're happy press" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNq-bx-rS5">
+                                                        <rect key="frame" x="248" y="44" width="318.5" height="36"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tpf-vd-91b">
+                                                        <rect key="frame" x="370" y="88" width="74" height="48"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <state key="normal" title="done."/>
+                                                        <connections>
+                                                            <action selector="finishedRepositioningImage" destination="dcX-ac-dIB" eventType="touchUpInside" id="gTd-k9-MNN"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RjO-wF-7th">
+                                                <rect key="frame" x="0.0" y="222" width="814" height="543"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DXd-Hm-EFu">
                                                         <rect key="frame" x="297" y="175.5" width="220" height="192"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To get started" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESq-Nc-O9H">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To get started" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ndy-YG-bnz">
                                                                 <rect key="frame" x="22.5" y="0.0" width="175.5" height="36"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRU-NT-d25">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgB-NS-J6T">
                                                                 <rect key="frame" x="31" y="44" width="158" height="48"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                 <state key="normal" title="take a photo"/>
                                                                 <connections>
-                                                                    <action selector="takeAPhoto" destination="dcX-ac-dIB" eventType="touchUpInside" id="nw9-xy-bBm"/>
+                                                                    <action selector="takeAPhoto" destination="dcX-ac-dIB" eventType="touchUpInside" id="gse-N9-qqT"/>
                                                                 </connections>
                                                             </button>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNq-bx-rS5">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tx7-p7-Cnx">
                                                                 <rect key="frame" x="97" y="100" width="26" height="36"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tpf-vd-91b">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q1K-ad-11w">
                                                                 <rect key="frame" x="0.0" y="144" width="220" height="48"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                 <state key="normal" title="choose a picture."/>
                                                                 <connections>
-                                                                    <action selector="chooseAPicture" destination="dcX-ac-dIB" eventType="touchUpInside" id="le9-n9-pHD"/>
+                                                                    <action selector="chooseAPicture" destination="dcX-ac-dIB" eventType="touchUpInside" id="rjO-xM-nJh"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
+                                                        <viewLayoutGuide key="safeArea" id="D9B-gz-gAo"/>
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="xdg-e8-euh" firstAttribute="centerY" secondItem="RjO-wF-7th" secondAttribute="centerY" id="aMh-ve-VDs"/>
-                                                    <constraint firstItem="xdg-e8-euh" firstAttribute="centerX" secondItem="RjO-wF-7th" secondAttribute="centerX" id="lbR-PC-Q94"/>
+                                                    <constraint firstItem="DXd-Hm-EFu" firstAttribute="centerX" secondItem="RjO-wF-7th" secondAttribute="centerX" id="Cj6-Tw-Nqo"/>
+                                                    <constraint firstItem="DXd-Hm-EFu" firstAttribute="centerY" secondItem="RjO-wF-7th" secondAttribute="centerY" id="DEi-z8-da5"/>
                                                     <constraint firstAttribute="width" secondItem="RjO-wF-7th" secondAttribute="height" multiplier="1.5:1" id="vmB-Sr-L5V"/>
                                                 </constraints>
                                             </scrollView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="top" secondItem="32h-M0-eTV" secondAttribute="top" id="EjN-9w-Dfj"/>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="width" secondItem="32h-M0-eTV" secondAttribute="width" id="YkG-ds-Tgb"/>
@@ -268,7 +294,8 @@
                     <connections>
                         <outlet property="cardBackgroundView" destination="32h-M0-eTV" id="2ba-3u-MoF"/>
                         <outlet property="colorsCollectionView" destination="FeR-GX-JhQ" id="4wI-AC-qpB"/>
-                        <outlet property="getImageButtons" destination="xdg-e8-euh" id="zrR-Dh-iBz"/>
+                        <outlet property="getImageButtons" destination="DXd-Hm-EFu" id="bPB-Qz-6Ib"/>
+                        <outlet property="repositionImageText" destination="xdg-e8-euh" id="m1q-Nk-kQL"/>
                         <outlet property="scrollView" destination="RjO-wF-7th" id="NRd-dy-xAK"/>
                         <outlet property="shapeCollectionView" destination="O44-jH-12f" id="BVX-fM-Upe"/>
                     </connections>

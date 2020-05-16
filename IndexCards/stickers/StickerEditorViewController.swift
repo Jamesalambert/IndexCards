@@ -36,19 +36,24 @@ class StickerEditorViewController:
                 
                 //zoom to fit or fill?
                 
-                let fillScale = max(size.width / stickerView.frame.size.width, size.height / stickerView.frame.size.height)
+                let fillScale = max(stickerView.frame.size.width / size.width, stickerView.frame.size.height / size.height)
                 
                 scrollView.minimumZoomScale = fillScale
                 scrollView.maximumZoomScale = 2 * fillScale
+                scrollView.setZoomScale(fillScale, animated: true)
                 
                 //set image
                 stickerView.backgroundImage = image
                 
                 //hide buttons
-                getImageButtons.alpha = 0
+                getImageButtons.alpha = 0.0
+                
+                //show instructions
+                repositionImageText.isHidden = false
                 
             } else {
                 getImageButtons.alpha = 1
+                scrollView.isScrollEnabled = true
             }
         }
     }
@@ -64,14 +69,19 @@ class StickerEditorViewController:
         }
     }
     @IBOutlet weak var getImageButtons: UIStackView!
+    
+    @IBOutlet weak var repositionImageText: UIStackView!
+    
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet{
             scrollView.delegate = self
+            scrollView.canCancelContentTouches = false
             scrollView.addSubview(stickerView)
         }
     }
     
     @IBOutlet weak var cardBackgroundView: UIView!
+    
     //MARK:- Actions
     @IBAction func takeAPhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.camera){
@@ -98,7 +108,7 @@ class StickerEditorViewController:
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
+            //imagePicker.allowsEditing = true
             imagePicker.mediaTypes = ["public.image"]
             imagePicker.modalPresentationStyle = .popover
             
@@ -110,8 +120,15 @@ class StickerEditorViewController:
         } else {
             print("camera not available")
         }
-        
     }
+    
+    
+    
+    @IBAction func finishedRepositioningImage() {
+        scrollView.isScrollEnabled = false
+        repositionImageText.isHidden = true
+    }
+    
     
     //MARK:- UIImagePicker
     
@@ -219,7 +236,6 @@ class StickerEditorViewController:
             }
             
             let dragItem = UIDragItem(itemProvider: NSItemProvider(object: dragString.attributedText()))
-            
             //useful shortcut we can use when dragging inside our app
             dragItem.localObject = draggedData
             
@@ -228,14 +244,88 @@ class StickerEditorViewController:
             return []
         }
     }
-
     
+    
+
+    //MARK:- keyboard handling
+    
+    private var currentSticker : Sticker? {
+        if let sticker =  stickerView.currentTextField?.superview as? Sticker {
+            return sticker
+        }
+        return nil
+    }
+    
+    private var cursorPosition : CGFloat? {
+        if let position = stickerView.currentTextField?.superview?.frame.maxY{
+            let absolutePosition = view.convert(CGPoint(
+                x: CGFloat(0),
+                y: position),
+            from: stickerView)
+            return absolutePosition.y
+        }
+        return nil
+    }
+    
+    private func keyboardShown(_ keyboardOrigin: CGFloat){
+        
+        //see if the textField is covered
+        if let cursor = cursorPosition {
+            let overlap = cursor - keyboardOrigin
+            distanceToShift = overlap > 0 ? overlap : 0
+        }
+        
+        if let sticker = currentSticker, let shift = distanceToShift {
+            sticker.center = sticker.center.offsetBy(
+                dx: CGFloat(0),
+                dy: CGFloat(-1 * shift))
+        }
+      
+    }
+    
+    private var distanceToShift : CGFloat?
+    
+    private func keyboardHidden(){
+        if let sticker = currentSticker,
+            let shift = distanceToShift {
+            sticker.center = sticker.center.offsetBy(
+                dx: CGFloat(0),
+                dy: shift)
+        }
+    }
     
     
     //MARK:- UIView
     override func viewDidLoad() {
+        view.backgroundColor = UIColor.white
         scrollView.layer.cornerRadius = CGFloat(15)
         scrollView.layer.masksToBounds = true
+        
+        repositionImageText.isHidden = true
+        
+        //register for keyboard notifications
+        let _ =  NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillShowNotification,
+            object: nil,
+            queue: nil,
+            using: { [weak self] notification in
+                
+                if let userInfo = notification.userInfo{
+                    if let frame = userInfo[NSString(string: "UIKeyboardFrameEndUserInfoKey")] as? CGRect {
+                        
+                        self?.keyboardShown(frame.origin.y)
+                    }
+                }
+        })
+        
+        let _ =  NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillHideNotification,
+            object: nil,
+            queue: nil,
+            using: { [weak self] notification in
+                self?.keyboardHidden()
+        })
+        
     }
     
 }

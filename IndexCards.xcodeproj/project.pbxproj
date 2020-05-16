@@ -83,9 +83,9 @@
 		1ADD73C7246E10A100A9186A /* stickers */ = {
 			isa = PBXGroup;
 			children = (
-				1ADD73C5246E0F9600A9186A /* Sticker.swift */,
 				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
+				1ADD73C5246E0F9600A9186A /* Sticker.swift */,
 			);
 			path = stickers;
 			sourceTree = "<group>";
