@@ -126,7 +126,7 @@ UITextFieldDelegate {
             toItem: self,
             attribute: .leading,
             multiplier: CGFloat(1),
-            constant: CGFloat(0.1 * bounds.width))
+            constant: CGFloat(0.3 * bounds.width))
         
         let trailing = NSLayoutConstraint(
             item: view,
@@ -135,7 +135,7 @@ UITextFieldDelegate {
             toItem: self,
             attribute: .trailing,
             multiplier: CGFloat(1),
-            constant: CGFloat(-0.1 * bounds.width))
+            constant: CGFloat(-0.3 * bounds.width))
         
         let top = NSLayoutConstraint(
             item: view,
@@ -155,8 +155,8 @@ UITextFieldDelegate {
             multiplier: CGFloat(1),
             constant: CGFloat(-0.1 * bounds.width))
         
-        if let _ = view.superview {
-            self.addConstraints([leading,trailing,top,bottom])
+        if let superView = view.superview {
+            superView.addConstraints([leading,trailing,top,bottom])
         } else {
             print("Error view \(view) doesn't have a superview. Add Constraints after adding the view to the view hierarchy")
         }

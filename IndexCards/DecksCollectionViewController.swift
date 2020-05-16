@@ -96,7 +96,7 @@ class DecksCollectionViewController:
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
             
             if let editVC = storyboard.instantiateViewController(
-                withIdentifier: "EditViewController") as? EditIndexCardViewController{
+                withIdentifier: "StickerViewController") as? StickerEditorViewController{
                 
                 //hand data to the editor
                 editVC.indexCard = chosenCard

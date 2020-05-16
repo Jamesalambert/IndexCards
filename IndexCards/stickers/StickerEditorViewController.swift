@@ -16,10 +16,14 @@ class StickerEditorViewController:
     UIScrollViewDelegate,
     UIImagePickerControllerDelegate,
     UINavigationControllerDelegate,
+    UIGestureRecognizerDelegate,
     UIPopoverPresentationControllerDelegate
 {
     
     //MARK:- Vars
+    var indexCard : IndexCard?
+    var theme : Theme?
+    
     var stickerView = StickerCanvas()
     
     var backgroundImage : UIImage?{
@@ -35,8 +39,7 @@ class StickerEditorViewController:
                 scrollView.contentSize = size
                 
                 //zoom to fit or fill?
-                
-                let fillScale = max(stickerView.frame.size.width / size.width, stickerView.frame.size.height / size.height)
+                let fillScale = max(scrollView.frame.size.width / size.width, scrollView.frame.size.height / size.height)
                 
                 scrollView.minimumZoomScale = fillScale
                 scrollView.maximumZoomScale = 2 * fillScale
@@ -68,9 +71,13 @@ class StickerEditorViewController:
             shapeCollectionView.dragDelegate = self
         }
     }
+    
+    
     @IBOutlet weak var getImageButtons: UIStackView!
     
     @IBOutlet weak var repositionImageText: UIStackView!
+    
+    @IBOutlet weak var toolBar: UIStackView!
     
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet{
@@ -280,7 +287,6 @@ class StickerEditorViewController:
                 dx: CGFloat(0),
                 dy: CGFloat(-1 * shift))
         }
-      
     }
     
     private var distanceToShift : CGFloat?
@@ -297,11 +303,41 @@ class StickerEditorViewController:
     
     //MARK:- UIView
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.white
-        scrollView.layer.cornerRadius = CGFloat(15)
-        scrollView.layer.masksToBounds = true
         
+        
+        //model
+        if let currentCard = indexCard {
+            //TODO: This will probably not display properly!
+            backgroundImage = currentCard.image
+        }
+        
+        
+        
+        //view
         repositionImageText.isHidden = true
+        toolBar.isHidden = true
+        
+        if let currentTheme = theme{
+            
+            let scrollLayer = scrollView.layer
+            
+            //background and corners
+            scrollLayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
+            scrollLayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * scrollLayer.bounds.width
+            scrollLayer.masksToBounds = true
+            
+            //shadow
+//            let path = UIBezierPath(roundedRect: scrollLayer.bounds, cornerRadius: scrollLayer.cornerRadius)
+//
+//            scrollLayer.shadowPath = path.cgPath
+//            scrollLayer.shadowColor = UIColor.black.cgColor
+//            scrollLayer.shadowOffset = CGSize(width: 3, height: 3)
+//            scrollLayer.shadowOpacity = 0.8
+//            scrollLayer.shadowRadius = CGFloat(2.0)
+        }
+        
+        
+        
         
         //register for keyboard notifications
         let _ =  NotificationCenter.default.addObserver(
@@ -326,6 +362,22 @@ class StickerEditorViewController:
                 self?.keyboardHidden()
         })
         
+        //tap to dismiss gesture recognizer
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
     }
     
-}
+    @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
+        
+        if !cardBackgroundView.frame.contains(sender.location(in: view)){
+            
+            if let presentingVC = self.presentingViewController as? DecksCollectionViewController {
+                presentingVC.dismiss(animated: true, completion: nil)
+            }
+        }//if
+    }//func
+    
+}//class

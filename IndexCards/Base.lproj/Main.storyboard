@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dcX-ac-dIB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Et5-KU-r5g">
     <device id="ipad10_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -142,12 +142,12 @@
         <!--Sticker Editor View Controller-->
         <scene sceneID="vMt-Cy-S5A">
             <objects>
-                <viewController id="dcX-ac-dIB" customClass="StickerEditorViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="1PT-KB-bai">
+                <viewController storyboardIdentifier="StickerViewController" id="dcX-ac-dIB" customClass="StickerEditorViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="1PT-KB-bai">
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32h-M0-eTV">
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32h-M0-eTV">
                                 <rect key="frame" x="10" y="173.5" width="814" height="765"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iR3-Ke-bLl">
@@ -274,6 +274,7 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="top" secondItem="32h-M0-eTV" secondAttribute="top" id="EjN-9w-Dfj"/>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="width" secondItem="32h-M0-eTV" secondAttribute="width" id="YkG-ds-Tgb"/>
@@ -283,7 +284,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="32h-M0-eTV" firstAttribute="centerY" secondItem="1PT-KB-bai" secondAttribute="centerY" id="5Rl-iR-G1q"/>
                             <constraint firstItem="32h-M0-eTV" firstAttribute="leading" secondItem="1PT-KB-bai" secondAttribute="leading" constant="10" id="scS-He-I8i"/>
@@ -298,6 +299,7 @@
                         <outlet property="repositionImageText" destination="xdg-e8-euh" id="m1q-Nk-kQL"/>
                         <outlet property="scrollView" destination="RjO-wF-7th" id="NRd-dy-xAK"/>
                         <outlet property="shapeCollectionView" destination="O44-jH-12f" id="BVX-fM-Upe"/>
+                        <outlet property="toolBar" destination="6Tt-bc-LuR" id="2JL-aq-rfZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYV-4j-I6C" userLabel="First Responder" sceneMemberID="firstResponder"/>

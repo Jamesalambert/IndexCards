@@ -71,7 +71,7 @@ class Theme : ThemeDelegateProtocol {
     
     //defaults
     private static let defaultSize = SizeFor(
-        cornerRadiusToBoundsWidth: 0.05,
+        cornerRadiusToBoundsWidth: 0.03,
         indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
