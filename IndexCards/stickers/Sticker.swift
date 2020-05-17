@@ -30,7 +30,6 @@ UITextFieldDelegate {
             textLabel.text = text
             textLabel.sizeToFit()
             self.setNeedsLayout()
-            //self.setNeedsDisplay()
         }
     }
     
@@ -40,6 +39,7 @@ UITextFieldDelegate {
         label.textAlignment = .center
         label.textColor = UIColor.white
         label.font = UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(30)))
+        //label.text = text
         
 //        label.adjustsFontSizeToFitWidth = true
 //        label.minimumScaleFactor = CGFloat(0.3)
@@ -164,5 +164,8 @@ UITextFieldDelegate {
         
     }
     
+    override func willMove(toSuperview newSuperview: UIView?) {
+        textLabel.text = text
+    }
     
 }

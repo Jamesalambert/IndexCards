@@ -46,6 +46,12 @@ class StickerEditorViewController:
         }
     }
     
+    var currentStickerData : [IndexCard.StickerData]? {
+        let stickerDataArray = self.stickerView.subviews.compactMap {$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
+        print("saving: \(stickerDataArray)")
+        return stickerDataArray
+    }
+    
     var theme : Theme?
     var document : IndexCardsDocument?      //for autosaving/undo/redo
     
@@ -75,7 +81,6 @@ class StickerEditorViewController:
                 
                 
                 //Menus!
-                
                 //hide first menu
                 getImageHint.isHidden = true
                 
@@ -211,6 +216,9 @@ class StickerEditorViewController:
         
         //lock image
         scrollView.isScrollEnabled = false
+        
+        //update model
+        indexCard?.image = backgroundImage
         
         //hide hint
         UIView.transition(
@@ -496,11 +504,11 @@ class StickerEditorViewController:
     @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
         
     //store image data
-    indexCard?.thumbnail = stickerView.snapshot
+    indexCard?.thumbnail = scrollView.snapshot
     
     //update model
-    indexCard?.image = currentCardState?.image
-    indexCard?.stickers = currentCardState?.stickers
+    //indexCard?.stickers = currentCardState?.stickers
+    indexCard?.stickers = currentStickerData
         
         if !cardBackgroundView.frame.contains(sender.location(in: view)){
             
@@ -526,7 +534,7 @@ extension StickerCanvas{
         indexCard.stickers?.forEach {
             //create a sticker from the data
             if let newSticker = Sticker(data: $0){
-                
+                print("opening \(newSticker.text)")
                 self.importShape(sticker: newSticker,
                                  atLocation: newSticker.center)
             }
@@ -571,7 +579,6 @@ extension IndexCard.StickerData{
         
         center = sticker.center
         size = sticker.bounds.size
-        //frame = sticker.frame
         text = sticker.text
         rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
     }
