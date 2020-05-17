@@ -502,15 +502,15 @@ class StickerEditorViewController:
     }
     
     @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
-        
-    //store image data
-    indexCard?.thumbnail = scrollView.snapshot
     
-    //update model
-    //indexCard?.stickers = currentCardState?.stickers
-    indexCard?.stickers = currentStickerData
-        
-        if !cardBackgroundView.frame.contains(sender.location(in: view)){
+        if !scrollView.frame.contains(sender.location(in: scrollView)){
+            
+            //store image data
+            indexCard?.thumbnail = scrollView.snapshot
+            
+            //update model
+            //indexCard?.stickers = currentCardState?.stickers
+            indexCard?.stickers = currentStickerData
             
             if let presentingVC = self.presentingViewController as? DecksCollectionViewController {
                 presentingVC.dismiss(animated: true, completion: nil)
