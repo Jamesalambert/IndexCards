@@ -50,7 +50,7 @@ UICollectionViewDelegateFlowLayout
             
             if let currentIndexCard = currentDeck?.cards[indexPath.item]{
                 
-                cell.image = currentIndexCard.image
+                cell.image = currentIndexCard.thumbnail
                  return cell
             }
         }
