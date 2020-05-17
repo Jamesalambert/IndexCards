@@ -42,6 +42,8 @@ class Theme : ThemeDelegateProtocol {
             return Theme.themes[chosenTheme].time.editCardZoom
         case .tapDeckTurn:
             return Theme.themes[chosenTheme].time.tapDeckTurn
+        case .showMenu:
+            return Theme.themes[chosenTheme].time.showMenu
         }
     }
     
@@ -75,8 +77,9 @@ class Theme : ThemeDelegateProtocol {
         indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
-        editCardZoom: 2.0,
-        tapDeckTurn: 0.2)
+        editCardZoom: 0.2,
+        tapDeckTurn: 0.2,
+        showMenu: 0.2)
 }
 
 
@@ -111,6 +114,7 @@ enum Shape {
 enum Animation{
     case editCardZoom
     case tapDeckTurn
+    case showMenu
 }
 
 
@@ -137,6 +141,7 @@ private struct ColorFor {
 private struct TimeFor {
     let editCardZoom : Double
     let tapDeckTurn : Double
+    let showMenu : Double
 }
 
 private struct SizeFor {

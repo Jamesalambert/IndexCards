@@ -162,20 +162,58 @@ class IndexCard : Hashable, Codable {
     
     var imageData : Data?
     var image : UIImage? {
+        get{
         if let storedData = imageData {
             return UIImage(data: storedData)
         }
        return nil
+        }
+        set{
+            if let data = newValue?.pngData(){
+                imageData = data
+            }
+        }
     }
-    var frontText : String?
-    var backText  : String?
-    var title     : String?
+    
+
+    var thumbnailData : Data?
+    var thumbnail : UIImage?{
+        get{
+            if let storedData = thumbnailData {
+                return UIImage(data: storedData)
+            }
+            return nil
+        }
+        set{
+            if let data = newValue?.pngData(){
+                thumbnailData = data
+            }
+        }
+    }
+    
+    var stickers : [StickerData]?
+    
+    //holds locations and types of stickers
+    struct StickerData : Codable{
+        var typeOfShape : String
+        var center : CGPoint
+        var size : CGSize
+        //var frame : CGRect
+        var text : String
+        var rotation : Double
+    }
     
     
+    // init()
     init(){
         self.identifier = IndexCard.getIdentifier()
     }
     
+    init(stickers : [StickerData] ){
+        //self.imageData = image?.pngData()
+        self.stickers = stickers
+        self.identifier = IndexCard.getIdentifier()
+    }
     
     //Struct vars/funcs
     private static var identifier = 0

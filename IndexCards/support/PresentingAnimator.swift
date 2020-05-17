@@ -45,6 +45,8 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 indexCardVC.doneButton.alpha = 0
             }
             
+
+            
             //add the new view!
             transitionContext.containerView.addSubview(destination.view)
             
@@ -67,8 +69,24 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                         indexCardVC.takePhotoButton.alpha = 1
                         indexCardVC.doneButton.alpha = 1
                     }
+                    
+                    
             },
-                completion: {success in transitionContext.completeTransition(success)})
+                completion: {success in
+                    
+                    
+                    UIView.animate(
+                        withDuration: self.duration,
+                        animations: {
+                            //or toolbars/hints
+                            if let indexCardVC = destination as? StickerEditorViewController{
+                                indexCardVC.viewsToReveal.forEach { (view) in
+                                    view.isHidden = false
+                                }
+                            }
+                    })
+            
+                    transitionContext.completeTransition(success)})
             
         }//if let
     }//func

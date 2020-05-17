@@ -53,8 +53,15 @@ UIGestureRecognizerDelegate
     }
     
     //MARK:- shape handling
+    //importing a shape during init
+    func importShape(sticker : Sticker, atLocation dropPoint : CGPoint){
+        addStickerGestureRecognizers(to: sticker)
+        self.addSubview(sticker)
+    }
     
-    private func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint){
+    
+    //adding a dropped shape
+    func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint){
         
         let newShape = Sticker()
         

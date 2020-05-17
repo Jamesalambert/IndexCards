@@ -12,12 +12,12 @@ class Sticker:
 UIView,
 UITextFieldDelegate {
 
-    enum Shape {
+    enum StickerShape {
         case Circle
         case RoundRect
     }
     
-    var currentShape = Shape.RoundRect
+    var currentShape : StickerShape = .RoundRect
     
     private var scale = CGFloat(0.8)
     
@@ -90,7 +90,8 @@ UITextFieldDelegate {
     override func draw(_ rect: CGRect) {
         
         UIColor.blue.withAlphaComponent(CGFloat(0.8)).setFill()
-
+        
+        
         switch currentShape {
         case .Circle:
             
@@ -163,5 +164,5 @@ UITextFieldDelegate {
         
     }
     
-
+    
 }

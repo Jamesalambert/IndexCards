@@ -21,10 +21,35 @@ class StickerEditorViewController:
 {
     
     //MARK:- Vars
-    var indexCard : IndexCard?
-    var theme : Theme?
+    //var indexCardFromModel : IndexCard?
     
-    var stickerView = StickerCanvas()
+    var indexCard : IndexCard?{
+        didSet{
+            if let newCard = indexCard,
+                let newCanvas = StickerCanvas(indexCard: newCard){
+                stickerView = newCanvas
+            }
+        }
+    }
+    
+    var currentCardState : IndexCard? {
+        get{
+            let stickerDataArray = self.stickerView.subviews.compactMap {$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
+            
+            let card = IndexCard(stickers: stickerDataArray)
+            
+            if let image = backgroundImage{
+                card.image = image
+            }
+            
+            return card
+        }
+    }
+    
+    var theme : Theme?
+    var document : IndexCardsDocument?      //for autosaving/undo/redo
+    
+    var stickerView = StickerCanvas()       //holds the stickers
     
     var backgroundImage : UIImage?{
         didSet{
@@ -48,24 +73,54 @@ class StickerEditorViewController:
                 //set image
                 stickerView.backgroundImage = image
                 
-                //hide buttons
-                getImageButtons.alpha = 0.0
                 
-                //show instructions
-                repositionImageText.isHidden = false
+                //Menus!
+                
+                //hide first menu
+                getImageHint.isHidden = true
+                
+                //show next menu
+                //set-up
+                repositionImageHint.alpha = 0.0
+                repositionImageHint.isHidden = true
+
+                //animate
+                UIView.transition(
+                    with: repositionImageHint,
+                    duration: theme?.timeOf(.showMenu) ?? 2.0,
+                    options: .curveEaseInOut,
+                    animations: {
+                        self.repositionImageHint.alpha = 1.0
+                        self.repositionImageHint.isHidden = false
+                        self.repositionImageHint.layoutIfNeeded()
+                },
+                    completion: nil)
                 
             } else {
-                getImageButtons.alpha = 1
+                getImageHint.alpha = 1
                 scrollView.isScrollEnabled = true
             }
         }
     }
+
+    lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView, getImageHint]}()
     
+    var viewsToReveal : [UIView] = []{
+        didSet{
+            viewsToReveal.forEach {$0.isHidden = true}
+        }
+    }
+
     
     //MARK:- Outlets
-    @IBOutlet weak var colorsCollectionView: UICollectionView!
+    @IBOutlet weak var colorsCollectionView: UICollectionView!{
+        didSet{
+            colorsCollectionView.isHidden = true
+        }
+    }
     @IBOutlet weak var shapeCollectionView: UICollectionView!{
         didSet{
+            shapeCollectionView.isHidden = true
             shapeCollectionView.delegate = self
             shapeCollectionView.dataSource = self
             shapeCollectionView.dragDelegate = self
@@ -73,11 +128,32 @@ class StickerEditorViewController:
     }
     
     
-    @IBOutlet weak var getImageButtons: UIStackView!
+    @IBOutlet weak var hintBarBackgroundView: UIView!{
+        didSet{
+            if let theme = theme {
+                hintBarBackgroundView.isHidden = true
+                hintBarBackgroundView.layer.backgroundColor = theme.colorOf(.card2).cgColor
+                hintBarBackgroundView.layer.cornerRadius = theme.sizeOf(.cornerRadiusToBoundsWidth) * hintBarBackgroundView.bounds.width
+            }
+        }
+    }
     
-    @IBOutlet weak var repositionImageText: UIStackView!
+    //MARK: menus
+    @IBOutlet weak var getImageHint: UIStackView!{
+        didSet{
+            getImageHint.isHidden = true
+        }
+    }
+    @IBOutlet weak var repositionImageHint: UIStackView!{
+        didSet{
+            repositionImageHint.isHidden = true
+        }
+    }
     
-    @IBOutlet weak var toolBar: UIStackView!
+    
+    @IBOutlet weak var toolBarView: UIView!
+    
+    @IBOutlet weak var toolBarStackView: UIStackView!
     
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet{
@@ -120,7 +196,7 @@ class StickerEditorViewController:
             imagePicker.modalPresentationStyle = .popover
             
             if let popoverController = imagePicker.popoverPresentationController {
-                popoverController.sourceView = getImageButtons
+                popoverController.sourceView = getImageHint
                 
                 present(imagePicker, animated: true, completion: nil)
             }
@@ -132,9 +208,40 @@ class StickerEditorViewController:
     
     
     @IBAction func finishedRepositioningImage() {
+        
+        //lock image
         scrollView.isScrollEnabled = false
-        repositionImageText.isHidden = true
-    }
+        
+        //hide hint
+        UIView.transition(
+            with: view,
+            duration: theme?.timeOf(.showMenu) ?? 2.0,
+            options: .curveEaseInOut,
+            animations: {
+                self.repositionImageHint.isHidden = true
+                
+                self.shapeCollectionView.isHidden = false
+                self.colorsCollectionView.isHidden = false
+                self.toolBarView.isHidden = false
+                
+                self.view.layoutIfNeeded()
+            },
+            completion: nil)
+        
+        //show toolbar items
+        
+//        UIView.transition(
+//            with: self.toolBarView,
+//            duration: 1.0,
+//            options: .curveEaseInOut,
+//            animations: {
+//
+//                //self.toolBarView.isHidden = false
+//                self.toolBarView.layoutIfNeeded()
+//        },
+//            completion: nil)
+        
+    }//func
     
     
     //MARK:- UIImagePicker
@@ -304,18 +411,34 @@ class StickerEditorViewController:
     //MARK:- UIView
     override func viewDidLoad() {
         
-        
         //model
-        if let currentCard = indexCard {
-            //TODO: This will probably not display properly!
-            backgroundImage = currentCard.image
+//        if let currentImage = indexCard?.image {
+//            //TODO: This will probably not display properly!
+//            backgroundImage = currentImage
+//            scrollView.isScrollEnabled = false
+//        }
+        
+        //view
+        
+        //all toolbars/hints are hidden in ther didSets.
+        //hide or show depending on whether a background image is set
+        
+        //if we got inited with data then set the background image.
+        if let background = stickerView.backgroundImage {
+            backgroundImage = background
+            scrollView.isScrollEnabled = false
         }
         
         
+        if let _ = backgroundImage {
+            //should fade in
+            viewsToReveal += [toolBarView, shapeCollectionView, colorsCollectionView]
+        }else{
+            //should fade in
+            viewsToReveal += [hintBarBackgroundView, getImageHint]
+        }
         
-        //view
-        repositionImageText.isHidden = true
-        toolBar.isHidden = true
+        
         
         if let currentTheme = theme{
             
@@ -372,6 +495,13 @@ class StickerEditorViewController:
     
     @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
         
+    //store image data
+    indexCard?.thumbnail = stickerView.snapshot
+    
+    //update model
+    indexCard?.image = currentCardState?.image
+    indexCard?.stickers = currentCardState?.stickers
+        
         if !cardBackgroundView.frame.contains(sender.location(in: view)){
             
             if let presentingVC = self.presentingViewController as? DecksCollectionViewController {
@@ -379,5 +509,70 @@ class StickerEditorViewController:
             }
         }//if
     }//func
+
+    
     
 }//class
+
+extension StickerCanvas{
+    
+    convenience init?(indexCard : IndexCard){
+        self.init()
+        
+        //background
+        backgroundImage = indexCard.image
+        
+        //stickers
+        indexCard.stickers?.forEach {
+            //create a sticker from the data
+            if let newSticker = Sticker(data: $0){
+                
+                self.importShape(sticker: newSticker,
+                                 atLocation: newSticker.center)
+            }
+        }
+    }
+}
+
+extension Sticker{
+    
+    convenience init?(data : IndexCard.StickerData ){
+        self.init()
+        
+        //let newSticker = Sticker()
+        
+        switch data.typeOfShape {
+        case "Circle":
+             self.currentShape = .Circle
+        case "RouncRect":
+             self.currentShape = .RoundRect
+        default:
+            self.currentShape = .RoundRect
+        }
+        
+        self.text = data.text
+        self.center = data.center
+        self.bounds.size = data.size
+        self.backgroundColor = UIColor.clear
+        self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+    }
+}
+
+extension IndexCard.StickerData{
+    
+    init?(sticker : Sticker){
+        
+        switch sticker.currentShape {
+        case .Circle:
+            typeOfShape = "Circle"
+        case .RoundRect:
+            typeOfShape = "RoundRect"
+        }
+        
+        center = sticker.center
+        size = sticker.bounds.size
+        //frame = sticker.frame
+        text = sticker.text
+        rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
+    }
+}

@@ -233,7 +233,7 @@ UITextViewDelegate{
         doneButton.isHidden = true
         
         //update model
-        indexCard?.frontText = textView.text
+        //indexCard?.frontText = textView.text
     }
     
     //MARK:- UIScrollViewDelegate
@@ -309,7 +309,7 @@ UITextViewDelegate{
             
             //read from model
             imageView.image = currentCard.image
-            frontTextView.attributedText? = currentCard.frontText?.attributedText() ?? "".attributedText()
+            //frontTextView.attributedText? = currentCard.frontText?.attributedText() ?? "".attributedText()
         }
         
         

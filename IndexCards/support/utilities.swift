@@ -43,3 +43,13 @@ extension CGRect{
                 height: newHeight))
     }
 }
+
+extension UIView{
+    var snapshot : UIImage?{
+        UIGraphicsBeginImageContext(bounds.size)
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}

@@ -13,12 +13,6 @@ class IndexCardViewCell: UICollectionViewCell {
     var theme : Theme?
     var delegate : IndexCardsCollectionViewController?
     
-    var frontText : String?{
-        didSet{
-        frontTextView.text = frontText
-        }
-    }
-    
     var image : UIImage?{
         didSet{
             imageView.image = image
@@ -26,8 +20,6 @@ class IndexCardViewCell: UICollectionViewCell {
     }
     
     @IBOutlet weak var imageView: UIImageView!
-    
-    @IBOutlet weak var frontTextView: UILabel!
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
