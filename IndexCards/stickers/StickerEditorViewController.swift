@@ -23,50 +23,33 @@ class StickerEditorViewController:
     //MARK:- Vars
     //var indexCardFromModel : IndexCard?
     
-    var indexCard : IndexCard?{
-        didSet{
-            if let newCard = indexCard,
-                let newCanvas = StickerCanvas(indexCard: newCard){
-                stickerView = newCanvas
-            }
-        }
-    }
-    
-    var currentCardState : IndexCard? {
-        get{
-            let stickerDataArray = self.stickerView.subviews.compactMap {$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
-            
-            let card = IndexCard(stickers: stickerDataArray)
-            
-            if let image = backgroundImage{
-                card.image = image
-            }
-            
-            return card
-        }
-    }
-    
-    var currentStickerData : [IndexCard.StickerData]? {
-        let stickerDataArray = self.stickerView.subviews.compactMap {$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
-        print("saving: \(stickerDataArray)")
-        return stickerDataArray
-    }
+    var indexCard : IndexCard?
+
+//    var currentStickerData : [IndexCard.StickerData]? {
+//
+//        let stickerDataArray = self.stickerView?.subviews.compactMap{$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
+//
+//            return stickerDataArray
+//    }
     
     var theme : Theme?
-    var document : IndexCardsDocument?      //for autosaving/undo/redo
+    //TODO: - undo redo etc
+    var document : IndexCardsDocument?
     
-    var stickerView = StickerCanvas()       //holds the stickers
+
+   
     
-    var backgroundImage : UIImage?{
+    private var backgroundImage : UIImage?{
         didSet{
-            if let image = backgroundImage {
+            if let image = backgroundImage{
+                
+                //set image
+                stickerView.backgroundImage = image
+                //print(stickerView.frame)
+                
+                //scrollView.backgroundImage = image
                 
                 let size = image.size
-                
-                stickerView.frame = CGRect(
-                    origin: stickerView.frame.origin,
-                    size: size)
-                
                 scrollView.contentSize = size
                 
                 //zoom to fit or fill?
@@ -75,10 +58,6 @@ class StickerEditorViewController:
                 scrollView.minimumZoomScale = fillScale
                 scrollView.maximumZoomScale = 2 * fillScale
                 scrollView.setZoomScale(fillScale, animated: true)
-                
-                //set image
-                stickerView.backgroundImage = image
-                
                 
                 //Menus!
                 //hide first menu
@@ -108,6 +87,7 @@ class StickerEditorViewController:
         }
     }
 
+    //accessed by the presenting animator
     lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView, getImageHint]}()
     
     var viewsToReveal : [UIView] = []{
@@ -156,17 +136,35 @@ class StickerEditorViewController:
     }
     
     
-    @IBOutlet weak var toolBarView: UIView!
+    @IBOutlet weak var toolBarView: UIView!{
+        didSet{
+            toolBarView.isHidden = true
+        }
+    }
     
     @IBOutlet weak var toolBarStackView: UIStackView!
     
-    @IBOutlet weak var scrollView: UIScrollView! {
+    @IBOutlet weak var scrollView: CropView! {
         didSet{
             scrollView.delegate = self
             scrollView.canCancelContentTouches = false
-            scrollView.addSubview(stickerView)
+            
+            if let image = indexCard?.image{
+                scrollView.backgroundImage = image
+            }
+            
         }
     }
+    
+    
+    @IBOutlet weak var stickerView: StickerCanvas!{
+        didSet{
+            if let indexCard = indexCard{
+                stickerView.stickerData = indexCard.stickers
+            }
+        }
+    }
+    
     
     @IBOutlet weak var cardBackgroundView: UIView!
     
@@ -210,6 +208,29 @@ class StickerEditorViewController:
         }
     }
     
+    //helper func
+    private func crop(image : UIImage, with scrollView : UIScrollView) -> UIImage?{
+        
+        //calculate rect
+        let cropOrigin = CGPoint(
+            x: scrollView.contentOffset.x,
+            y: scrollView.contentOffset.y)
+        
+        let cropSize = CGSize(
+            width: scrollView.bounds.width / scrollView.zoomScale,
+            height: scrollView.bounds.height / scrollView.zoomScale)
+        
+        let cropRect = CGRect(
+                origin: cropOrigin,
+                size: cropSize)
+        
+        guard let output = image.cgImage?.cropping(to: cropRect)
+        else {
+            return nil
+        }
+        
+        return UIImage(cgImage: output)
+    }
     
     
     @IBAction func finishedRepositioningImage() {
@@ -217,8 +238,13 @@ class StickerEditorViewController:
         //lock image
         scrollView.isScrollEnabled = false
         
+        let chosenCrop = crop(image: backgroundImage!, with: scrollView)
+        scrollView.backgroundImage = chosenCrop
+        stickerView.backgroundImage = nil
+        
         //update model
-        indexCard?.image = backgroundImage
+        indexCard?.image = chosenCrop
+        
         
         //hide hint
         UIView.transition(
@@ -236,19 +262,6 @@ class StickerEditorViewController:
             },
             completion: nil)
         
-        //show toolbar items
-        
-//        UIView.transition(
-//            with: self.toolBarView,
-//            duration: 1.0,
-//            options: .curveEaseInOut,
-//            animations: {
-//
-//                //self.toolBarView.isHidden = false
-//                self.toolBarView.layoutIfNeeded()
-//        },
-//            completion: nil)
-        
     }//func
     
     
@@ -258,27 +271,23 @@ class StickerEditorViewController:
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         switch picker.sourceType {
         case .camera:
             
             if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
-                
                 backgroundImage = photo
-                
             }
         case .photoLibrary:
             if let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
-                
                 backgroundImage = chosenImage
-                
             }
         default: print("unknown sourceType: \(picker.sourceType)")
         }
         
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
-        
     }
     
     
@@ -289,7 +298,6 @@ class StickerEditorViewController:
     
     
     //MARK:- UICollectionViewDataSource
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
@@ -372,7 +380,7 @@ class StickerEditorViewController:
     //MARK:- keyboard handling
     
     private var currentSticker : Sticker? {
-        if let sticker =  stickerView.currentTextField?.superview as? Sticker {
+        if let sticker = stickerView.currentTextField?.superview as? Sticker {
             return sticker
         }
         return nil
@@ -419,26 +427,19 @@ class StickerEditorViewController:
     //MARK:- UIView
     override func viewDidLoad() {
         
-        //model
-//        if let currentImage = indexCard?.image {
-//            //TODO: This will probably not display properly!
-//            backgroundImage = currentImage
-//            scrollView.isScrollEnabled = false
-//        }
         
         //view
         
         //all toolbars/hints are hidden in ther didSets.
         //hide or show depending on whether a background image is set
         
-        //if we got inited with data then set the background image.
-        if let background = stickerView.backgroundImage {
-            backgroundImage = background
+        //if we got inited with data then prevent scrolling
+        if let _ = scrollView.backgroundImage {
             scrollView.isScrollEnabled = false
         }
         
         
-        if let _ = backgroundImage {
+        if let _ = scrollView.backgroundImage {
             //should fade in
             viewsToReveal += [toolBarView, shapeCollectionView, colorsCollectionView]
         }else{
@@ -509,8 +510,8 @@ class StickerEditorViewController:
             indexCard?.thumbnail = scrollView.snapshot
             
             //update model
-            //indexCard?.stickers = currentCardState?.stickers
-            indexCard?.stickers = currentStickerData
+            indexCard?.stickers = stickerView.stickerData
+            document?.updateChangeCount(.done)
             
             if let presentingVC = self.presentingViewController as? DecksCollectionViewController {
                 presentingVC.dismiss(animated: true, completion: nil)
@@ -534,37 +535,14 @@ extension StickerCanvas{
         indexCard.stickers?.forEach {
             //create a sticker from the data
             if let newSticker = Sticker(data: $0){
-                print("opening \(newSticker.text)")
-                self.importShape(sticker: newSticker,
-                                 atLocation: newSticker.center)
+
+                self.importShape(sticker: newSticker)
             }
         }
     }
 }
 
-extension Sticker{
-    
-    convenience init?(data : IndexCard.StickerData ){
-        self.init()
-        
-        //let newSticker = Sticker()
-        
-        switch data.typeOfShape {
-        case "Circle":
-             self.currentShape = .Circle
-        case "RouncRect":
-             self.currentShape = .RoundRect
-        default:
-            self.currentShape = .RoundRect
-        }
-        
-        self.text = data.text
-        self.center = data.center
-        self.bounds.size = data.size
-        self.backgroundColor = UIColor.clear
-        self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
-    }
-}
+
 
 extension IndexCard.StickerData{
     

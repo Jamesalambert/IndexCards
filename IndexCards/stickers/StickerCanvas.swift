@@ -17,9 +17,33 @@ UIGestureRecognizerDelegate
 
     var backgroundImage : UIImage?{
         didSet{
-            self.setNeedsDisplay()
+            if let image = backgroundImage{
+                frame.size = image.size
+                self.setNeedsDisplay()
+            }
         }
     }
+    
+    var stickerData : [IndexCard.StickerData]?{
+        get {
+            
+            let stickerDataArray = subviews.compactMap{$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
+            
+            return stickerDataArray
+        }
+        set{
+            
+            //array of sticker data structs
+            newValue?.forEach {
+                //create a sticker from the data
+                if let newSticker = Sticker(data: $0){
+                    importShape(sticker: newSticker)
+                }
+            }
+        }
+    }
+    
+    
     
     //MARK: - UIDropInteractionDelegate
     func dropInteraction(_ interaction: UIDropInteraction,
@@ -54,7 +78,7 @@ UIGestureRecognizerDelegate
     
     //MARK:- shape handling
     //importing a shape during init
-    func importShape(sticker : Sticker, atLocation dropPoint : CGPoint){
+    func importShape(sticker : Sticker){
         addStickerGestureRecognizers(to: sticker)
         self.addSubview(sticker)
     }
@@ -159,7 +183,9 @@ UIGestureRecognizerDelegate
     }
     
     private func setup(){
-        self.addInteraction(UIDropInteraction(delegate: self))   
+        self.addInteraction(UIDropInteraction(delegate: self))
+        self.backgroundColor = UIColor.clear
+        self.isOpaque = false
     }
     
     
@@ -171,4 +197,27 @@ UIGestureRecognizerDelegate
         
     }
     
+}//class
+
+
+extension Sticker{
+    
+    convenience init?(data : IndexCard.StickerData ){
+        self.init()
+        
+        switch data.typeOfShape {
+        case "Circle":
+            self.currentShape = .Circle
+        case "RouncRect":
+            self.currentShape = .RoundRect
+        default:
+            self.currentShape = .RoundRect
+        }
+        
+        self.text = data.text
+        self.center = data.center
+        self.bounds.size = data.size
+        self.backgroundColor = UIColor.clear
+        self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+    }
 }

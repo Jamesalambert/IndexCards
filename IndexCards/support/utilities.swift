@@ -52,4 +52,59 @@ extension UIView{
         UIGraphicsEndImageContext()
         return image
     }
+    
+    
+    func centerInSuperview(){
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leading = NSLayoutConstraint(
+            item: self,
+            attribute: .leading,
+            relatedBy: .equal,
+            toItem: self.superview,
+            attribute: .leading,
+            multiplier: CGFloat(1),
+            constant: CGFloat(0.3 * bounds.width))
+        
+        let trailing = NSLayoutConstraint(
+            item: self,
+            attribute: .trailing,
+            relatedBy: .equal,
+            toItem: self.superview,
+            attribute: .trailing,
+            multiplier: CGFloat(1),
+            constant: CGFloat(-0.3 * bounds.width))
+        
+        let top = NSLayoutConstraint(
+            item: self,
+            attribute: .top,
+            relatedBy: .equal,
+            toItem: self.superview,
+            attribute: .top,
+            multiplier: CGFloat(1),
+            constant: CGFloat(0.1 * bounds.width))
+        
+        let bottom = NSLayoutConstraint(
+            item: self,
+            attribute: .bottom,
+            relatedBy: .equal,
+            toItem: self.superview,
+            attribute: .bottom,
+            multiplier: CGFloat(1),
+            constant: CGFloat(-0.1 * bounds.width))
+        
+        if let sV = self.superview {
+            sV.addConstraints([leading,trailing,top,bottom])
+        } else {
+            print("Error view \(self) doesn't have a superview. Add Constraints after adding the view to the view hierarchy")
+        }
+        
+    }
+    
+    
+    
+    
 }
+
+

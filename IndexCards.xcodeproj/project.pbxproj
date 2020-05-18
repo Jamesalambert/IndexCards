@@ -14,6 +14,7 @@
 		1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */; };
 		1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */; };
 		1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */; };
+		1A923B092472F49200B4D75B /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A923B082472F49200B4D75B /* CropView.swift */; };
 		1AA8352324689928009D82E9 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8352224689928009D82E9 /* Document.swift */; };
 		1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */; };
 		1ADD73C2246E041D00A9186A /* StickerCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C1246E041D00A9186A /* StickerCanvas.swift */; };
@@ -39,6 +40,7 @@
 		1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexCardsCollectionViewController.swift; sourceTree = "<group>"; };
 		1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsCell.swift; sourceTree = "<group>"; };
 		1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEditorViewController.swift; sourceTree = "<group>"; };
+		1A923B082472F49200B4D75B /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		1AA8352224689928009D82E9 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
 		1ADD73C1246E041D00A9186A /* StickerCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvas.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		1AFD9610245CDEB60092CF99 /* support */ = {
 			isa = PBXGroup;
 			children = (
+				1A923B082472F49200B4D75B /* CropView.swift */,
 				1AA8352224689928009D82E9 /* Document.swift */,
 				1A26B98D24621DA7000732CB /* ThemeClass.swift */,
 				1AEDB8482460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift */,
@@ -214,6 +217,7 @@
 				1AF357292467502C00F5D464 /* AddCardCell.swift in Sources */,
 				1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */,
 				1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */,
+				1A923B092472F49200B4D75B /* CropView.swift in Sources */,
 				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
 				1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */,
 				1AEDB8492460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift in Sources */,
