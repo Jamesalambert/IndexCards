@@ -24,20 +24,13 @@ class StickerEditorViewController:
     //var indexCardFromModel : IndexCard?
     
     var indexCard : IndexCard?
-
-//    var currentStickerData : [IndexCard.StickerData]? {
-//
-//        let stickerDataArray = self.stickerView?.subviews.compactMap{$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
-//
-//            return stickerDataArray
-//    }
     
     var theme : Theme?
+    
     //TODO: - undo redo etc
     var document : IndexCardsDocument?
     
 
-   
     
     private var backgroundImage : UIImage?{
         didSet{
@@ -432,8 +425,6 @@ class StickerEditorViewController:
     
     //MARK:- UIView
     override func viewDidLoad() {
-        
-        
         //view
         
         //all toolbars/hints are hidden in ther didSets.
