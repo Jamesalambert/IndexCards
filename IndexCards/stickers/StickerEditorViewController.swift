@@ -45,9 +45,6 @@ class StickerEditorViewController:
                 
                 //set image
                 stickerView.backgroundImage = image
-                //print(stickerView.frame)
-                
-                //scrollView.backgroundImage = image
                 
                 let size = image.size
                 scrollView.contentSize = size
@@ -211,14 +208,15 @@ class StickerEditorViewController:
     //helper func
     private func crop(image : UIImage, with scrollView : UIScrollView) -> UIImage?{
         
-        //calculate rect
+        let scale = scrollView.zoomScale
+        
         let cropOrigin = CGPoint(
-            x: scrollView.contentOffset.x,
-            y: scrollView.contentOffset.y)
+            x: scrollView.contentOffset.x / scale ,
+            y: scrollView.contentOffset.y / scale)
         
         let cropSize = CGSize(
-            width: scrollView.bounds.width / scrollView.zoomScale,
-            height: scrollView.bounds.height / scrollView.zoomScale)
+            width: scrollView.bounds.width / scale,
+            height: scrollView.bounds.height / scale)
         
         let cropRect = CGRect(
                 origin: cropOrigin,
@@ -234,13 +232,20 @@ class StickerEditorViewController:
     
     
     @IBAction func finishedRepositioningImage() {
+    
+        //crop function needs the content offset and zoomScale
+        let chosenCrop = crop(image: backgroundImage!, with: scrollView)
+        scrollView.backgroundImage = chosenCrop
+        
+        stickerView.backgroundImage = nil
+        stickerView.setNeedsDisplay()
         
         //lock image
         scrollView.isScrollEnabled = false
         
-        let chosenCrop = crop(image: backgroundImage!, with: scrollView)
-        scrollView.backgroundImage = chosenCrop
-        stickerView.backgroundImage = nil
+        //restore contet offsets and scale??
+        scrollView.setZoomScale(CGFloat(1), animated: false)
+        scrollView.setContentOffset(CGPoint.zero, animated: false)
         
         //update model
         indexCard?.image = chosenCrop
@@ -293,6 +298,7 @@ class StickerEditorViewController:
     
     //MARK:- UIScrollViewDelegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        
         return stickerView
     }
     

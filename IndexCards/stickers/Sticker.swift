@@ -19,11 +19,12 @@ UITextFieldDelegate {
     
     var currentShape : StickerShape = .RoundRect
     
-    private var scale = CGFloat(0.8)
     
-    lazy var textField : UITextField = {
-       return makeTextField()
-    }()
+    var textField : UITextField {
+        get{
+            return makeTextField()
+        }
+    }
     
     var text = "" {
         didSet{
@@ -33,13 +34,18 @@ UITextFieldDelegate {
         }
     }
     
-    lazy var textLabel : UILabel = {
+    private var scale = CGFloat(0.8)
+    
+    private var font : UIFont = {
+        return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(30)))
+    }()
+    
+    private lazy var textLabel : UILabel = {
        let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.font = UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(30)))
-        //label.text = text
+        label.font = font
         
 //        label.adjustsFontSizeToFitWidth = true
 //        label.minimumScaleFactor = CGFloat(0.3)
@@ -78,10 +84,13 @@ UITextFieldDelegate {
         let view = UITextField(frame: bounds.zoom(by: CGFloat(0.8)))
         view.delegate = self
         view.placeholder = "..."
+        view.textColor = UIColor.white
+        view.text = text
         
         //always add constraints to the enclosing view after adding views into the view hierarchy.
         self.addSubview(view)
         centerInThisView(view: view)
+        view.becomeFirstResponder()
         return view
     }
     

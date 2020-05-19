@@ -111,51 +111,65 @@ UIGestureRecognizerDelegate
     }
     
     
-    private func addStickerGestureRecognizers(to view : Sticker){
+    private func addStickerGestureRecognizers(to sticker : Sticker){
         
-        view.isUserInteractionEnabled = true
+        sticker.isUserInteractionEnabled = true
 
         let pan = UIPanGestureRecognizer(
             target: self, action: #selector(panning(_:)))
         pan.maximumNumberOfTouches = 1
         pan.delegate = self
-        view.addGestureRecognizer(pan)
+        sticker.addGestureRecognizer(pan)
 
         let zoom = UIPinchGestureRecognizer(
             target: self,
             action: #selector(zooming(_:)))
         zoom.delegate = self
-        view.addGestureRecognizer(zoom)
+        sticker.addGestureRecognizer(zoom)
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        doubleTap.numberOfTouchesRequired = 1
+        doubleTap.delegate = self
+        sticker.addGestureRecognizer(doubleTap)
         
     }
     
     
-    @objc func panning(_ sender : UIPanGestureRecognizer){
-        switch sender.state {
+    @objc func panning(_ gesture : UIPanGestureRecognizer){
+        switch gesture.state {
         case .changed:
             
-            if let oldPosition = sender.view?.center{
-                let newPosition = oldPosition.offsetBy(dx: sender.translation(in: sender.view).x, dy: sender.translation(in: sender.view).y)
+            if let oldPosition = gesture.view?.center{
+                let newPosition = oldPosition.offsetBy(dx: gesture.translation(in: gesture.view).x, dy: gesture.translation(in: gesture.view).y)
                     
-                    sender.view?.center = newPosition
-                    sender.setTranslation(CGPoint.zero, in: sender.view)
+                    gesture.view?.center = newPosition
+                    gesture.setTranslation(CGPoint.zero, in: gesture.view)
             }
         default:
             return
         }
     }
     
-    @objc func zooming(_ sender: UIPinchGestureRecognizer){
-        switch sender.state {
+    @objc func zooming(_ gesture: UIPinchGestureRecognizer){
+        switch gesture.state {
         case .changed:
         
-            if let currentFrame = sender.view?.frame {
-                let newFrame = currentFrame.zoom(by: sender.scale)
-                sender.view?.frame = newFrame
-                sender.scale = CGFloat(1)
+            if let currentFrame = gesture.view?.frame {
+                let newFrame = currentFrame.zoom(by: gesture.scale)
+                gesture.view?.frame = newFrame
+                gesture.scale = CGFloat(1)
             }
         default:
             return
+        }
+    }
+    
+    @objc func doubleTap(_ gesture : UITapGestureRecognizer){
+        if let sticker = gesture.view as? Sticker {
+            
+            currentTextField = sticker.textField
+            
         }
     }
     
