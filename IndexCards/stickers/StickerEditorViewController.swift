@@ -21,16 +21,12 @@ class StickerEditorViewController:
 {
     
     //MARK:- Vars
-    //var indexCardFromModel : IndexCard?
-    
     var indexCard : IndexCard?
     
     var theme : Theme?
     
     //TODO: - undo redo etc
     var document : IndexCardsDocument?
-    
-
     
     private var backgroundImage : UIImage?{
         didSet{
