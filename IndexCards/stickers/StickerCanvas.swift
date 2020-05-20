@@ -17,10 +17,7 @@ UIGestureRecognizerDelegate
 
     var backgroundImage : UIImage?{
         didSet{
-            if let image = backgroundImage{
-                frame.size = image.size
-                self.setNeedsDisplay()
-            }
+            self.setNeedsDisplay()
         }
     }
     
@@ -97,9 +94,10 @@ UIGestureRecognizerDelegate
         default:
             newShape.currentShape = .RoundRect
         }
-        
+        print("frame: \(frame)")
+        print(dropPoint)
         newShape.center = dropPoint
-        newShape.frame.size = CGSize(width: 100, height: 100)
+        newShape.bounds.size = CGSize(width: 150, height: 150)
         newShape.backgroundColor = UIColor.clear
         
         addStickerGestureRecognizers(to: newShape)
@@ -108,6 +106,8 @@ UIGestureRecognizerDelegate
     
         currentTextField = newShape.textField
         newShape.textField.becomeFirstResponder()
+        
+        self.setNeedsDisplay()
     }
     
     
@@ -198,8 +198,9 @@ UIGestureRecognizerDelegate
     
     private func setup(){
         self.addInteraction(UIDropInteraction(delegate: self))
-        self.backgroundColor = UIColor.clear
-        self.isOpaque = false
+        self.backgroundColor = UIColor.red
+        self.isOpaque = true
+        self.clipsToBounds = false
     }
     
     

@@ -54,7 +54,7 @@ extension UIView{
     }
     
     
-    func centerInSuperview(){
+    func pinToSuperviewEdges(insetMultipliers : UIEdgeInsets){
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,7 +65,7 @@ extension UIView{
             toItem: self.superview,
             attribute: .leading,
             multiplier: CGFloat(1),
-            constant: CGFloat(0.3 * bounds.width))
+            constant: CGFloat(insetMultipliers.left * bounds.width))
         
         let trailing = NSLayoutConstraint(
             item: self,
@@ -74,7 +74,7 @@ extension UIView{
             toItem: self.superview,
             attribute: .trailing,
             multiplier: CGFloat(1),
-            constant: CGFloat(-0.3 * bounds.width))
+            constant: CGFloat(-insetMultipliers.right * bounds.width))
         
         let top = NSLayoutConstraint(
             item: self,
@@ -83,7 +83,7 @@ extension UIView{
             toItem: self.superview,
             attribute: .top,
             multiplier: CGFloat(1),
-            constant: CGFloat(0.1 * bounds.width))
+            constant: CGFloat(insetMultipliers.top * bounds.height))
         
         let bottom = NSLayoutConstraint(
             item: self,
@@ -92,10 +92,11 @@ extension UIView{
             toItem: self.superview,
             attribute: .bottom,
             multiplier: CGFloat(1),
-            constant: CGFloat(-0.1 * bounds.width))
+            constant: CGFloat(-insetMultipliers.bottom * bounds.height))
         
-        if let sV = self.superview {
-            sV.addConstraints([leading,trailing,top,bottom])
+        if let _ = self.superview {
+            //sV.addConstraints([leading,trailing,top,bottom])
+            NSLayoutConstraint.activate([leading,trailing,top,bottom])
         } else {
             print("Error view \(self) doesn't have a superview. Add Constraints after adding the view to the view hierarchy")
         }

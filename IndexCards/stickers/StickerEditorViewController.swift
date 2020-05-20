@@ -34,6 +34,7 @@ class StickerEditorViewController:
                 
                 //set image
                 stickerView.backgroundImage = image
+               
                 
                 let size = image.size
                 scrollView.contentSize = size
@@ -95,7 +96,35 @@ class StickerEditorViewController:
             shapeCollectionView.delegate = self
             shapeCollectionView.dataSource = self
             shapeCollectionView.dragDelegate = self
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(tappedShape(_:)))
+        
+            tap.delegate = self
+            shapeCollectionView.addGestureRecognizer(tap)
+            
         }
+    }
+    
+    
+    @objc private func tappedShape(_ gesture : UITapGestureRecognizer){
+        //which shape was tapped?
+        
+        if let tappedIndexPath = shapeCollectionView.indexPathForItem(
+            at: gesture.location(in: shapeCollectionView)),
+            let tappedCell = (shapeCollectionView.cellForItem(
+                at: tappedIndexPath) as? ShapeCell){
+            
+            switch tappedCell.currentShape{
+            case .Circle:
+                stickerView.addShape(
+                    ofType: "Circle".attributedText(),
+                    atLocation: stickerView.convert(stickerView.center, from: stickerView.superview))
+            case .RoundRect:
+                stickerView.addShape(ofType: "RoundRect".attributedText(), atLocation: stickerView.convert(stickerView.center, from: stickerView.superview))
+            }
+        
+        }//if let
+     
     }
     
     
@@ -151,6 +180,10 @@ class StickerEditorViewController:
         }
     }
     
+    
+    @IBOutlet weak var stickerViewWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var stickerViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var cardBackgroundView: UIView!
     
@@ -228,13 +261,17 @@ class StickerEditorViewController:
         
         stickerView.backgroundImage = nil
         stickerView.setNeedsDisplay()
+
         
+        
+        //rot sets in from here!
         //lock image
-        scrollView.isScrollEnabled = false
-        
-        //restore contet offsets and scale??
-        scrollView.setZoomScale(CGFloat(1), animated: false)
-        scrollView.setContentOffset(CGPoint.zero, animated: false)
+//        scrollView.isScrollEnabled = false
+//
+//        //restore contet offsets and scale??
+//        scrollView.setZoomScale(CGFloat(1), animated: false)
+//        scrollView.contentSize = chosenCrop?.size ?? CGSize.zero
+//        scrollView.setContentOffset(CGPoint.zero, animated: false)
         
         //update model
         indexCard?.image = chosenCrop
@@ -440,7 +477,7 @@ class StickerEditorViewController:
             viewsToReveal += [hintBarBackgroundView, getImageHint]
         }
         
-        
+        //stickerView.pinToSuperviewEdges(insetMultipliers: UIEdgeInsets.zero)
         
         if let currentTheme = theme{
             

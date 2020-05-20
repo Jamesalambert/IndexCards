@@ -8,15 +8,31 @@
 
 import UIKit
 
-class CropView: UIScrollView {
+class CropView: UIScrollView, UIScrollViewDelegate {
 
     var backgroundImage : UIImage?{
         didSet{
-                self.setNeedsDisplay()
+            scrollingView.image = backgroundImage
+            
+            if scrollingView.superview != self{
+                self.addSubview(scrollingView)
+            }
+            
+            self.setNeedsDisplay()
         }
     }
     
+    var scrollingView = UIImageView()
+    
+    
+    //MARK:- UISCrollViewDelegate
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return scrollingView
+    }
+    
+    
     override func draw(_ rect: CGRect) {
+        
         
         backgroundImage?.draw(in: bounds)
         
