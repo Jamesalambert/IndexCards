@@ -33,18 +33,9 @@ class StickerEditorViewController:
             if let image = backgroundImage{
                 
                 //set image
-                stickerView.backgroundImage = image
-               
-                
-                let size = image.size
-                scrollView.contentSize = size
-                
-                //zoom to fit or fill?
-                let fillScale = max(scrollView.frame.size.width / size.width, scrollView.frame.size.height / size.height)
-                
-                scrollView.minimumZoomScale = fillScale
-                scrollView.maximumZoomScale = 2 * fillScale
-                scrollView.setZoomScale(fillScale, animated: true)
+                //stickerView.backgroundImage = image
+                cropView.imageForCropping = image
+  
                 
                 //Menus!
                 //hide first menu
@@ -63,13 +54,14 @@ class StickerEditorViewController:
                     animations: {
                         self.repositionImageHint.alpha = 1.0
                         self.repositionImageHint.isHidden = false
+                        self.stickerView.isHidden = true
                         self.repositionImageHint.layoutIfNeeded()
                 },
                     completion: nil)
                 
             } else {
                 getImageHint.alpha = 1
-                scrollView.isScrollEnabled = true
+                cropView.isScrollEnabled = true
             }
         }
     }
@@ -159,14 +151,14 @@ class StickerEditorViewController:
     
     @IBOutlet weak var toolBarStackView: UIStackView!
     
-    @IBOutlet weak var scrollView: CropView! {
+    @IBOutlet weak var cropView: CropView! {
         didSet{
-            scrollView.delegate = self
-            scrollView.canCancelContentTouches = false
+            cropView.delegate = cropView
+            cropView.canCancelContentTouches = false
             
-            if let image = indexCard?.image{
-                scrollView.backgroundImage = image
-            }
+//            if let image = indexCard?.image{
+//                cropView.imageForCropping = image
+//            }
             
         }
     }
@@ -176,6 +168,7 @@ class StickerEditorViewController:
         didSet{
             if let indexCard = indexCard{
                 stickerView.stickerData = indexCard.stickers
+                stickerView.backgroundImage = indexCard.image
             }
         }
     }
@@ -228,41 +221,44 @@ class StickerEditorViewController:
     }
     
     //helper func
-    private func crop(image : UIImage, with scrollView : UIScrollView) -> UIImage?{
-        
-        let scale = scrollView.zoomScale
-        
-        let cropOrigin = CGPoint(
-            x: scrollView.contentOffset.x / scale ,
-            y: scrollView.contentOffset.y / scale)
-        
-        let cropSize = CGSize(
-            width: scrollView.bounds.width / scale,
-            height: scrollView.bounds.height / scale)
-        
-        let cropRect = CGRect(
-                origin: cropOrigin,
-                size: cropSize)
-        
-        guard let output = image.cgImage?.cropping(to: cropRect)
-        else {
-            return nil
-        }
-        
-        return UIImage(cgImage: output)
-    }
+//    private func crop(image : UIImage, with scrollView : UIScrollView) -> UIImage?{
+//
+//        let scale = scrollView.zoomScale
+//
+//        let cropOrigin = CGPoint(
+//            x: scrollView.contentOffset.x / scale ,
+//            y: scrollView.contentOffset.y / scale)
+//
+//        let cropSize = CGSize(
+//            width: scrollView.bounds.width / scale,
+//            height: scrollView.bounds.height / scale)
+//
+//        let cropRect = CGRect(
+//                origin: cropOrigin,
+//                size: cropSize)
+//
+//        guard let output = image.cgImage?.cropping(to: cropRect)
+//        else {
+//            return nil
+//        }
+//
+//        return UIImage(cgImage: output)
+//    }
     
     
     @IBAction func finishedRepositioningImage() {
     
         //crop function needs the content offset and zoomScale
-        let chosenCrop = crop(image: backgroundImage!, with: scrollView)
-        scrollView.backgroundImage = chosenCrop
-        
-        stickerView.backgroundImage = nil
+        //let chosenCrop = crop(image: backgroundImage!, with: scrollView)
+        let chosenCrop = cropView.croppedImage
+        //scrollView.backgroundImage = chosenCrop
+        stickerView.backgroundImage = chosenCrop
+        stickerView.isHidden = false
         stickerView.setNeedsDisplay()
-
         
+        
+        cropView.alpha = 0
+
         
         //rot sets in from here!
         //lock image
@@ -464,12 +460,12 @@ class StickerEditorViewController:
         //hide or show depending on whether a background image is set
         
         //if we got inited with data then prevent scrolling
-        if let _ = scrollView.backgroundImage {
-            scrollView.isScrollEnabled = false
-        }
         
         
-        if let _ = scrollView.backgroundImage {
+        if let _ = stickerView.backgroundImage {
+            
+            cropView.isScrollEnabled = false
+            
             //should fade in
             viewsToReveal += [toolBarView, shapeCollectionView, colorsCollectionView]
         }else{
@@ -477,11 +473,10 @@ class StickerEditorViewController:
             viewsToReveal += [hintBarBackgroundView, getImageHint]
         }
         
-        //stickerView.pinToSuperviewEdges(insetMultipliers: UIEdgeInsets.zero)
         
         if let currentTheme = theme{
             
-            let scrollLayer = scrollView.layer
+            let scrollLayer = cropView.layer
             
             //background and corners
             scrollLayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
@@ -534,10 +529,10 @@ class StickerEditorViewController:
     
     @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
     
-        if !scrollView.frame.contains(sender.location(in: scrollView)){
+        if !cropView.frame.contains(sender.location(in: cropView)){
             
             //store image data
-            indexCard?.thumbnail = scrollView.snapshot
+            indexCard?.thumbnail = stickerView.snapshot
             
             //update model
             indexCard?.stickers = stickerView.stickerData

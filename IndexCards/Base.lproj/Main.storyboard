@@ -292,30 +292,28 @@
                                             </view>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RjO-wF-7th" customClass="CropView" customModule="IndexCards" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="470" width="814" height="543"/>
-                                                <subviews>
-                                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOY-yv-dz2" customClass="StickerCanvas" customModule="IndexCards" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="814" height="543"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </view>
-                                                </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="centerY" secondItem="RjO-wF-7th" secondAttribute="centerY" id="M6L-UM-pMs"/>
                                                     <constraint firstAttribute="width" secondItem="RjO-wF-7th" secondAttribute="height" multiplier="1.5:1" id="vmB-Sr-L5V"/>
-                                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="width" secondItem="RjO-wF-7th" secondAttribute="width" id="wKb-Qn-636"/>
-                                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="height" secondItem="RjO-wF-7th" secondAttribute="height" id="wZY-39-zjK"/>
-                                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="centerX" secondItem="RjO-wF-7th" secondAttribute="centerX" id="yRA-gj-tMt"/>
                                                 </constraints>
                                             </scrollView>
                                         </subviews>
                                     </stackView>
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOY-yv-dz2" customClass="StickerCanvas" customModule="IndexCards" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="470" width="814" height="543"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="top" secondItem="32h-M0-eTV" secondAttribute="top" id="EjN-9w-Dfj"/>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="width" secondItem="32h-M0-eTV" secondAttribute="width" id="YkG-ds-Tgb"/>
                                     <constraint firstAttribute="bottom" secondItem="iR3-Ke-bLl" secondAttribute="bottom" id="aeo-P7-UWk"/>
+                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="centerY" secondItem="RjO-wF-7th" secondAttribute="centerY" id="enz-Bx-qz0"/>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="centerY" secondItem="32h-M0-eTV" secondAttribute="centerY" id="fKi-Tx-Xiz"/>
                                     <constraint firstItem="iR3-Ke-bLl" firstAttribute="centerX" secondItem="32h-M0-eTV" secondAttribute="centerX" id="nAy-44-ctP"/>
+                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="centerX" secondItem="RjO-wF-7th" secondAttribute="centerX" id="nuh-nf-Yxc"/>
+                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="width" secondItem="RjO-wF-7th" secondAttribute="width" id="zEi-4E-K6U"/>
+                                    <constraint firstItem="aOY-yv-dz2" firstAttribute="height" secondItem="RjO-wF-7th" secondAttribute="height" id="zPX-P0-LyJ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -330,14 +328,12 @@
                     <connections>
                         <outlet property="cardBackgroundView" destination="32h-M0-eTV" id="2ba-3u-MoF"/>
                         <outlet property="colorsCollectionView" destination="FeR-GX-JhQ" id="4wI-AC-qpB"/>
+                        <outlet property="cropView" destination="RjO-wF-7th" id="NRd-dy-xAK"/>
                         <outlet property="getImageHint" destination="DXd-Hm-EFu" id="bPB-Qz-6Ib"/>
                         <outlet property="hintBarBackgroundView" destination="uqZ-Nz-lRX" id="0Pi-KQ-0F1"/>
                         <outlet property="repositionImageHint" destination="xdg-e8-euh" id="m1q-Nk-kQL"/>
-                        <outlet property="scrollView" destination="RjO-wF-7th" id="NRd-dy-xAK"/>
                         <outlet property="shapeCollectionView" destination="O44-jH-12f" id="BVX-fM-Upe"/>
                         <outlet property="stickerView" destination="aOY-yv-dz2" id="z9O-Qd-yR8"/>
-                        <outlet property="stickerViewHeightConstraint" destination="wZY-39-zjK" id="Esw-fe-wY0"/>
-                        <outlet property="stickerViewWidthConstraint" destination="wKb-Qn-636" id="KzF-8T-UeF"/>
                         <outlet property="toolBarStackView" destination="6Tt-bc-LuR" id="gTh-4h-e53"/>
                         <outlet property="toolBarView" destination="uDz-qr-W6g" id="EX2-kW-jQi"/>
                     </connections>

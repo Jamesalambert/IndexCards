@@ -198,18 +198,17 @@ UIGestureRecognizerDelegate
     
     private func setup(){
         self.addInteraction(UIDropInteraction(delegate: self))
-        self.backgroundColor = UIColor.red
-        self.isOpaque = true
-        self.clipsToBounds = false
+        self.backgroundColor = UIColor.clear
+        self.isOpaque = false
+        self.clipsToBounds = true
+        self.contentMode = .redraw
     }
     
     
     
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
-        
         backgroundImage?.draw(in: self.bounds)
-        
     }
     
 }//class
