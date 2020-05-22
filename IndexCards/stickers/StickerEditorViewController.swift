@@ -22,9 +22,7 @@ class StickerEditorViewController:
     
     //MARK:- Vars
     var indexCard : IndexCard?
-    
     var theme : Theme?
-    
     //TODO: - undo redo etc
     var document : IndexCardsDocument?
     
@@ -33,10 +31,8 @@ class StickerEditorViewController:
             if let image = backgroundImage{
                 
                 //set image
-                //stickerView.backgroundImage = image
                 cropView.imageForCropping = image
   
-                
                 //Menus!
                 //hide first menu
                 getImageHint.isHidden = true
@@ -61,7 +57,6 @@ class StickerEditorViewController:
                 
             } else {
                 getImageHint.alpha = 1
-                cropView.isScrollEnabled = true
             }
         }
     }
@@ -106,17 +101,35 @@ class StickerEditorViewController:
             let tappedCell = (shapeCollectionView.cellForItem(
                 at: tappedIndexPath) as? ShapeCell){
             
+            let newSticker : Sticker
+            
             switch tappedCell.currentShape{
             case .Circle:
-                stickerView.addShape(
+                newSticker = stickerView.addShape(
                     ofType: "Circle".attributedText(),
-                    atLocation: stickerView.convert(stickerView.center, from: stickerView.superview))
+                    atLocation: stickerView.convert(tappedCell.center, from: shapeCollectionView))
             case .RoundRect:
-                stickerView.addShape(ofType: "RoundRect".attributedText(), atLocation: stickerView.convert(stickerView.center, from: stickerView.superview))
+                newSticker = stickerView.addShape(ofType: "RoundRect".attributedText(), atLocation: stickerView.convert(tappedCell.center, from: shapeCollectionView))
             }
-        
+            
+            newSticker.bounds.size = tappedCell.bounds.size
+            
+            //animate to the canvas
+            
+            UIView.transition(
+                with: newSticker,
+                duration: theme?.timeOf(.addShape) ?? 2.0,
+                options: .curveEaseInOut,
+                animations: {
+                    newSticker.center = self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview)
+                    
+                    newSticker.bounds.size = CGSize(width: 150, height: 150)
+            },
+                completion: nil)
+            
+            
+            
         }//if let
-     
     }
     
     
@@ -155,28 +168,25 @@ class StickerEditorViewController:
         didSet{
             cropView.delegate = cropView
             cropView.canCancelContentTouches = false
-            
-//            if let image = indexCard?.image{
-//                cropView.imageForCropping = image
-//            }
-            
         }
     }
     
     
     @IBOutlet weak var stickerView: StickerCanvas!{
         didSet{
+            
+            if let theme = theme {
+                stickerView.layer.cornerRadius = theme.sizeOf(.cornerRadiusToBoundsWidth) * stickerView.layer.bounds.width
+                stickerView.layer.masksToBounds = true
+            }
+            
+            
             if let indexCard = indexCard{
                 stickerView.stickerData = indexCard.stickers
                 stickerView.backgroundImage = indexCard.image
             }
         }
     }
-    
-    
-    @IBOutlet weak var stickerViewWidthConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var stickerViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var cardBackgroundView: UIView!
     
@@ -206,7 +216,6 @@ class StickerEditorViewController:
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            //imagePicker.allowsEditing = true
             imagePicker.mediaTypes = ["public.image"]
             imagePicker.modalPresentationStyle = .popover
             
@@ -220,54 +229,22 @@ class StickerEditorViewController:
         }
     }
     
-    //helper func
-//    private func crop(image : UIImage, with scrollView : UIScrollView) -> UIImage?{
-//
-//        let scale = scrollView.zoomScale
-//
-//        let cropOrigin = CGPoint(
-//            x: scrollView.contentOffset.x / scale ,
-//            y: scrollView.contentOffset.y / scale)
-//
-//        let cropSize = CGSize(
-//            width: scrollView.bounds.width / scale,
-//            height: scrollView.bounds.height / scale)
-//
-//        let cropRect = CGRect(
-//                origin: cropOrigin,
-//                size: cropSize)
-//
-//        guard let output = image.cgImage?.cropping(to: cropRect)
-//        else {
-//            return nil
-//        }
-//
-//        return UIImage(cgImage: output)
-//    }
+   
     
     
     @IBAction func finishedRepositioningImage() {
     
         //crop function needs the content offset and zoomScale
         //let chosenCrop = crop(image: backgroundImage!, with: scrollView)
+        
+        //move to sticker view
         let chosenCrop = cropView.croppedImage
-        //scrollView.backgroundImage = chosenCrop
         stickerView.backgroundImage = chosenCrop
         stickerView.isHidden = false
         stickerView.setNeedsDisplay()
         
-        
+        //hide cropview
         cropView.alpha = 0
-
-        
-        //rot sets in from here!
-        //lock image
-//        scrollView.isScrollEnabled = false
-//
-//        //restore contet offsets and scale??
-//        scrollView.setZoomScale(CGFloat(1), animated: false)
-//        scrollView.contentSize = chosenCrop?.size ?? CGSize.zero
-//        scrollView.setContentOffset(CGPoint.zero, animated: false)
         
         //update model
         indexCard?.image = chosenCrop
@@ -463,11 +440,9 @@ class StickerEditorViewController:
         
         
         if let _ = stickerView.backgroundImage {
-            
-            cropView.isScrollEnabled = false
-            
             //should fade in
             viewsToReveal += [toolBarView, shapeCollectionView, colorsCollectionView]
+            cropView.alpha = 0
         }else{
             //should fade in
             viewsToReveal += [hintBarBackgroundView, getImageHint]
@@ -476,12 +451,12 @@ class StickerEditorViewController:
         
         if let currentTheme = theme{
             
-            let scrollLayer = cropView.layer
+            let croplayer = cropView.layer
             
             //background and corners
-            scrollLayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
-            scrollLayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * scrollLayer.bounds.width
-            scrollLayer.masksToBounds = true
+            croplayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
+            croplayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * croplayer.bounds.width
+            croplayer.masksToBounds = true
             
             //shadow
 //            let path = UIBezierPath(roundedRect: scrollLayer.bounds, cornerRadius: scrollLayer.cornerRadius)

@@ -86,6 +86,7 @@ UITextFieldDelegate {
         view.placeholder = "..."
         view.textColor = UIColor.white
         view.text = text
+        view.font = font
         
         //always add constraints to the enclosing view after adding views into the view hierarchy.
         self.addSubview(view)

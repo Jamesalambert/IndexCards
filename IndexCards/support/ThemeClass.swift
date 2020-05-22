@@ -11,8 +11,6 @@ import UIKit
 
 class Theme : ThemeDelegateProtocol {
    
-    
-    
     //MARK:- ThemeDelegateProtocol
     func colorOf(_ item: Item ) -> UIColor {
         switch item {
@@ -44,6 +42,8 @@ class Theme : ThemeDelegateProtocol {
             return Theme.themes[chosenTheme].time.tapDeckTurn
         case .showMenu:
             return Theme.themes[chosenTheme].time.showMenu
+        case .addShape:
+            return Theme.themes[chosenTheme].time.addShape
         }
     }
     
@@ -79,7 +79,8 @@ class Theme : ThemeDelegateProtocol {
     private static let defaultTime = TimeFor(
         editCardZoom: 0.2,
         tapDeckTurn: 0.2,
-        showMenu: 0.2)
+        showMenu: 0.2,
+        addShape: 0.2)
 }
 
 
@@ -115,6 +116,7 @@ enum Animation{
     case editCardZoom
     case tapDeckTurn
     case showMenu
+    case addShape
 }
 
 
@@ -142,6 +144,7 @@ private struct TimeFor {
     let editCardZoom : Double
     let tapDeckTurn : Double
     let showMenu : Double
+    let addShape : Double
 }
 
 private struct SizeFor {

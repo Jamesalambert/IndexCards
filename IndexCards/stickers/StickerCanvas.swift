@@ -67,10 +67,10 @@ UIGestureRecognizerDelegate
                 let dropPoint = session.location(in: self)
         
                 for attributedString in providers as? [NSAttributedString] ?? []{
-                    self.addShape(ofType: attributedString, atLocation: dropPoint)
+                    let _ = self.addShape(ofType: attributedString, atLocation: dropPoint)
                 }
         
-    }
+            }
     }
     
     //MARK:- shape handling
@@ -82,32 +82,33 @@ UIGestureRecognizerDelegate
     
     
     //adding a dropped shape
-    func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint){
+    func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint) -> Sticker{
         
-        let newShape = Sticker()
+        let newSticker = Sticker()
         
         switch shape.string {
         case "Circle":
-            newShape.currentShape = .Circle
+            newSticker.currentShape = .Circle
         case "RoundRect":
-            newShape.currentShape = .RoundRect
+            newSticker.currentShape = .RoundRect
         default:
-            newShape.currentShape = .RoundRect
+            newSticker.currentShape = .RoundRect
         }
-        print("frame: \(frame)")
-        print(dropPoint)
-        newShape.center = dropPoint
-        newShape.bounds.size = CGSize(width: 150, height: 150)
-        newShape.backgroundColor = UIColor.clear
         
-        addStickerGestureRecognizers(to: newShape)
+        newSticker.center = dropPoint
+        newSticker.bounds.size = CGSize(width: 150, height: 150)
+        newSticker.backgroundColor = UIColor.clear
         
-        self.addSubview(newShape)
+        addStickerGestureRecognizers(to: newSticker)
+        
+        self.addSubview(newSticker)
     
-        currentTextField = newShape.textField
-        newShape.textField.becomeFirstResponder()
+        currentTextField = newSticker.textField
+        newSticker.textField.becomeFirstResponder()
         
         self.setNeedsDisplay()
+        
+        return newSticker
     }
     
     
@@ -127,11 +128,11 @@ UIGestureRecognizerDelegate
         zoom.delegate = self
         sticker.addGestureRecognizer(zoom)
         
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTap(_:)))
-        doubleTap.numberOfTapsRequired = 2
-        doubleTap.numberOfTouchesRequired = 1
-        doubleTap.delegate = self
-        sticker.addGestureRecognizer(doubleTap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        tap.delegate = self
+        sticker.addGestureRecognizer(tap)
         
     }
     
@@ -165,10 +166,11 @@ UIGestureRecognizerDelegate
         }
     }
     
-    @objc func doubleTap(_ gesture : UITapGestureRecognizer){
+    @objc func tap(_ gesture : UITapGestureRecognizer){
         if let sticker = gesture.view as? Sticker {
-            
             currentTextField = sticker.textField
+            
+            //show delete X for sticker
             
         }
     }
@@ -200,7 +202,7 @@ UIGestureRecognizerDelegate
         self.addInteraction(UIDropInteraction(delegate: self))
         self.backgroundColor = UIColor.clear
         self.isOpaque = false
-        self.clipsToBounds = true
+        self.clipsToBounds = false
         self.contentMode = .redraw
     }
     
