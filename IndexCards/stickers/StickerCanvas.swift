@@ -143,17 +143,20 @@ UIGestureRecognizerDelegate
             
             if let sticker = gesture.view as? Sticker{
                 
-                let oldPosition = sticker.center
-                let newPosition = oldPosition.offsetBy(dx: gesture.translation(in: sticker).x, dy: gesture.translation(in: sticker).y)
+                let oldLocation = sticker.unitLocation
+                let newLocation = oldLocation.offsetBy(
+                    dx: gesture.translation(in: sticker).x / bounds.width,
+                    dy: gesture.translation(in: sticker).y / bounds.height)
                 
-                if bounds.contains(newPosition){
+                sticker.unitLocation = newLocation
+                gesture.setTranslation(CGPoint.zero, in: gesture.view)
+            
+                if bounds.contains(newLocation){
                     sticker.isAboutToBeDeleted = false
                 } else {
                     sticker.isAboutToBeDeleted = true
                 }
-                
-                gesture.view?.center = newPosition
-                gesture.setTranslation(CGPoint.zero, in: gesture.view)
+            
             }
             
         case .ended:
@@ -188,7 +191,7 @@ UIGestureRecognizerDelegate
         if let sticker = gesture.view as? Sticker {
             currentTextField = sticker.textField
             
-            //show delete X for sticker
+            //show delete X for sticker??
             
         }
     }
@@ -233,7 +236,11 @@ UIGestureRecognizerDelegate
     
     override func layoutSubviews() {
         subviews.compactMap{$0 as? Sticker}.forEach{
-            $0.unitSize = $0.unitSize
+            let size = $0.unitSize
+            let location = $0.unitLocation
+            
+            $0.unitSize = size
+            $0.unitLocation = location
         }
     }
     
@@ -252,7 +259,7 @@ extension IndexCard.StickerData{
             typeOfShape = "RoundRect"
         }
         
-        center = sticker.center
+        center = sticker.unitLocation
         size = sticker.unitSize
         text = sticker.text
         rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
@@ -275,7 +282,7 @@ extension Sticker{
         }
         
         self.text = data.text
-        self.center = data.center
+        self.unitLocation = data.center
         self.unitSize = data.size
         self.backgroundColor = UIColor.clear
         self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))

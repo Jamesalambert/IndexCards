@@ -37,6 +37,17 @@ UITextFieldDelegate {
         }
     }
     
+    var unitLocation = CGPoint(x: 0.5, y: 0.5){
+        didSet{
+            if let canvas = superview as? StickerCanvas{
+                center = CGPoint(
+                    x: unitLocation.x * canvas.bounds.width,
+                    y: unitLocation.y * canvas.bounds.height)
+            }
+            }
+            
+    }
+    
     
     var textField : UITextField {
         get{
