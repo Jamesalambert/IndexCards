@@ -19,6 +19,8 @@ UITextFieldDelegate {
     
     var currentShape : StickerShape = .RoundRect
     
+    var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}
+    var stickerColor = UIColor.blue.withAlphaComponent(CGFloat(0.8)) {didSet{setNeedsDisplay()}}
     
     var textField : UITextField {
         get{
@@ -99,7 +101,11 @@ UITextFieldDelegate {
     
     override func draw(_ rect: CGRect) {
         
-        UIColor.blue.withAlphaComponent(CGFloat(0.8)).setFill()
+        if isAboutToBeDeleted{
+            UIColor.gray.setFill()
+        } else {
+            stickerColor.setFill()
+        }
         
         
         switch currentShape {

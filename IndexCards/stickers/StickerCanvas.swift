@@ -141,12 +141,28 @@ UIGestureRecognizerDelegate
         switch gesture.state {
         case .changed:
             
-            if let oldPosition = gesture.view?.center{
-                let newPosition = oldPosition.offsetBy(dx: gesture.translation(in: gesture.view).x, dy: gesture.translation(in: gesture.view).y)
-                    
-                    gesture.view?.center = newPosition
-                    gesture.setTranslation(CGPoint.zero, in: gesture.view)
+            if let sticker = gesture.view as? Sticker{
+                
+                let oldPosition = sticker.center
+                let newPosition = oldPosition.offsetBy(dx: gesture.translation(in: sticker).x, dy: gesture.translation(in: sticker).y)
+                
+                if bounds.contains(newPosition){
+                    sticker.isAboutToBeDeleted = false
+                } else {
+                    sticker.isAboutToBeDeleted = true
+                }
+                
+                gesture.view?.center = newPosition
+                gesture.setTranslation(CGPoint.zero, in: gesture.view)
             }
+            
+        case .ended:
+            if let sticker = gesture.view as? Sticker{
+                if sticker.isAboutToBeDeleted {
+                    sticker.removeFromSuperview()
+                }
+            }
+
         default:
             return
         }
