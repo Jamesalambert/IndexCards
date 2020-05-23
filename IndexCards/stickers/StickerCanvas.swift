@@ -229,6 +229,13 @@ UIGestureRecognizerDelegate
         backgroundImage?.draw(in: self.bounds)
     }
     
+    override func layoutSubviews() {
+        subviews.compactMap{$0 as? Sticker}.forEach{
+            $0.unitSize = $0.unitSize
+        }
+    }
+    
+    
 }//class
 
 

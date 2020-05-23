@@ -20,7 +20,24 @@ UITextFieldDelegate {
     var currentShape : StickerShape = .RoundRect
     
     var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}
+    
     var stickerColor = UIColor.blue.withAlphaComponent(CGFloat(0.8)) {didSet{setNeedsDisplay()}}
+    
+    //scale factor determining the sticker's bounds
+    //this is to deal with switching from portrait to landscape,
+    //the background enlarges so stickers should be bigger too.
+    //This represnets the sticker's size as a fracion of the bounds width.
+    var unitSize = CGSize(width: CGFloat(0.5), height: CGFloat(0.5)){
+        didSet{
+            if let canvas = superview as? StickerCanvas{
+                bounds.size = CGSize(
+                    width: unitSize.width * canvas.bounds.width,
+                    height: unitSize.height * canvas.bounds.width)
+            }
+           
+        }
+    }
+    
     
     var textField : UITextField {
         get{
