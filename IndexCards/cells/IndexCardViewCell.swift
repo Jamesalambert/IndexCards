@@ -49,4 +49,8 @@ class IndexCardViewCell: UICollectionViewCell {
         delegate?.deleteCard()
     }
     
+    @objc func duplicateCard(){
+        delegate?.duplicateCard()
+    }
+    
 }

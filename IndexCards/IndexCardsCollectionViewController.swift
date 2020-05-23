@@ -95,20 +95,39 @@ UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView,
         canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
-        let deleteAction = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
+        let delete = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
         
-        UIMenuController.shared.menuItems = [deleteAction]
+        let duplicate = UIMenuItem(title: "Duplicate", action: #selector(IndexCardViewCell.duplicateCard))
+
+        let cardActions = [delete, duplicate]
+        
+        UIMenuController.shared.menuItems = cardActions
         
         actionMenuIndexPath = indexPath
         actionMenuCollectionView = collectionView
         
-        return action == deleteAction.action
+        return cardActions.compactMap{$0.action}.contains(action)
     }
 
     func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
     }
- 
+    
+    
+    func duplicateCard(){
+        
+        actionMenuCollectionView?.performBatchUpdates({
+            
+            if let indexPath = actionMenuIndexPath{
+                currentDeck?.duplicateCard(atIndex: indexPath.item)
+                actionMenuCollectionView?.insertItems(at: [indexPath])
+            }
+            
+            }, completion: nil)
+        print("duplicate!")
+    }
+    
+    
     func deleteCard(){
         
         actionMenuCollectionView?.performBatchUpdates({

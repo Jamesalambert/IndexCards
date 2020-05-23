@@ -52,6 +52,8 @@ class Notes : Codable{
 }
 
 
+
+
 final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReading {
     
     
@@ -132,6 +134,13 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
         cards.removeAll(where: {$0 == card})
     }
     
+    func duplicateCard(atIndex index: Int){
+        if index < cards.count, index > 0{
+            let cardToCopy = cards[index]
+            cards.insert(cardToCopy.copy() as! IndexCard, at: index)
+        }
+    }
+    
     
     override init(){
         self.identifier = Deck.getIdentifier()
@@ -158,7 +167,14 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
 }
 
 
-class IndexCard : Hashable, Codable {
+class IndexCard : Hashable, Codable, NSCopying {
+    
+    
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        return IndexCard(indexCard: self)
+    }
+    
     
     var imageData : Data?
     var image : UIImage? {
@@ -210,9 +226,15 @@ class IndexCard : Hashable, Codable {
     }
     
     init(stickers : [StickerData] ){
-        //self.imageData = image?.pngData()
         self.stickers = stickers
         self.identifier = IndexCard.getIdentifier()
+    }
+    
+    convenience init(indexCard : IndexCard){
+        self.init()
+        self.stickers = indexCard.stickers
+        self.imageData = indexCard.imageData
+        self.thumbnailData = indexCard.thumbnailData
     }
     
     //Struct vars/funcs
