@@ -121,9 +121,13 @@ class StickerEditorViewController:
                 duration: theme?.timeOf(.addShape) ?? 2.0,
                 options: .curveEaseInOut,
                 animations: {
-                    newSticker.center = self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview)
                     
-                    newSticker.bounds.size = CGSize(width: 150, height: 150)
+                    newSticker.unitLocation = self.stickerView.unitLocationFrom(point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
+                    
+                    newSticker.unitSize = self.stickerView.unitSizeFrom(size: CGSize(width: 150, height: 150))
+//                    newSticker.center = self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview)
+                    
+                    //newSticker.bounds.size = CGSize(width: 150, height: 150)
             },
                 completion: nil)
             
@@ -403,7 +407,6 @@ class StickerEditorViewController:
     }
     
     private func keyboardShown(_ keyboardOrigin: CGFloat){
-        
         //see if the textField is covered
         if let cursor = cursorPosition {
             let overlap = cursor - keyboardOrigin

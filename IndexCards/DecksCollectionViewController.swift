@@ -424,17 +424,15 @@ class DecksCollectionViewController:
     
     
     func collectionView(_ collectionView: UICollectionView,
-                        performDropWith coordinator: UICollectionViewDropCoordinator) {
+        performDropWith coordinator: UICollectionViewDropCoordinator) {
         
         //batch updates
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
-        
         
         for item in coordinator.items {
             
             if let sourceIndexPath = item.sourceIndexPath,
                 let droppedDeck = item.dragItem.localObject as? Deck{
-                
                 
                 decksCollectionView.performBatchUpdates({
                     //model
@@ -448,17 +446,12 @@ class DecksCollectionViewController:
                 }, completion: { finished in
                     self.document?.updateChangeCount(.done)
                 })
-                
             }
-            
         }
-        
     }
     
 
     //MARK:- UIView
-    
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         

@@ -95,8 +95,10 @@ UIGestureRecognizerDelegate
             newSticker.currentShape = .RoundRect
         }
         
-        newSticker.center = dropPoint
-        newSticker.bounds.size = CGSize(width: 150, height: 150)
+        //newSticker.center = dropPoint
+        newSticker.unitLocation = unitLocationFrom(point: dropPoint)
+        newSticker.unitSize = unitSizeFrom(size: CGSize(width: 150, height: 150))
+        //newSticker.bounds.size = CGSize(width: 150, height: 150)
         newSticker.backgroundColor = UIColor.clear
         
         addStickerGestureRecognizers(to: newSticker)
@@ -111,6 +113,18 @@ UIGestureRecognizerDelegate
         return newSticker
     }
     
+    //helper func
+    func unitLocationFrom(point : CGPoint) -> CGPoint{
+        return CGPoint(
+            x: point.x / bounds.width,
+            y: point.y / bounds.height)
+    }
+    
+    func unitSizeFrom(size : CGSize) -> CGSize{
+        return CGSize(
+            width: size.width / bounds.width,
+            height: size.height / bounds.width)
+    }
     
     private func addStickerGestureRecognizers(to sticker : Sticker){
         
