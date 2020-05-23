@@ -544,20 +544,4 @@ extension StickerCanvas{
 
 
 
-extension IndexCard.StickerData{
-    
-    init?(sticker : Sticker){
-        
-        switch sticker.currentShape {
-        case .Circle:
-            typeOfShape = "Circle"
-        case .RoundRect:
-            typeOfShape = "RoundRect"
-        }
-        
-        center = sticker.center
-        size = sticker.bounds.size
-        text = sticker.text
-        rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
-    }
-}
+

@@ -172,9 +172,11 @@ UIGestureRecognizerDelegate
         switch gesture.state {
         case .changed:
         
-            if let currentFrame = gesture.view?.frame {
-                let newFrame = currentFrame.zoom(by: gesture.scale)
-                gesture.view?.frame = newFrame
+            if let sticker = gesture.view as? Sticker{
+                sticker.unitSize = CGSize(
+                    width: sticker.unitSize.width * gesture.scale,
+                    height: sticker.unitSize.height * gesture.scale)
+                
                 gesture.scale = CGFloat(1)
             }
         default:
@@ -239,6 +241,25 @@ UIGestureRecognizerDelegate
 }//class
 
 
+extension IndexCard.StickerData{
+    
+    init?(sticker : Sticker){
+        
+        switch sticker.currentShape {
+        case .Circle:
+            typeOfShape = "Circle"
+        case .RoundRect:
+            typeOfShape = "RoundRect"
+        }
+        
+        center = sticker.center
+        size = sticker.unitSize
+        text = sticker.text
+        rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
+    }
+}
+
+
 extension Sticker{
     
     convenience init?(data : IndexCard.StickerData ){
@@ -255,7 +276,7 @@ extension Sticker{
         
         self.text = data.text
         self.center = data.center
-        self.bounds.size = data.size
+        self.unitSize = data.size
         self.backgroundColor = UIColor.clear
         self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
     }

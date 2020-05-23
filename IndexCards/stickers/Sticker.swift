@@ -34,7 +34,6 @@ UITextFieldDelegate {
                     width: unitSize.width * canvas.bounds.width,
                     height: unitSize.height * canvas.bounds.width)
             }
-           
         }
     }
     
