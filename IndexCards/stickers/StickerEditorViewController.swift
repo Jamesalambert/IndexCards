@@ -244,7 +244,7 @@ class StickerEditorViewController:
         stickerView.setNeedsDisplay()
         
         //hide cropview
-        cropView.alpha = 0
+        cropView.alpha = 1
         
         //update model
         indexCard?.image = chosenCrop
