@@ -19,8 +19,6 @@ UIView,
 UITextFieldDelegate {
 
     //MARK:- public
-    
-    
     var currentShape : StickerShape = .RoundRect {didSet{setNeedsDisplay()}}
     
     var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}

@@ -23,19 +23,15 @@ UIGestureRecognizerDelegate
     
     var stickerData : [IndexCard.StickerData]?{
         get {
-            
             let stickerDataArray = subviews.compactMap{$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
-            
             return stickerDataArray
         }
         set{
-            
             //array of sticker data structs
-            newValue?.forEach {
-                //create a sticker from the data
-                if let newSticker = Sticker(data: $0){
-                    importShape(sticker: newSticker)
-                }
+            newValue?.forEach { stickerData in
+
+                let newSticker = Sticker.fromNib(withData: stickerData)
+                importShape(sticker: newSticker)
             }
         }
     }
@@ -111,6 +107,30 @@ UIGestureRecognizerDelegate
         self.addSubview(sticker)
     }
 
+    //helper func
+    private func addStickerGestureRecognizers(to sticker : Sticker){
+        
+        sticker.isUserInteractionEnabled = true
+        
+        let pan = UIPanGestureRecognizer(
+            target: self, action: #selector(panning(_:)))
+        pan.maximumNumberOfTouches = 1
+        pan.delegate = self
+        sticker.addGestureRecognizer(pan)
+        
+        let zoom = UIPinchGestureRecognizer(
+            target: self,
+            action: #selector(zooming(_:)))
+        zoom.delegate = self
+        sticker.addGestureRecognizer(zoom)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        tap.delegate = self
+        sticker.addGestureRecognizer(tap)
+        
+    }
     
     //helper func
     func unitLocationFrom(point : CGPoint) -> CGPoint{
@@ -125,29 +145,7 @@ UIGestureRecognizerDelegate
             height: size.height / bounds.width)
     }
     
-    private func addStickerGestureRecognizers(to sticker : Sticker){
-        
-        sticker.isUserInteractionEnabled = true
-
-        let pan = UIPanGestureRecognizer(
-            target: self, action: #selector(panning(_:)))
-        pan.maximumNumberOfTouches = 1
-        pan.delegate = self
-        sticker.addGestureRecognizer(pan)
-
-        let zoom = UIPinchGestureRecognizer(
-            target: self,
-            action: #selector(zooming(_:)))
-        zoom.delegate = self
-        sticker.addGestureRecognizer(zoom)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
-        tap.numberOfTapsRequired = 1
-        tap.numberOfTouchesRequired = 1
-        tap.delegate = self
-        sticker.addGestureRecognizer(tap)
-        
-    }
+    
     
     
     @objc func panning(_ gesture : UIPanGestureRecognizer){
@@ -232,9 +230,6 @@ UIGestureRecognizerDelegate
     
     private func setup(){
         self.addInteraction(UIDropInteraction(delegate: self))
-        self.backgroundColor = UIColor.clear
-        self.isOpaque = false
-        self.clipsToBounds = false
         self.contentMode = .redraw
     }
     
@@ -298,4 +293,30 @@ extension Sticker{
         self.backgroundColor = UIColor.clear
         self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
     }
+    
+    
+    static func fromNib(withData data : IndexCard.StickerData) -> Sticker {
+        
+        let newSticker = Bundle.main.loadNibNamed("sticker",
+                                                  owner: nil,
+                                                  options: nil)?.first as! Sticker
+            
+        switch data.typeOfShape {
+        case "Circle":
+            newSticker.currentShape = .Circle
+        case "RouncRect":
+            newSticker.currentShape = .RoundRect
+        default:
+            newSticker.currentShape = .RoundRect
+        }
+        
+        newSticker.stickerText = data.text
+        newSticker.unitLocation = data.center
+        newSticker.unitSize = data.size
+        newSticker.backgroundColor = UIColor.clear
+        newSticker.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+        
+        return newSticker
+    }
+    
 }
