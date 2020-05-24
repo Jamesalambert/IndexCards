@@ -20,12 +20,6 @@ class DeckOfCardsCell: UICollectionViewCell {
         }
     }
     
-    var title : String?{
-        didSet{
-            titleLabel.attributedText = title?.attributedText()
-        }
-    }
-    
     var color : UIColor? {
         didSet{
             self.layer.backgroundColor = color?.cgColor
@@ -34,10 +28,6 @@ class DeckOfCardsCell: UICollectionViewCell {
     
     
     @IBOutlet weak var thumbnailView: UIImageView!
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet weak var infoLabel: UILabel!
     
     override func didMoveToWindow() {
         super.didMoveToWindow()

@@ -113,10 +113,13 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
         return cards.count
     }
     
+    var thumbnail : UIImage? {
+            return cards.first?.thumbnail
+    }
     
-    func thumbnail(forSize size: CGSize) -> UIImage?{
+    func oldThumbnail(forSize size: CGSize) -> UIImage?{
         
-        if let topCard = cards.first, let topImage = topCard.image?.cgImage {
+        if let topCard = cards.first, let topImage = topCard.thumbnail?.cgImage {
         
             if let thumbnail = topImage.cropping(to: CGRect(origin: CGPoint.zero, size: size)){
                 return UIImage(cgImage: thumbnail)

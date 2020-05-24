@@ -220,23 +220,10 @@ class DecksCollectionViewController:
                 cell.delegate = self
                 
                 if let deck = model?.decks[indexPath.row]{
-                    cell.title = deck.title
-                    cell.infoLabel.text = String(deck.count)
-                    
-                    let collectionViewHeight = collectionView.frame.size.height
-                    
-                    cell.image = deck.thumbnail(
-                        forSize: CGSize(
-                            width: theme.sizeOf(.indexCardAspectRatio) * collectionViewHeight/2,
-                            height: collectionViewHeight))
-                    
+                    cell.image = deck.thumbnail
                     return cell
                 }
-            } else {
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath)
-                return cell
-            }
+            } 
         }
         
         let cell = collectionView.dequeueReusableCell(

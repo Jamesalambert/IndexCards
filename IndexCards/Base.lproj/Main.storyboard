@@ -419,99 +419,44 @@
                                                     <constraint firstAttribute="height" constant="100" id="d1H-Qm-YeA"/>
                                                 </constraints>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="10" id="3SS-yB-PjA">
-                                                    <size key="itemSize" width="50" height="50"/>
+                                                    <size key="itemSize" width="150" height="100"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="NewDeckCell" id="9t7-bF-qis" customClass="NewDeckCellCollectionViewCell" customModule="IndexCards" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="7" width="150" height="86"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="150" height="86"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5M-k5-ycQ">
-                                                                    <rect key="frame" x="8" y="0.0" width="134" height="86"/>
-                                                                </button>
-                                                            </subviews>
-                                                        </view>
-                                                        <constraints>
-                                                            <constraint firstAttribute="trailingMargin" secondItem="F5M-k5-ycQ" secondAttribute="trailing" id="3tD-LJ-Gtb"/>
-                                                            <constraint firstItem="F5M-k5-ycQ" firstAttribute="top" secondItem="9t7-bF-qis" secondAttribute="topMargin" id="7Gy-dz-rBP"/>
-                                                            <constraint firstItem="F5M-k5-ycQ" firstAttribute="leading" secondItem="9t7-bF-qis" secondAttribute="leadingMargin" id="Eau-3V-2rZ"/>
-                                                            <constraint firstAttribute="bottomMargin" secondItem="F5M-k5-ycQ" secondAttribute="bottom" id="qe5-wN-HeN"/>
-                                                        </constraints>
-                                                        <size key="customSize" width="150" height="86"/>
-                                                    </collectionViewCell>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="DeckOfIndexCardsCell" id="7VR-X8-1Dz" customClass="DeckOfCardsCell" customModule="IndexCards" customModuleProvider="target">
-                                                        <rect key="frame" x="160" y="0.0" width="150" height="100"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                             <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XTe-Je-X5p">
-                                                                    <rect key="frame" x="10" y="13" width="205" height="61"/>
-                                                                    <subviews>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="2Gb-hf-LGz">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="205" height="53"/>
-                                                                            <subviews>
-                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="emU-WP-fl1">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="102.5" height="53"/>
-                                                                                </imageView>
-                                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OFi-gp-IpP">
-                                                                                    <rect key="frame" x="102.5" y="0.0" width="102.5" height="53"/>
-                                                                                    <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIX-VJ-DEp">
-                                                                                            <rect key="frame" x="34.5" y="0.0" width="33.5" height="24.5"/>
-                                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                                            <nil key="textColor"/>
-                                                                                            <nil key="highlightedColor"/>
-                                                                                        </label>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="count" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Rc-Qt-zU7">
-                                                                                            <rect key="frame" x="29.5" y="32.5" width="44" height="20.5"/>
-                                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                                            <nil key="textColor"/>
-                                                                                            <nil key="highlightedColor"/>
-                                                                                        </label>
-                                                                                    </subviews>
-                                                                                </stackView>
-                                                                            </subviews>
-                                                                        </stackView>
-                                                                    </subviews>
-                                                                    <constraints>
-                                                                        <constraint firstItem="2Gb-hf-LGz" firstAttribute="leading" secondItem="XTe-Je-X5p" secondAttribute="leading" id="UoU-Ld-IBW"/>
-                                                                        <constraint firstItem="2Gb-hf-LGz" firstAttribute="top" secondItem="XTe-Je-X5p" secondAttribute="top" id="ZBI-k3-9ji"/>
-                                                                        <constraint firstAttribute="bottom" secondItem="2Gb-hf-LGz" secondAttribute="bottom" id="d7X-zX-bSs"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="2Gb-hf-LGz" secondAttribute="trailing" id="lNV-zS-xfD"/>
-                                                                    </constraints>
-                                                                </view>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KTI-ne-KZe">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="225" height="0.0"/>
+                                                                </imageView>
                                                             </subviews>
                                                         </view>
                                                         <constraints>
-                                                            <constraint firstItem="XTe-Je-X5p" firstAttribute="leading" secondItem="7VR-X8-1Dz" secondAttribute="leading" constant="10" id="4vT-JN-1L0"/>
-                                                            <constraint firstItem="XTe-Je-X5p" firstAttribute="top" secondItem="7VR-X8-1Dz" secondAttribute="top" constant="10" id="AOw-fA-L8E"/>
-                                                            <constraint firstAttribute="trailing" secondItem="XTe-Je-X5p" secondAttribute="trailing" constant="10" id="vo7-bR-Ngf"/>
-                                                            <constraint firstAttribute="bottom" secondItem="XTe-Je-X5p" secondAttribute="bottom" constant="10" id="w3b-s6-oBF"/>
+                                                            <constraint firstItem="KTI-ne-KZe" firstAttribute="top" secondItem="7VR-X8-1Dz" secondAttribute="top" id="1w0-LR-Cpl"/>
+                                                            <constraint firstAttribute="trailing" secondItem="KTI-ne-KZe" secondAttribute="trailing" id="7Mc-D7-TbY"/>
+                                                            <constraint firstAttribute="bottom" secondItem="KTI-ne-KZe" secondAttribute="bottom" id="Q9e-Zz-dcO"/>
+                                                            <constraint firstItem="KTI-ne-KZe" firstAttribute="leading" secondItem="7VR-X8-1Dz" secondAttribute="leading" id="my9-gX-OQi"/>
                                                         </constraints>
                                                         <size key="customSize" width="150" height="100"/>
                                                         <connections>
-                                                            <outlet property="infoLabel" destination="9Rc-Qt-zU7" id="XuB-Tn-t8V"/>
-                                                            <outlet property="thumbnailView" destination="emU-WP-fl1" id="7HD-a4-CsC"/>
-                                                            <outlet property="titleLabel" destination="HIX-VJ-DEp" id="Co4-3u-8Ns"/>
+                                                            <outlet property="thumbnailView" destination="KTI-ne-KZe" id="osa-6V-tSh"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="AddCardToDeck" id="MjS-ce-gn0" customClass="AddCardCell" customModule="IndexCards" customModuleProvider="target">
-                                                        <rect key="frame" x="320" y="7" width="150" height="86"/>
+                                                        <rect key="frame" x="160" y="7" width="150" height="86"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                             <rect key="frame" x="0.0" y="0.0" width="150" height="86"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuI-Wo-XaW">
-                                                                    <rect key="frame" x="8" y="25" width="134" height="36"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuI-Wo-XaW">
+                                                                    <rect key="frame" x="67" y="-18" width="91" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                                     <state key="normal" title="add a card"/>
                                                                     <connections>
@@ -522,9 +467,7 @@
                                                         </view>
                                                         <constraints>
                                                             <constraint firstItem="vuI-Wo-XaW" firstAttribute="centerY" secondItem="MjS-ce-gn0" secondAttribute="centerY" id="Dg3-aD-So0"/>
-                                                            <constraint firstItem="vuI-Wo-XaW" firstAttribute="leading" secondItem="MjS-ce-gn0" secondAttribute="leadingMargin" id="Ew0-5q-UBz"/>
                                                             <constraint firstItem="vuI-Wo-XaW" firstAttribute="centerX" secondItem="MjS-ce-gn0" secondAttribute="centerX" id="MQ4-Cz-73D"/>
-                                                            <constraint firstAttribute="trailingMargin" secondItem="vuI-Wo-XaW" secondAttribute="trailing" id="fpk-5N-vTd"/>
                                                         </constraints>
                                                         <size key="customSize" width="150" height="86"/>
                                                     </collectionViewCell>
