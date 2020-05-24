@@ -470,6 +470,9 @@
                                                             <constraint firstItem="vuI-Wo-XaW" firstAttribute="centerX" secondItem="MjS-ce-gn0" secondAttribute="centerX" id="MQ4-Cz-73D"/>
                                                         </constraints>
                                                         <size key="customSize" width="150" height="86"/>
+                                                        <connections>
+                                                            <outlet property="addCardButton" destination="vuI-Wo-XaW" id="qVE-8K-Zbu"/>
+                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>

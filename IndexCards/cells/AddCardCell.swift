@@ -10,6 +10,14 @@ import UIKit
 
 class AddCardCell: UICollectionViewCell {
  
+    
+    @IBOutlet weak var addCardButton: UIButton!{
+        didSet{
+            addCardButton.setTitleColor(UIColor.blue, for: .normal)
+        }
+    }
+    
+    
     var theme : Theme?
     var delegate : DecksCollectionViewController?
     
@@ -19,15 +27,6 @@ class AddCardCell: UICollectionViewCell {
         //rounded corners
         self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width
         self.layer.masksToBounds = false
-        
-        //drop shadow
-//        let shadowPath = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.cornerRadius)
-//        self.layer.shadowPath = shadowPath.cgPath
-//        self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-//        self.layer.shadowColor = UIColor.black.cgColor
-//        self.layer.shadowRadius = 2.0
-//        self.layer.shadowOpacity = 0.7
-//        self.layer.shouldRasterize = true
         
         //border
         self.layer.borderColor = UIColor.blue.cgColor
