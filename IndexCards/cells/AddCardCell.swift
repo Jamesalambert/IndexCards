@@ -21,17 +21,23 @@ class AddCardCell: UICollectionViewCell {
         self.layer.masksToBounds = false
         
         //drop shadow
-        let shadowPath = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.cornerRadius)
-        self.layer.shadowPath = shadowPath.cgPath
-        self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 2.0
-        self.layer.shadowOpacity = 0.7
-        self.layer.shouldRasterize = true
+//        let shadowPath = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.cornerRadius)
+//        self.layer.shadowPath = shadowPath.cgPath
+//        self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+//        self.layer.shadowColor = UIColor.black.cgColor
+//        self.layer.shadowRadius = 2.0
+//        self.layer.shadowOpacity = 0.7
+//        self.layer.shouldRasterize = true
+        
+        //border
+        self.layer.borderColor = UIColor.blue.cgColor
+        self.layer.borderWidth = CGFloat(3.0)
+        
         
         //background color
         self.backgroundColor = nil
-        self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
+        self.layer.backgroundColor = UIColor.clear.cgColor
+        self.isOpaque = false
     }
     
     
