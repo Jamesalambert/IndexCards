@@ -10,12 +10,12 @@ import UIKit
 
 class ShapeCell: UICollectionViewCell {
     
-    enum Shape {
-        case Circle
-        case RoundRect
-    }
+//    enum Shape {
+//        case Circle
+//        case RoundRect
+//    }
     
-    var currentShape = Shape.RoundRect
+    var currentShape = StickerShape.RoundRect
     var scale = CGFloat(0.8)
     
     

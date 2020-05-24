@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A135966246B511A001AE343 /* addDeckButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A135965246B511A001AE343 /* addDeckButtonView.swift */; };
 		1A1B9961245E0ECD0016E050 /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1B9960245E0ECD0016E050 /* utilities.swift */; };
+		1A2012C6247AD8BB00849A97 /* sticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2012C5247AD8BB00849A97 /* sticker.xib */; };
 		1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26B98D24621DA7000732CB /* ThemeClass.swift */; };
 		1A7544CD245F1C20007229F4 /* DecksCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */; };
 		1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		1A135965246B511A001AE343 /* addDeckButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addDeckButtonView.swift; sourceTree = "<group>"; };
 		1A1B9960245E0ECD0016E050 /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
+		1A2012C5247AD8BB00849A97 /* sticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = sticker.xib; sourceTree = "<group>"; };
 		1A26B98D24621DA7000732CB /* ThemeClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeClass.swift; sourceTree = "<group>"; };
 		1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksCollectionViewController.swift; sourceTree = "<group>"; };
 		1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexCardsCollectionViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
 				1ADD73C5246E0F9600A9186A /* Sticker.swift */,
+				1A2012C5247AD8BB00849A97 /* sticker.xib */,
 			);
 			path = stickers;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AFD9609245CDE650092CF99 /* LaunchScreen.storyboard in Resources */,
+				1A2012C6247AD8BB00849A97 /* sticker.xib in Resources */,
 				1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */,
 				1AFD9604245CDE630092CF99 /* Main.storyboard in Resources */,
 			);

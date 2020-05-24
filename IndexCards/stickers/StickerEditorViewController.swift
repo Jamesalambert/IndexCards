@@ -84,57 +84,14 @@ class StickerEditorViewController:
             shapeCollectionView.dataSource = self
             shapeCollectionView.dragDelegate = self
             
-            let tap = UITapGestureRecognizer(target: self, action: #selector(tappedShape(_:)))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(tappedStickerMenu(_:)))
         
             tap.delegate = self
             shapeCollectionView.addGestureRecognizer(tap)
             
         }
     }
-    
-    
-    @objc private func tappedShape(_ gesture : UITapGestureRecognizer){
-        //which shape was tapped?
-        
-        if let tappedIndexPath = shapeCollectionView.indexPathForItem(
-            at: gesture.location(in: shapeCollectionView)),
-            let tappedCell = (shapeCollectionView.cellForItem(
-                at: tappedIndexPath) as? ShapeCell){
-            
-            let newSticker : Sticker
-            
-            switch tappedCell.currentShape{
-            case .Circle:
-                newSticker = stickerView.addShape(
-                    ofType: "Circle".attributedText(),
-                    atLocation: stickerView.convert(tappedCell.center, from: shapeCollectionView))
-            case .RoundRect:
-                newSticker = stickerView.addShape(ofType: "RoundRect".attributedText(), atLocation: stickerView.convert(tappedCell.center, from: shapeCollectionView))
-            }
-            
-            newSticker.bounds.size = tappedCell.bounds.size
-            
-            //animate to the canvas
-            
-            UIView.transition(
-                with: newSticker,
-                duration: theme?.timeOf(.addShape) ?? 2.0,
-                options: .curveEaseInOut,
-                animations: {
-                    
-                    newSticker.unitLocation = self.stickerView.unitLocationFrom(point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
-                    
-                    newSticker.unitSize = self.stickerView.unitSizeFrom(size: CGSize(width: 150, height: 150))
-//                    newSticker.center = self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview)
-                    
-                    //newSticker.bounds.size = CGSize(width: 150, height: 150)
-            },
-                completion: nil)
-            
-            
-            
-        }//if let
-    }
+
     
     
     @IBOutlet weak var hintBarBackgroundView: UIView!{
@@ -273,6 +230,30 @@ class StickerEditorViewController:
     }//func
     
     
+    @objc private func tappedStickerMenu(_ gesture : UITapGestureRecognizer){
+        
+        if let tappedIndexPath = shapeCollectionView.indexPathForItem(
+            at: gesture.location(in: shapeCollectionView)),
+            let tappedCell = (shapeCollectionView.cellForItem(
+                at: tappedIndexPath) as? ShapeCell){
+            
+            let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
+            
+            newSticker.currentShape = tappedCell.currentShape
+            newSticker.unitLocation = stickerView.unitLocationFrom(
+                point: stickerView.convert(stickerView.center, from: stickerView.superview))
+            newSticker.unitSize = CGSize(width: 0.2, height: 0.2)
+            
+            stickerView.importShape(sticker: newSticker)
+            
+            newSticker.textField.becomeFirstResponder()
+            
+        }//if lets
+    }//func
+    
+
+    
+    
     //MARK:- UIImagePicker
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -396,7 +377,7 @@ class StickerEditorViewController:
     }
     
     private var cursorPosition : CGFloat? {
-        if let position = stickerView.currentTextField?.superview?.frame.maxY{
+        if let position = currentSticker?.frame.maxY{
             let absolutePosition = view.convert(CGPoint(
                 x: CGFloat(0),
                 y: position),
@@ -414,9 +395,13 @@ class StickerEditorViewController:
         }
         
         if let sticker = currentSticker, let shift = distanceToShift {
-            sticker.center = sticker.center.offsetBy(
+            
+            sticker.unitLocation = stickerView.unitLocationFrom(
+                point:
+                sticker.center.offsetBy(
                 dx: CGFloat(0),
-                dy: CGFloat(-1 * shift))
+                dy: CGFloat(-1 * shift)))
+        
         }
     }
     
@@ -425,9 +410,11 @@ class StickerEditorViewController:
     private func keyboardHidden(){
         if let sticker = currentSticker,
             let shift = distanceToShift {
-            sticker.center = sticker.center.offsetBy(
-                dx: CGFloat(0),
-                dy: shift)
+            sticker.unitLocation = stickerView.unitLocationFrom(
+                point:
+                sticker.center.offsetBy(
+                    dx: CGFloat(0),
+                    dy: CGFloat(shift)))
         }
     }
     
@@ -480,15 +467,15 @@ class StickerEditorViewController:
             object: nil,
             queue: nil,
             using: { [weak self] notification in
-                
+
                 if let userInfo = notification.userInfo{
                     if let frame = userInfo[NSString(string: "UIKeyboardFrameEndUserInfoKey")] as? CGRect {
-                        
+
                         self?.keyboardShown(frame.origin.y)
                     }
                 }
         })
-        
+
         let _ =  NotificationCenter.default.addObserver(
             forName: UIResponder.keyboardWillHideNotification,
             object: nil,

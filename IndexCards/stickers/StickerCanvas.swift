@@ -62,56 +62,55 @@ UIGestureRecognizerDelegate
     func dropInteraction(_ interaction: UIDropInteraction,
                          performDrop session: UIDropSession) {
         
+        
         //creates new instances of the dragged items
-            session.loadObjects(ofClass: NSAttributedString.self) { providers in
-                let dropPoint = session.location(in: self)
-        
-                for attributedString in providers as? [NSAttributedString] ?? []{
-                    let _ = self.addShape(ofType: attributedString, atLocation: dropPoint)
+        session.loadObjects(ofClass: NSAttributedString.self) { providers in
+            
+            let dropPoint = session.location(in: self)
+            
+            for attributedString in providers as? [NSAttributedString] ?? []{
+                
+                let shape : StickerShape
+                
+                switch attributedString.string {
+                case "Circle":
+                    shape = StickerShape.Circle
+                case "RoundRect":
+                    shape = StickerShape.RoundRect
+                default:
+                    shape = StickerShape.RoundRect
                 }
+                
+                let newSticker = self.addDroppedShape(shape: shape,
+                                  atLocation: dropPoint)
+                
+                newSticker.becomeFirstResponder()
+            }//for
+        } //completion
         
-            }
     }
     
     //MARK:- shape handling
-    //importing a shape during init
-    func importShape(sticker : Sticker){
-        addStickerGestureRecognizers(to: sticker)
-        self.addSubview(sticker)
-    }
-    
-    
-    //adding a dropped shape
-    func addShape(ofType shape : NSAttributedString, atLocation dropPoint : CGPoint) -> Sticker{
+    func addDroppedShape(shape: StickerShape, atLocation dropPoint : CGPoint) -> Sticker {
         
-        let newSticker = Sticker()
+        let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
         
-        switch shape.string {
-        case "Circle":
-            newSticker.currentShape = .Circle
-        case "RoundRect":
-            newSticker.currentShape = .RoundRect
-        default:
-            newSticker.currentShape = .RoundRect
-        }
-        
-        //newSticker.center = dropPoint
+        newSticker.currentShape = shape
         newSticker.unitLocation = unitLocationFrom(point: dropPoint)
-        newSticker.unitSize = unitSizeFrom(size: CGSize(width: 150, height: 150))
-        //newSticker.bounds.size = CGSize(width: 150, height: 150)
-        newSticker.backgroundColor = UIColor.clear
+        newSticker.unitSize = CGSize(width: 0.2, height: 0.2)
         
-        addStickerGestureRecognizers(to: newSticker)
-        
-        self.addSubview(newSticker)
-    
-        currentTextField = newSticker.textField
-        newSticker.textField.becomeFirstResponder()
-        
-        self.setNeedsDisplay()
+        importShape(sticker: newSticker)
         
         return newSticker
     }
+    
+    //importing a shape
+    func importShape(sticker : Sticker){
+        addStickerGestureRecognizers(to: sticker)
+        currentTextField = sticker.textField
+        self.addSubview(sticker)
+    }
+
     
     //helper func
     func unitLocationFrom(point : CGPoint) -> CGPoint{
@@ -204,9 +203,7 @@ UIGestureRecognizerDelegate
     @objc func tap(_ gesture : UITapGestureRecognizer){
         if let sticker = gesture.view as? Sticker {
             currentTextField = sticker.textField
-            
-            //show delete X for sticker??
-            
+            currentTextField?.becomeFirstResponder()
         }
     }
     
@@ -275,7 +272,7 @@ extension IndexCard.StickerData{
         
         center = sticker.unitLocation
         size = sticker.unitSize
-        text = sticker.text
+        text = sticker.stickerText
         rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
     }
 }
@@ -295,7 +292,7 @@ extension Sticker{
             self.currentShape = .RoundRect
         }
         
-        self.text = data.text
+        self.stickerText = data.text
         self.unitLocation = data.center
         self.unitSize = data.size
         self.backgroundColor = UIColor.clear
