@@ -316,7 +316,9 @@ extension Sticker{
         let newSticker = Bundle.main.loadNibNamed("sticker",
                                                   owner: nil,
                                                   options: nil)?.first as! Sticker
-            
+        
+        //newSticker.translatesAutoresizingMaskIntoConstraints = false
+        
         switch data.typeOfShape {
         case "Circle":
             newSticker.currentShape = .Circle
