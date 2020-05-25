@@ -44,6 +44,8 @@ class DecksCollectionViewController:
         didSet{
             indexCardsCollectionView.delegate = indexCardCollectionController
             indexCardsCollectionView.dataSource = indexCardCollectionController
+            indexCardsCollectionView.dragDelegate = indexCardCollectionController
+            indexCardsCollectionView.dropDelegate = indexCardCollectionController
             
             let tap = UITapGestureRecognizer()
             tap.numberOfTouchesRequired = 1

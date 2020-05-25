@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import MobileCoreServices
 
+//MARK:- Notes
 class Notes : Codable{
     
     var decks : [Deck]       //starts with 1 deck
@@ -53,7 +54,7 @@ class Notes : Codable{
 
 
 
-
+//MARK:- Deck of cards
 final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReading {
     
     
@@ -170,9 +171,52 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
 }
 
 
-class IndexCard : Hashable, Codable, NSCopying {
+
+//MARK:- Index Card
+final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSItemProviderReading {
+    
+    static var writableTypeIdentifiersForItemProvider: [String]{
+        return [(kUTTypeData) as String]
+    }
     
     
+    func loadData(withTypeIdentifier typeIdentifier: String,
+                  forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        
+        let progress = Progress(totalUnitCount: 100)
+        
+        do{
+            //encode to JSON
+            let data = try JSONEncoder().encode(self)
+            progress.completedUnitCount = 100
+            
+            completionHandler(data,nil)
+            
+        } catch {
+            completionHandler(nil, error)
+        }
+        
+        return progress
+    }
+    
+    static var readableTypeIdentifiersForItemProvider: [String]{
+        return [(kUTTypeData) as String]
+    }
+    
+    //had to add final class Deck after changeing the return type from Self to Deck
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> IndexCard {
+        
+        let decoder = JSONDecoder()
+        
+        do{
+            //decode back to a deck
+            let newCard = try decoder.decode(IndexCard.self, from: data)
+            
+            return newCard
+        } catch {
+            fatalError(error as! String)
+        }
+    }
     
     func copy(with zone: NSZone? = nil) -> Any {
         return IndexCard(indexCard: self)
@@ -224,7 +268,7 @@ class IndexCard : Hashable, Codable, NSCopying {
     
     
     // init()
-    init(){
+    override init(){
         self.identifier = IndexCard.getIdentifier()
     }
     
@@ -255,7 +299,5 @@ class IndexCard : Hashable, Codable, NSCopying {
     private var identifier : Int
     
     //Hashable
-    var hashValue : Int {return identifier}
-    
-    
+    override var hash : Int {return identifier}
 }

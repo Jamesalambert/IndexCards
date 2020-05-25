@@ -77,10 +77,12 @@ UIGestureRecognizerDelegate
                     shape = StickerShape.RoundRect
                 }
                 
-                let newSticker = self.addDroppedShape(shape: shape,
+                let _ = self.addDroppedShape(shape: shape,
                                   atLocation: dropPoint)
                 
-                //newSticker.textField.becomeFirstResponder()
+                //TODO: make dropped sticker the first responder
+                //self.currentTextField = newSticker.textField
+                //self.currentTextField?.becomeFirstResponder()
             }//for
         } //completion
         
@@ -317,7 +319,6 @@ extension Sticker{
                                                   owner: nil,
                                                   options: nil)?.first as! Sticker
         
-        //newSticker.translatesAutoresizingMaskIntoConstraints = false
         
         switch data.typeOfShape {
         case "Circle":

@@ -13,18 +13,19 @@ class IndexCardsCollectionViewController:
 UIViewController,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout
+UICollectionViewDelegateFlowLayout,
+UICollectionViewDragDelegate,
+UICollectionViewDropDelegate
 {
 
     
     //model
     var currentDeck : Deck?
-
     var theme : Theme?
-    
     var cardWidth : CGFloat = 300
-    
     var currentDocument : UIDocument?
+    
+    
     
     // MARK: UICollectionViewDataSource
 
@@ -59,29 +60,123 @@ UICollectionViewDelegateFlowLayout
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
-    /*
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-     
-       
+    
+    
+    
+    //MARK: - UICollectionViewDragDelegate
+    //for dragging from a collection view
+    
+    //items for beginning means 'this is what we're dragging'
+    func collectionView(_ collectionView: UICollectionView,
+            itemsForBeginning session: UIDragSession,
+            at indexPath: IndexPath) -> [UIDragItem] {
         
+        //lets dragged items know/report that they were dragged from the emoji collection view
+        session.localContext = collectionView
+        
+        return dragItemsAtIndexPath(at: indexPath)
     }
-    */
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        itemsForAddingTo session: UIDragSession,
+                        at indexPath: IndexPath,
+                        point: CGPoint) -> [UIDragItem] {
+        
+        return dragItemsAtIndexPath(at: indexPath)
     }
-    */
+    
+    
+    //my own helper func
+    func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
+        
+        //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
+        if let draggedData = currentDeck?.cards[indexPath.item]{
+            
+            let dragItem = UIDragItem(
+                itemProvider: NSItemProvider(object: draggedData))
+            
+            //useful shortcut we can use when dragging inside our app
+            dragItem.localObject = draggedData
+            
+            return [dragItem]
+        } else {
+            return []
+        }
+    }
 
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
+
 
     
+    
+    
+    //MARK:- UIColllectionViewDropDelegate
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        canHandle session: UIDropSession) -> Bool {
+        
+        return session.canLoadObjects(ofClass: IndexCard.self)
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+            dropSessionDidUpdate session: UIDropSession,
+            withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        
+        //check to see if it came from the DecksCollectionVC
+        let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
+        
+        if isFromSelf{
+            return UICollectionViewDropProposal(
+                operation: .move,
+                intent: .insertAtDestinationIndexPath)
+        } else {
+            return UICollectionViewDropProposal(operation: .cancel)
+        }
+    }
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+            performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+        //batch updates
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+        
+        for item in coordinator.items {
+            
+            if let sourceIndexPath = item.sourceIndexPath,
+                let droppedCard = item.dragItem.localObject as? IndexCard{
+                
+                collectionView.performBatchUpdates({
+                    //model
+                    currentDeck?.cards.remove(at: sourceIndexPath.item)
+                    currentDeck?.cards.insert(droppedCard, at: destinationIndexPath.item)
+                    
+                    //view
+                    collectionView.deleteItems(at: [sourceIndexPath])
+                    collectionView.insertItems(at: [destinationIndexPath])
+                    
+                }, completion: { finished in
+                    self.currentDocument?.updateChangeCount(.done)
+                })
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //MARK:- Action Menu
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
     var actionMenuIndexPath : IndexPath?
     var actionMenuCollectionView : UICollectionView?
@@ -115,7 +210,6 @@ UICollectionViewDelegateFlowLayout
     
     
     func duplicateCard(){
-        
         actionMenuCollectionView?.performBatchUpdates({
             
             if let indexPath = actionMenuIndexPath{
@@ -123,13 +217,13 @@ UICollectionViewDelegateFlowLayout
                 actionMenuCollectionView?.insertItems(at: [indexPath])
             }
             
-            }, completion: nil)
-        print("duplicate!")
+        }, completion: { finished in
+            if finished {self.currentDocument?.updateChangeCount(.done)}
+        })
     }
     
     
     func deleteCard(){
-        
         actionMenuCollectionView?.performBatchUpdates({
             
             if let indexPath = actionMenuIndexPath {
@@ -138,9 +232,9 @@ UICollectionViewDelegateFlowLayout
                 
                 actionMenuCollectionView?.deleteItems(at: [indexPath])
             }
-        }, completion: nil)
-        
-        currentDocument?.updateChangeCount(.done)
+        }, completion: { finished in
+            if finished {self.currentDocument?.updateChangeCount(.done)}
+        })
     }
 
     
