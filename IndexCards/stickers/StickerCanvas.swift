@@ -80,7 +80,7 @@ UIGestureRecognizerDelegate
                 let newSticker = self.addDroppedShape(shape: shape,
                                   atLocation: dropPoint)
                 
-                newSticker.textField.becomeFirstResponder()
+                //newSticker.textField.becomeFirstResponder()
             }//for
         } //completion
         

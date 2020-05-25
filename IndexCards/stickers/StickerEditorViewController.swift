@@ -238,15 +238,38 @@ class StickerEditorViewController:
                 at: tappedIndexPath) as? ShapeCell){
             
             let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
-            
+        
             newSticker.currentShape = tappedCell.currentShape
-            newSticker.unitLocation = stickerView.unitLocationFrom(
-                point: stickerView.convert(stickerView.center, from: stickerView.superview))
-            newSticker.unitSize = CGSize(width: 0.2, height: 0.2)
             
+            //starting place
             stickerView.importShape(sticker: newSticker)
             
-            newSticker.textField.becomeFirstResponder()
+            newSticker.unitLocation = stickerView.unitLocationFrom(
+                point: stickerView.convert(tappedCell.contentView.center, from: tappedCell.contentView))
+            
+            newSticker.unitSize = stickerView.unitSizeFrom(size: tappedCell.contentView.bounds.size)
+            
+            //animate to center
+            UIView.transition(
+                with: newSticker,
+                duration: theme?.timeOf(.addShape) ?? 2.0,
+                options: .curveEaseInOut,
+                animations: {
+                    
+                    let newLocation = self.stickerView.unitLocationFrom(
+                        point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
+                    let newSize = self.stickerView.unitSizeFrom(size: CGSize(
+                        width: 150,
+                        height: 150))
+                    
+                    newSticker.unitLocation = newLocation
+                    newSticker.unitSize = newSize
+                    
+                    
+            },
+                completion: { finished in
+                    newSticker.textField.becomeFirstResponder()
+            })
             
         }//if lets
     }//func
@@ -368,7 +391,6 @@ class StickerEditorViewController:
     
 
     //MARK:- keyboard handling
-    
     private var currentSticker : Sticker? {
         if let sticker = stickerView.currentTextField?.superview as? Sticker {
             return sticker
@@ -401,7 +423,6 @@ class StickerEditorViewController:
                 sticker.center.offsetBy(
                 dx: CGFloat(0),
                 dy: CGFloat(-1 * shift)))
-        
         }
     }
     
