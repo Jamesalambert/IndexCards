@@ -58,10 +58,10 @@ UITextFieldDelegate {
     }
     
     //MARK:- private
-    private var scale = CGFloat(0.8)
+    private var scale = CGFloat(1.0)
     
     private var font : UIFont = {
-        return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(30)))
+        return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(50)))
     }()
     
     //MARK:- IBOutlets

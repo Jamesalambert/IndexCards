@@ -245,8 +245,9 @@ class DecksCollectionViewController:
     
     // MARK:- UICollectionViewDelegate
 
-    /*
+    
     // Uncomment this method to specify if the specified item should be highlighted during tracking
+    /*
     func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
         
         if indexPath.section == 1 {return true}

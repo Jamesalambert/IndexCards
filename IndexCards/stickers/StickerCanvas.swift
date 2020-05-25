@@ -193,6 +193,22 @@ UIGestureRecognizerDelegate
                 
                 gesture.scale = CGFloat(1)
             }
+        case .ended:
+            if let sticker = gesture.view as? Sticker,
+                sticker.bounds.width < 150{
+                
+                //animate it back to a pinchable size
+                UIView.transition(
+                    with: sticker,
+                    duration: 0.2,
+                    options: .curveEaseInOut,
+                    animations: {
+                        sticker.unitSize = self.unitSizeFrom(size: CGSize(
+                            width: 150,
+                            height: 150))
+                    },
+                    completion: nil)
+            }
         default:
             return
         }
