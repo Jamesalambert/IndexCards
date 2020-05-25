@@ -67,6 +67,7 @@ UITextFieldDelegate {
     //MARK:- IBOutlets
     @IBOutlet weak var textField: UITextField!{
         didSet{
+        textField.alpha = 0.0
         textField.delegate = self
         textField.textColor = UIColor.white
         textField.text = stickerText
