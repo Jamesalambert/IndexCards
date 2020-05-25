@@ -71,8 +71,8 @@ UICollectionViewDropDelegate
             itemsForBeginning session: UIDragSession,
             at indexPath: IndexPath) -> [UIDragItem] {
         
-        //lets dragged items know/report that they were dragged from the emoji collection view
-        session.localContext = collectionView
+        //record the index path the card was dragged from otherwise the decks collection view has no way on knowing which card to delete
+        session.localContext = indexPath
         
         return dragItemsAtIndexPath(at: indexPath)
     }
@@ -124,10 +124,8 @@ UICollectionViewDropDelegate
             dropSessionDidUpdate session: UIDropSession,
             withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         
-        //check to see if it came from the DecksCollectionVC
-        let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
         
-        if isFromSelf{
+        if session.canLoadObjects(ofClass: IndexCard.self){
             return UICollectionViewDropProposal(
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)

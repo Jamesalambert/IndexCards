@@ -381,7 +381,11 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
-        return session.canLoadObjects(ofClass: Deck.self)
+        if session.canLoadObjects(ofClass: Deck.self) || session .canLoadObjects(ofClass: IndexCard.self){
+            return true
+        }
+        
+        return false
     }
     
     
@@ -398,6 +402,9 @@ class DecksCollectionViewController:
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)
         } else {
+            if session.canLoadObjects(ofClass: IndexCard.self){
+                return UICollectionViewDropProposal(operation: .move, intent: .insertIntoDestinationIndexPath)
+            }
             return UICollectionViewDropProposal(operation: .cancel)
         }
     }
@@ -408,28 +415,70 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
         performDropWith coordinator: UICollectionViewDropCoordinator) {
         
-        //batch updates
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
-        
-        for item in coordinator.items {
+        switch coordinator.proposal.intent{
+        case .insertAtDestinationIndexPath:
             
-            if let sourceIndexPath = item.sourceIndexPath,
-                let droppedDeck = item.dragItem.localObject as? Deck{
+            //moving a deck
+            let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+            
+            for item in coordinator.items {
                 
-                decksCollectionView.performBatchUpdates({
-                    //model
-                    model?.decks.remove(at: sourceIndexPath.item)
-                    model?.decks.insert(droppedDeck, at: destinationIndexPath.item)
+                if let sourceIndexPath = item.sourceIndexPath,
+                    let droppedDeck = item.dragItem.localObject as? Deck{
                     
-                    //view
-                    decksCollectionView.deleteItems(at: [sourceIndexPath])
-                    decksCollectionView.insertItems(at: [destinationIndexPath])
-
-                }, completion: { finished in
-                    self.document?.updateChangeCount(.done)
-                })
+                    decksCollectionView.performBatchUpdates({
+                        //model
+                        model?.decks.remove(at: sourceIndexPath.item)
+                        model?.decks.insert(droppedDeck, at: destinationIndexPath.item)
+                        
+                        //view
+                        decksCollectionView.deleteItems(at: [sourceIndexPath])
+                        decksCollectionView.insertItems(at: [destinationIndexPath])
+                        
+                    }, completion: { finished in
+                        self.document?.updateChangeCount(.done)
+                    })
+                }
             }
+            
+        case .insertIntoDestinationIndexPath:
+            
+            for item in coordinator.items {
+                
+                
+                
+                if let droppedIndexCard = item.dragItem.localObject as? IndexCard,
+                    let sourceIndexPath = coordinator.session.localDragSession?.localContext as? IndexPath{
+                
+                    //remove from old deck
+                    //batch updates
+                    indexCardsCollectionView.performBatchUpdates({
+                        
+                        //model
+                indexCardCollectionController.currentDeck?.deleteCard(droppedIndexCard)
+                        
+                        //view
+                        indexCardsCollectionView.deleteItems(at: [sourceIndexPath])
+                        
+                    }, completion: nil)
+                    
+                    
+                    //add card to new deck
+                    let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+                    let destinationDeck = model?.decks[destinationIndexPath.item]
+                    
+                    if let droppedCard = item.dragItem.localObject as? IndexCard{
+                        destinationDeck?.cards.insert(droppedCard, at: 0)
+                    }
+                    
+                }
+            }//for
+            
+            
+        default:
+            return
         }
+        
     }
     
 
