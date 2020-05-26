@@ -212,6 +212,7 @@ UICollectionViewDropDelegate
             
             if let indexPath = actionMenuIndexPath{
                 currentDeck?.duplicateCard(atIndex: indexPath.item)
+                
                 actionMenuCollectionView?.insertItems(at: [indexPath])
             }
             

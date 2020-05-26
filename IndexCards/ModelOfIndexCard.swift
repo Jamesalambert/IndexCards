@@ -139,7 +139,7 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
     }
     
     func duplicateCard(atIndex index: Int){
-        if index < cards.count, index > 0{
+        if index < cards.count, index >= 0{
             let cardToCopy = cards[index]
             cards.insert(cardToCopy.copy() as! IndexCard, at: index)
         }
