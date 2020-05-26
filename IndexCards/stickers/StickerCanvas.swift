@@ -134,7 +134,7 @@ UIGestureRecognizerDelegate
         
     }
     
-    //helper func
+    //helper funcs
     func unitLocationFrom(point : CGPoint) -> CGPoint{
         return CGPoint(
             x: point.x / bounds.width,
@@ -164,12 +164,12 @@ UIGestureRecognizerDelegate
                 sticker.unitLocation = newLocation
                 gesture.setTranslation(CGPoint.zero, in: gesture.view)
             
-                if bounds.contains(newLocation){
+                if sticker.isInsideCanvas{
                     sticker.isAboutToBeDeleted = false
                 } else {
                     sticker.isAboutToBeDeleted = true
                 }
-            
+
             }
             
         case .ended:

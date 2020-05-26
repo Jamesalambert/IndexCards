@@ -57,6 +57,14 @@ UITextFieldDelegate {
         }
     }
     
+    var isInsideCanvas : Bool {
+        let x = Int(ceil(Double(unitLocation.x)))
+        let y = Int(ceil(Double(unitLocation.y)))
+        
+        return x * y == 1 ? true : false
+    }
+    
+    
     //MARK:- private
     private var scale = CGFloat(1.0)
     
