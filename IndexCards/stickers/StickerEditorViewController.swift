@@ -13,7 +13,6 @@ class StickerEditorViewController:
     UICollectionViewDataSource,
     UICollectionViewDelegate,
     UICollectionViewDragDelegate,
-    UIScrollViewDelegate,
     UIImagePickerControllerDelegate,
     UINavigationControllerDelegate,
     UIGestureRecognizerDelegate,
@@ -141,13 +140,22 @@ class StickerEditorViewController:
                 stickerView.layer.masksToBounds = true
             }
             
-            
             if let indexCard = indexCard{
                 stickerView.stickerData = indexCard.stickers
                 stickerView.backgroundImage = indexCard.image
             }
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+            tap.numberOfTapsRequired = 1
+            tap.delegate = stickerView
+        stickerView.addGestureRecognizer(tap)
         }
     }
+    
+    @objc func dismissKeyboard(){
+        stickerView.currentTextField?.resignFirstResponder()
+    }
+    
     
     @IBOutlet weak var cardBackgroundView: UIView!
     
@@ -304,10 +312,10 @@ class StickerEditorViewController:
     
     
     //MARK:- UIScrollViewDelegate
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        
-        return stickerView
-    }
+//    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+//
+//        return stickerView
+//    }
     
     
     //MARK:- UICollectionViewDataSource
