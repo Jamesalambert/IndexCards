@@ -407,11 +407,13 @@ class StickerEditorViewController:
     }
     
     private var cursorPosition : CGFloat? {
-        if let position = currentSticker?.frame.maxY{
+        if let textField = currentSticker?.textField{
+            let position = textField.caretRect(for: textField.endOfDocument).midY
+            let capHeight = textField.font?.capHeight ?? CGFloat(5.0)
             let absolutePosition = view.convert(CGPoint(
-                x: CGFloat(0),
-                y: position),
-            from: stickerView)
+                                    x: CGFloat(0),
+                                    y: position + capHeight),
+                                    from: currentSticker)
             return absolutePosition.y
         }
         return nil
