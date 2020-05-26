@@ -184,15 +184,77 @@ UIGestureRecognizerDelegate
         }
     }
     
+    //returns 1,-1 or 0 for  V, H or both, 2=error
+    private func pinchOrientation(pinch : UIPinchGestureRecognizer) -> Int{
+        
+        //get 2 touches
+        if pinch.numberOfTouches == 2{
+            
+            let first = pinch.location(ofTouch: 0, in: pinch.view)
+            let second = pinch.location(ofTouch: 1, in: pinch.view)
+            
+            let dy = second.y - first.y
+            let dx = second.x - first.x
+            
+            let angle = atan2(dy,dx)
+            print(angle)
+            
+            var orientation = abs(abs(angle) - CGFloat.pi/2)
+            
+            //normalise to 0..1
+            orientation /= CGFloat.pi/2
+            print(orientation)
+            
+            if orientation < 0.1 {
+                //vertical
+                return 1
+            } else if orientation < 0.8 {
+                //in between
+                return 0
+            } else {
+                //horizontal
+                return -1
+            }
+        }
+        return 2
+}
+    
+    
     @objc func zooming(_ gesture: UIPinchGestureRecognizer){
         switch gesture.state {
         case .changed:
         
             if let sticker = gesture.view as? Sticker{
-                sticker.unitSize = CGSize(
-                    width: sticker.unitSize.width * gesture.scale,
-                    height: sticker.unitSize.height * gesture.scale)
                 
+                switch sticker.currentShape {
+                case .Circle:
+                    sticker.unitSize = CGSize(
+                        width: sticker.unitSize.width * gesture.scale,
+                        height: sticker.unitSize.height * gesture.scale)
+                case .RoundRect:
+                    
+                    let orientation = pinchOrientation(pinch: gesture)
+                    print(orientation)
+                    
+                    
+                    switch orientation{
+                    case 1:
+                        sticker.unitSize = CGSize(
+                            width: sticker.unitSize.width,
+                            height: sticker.unitSize.height * gesture.scale)
+                    case -1:
+                        sticker.unitSize = CGSize(
+                            width: sticker.unitSize.width * gesture.scale,
+                            height: sticker.unitSize.height)
+                    case 0:
+                        sticker.unitSize = CGSize(
+                            width: sticker.unitSize.width * gesture.scale,
+                            height: sticker.unitSize.height * gesture.scale)
+                    default:
+                        print("Error while pinching")
+                    }
+                }
+            
                 gesture.scale = CGFloat(1)
             }
         case .ended:
