@@ -26,7 +26,7 @@ class Notes : Codable{
     
     //encode as a json string for saving
     var json : Data? {
-        return try? JSONEncoder().encode(decks)
+        return try? JSONEncoder().encode(self)
     }
     
     //failable initialiser from json data
@@ -36,8 +36,8 @@ class Notes : Codable{
         } else {
             
             self.init()
-            if let newValue = try? JSONDecoder().decode([Deck].self, from: json){
-                self.decks = newValue
+            if let newValue = try? JSONDecoder().decode(Notes.self, from: json){
+                self.decks = newValue.decks
             }
         }
     }
