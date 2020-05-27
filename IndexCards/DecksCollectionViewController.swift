@@ -156,9 +156,11 @@ class DecksCollectionViewController:
                 at: [IndexPath(row: 0, section: 0)])
             
             
-        }, completion: nil)
+        }, completion: { finished in
+            self.document?.updateChangeCount(.done)
+            self.selectDeck(at: IndexPath(row: 0, section: 0))
+        })
         
-        document?.updateChangeCount(UIDocument.ChangeKind.done)
     }
     
     
@@ -271,10 +273,13 @@ class DecksCollectionViewController:
     
     var lastSelectedDeck : Deck?
   
-    
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
+        selectDeck(at: indexPath)
+    }
+
+    private func selectDeck(at indexPath: IndexPath){
         //save selected path so we can show the 'add card button' in the right place
         lastSelectedDeck = model?.decks[indexPath.item]
         
@@ -287,7 +292,6 @@ class DecksCollectionViewController:
         //the delegate/datasource can't do this
         indexCardsCollectionView.reloadData()
     }
-
     
     
     
@@ -313,13 +317,15 @@ class DecksCollectionViewController:
         return action == deleteAction.action
     }
 
+    //this function does not appear to be called but needs to be here
+    //to enable deleting decks.
     func collectionView(_ collectionView: UICollectionView,
             performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-        
     }
 
     @objc func deleteTappedDeck(_ sender:UIMenuController){        
         //batch updates
+        
         decksCollectionView.performBatchUpdates({
 
             if let indexPath = actionMenuIndexPath {
@@ -327,9 +333,11 @@ class DecksCollectionViewController:
                 
                 decksCollectionView.deleteItems(at: [indexPath])
             }
-        }, completion: nil)
+        }, completion: { finished in
+            self.document?.updateChangeCount(.done)
+            self.selectDeck(at: IndexPath(item: 0, section: 0))
+        })
         
-        document?.updateChangeCount(.done)
     }
     
     

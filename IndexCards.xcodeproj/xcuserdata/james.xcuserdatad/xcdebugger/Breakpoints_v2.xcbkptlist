@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/stickers/StickerCanvas.swift"
-            timestampString = "612222231.070557"
+            timestampString = "612304250.2104959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "327"
@@ -47,13 +47,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/DecksCollectionViewController.swift"
-            timestampString = "612140933.27065"
+            timestampString = "612304250.211133"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "414"
+            endingLineNumber = "414"
+            landmarkName = "collectionView(_:dropSessionDidUpdate:withDestinationIndexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -63,29 +63,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/DecksCollectionViewController.swift"
-            timestampString = "612140933.271585"
+            timestampString = "612304250.211671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/DecksCollectionViewController.swift"
-            timestampString = "612140933.27215"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "418"
-            endingLineNumber = "418"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "454"
+            endingLineNumber = "454"
+            landmarkName = "collectionView(_:performDropWith:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
