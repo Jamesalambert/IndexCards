@@ -280,17 +280,21 @@ class DecksCollectionViewController:
     }
 
     private func selectDeck(at indexPath: IndexPath){
-        //save selected path so we can show the 'add card button' in the right place
-        lastSelectedDeck = model?.decks[indexPath.item]
         
-        //reload decks to show addCard button
-        decksCollectionView.reloadData()
-        
-        //update main view
-        indexCardCollectionController.currentDeck = lastSelectedDeck
-        
-        //the delegate/datasource can't do this
-        indexCardsCollectionView.reloadData()
+        if let deck = model?.decks[indexPath.item],
+            let _ = decksCollectionView.cellForItem(at: indexPath){
+            //save selected path so we can show the 'add card button' in the right place
+            lastSelectedDeck = deck
+            
+            //reload decks to show addCard button
+            decksCollectionView.reloadData()
+            
+            //update main view
+            indexCardCollectionController.currentDeck = lastSelectedDeck
+            
+            //the delegate/datasource can't do this
+            indexCardsCollectionView.reloadData()
+        }
     }
     
     
