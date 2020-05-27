@@ -87,7 +87,6 @@ class StickerEditorViewController:
         
             tap.delegate = self
             shapeCollectionView.addGestureRecognizer(tap)
-            
         }
     }
 
@@ -320,7 +319,8 @@ class StickerEditorViewController:
     
     //MARK:- UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        
+        return 3
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -340,6 +340,8 @@ class StickerEditorViewController:
                 shapeCell.currentShape = .RoundRect
             case 1:
                 shapeCell.currentShape = .Circle
+            case 2:
+                shapeCell.currentShape = .Highlight
             default:
                 shapeCell.currentShape = .RoundRect
             }
@@ -384,6 +386,8 @@ class StickerEditorViewController:
                 dragString = "Circle"
             case .RoundRect:
                 dragString = "RoundRect"
+            case .Highlight:
+                dragString = "Highlight"
             }
             
             let dragItem = UIDragItem(itemProvider: NSItemProvider(object: dragString.attributedText()))

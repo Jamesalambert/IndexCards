@@ -266,10 +266,8 @@ class DecksCollectionViewController:
     // Uncomment this method to specify if the specified item should be selected
     func collectionView(_ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
         return true
     }
-    
     
     var lastSelectedDeck : Deck?
   

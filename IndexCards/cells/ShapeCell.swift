@@ -10,18 +10,23 @@ import UIKit
 
 class ShapeCell: UICollectionViewCell {
     
-//    enum Shape {
-//        case Circle
-//        case RoundRect
-//    }
-    
     var currentShape = StickerShape.RoundRect
     var scale = CGFloat(0.8)
     
+    var stickerColor : UIColor {
+        get{
+            switch currentShape {
+            case .Highlight:
+                return UIColor.green.withAlphaComponent(CGFloat(0.25))
+            default:
+                return UIColor.blue.withAlphaComponent(CGFloat(0.8))
+            }
+        }
+    }
     
     override func draw(_ rect: CGRect) {
         
-        UIColor.blue.setFill()
+        stickerColor.setFill()
         
         switch currentShape {
         case .Circle:
@@ -40,6 +45,16 @@ class ShapeCell: UICollectionViewCell {
             let rect = self.bounds.zoom(by: scale)
             let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
             
+            
+            path.fill()
+            
+        case .Highlight:
+            let path = UIBezierPath()
+            path.move(to: CGPoint(x: 0.1 * bounds.width, y: 0.3 * bounds.height))
+            path.addLine(to: CGPoint(x: bounds.width, y: 0.3 * bounds.height))
+            path.addLine(to: CGPoint(x: 0.9 * bounds.width, y: 0.6 * bounds.height))
+            path.addLine(to: CGPoint(x: 0, y: 0.6 * bounds.height))
+            path.close()
             
             path.fill()
             

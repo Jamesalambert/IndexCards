@@ -21,6 +21,7 @@ UIGestureRecognizerDelegate
         }
     }
     
+    
     var stickerData : [IndexCard.StickerData]?{
         get {
             let stickerDataArray = subviews.compactMap{$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
@@ -29,13 +30,11 @@ UIGestureRecognizerDelegate
         set{
             //array of sticker data structs
             newValue?.forEach { stickerData in
-
                 let newSticker = Sticker.fromNib(withData: stickerData)
                 importShape(sticker: newSticker)
             }
         }
     }
-    
     
     
     //MARK: - UIDropInteractionDelegate
@@ -73,6 +72,8 @@ UIGestureRecognizerDelegate
                     shape = StickerShape.Circle
                 case "RoundRect":
                     shape = StickerShape.RoundRect
+                case "Highlight":
+                    shape = StickerShape.Highlight
                 default:
                     shape = StickerShape.RoundRect
                 }
@@ -197,13 +198,11 @@ UIGestureRecognizerDelegate
             let dx = second.x - first.x
             
             let angle = atan2(dy,dx)
-            print(angle)
             
             var orientation = abs(abs(angle) - CGFloat.pi/2)
             
             //normalise to 0..1
             orientation /= CGFloat.pi/2
-            print(orientation)
             
             if orientation < 0.1 {
                 //vertical
@@ -231,10 +230,9 @@ UIGestureRecognizerDelegate
                     sticker.unitSize = CGSize(
                         width: sticker.unitSize.width * gesture.scale,
                         height: sticker.unitSize.height * gesture.scale)
-                case .RoundRect:
+                default:
                     
                     let orientation = pinchOrientation(pinch: gesture)
-                    print(orientation)
                     
                     
                     switch orientation{
@@ -343,6 +341,8 @@ extension IndexCard.StickerData{
             typeOfShape = "Circle"
         case .RoundRect:
             typeOfShape = "RoundRect"
+        case .Highlight:
+            typeOfShape = "Highlight"
         }
         
         center = sticker.unitLocation
@@ -363,6 +363,8 @@ extension Sticker{
             self.currentShape = .Circle
         case "RouncRect":
             self.currentShape = .RoundRect
+        case "Highlight":
+            self.currentShape = .Highlight
         default:
             self.currentShape = .RoundRect
         }
@@ -381,12 +383,14 @@ extension Sticker{
                                                   owner: nil,
                                                   options: nil)?.first as! Sticker
         
-        
+    
         switch data.typeOfShape {
         case "Circle":
             newSticker.currentShape = .Circle
         case "RouncRect":
             newSticker.currentShape = .RoundRect
+        case "Highlight":
+            newSticker.currentShape = .Highlight
         default:
             newSticker.currentShape = .RoundRect
         }

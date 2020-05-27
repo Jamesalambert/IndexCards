@@ -9,9 +9,10 @@
 import UIKit
 
 
-enum StickerShape {
+enum StickerShape{
     case Circle
     case RoundRect
+    case Highlight
 }
 
 class Sticker:
@@ -23,7 +24,32 @@ UITextFieldDelegate {
     
     var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}
     
-    var stickerColor = UIColor.blue.withAlphaComponent(CGFloat(0.8)) {didSet{setNeedsDisplay()}}
+    var color : UIColor?
+    
+    var stickerColor : UIColor {
+        get{
+            if let color = color{
+                return color
+            } else {
+                switch currentShape {
+                case .Highlight:
+                    return UIColor.green.withAlphaComponent(CGFloat(0.25))
+                default:
+                    return UIColor.blue.withAlphaComponent(CGFloat(0.8))
+                }
+            }
+        }
+        set{
+            switch currentShape {
+            case .Highlight:
+                color = newValue.withAlphaComponent(CGFloat(0.25))
+            default:
+                color = newValue.withAlphaComponent(CGFloat(0.8))
+            }
+        }
+    }
+    
+    
     
     var stickerText = "" {
         didSet{
@@ -145,6 +171,16 @@ UITextFieldDelegate {
             
             let rect = self.bounds.zoom(by: scale)
             let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            
+            path.fill()
+        
+        case .Highlight:
+            let path = UIBezierPath()
+            path.move(to: CGPoint(x: 0.1 * bounds.width, y: 0))
+            path.addLine(to: CGPoint(x: bounds.width, y: 0))
+            path.addLine(to: CGPoint(x: 0.9 * bounds.width, y: bounds.height))
+            path.addLine(to: CGPoint(x: 0, y: bounds.height))
+            path.close()
             
             path.fill()
         }//switch

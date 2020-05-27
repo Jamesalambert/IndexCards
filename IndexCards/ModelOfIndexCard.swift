@@ -31,17 +31,13 @@ class Notes : Codable{
     
     //failable initialiser from json data
     convenience init(json: Data){
-        
         if json.isEmpty {
-            
             self.init()
-            
         } else {
             
             self.init()
             if let newValue = try? JSONDecoder().decode([Deck].self, from: json){
                 self.decks = newValue
-                
             }
         }
     }
