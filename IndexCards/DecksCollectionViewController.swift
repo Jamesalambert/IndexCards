@@ -207,7 +207,7 @@ class DecksCollectionViewController:
         return 0
     }
 
-    
+    //helper func
     private func deckFor(_ indexPath : IndexPath) -> Deck?{
             switch indexPath.section{
             case 0:
@@ -284,7 +284,16 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let height = CGFloat(100)
+        let height : CGFloat
+        
+        switch indexPath.section {
+        case 0:
+            height = CGFloat(100)
+        case 1:
+            height = CGFloat(70)
+        default:
+            height = CGFloat(100)
+        }
         
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
