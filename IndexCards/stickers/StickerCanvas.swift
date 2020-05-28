@@ -110,6 +110,7 @@ UIGestureRecognizerDelegate
         self.addSubview(sticker)
     }
 
+    //MARK:- Gestures
     //helper func
     private func addStickerGestureRecognizers(to sticker : Sticker){
         
@@ -256,8 +257,17 @@ UIGestureRecognizerDelegate
                 gesture.scale = CGFloat(1)
             }
         case .ended:
+            
             if let sticker = gesture.view as? Sticker,
-                sticker.bounds.width < 150{
+                min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
+
+                let width = sticker.unitSize.width
+                let height = sticker.unitSize.height
+                
+                var newUnitSize = CGSize.zero
+              
+                newUnitSize.width = width <= height ? CGFloat(0.15) : width
+                newUnitSize.height = height <= width ? CGFloat(0.15) : height
                 
                 //animate it back to a pinchable size
                 UIView.transition(
@@ -265,9 +275,7 @@ UIGestureRecognizerDelegate
                     duration: 0.2,
                     options: .curveEaseInOut,
                     animations: {
-                        sticker.unitSize = self.unitSizeFrom(size: CGSize(
-                            width: 150,
-                            height: 150))
+                        sticker.unitSize = newUnitSize
                     },
                     completion: nil)
             }
