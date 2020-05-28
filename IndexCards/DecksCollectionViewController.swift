@@ -495,10 +495,12 @@ class DecksCollectionViewController:
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)
         } else {
-            if session.canLoadObjects(ofClass: IndexCard.self){
+            if session.canLoadObjects(ofClass: IndexCard.self),
+                destinationIndexPath?.section == 0{
                 return UICollectionViewDropProposal(operation: .move, intent: .insertIntoDestinationIndexPath)
             }
-            return UICollectionViewDropProposal(operation: .cancel)
+            //can't drag cards into deleted decks
+            return UICollectionViewDropProposal(operation: .forbidden)
         }
     }
     
