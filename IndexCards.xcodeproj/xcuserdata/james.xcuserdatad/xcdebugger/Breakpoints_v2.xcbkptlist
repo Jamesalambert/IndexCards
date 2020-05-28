@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/stickers/StickerCanvas.swift"
-            timestampString = "612317671.131371"
+            timestampString = "612318405.086066"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "328"
@@ -47,11 +47,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/DecksCollectionViewController.swift"
-            timestampString = "612317671.1315"
+            timestampString = "612318405.086224"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "collectionView(_:dropSessionDidUpdate:withDestinationIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -63,11 +63,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/DecksCollectionViewController.swift"
-            timestampString = "612317671.132303"
+            timestampString = "612318405.0870529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "546"
-            endingLineNumber = "546"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
             landmarkName = "collectionView(_:performDropWith:)"
             landmarkType = "7">
          </BreakpointContent>

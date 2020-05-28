@@ -77,6 +77,11 @@ class DecksCollectionViewController:
         
         if let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton){
         
+            //prevent editing of deleted decks
+            if let tappedDeck = lastSelectedDeck{
+                if model!.deletedDecks.contains(tappedDeck){return}
+            }
+            
             indexPathOfEditedCard = indexPath
             
             //get location of tapped cell
@@ -328,6 +333,7 @@ class DecksCollectionViewController:
         didSelectItemAt indexPath: IndexPath) {
         
         selectDeck(at: indexPath)
+        
     }
 
     private func selectDeck(at indexPath: IndexPath){
