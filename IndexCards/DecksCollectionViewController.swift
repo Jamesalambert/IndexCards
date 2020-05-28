@@ -230,9 +230,9 @@ class DecksCollectionViewController:
         return nil
     }
     
+    
     func collectionView(_ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         
         switch indexPath.section {
         case 0: //visible decks
@@ -248,7 +248,6 @@ class DecksCollectionViewController:
     
                     return cell
                 }
-                
                 //otherwise...
             } else {
                 
@@ -288,18 +287,7 @@ class DecksCollectionViewController:
     //MARK:- UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let height : CGFloat
-        
-        switch indexPath.section {
-        case 0:
-            height = CGFloat(100)
-        case 1:
-            height = CGFloat(70)
-        default:
-            height = CGFloat(100)
-        }
-        
+        let height = CGFloat(100)
         let width = theme.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
     }
@@ -467,7 +455,7 @@ class DecksCollectionViewController:
     func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
         
         //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-        if let draggedData = model?.decks[indexPath.item]{
+        if let draggedData = deckFor(indexPath){
 
             let dragItem = UIDragItem(
                 itemProvider: NSItemProvider(object: draggedData))
@@ -490,7 +478,6 @@ class DecksCollectionViewController:
         if session.canLoadObjects(ofClass: Deck.self) || session .canLoadObjects(ofClass: IndexCard.self){
             return true
         }
-        
         return false
     }
     
@@ -534,8 +521,17 @@ class DecksCollectionViewController:
                     
                     decksCollectionView.performBatchUpdates({
                         //model
-                        model?.decks.remove(at: sourceIndexPath.item)
-                        model?.decks.insert(droppedDeck, at: destinationIndexPath.item)
+                        if sourceIndexPath.section == 0{
+                            model?.decks.remove(at: sourceIndexPath.item)
+                        } else if sourceIndexPath.section == 1 {
+                            model?.deletedDecks.remove(at: sourceIndexPath.item)
+                        }
+                       
+                        if destinationIndexPath.section == 0{
+                            model?.decks.insert(droppedDeck, at: destinationIndexPath.item)
+                        } else if destinationIndexPath.section == 1 {
+                            model?.deletedDecks.insert(droppedDeck, at: destinationIndexPath.item)
+                        }
                         
                         //view
                         decksCollectionView.deleteItems(at: [sourceIndexPath])
@@ -550,8 +546,6 @@ class DecksCollectionViewController:
         case .insertIntoDestinationIndexPath:
             
             for item in coordinator.items {
-                
-                
                 
                 if let droppedIndexCard = item.dragItem.localObject as? IndexCard,
                     let sourceIndexPath = coordinator.session.localDragSession?.localContext as? IndexPath{
