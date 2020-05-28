@@ -184,8 +184,8 @@ class DecksCollectionViewController:
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        //1 for adding new decks and 1 for decks
-        return 1
+        //2 active and deleted
+        return 2
     }
 
 
@@ -193,41 +193,85 @@ class DecksCollectionViewController:
         numberOfItemsInSection section: Int) -> Int {
 
         if let currentModel = model {
-            return currentModel.numberOfDecks
+           
+            switch section{
+            case 0:
+                return currentModel.decks.count
+            case 1:
+                return currentModel.deletedDecks.count
+            default:
+                return 0
+            }
         }
         
         return 0
     }
 
+    
+    private func deckFor(_ indexPath : IndexPath) -> Deck?{
+            switch indexPath.section{
+            case 0:
+                if model?.decks.indices.contains(indexPath.item) ?? false{
+                    return model?.decks[indexPath.item]
+                }
+            case 1:
+                if model?.deletedDecks.indices.contains(indexPath.item) ?? false{
+                    return model?.deletedDecks[indexPath.item]
+                }
+            default:
+                return nil
+            }
+        
+        return nil
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        //if it's selected
-        if lastSelectedDeck == model?.decks[indexPath.item]  {
+        
+        switch indexPath.section {
+        case 0: //visible decks
             
-            if let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
+            //if it's selected
+            if lastSelectedDeck == deckFor(indexPath)  {
                 
-                cell.theme = theme
-                cell.delegate = self
+                if let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
+                    
+                    cell.theme = theme
+                    cell.delegate = self
+    
+                    return cell
+                }
                 
-                return cell
+                //otherwise...
+            } else {
+                
+                if let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
+                    
+                    cell.theme = theme
+                    cell.delegate = self
+                    
+                    if let deck = deckFor(indexPath){
+                        cell.image = deck.thumbnail
+                    }
+                    return cell
+                }
             }
             
-        //otherwise...
-        } else {
-            
+        default: //deleted decks
             if let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                 
                 cell.theme = theme
                 cell.delegate = self
                 
-                if let deck = model?.decks[indexPath.row]{
+                if let deck = deckFor(indexPath){
                     cell.image = deck.thumbnail
-                    return cell
                 }
-            } 
+                return cell
+            }
         }
         
         let cell = collectionView.dequeueReusableCell(
@@ -279,7 +323,7 @@ class DecksCollectionViewController:
 
     private func selectDeck(at indexPath: IndexPath){
         
-        if let deck = model?.decks[indexPath.item],
+        if let deck = deckFor(indexPath),
             let _ = decksCollectionView.cellForItem(at: indexPath){
             //save selected path so we can show the 'add card button' in the right place
             lastSelectedDeck = deck
@@ -300,7 +344,6 @@ class DecksCollectionViewController:
 
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
     func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        
         return true
     }
 
@@ -309,14 +352,25 @@ class DecksCollectionViewController:
     func collectionView(_ collectionView: UICollectionView,
         canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
-        let deleteAction = UIMenuItem(title: "Delete Deck", action: #selector(DeckOfCardsCell.deleteDeck))
         
-        UIMenuController.shared.menuItems = [deleteAction]
+        switch indexPath.section {
+        case 1:
+            let deleteAction = UIMenuItem(title: "Delete Deck", action: #selector(DeckOfCardsCell.deleteDeck))
+            let unDeleteAction = UIMenuItem(title: "Undelete Deck", action: #selector(DeckOfCardsCell.unDeleteDeck))
+            
+            UIMenuController.shared.menuItems = [deleteAction, unDeleteAction]
+            
+        default:
+            let deleteAction = UIMenuItem(title: "Delete Deck", action: #selector(DeckOfCardsCell.deleteDeck))
+            
+            UIMenuController.shared.menuItems = [deleteAction]
+        }
+        
         
         //store info so we know which one to delete
         actionMenuIndexPath = indexPath
 
-        return action == deleteAction.action
+        return UIMenuController.shared.menuItems?.compactMap{$0.action}.contains(action) ?? false
     }
 
     //this function does not appear to be called but needs to be here
@@ -327,13 +381,23 @@ class DecksCollectionViewController:
 
     @objc func deleteTappedDeck(_ sender:UIMenuController){        
         //batch updates
-        
         decksCollectionView.performBatchUpdates({
-
             if let indexPath = actionMenuIndexPath {
-                model?.decks.remove(at: indexPath.item)
                 
-                decksCollectionView.deleteItems(at: [indexPath])
+                switch indexPath.section{
+                case 0:
+                    model?.deleteDeck(at: indexPath.item)
+                    
+                    decksCollectionView.deleteItems(at: [indexPath])
+                    decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 1)])
+                case 1:
+                    model?.permanentlyDelete(at: indexPath.item)
+                    
+                    decksCollectionView.deleteItems(at: [indexPath])
+                default:
+                    print("unknown section \(indexPath.section) in decks collection")
+                }
+
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
@@ -341,6 +405,23 @@ class DecksCollectionViewController:
         })
         
     }
+    
+    @objc func unDeleteTappedDeck(_ sender: UIMenuController){
+        
+        decksCollectionView.performBatchUpdates({
+            
+            if let indexPath = actionMenuIndexPath{
+                model?.unDelete(at: indexPath.item)
+                
+                decksCollectionView.deleteItems(at: [indexPath])
+                decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+            }
+        }, completion: { finished in
+            self.document?.updateChangeCount(.done)
+            self.selectDeck(at: IndexPath(item: 0, section: 0))
+        })
+    }
+
     
     
     

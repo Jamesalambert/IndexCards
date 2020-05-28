@@ -53,5 +53,9 @@ class DeckOfCardsCell: UICollectionViewCell {
     @objc func deleteDeck(_ sender : UIMenuController){
         delegate?.deleteTappedDeck(sender)
     }
+    
+    @objc func unDeleteDeck(_ sender : UIMenuController){
+        delegate?.unDeleteTappedDeck(sender)
+    }
   
 }

@@ -15,13 +15,26 @@ class Notes : Codable{
     
     var decks : [Deck]       //starts with 1 deck
     
-    var numberOfDecks : Int {
-        return decks.count
-    }
+    var deletedDecks : [Deck]
     
     func addDeck(){
         let newDeck = Deck()
         decks.insert(newDeck, at: 0)
+    }
+    
+    func deleteDeck(at index : Int){
+        assert(index >= 0 && index < decks.count, "deck at index \(index) does not exist so can't be deleted")
+            deletedDecks.insert(decks.remove(at: index), at: 0)
+    }
+    
+    func unDelete(at index : Int){
+        assert(index >= 0 && index < deletedDecks.count, "deleted deck at index \(index) does not exist so can't be restored")
+        decks.insert(deletedDecks.remove(at: index), at: 0)
+    }
+    
+    func permanentlyDelete(at index : Int){
+        assert(index >= 0 && index < deletedDecks.count, "deleted deck at index \(index) does not exist so can't be restored")
+        deletedDecks.remove(at: index)
     }
     
     //encode as a json string for saving
@@ -38,12 +51,14 @@ class Notes : Codable{
             self.init()
             if let newValue = try? JSONDecoder().decode(Notes.self, from: json){
                 self.decks = newValue.decks
+                self.deletedDecks = newValue.deletedDecks
             }
         }
     }
     
     init(){
         self.decks = [Deck()]
+        self.deletedDecks = []
     }
     
 }
