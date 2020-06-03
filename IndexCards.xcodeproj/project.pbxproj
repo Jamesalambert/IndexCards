@@ -84,6 +84,14 @@
 			path = cells;
 			sourceTree = "<group>";
 		};
+		1A2A90652480624E00E339DD /* delete */ = {
+			isa = PBXGroup;
+			children = (
+				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
+			);
+			path = delete;
+			sourceTree = "<group>";
+		};
 		1ADD73C7246E10A100A9186A /* stickers */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,13 +124,13 @@
 			children = (
 				1AFD9602245CDE630092CF99 /* Main.storyboard */,
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
-				1AFD9600245CDE630092CF99 /* EditIndexCardViewController.swift */,
 				1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */,
 				1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1ADD73C7246E10A100A9186A /* stickers */,
 				1A135967246B59C7001AE343 /* cells */,
 				1AFD9610245CDEB60092CF99 /* support */,
+				1A2A90652480624E00E339DD /* delete */,
 			);
 			path = IndexCards;
 			sourceTree = "<group>";
@@ -177,6 +185,7 @@
 				TargetAttributes = {
 					1AFD95FA245CDE630092CF99 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1150;
 					};
 				};
 			};
@@ -391,7 +400,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jameslambert.IndexCards;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -409,7 +418,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jameslambert.IndexCards;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

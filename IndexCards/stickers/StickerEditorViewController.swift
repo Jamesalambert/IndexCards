@@ -308,13 +308,7 @@ class StickerEditorViewController:
         
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
     }
-    
-    
-    //MARK:- UIScrollViewDelegate
-//    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-//
-//        return stickerView
-//    }
+
     
     
     //MARK:- UICollectionViewDataSource

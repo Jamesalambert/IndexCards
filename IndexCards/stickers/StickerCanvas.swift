@@ -258,6 +258,7 @@ UIGestureRecognizerDelegate
             }
         case .ended:
             
+            //check to see if the sticker is too small.
             if let sticker = gesture.view as? Sticker,
                 min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
 
