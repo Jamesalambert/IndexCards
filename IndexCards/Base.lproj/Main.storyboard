@@ -230,7 +230,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseBackgroundTypeCell" id="b0Y-BO-Pmw">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseBackgroundTypeCell" id="b0Y-BO-Pmw" customClass="ChooseBackgroundTypeCell" customModule="IndexCards" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="218"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="EwQ-2R-6A1">
@@ -251,6 +251,9 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="334" height="218"/>
+                                        <connections>
+                                            <outlet property="button" destination="zWI-Z8-hBL" id="LKM-9v-Oc4"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A06969E248858AB005AB3FC /* ChooseBackgroundTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */; };
+		1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */; };
 		1A135966246B511A001AE343 /* addDeckButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A135965246B511A001AE343 /* addDeckButtonView.swift */; };
 		1A1B9961245E0ECD0016E050 /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1B9960245E0ECD0016E050 /* utilities.swift */; };
 		1A2012C6247AD8BB00849A97 /* sticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2012C5247AD8BB00849A97 /* sticker.xib */; };
@@ -16,8 +18,6 @@
 		1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */; };
 		1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */; };
 		1A923B092472F49200B4D75B /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A923B082472F49200B4D75B /* CropView.swift */; };
-		1A96658E2488375A00D08346 /* ChooseBackgroundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A96658D2488375A00D08346 /* ChooseBackgroundCollectionViewController.swift */; };
-		1A96659424883B2B00D08346 /* ChooseBackgroundTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A96659324883B2B00D08346 /* ChooseBackgroundTypeCell.swift */; };
 		1AA8352324689928009D82E9 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8352224689928009D82E9 /* Document.swift */; };
 		1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */; };
 		1ADD73C2246E041D00A9186A /* StickerCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C1246E041D00A9186A /* StickerCanvas.swift */; };
@@ -36,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundTypeCell.swift; sourceTree = "<group>"; };
+		1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundCollectionViewController.swift; sourceTree = "<group>"; };
 		1A135965246B511A001AE343 /* addDeckButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addDeckButtonView.swift; sourceTree = "<group>"; };
 		1A1B9960245E0ECD0016E050 /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
 		1A2012C5247AD8BB00849A97 /* sticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = sticker.xib; sourceTree = "<group>"; };
@@ -45,8 +47,6 @@
 		1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsCell.swift; sourceTree = "<group>"; };
 		1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEditorViewController.swift; sourceTree = "<group>"; };
 		1A923B082472F49200B4D75B /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
-		1A96658D2488375A00D08346 /* ChooseBackgroundCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
-		1A96659324883B2B00D08346 /* ChooseBackgroundTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundTypeCell.swift; sourceTree = SOURCE_ROOT; };
 		1AA8352224689928009D82E9 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
 		1ADD73C1246E041D00A9186A /* StickerCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvas.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		1A135967246B59C7001AE343 /* cells */ = {
 			isa = PBXGroup;
 			children = (
-				1A96659324883B2B00D08346 /* ChooseBackgroundTypeCell.swift */,
+				1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */,
 				1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */,
 				1AF357282467502C00F5D464 /* AddCardCell.swift */,
 				1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */,
@@ -131,7 +131,7 @@
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1A7544CC245F1C20007229F4 /* DecksCollectionViewController.swift */,
 				1A7544CE245F1D93007229F4 /* IndexCardsCollectionViewController.swift */,
-				1A96658D2488375A00D08346 /* ChooseBackgroundCollectionViewController.swift */,
+				1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1ADD73C7246E10A100A9186A /* stickers */,
 				1A135967246B59C7001AE343 /* cells */,
@@ -235,21 +235,21 @@
 				1AFD9601245CDE630092CF99 /* EditIndexCardViewController.swift in Sources */,
 				1AF357292467502C00F5D464 /* AddCardCell.swift in Sources */,
 				1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */,
-				1A96658E2488375A00D08346 /* ChooseBackgroundCollectionViewController.swift in Sources */,
 				1A7544CF245F1D93007229F4 /* IndexCardsCollectionViewController.swift in Sources */,
 				1A923B092472F49200B4D75B /* CropView.swift in Sources */,
 				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
 				1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */,
-				1A96659424883B2B00D08346 /* ChooseBackgroundTypeCell.swift in Sources */,
 				1AEDB8492460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift in Sources */,
 				1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */,
 				1AA8352324689928009D82E9 /* Document.swift in Sources */,
+				1A06969E248858AB005AB3FC /* ChooseBackgroundTypeCell.swift in Sources */,
 				1A7544CD245F1C20007229F4 /* DecksCollectionViewController.swift in Sources */,
 				1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */,
 				1A1B9961245E0ECD0016E050 /* utilities.swift in Sources */,
 				1A135966246B511A001AE343 /* addDeckButtonView.swift in Sources */,
 				1AFD9612245CE9C90092CF99 /* ModelOfIndexCard.swift in Sources */,
 				1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */,
+				1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */,
 				1ADD73C6246E0F9600A9186A /* Sticker.swift in Sources */,
 				1AF9E12C245F7E9500DDD4C0 /* IndexCardViewCell.swift in Sources */,
 				1AEDB84B2460B68400C080B4 /* PresentingAnimator.swift in Sources */,
