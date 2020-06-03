@@ -19,15 +19,15 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     //MARK:- vars
     var sourceType = BackgroundSourceType.ChooseFromLibaray {didSet{setNeedsDisplay()}}
     
-    @IBOutlet weak var button: UIButton!{
+    @IBOutlet weak var label: UILabel!{
         didSet{
             switch sourceType {
             case .TakePhoto:
-                button.setTitle("Take a Photo", for: .normal)
+                label.text = "Take a Photo."
             case .ChooseFromLibaray:
-                button.setTitle("Choose a Picture", for: .normal)
+                label.text = "Choose a Photo"
             case .PresetBackground:
-                button.setTitle("Preset", for: .normal)
+                label.text = "Preset"
             }
         }
     }
@@ -36,12 +36,6 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         didSet{
             setNeedsDisplay()
         }
-    }
-    
-    
-    //MARK:- UIView
-    override func draw(_ rect: CGRect) {
-        backgroundImage?.draw(in: bounds)
     }
     
 }

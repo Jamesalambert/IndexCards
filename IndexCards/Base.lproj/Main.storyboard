@@ -222,7 +222,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DJ6-aO-HyH">
                                     <size key="itemSize" width="334" height="218"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -237,22 +237,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="334" height="218"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zWI-Z8-hBL">
-                                                    <rect key="frame" x="144" y="94" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <connections>
-                                                        <action selector="chooseBackgroundButtonTapped:" destination="qnM-16-G8c" eventType="touchUpInside" id="hht-xu-Ufb"/>
-                                                    </connections>
-                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eiz-xs-iGp">
+                                                    <rect key="frame" x="146" y="98.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="zWI-Z8-hBL" firstAttribute="centerX" secondItem="EwQ-2R-6A1" secondAttribute="centerX" id="4b6-Ec-NHG"/>
-                                                <constraint firstItem="zWI-Z8-hBL" firstAttribute="centerY" secondItem="EwQ-2R-6A1" secondAttribute="centerY" id="58h-o3-ClX"/>
+                                                <constraint firstItem="eiz-xs-iGp" firstAttribute="centerY" secondItem="EwQ-2R-6A1" secondAttribute="centerY" id="Rml-Px-9gG"/>
+                                                <constraint firstItem="eiz-xs-iGp" firstAttribute="centerX" secondItem="EwQ-2R-6A1" secondAttribute="centerX" id="brf-Z2-veW"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                         <size key="customSize" width="334" height="218"/>
                                         <connections>
-                                            <outlet property="button" destination="zWI-Z8-hBL" id="LKM-9v-Oc4"/>
+                                            <outlet property="label" destination="eiz-xs-iGp" id="QXX-oX-MsO"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

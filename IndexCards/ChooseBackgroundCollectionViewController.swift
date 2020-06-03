@@ -22,32 +22,40 @@ UICollectionViewDataSource{
         didSet{
             backgroundChoicesCollectionView.delegate = self
             backgroundChoicesCollectionView.dataSource = self
+            
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(choiceCardTapped(sender:)))
+            tap.numberOfTouchesRequired = 1
+            tap.numberOfTapsRequired = 1
+            
+            backgroundChoicesCollectionView.addGestureRecognizer(tap)
         }
     }
     
-    //MARK:- Actions
-    @IBAction func chooseBackgroundButtonTapped(_ sender: UIButton) {
-        
-        if let cell = sender.superview as? ChooseBackgroundTypeCell{
-            switch cell.sourceType {
-            case .ChooseFromLibaray:
-                chooseAPicture(backgroundChoicesCollectionView.indexPath(for: cell)!)
-            case .TakePhoto:
-                takeAPhoto(backgroundChoicesCollectionView.indexPath(for: cell)!)
-            case .PresetBackground:
-                presetBackground(backgroundChoicesCollectionView.indexPath(for: cell)!)
-            }
-            
-        }//if let
-        
-    }//func
     
+   
     //MARK:- helper funcs
-    private func takeAPhoto(_ indexPath : IndexPath){
+    @objc func choiceCardTapped(sender : UITapGestureRecognizer){
+        
+        guard let indexPath = backgroundChoicesCollectionView.indexPathForItem(at: sender.location(in: backgroundChoicesCollectionView)) else { return }
+        
+        guard let tappedCell = backgroundChoicesCollectionView.cellForItem(at: indexPath) as? ChooseBackgroundTypeCell else {return}
+        
+        switch tappedCell.sourceType {
+        case .ChooseFromLibaray:
+            chooseAPicture(nil)
+        case .TakePhoto:
+            takeAPhoto(nil)
+        case .PresetBackground:
+            presetBackground(indexPath)
+        }
+    }
+    
+    private func takeAPhoto(_ indexPath : IndexPath?){
         print("photo")
     }
     
-    private func chooseAPicture(_ indexPath : IndexPath){
+    private func chooseAPicture(_ indexPath : IndexPath?){
         print("choose")
 
     }
@@ -123,7 +131,7 @@ UICollectionViewDataSource{
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.backgroundChoicesCollectionView!.register(ChooseBackgroundTypeCell.self, forCellWithReuseIdentifier: "ChooseBackgroundTypeCell")
+        //self.backgroundChoicesCollectionView!.register(ChooseBackgroundTypeCell.self, forCellWithReuseIdentifier: "ChooseBackgroundTypeCell")
 
         // Do any additional setup after loading the view.
     
