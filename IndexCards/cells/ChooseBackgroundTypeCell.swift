@@ -17,7 +17,22 @@ enum BackgroundSourceType: CaseIterable {
 class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     //MARK:- vars
-    var sourceType = BackgroundSourceType.ChooseFromLibaray {didSet{setNeedsDisplay()}}
+    var sourceType = BackgroundSourceType.ChooseFromLibaray {
+        didSet{
+        
+            guard label != nil
+                else {return}
+            
+            switch sourceType {
+            case .TakePhoto:
+                label.text = "Take a Photo."
+            case .ChooseFromLibaray:
+                label.text = "Choose a Photo"
+            case .PresetBackground:
+                label.text = "Preset"
+            }
+        }
+    }
     
     @IBOutlet weak var label: UILabel!{
         didSet{
