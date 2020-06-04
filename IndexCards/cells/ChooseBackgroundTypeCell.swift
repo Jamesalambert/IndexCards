@@ -53,4 +53,17 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         }
     }
     
+    //needed for custom layout
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        
+        guard let layoutAttributes = layoutAttributes as? CircularCollectionViewLayoutAttributes else {return}
+        
+        self.layer.anchorPoint = layoutAttributes.anchorPoint
+        
+        //unsure of this!
+        self.center.y += (layoutAttributes.anchorPoint.y - 0.5) * bounds.height
+    }//func
+        
+    
 }

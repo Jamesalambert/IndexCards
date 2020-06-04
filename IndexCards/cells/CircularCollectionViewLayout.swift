@@ -42,6 +42,17 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         return atan(itemSize.width / radius)
     }
     
+    var maxAngle : CGFloat {
+        guard collectionView!.numberOfItems(inSection: 0) > 0 else {return 0}
+        
+        return -CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem
+    }
+    
+    //angle given the current scroll position
+    var angle : CGFloat {
+        return maxAngle * collectionView!.contentOffset.x / (collectionView!.contentSize.width - collectionView!.bounds.width)
+    }
+    
     //need this?
     var attributesList = [CircularCollectionViewLayoutAttributes]()
     
@@ -76,6 +87,7 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
 //        return CircularCollectionViewLayoutAttributes()
 //    }
     
+    //invalidate while scrolling so we can recompute the angle, this way we get custom scrolling.
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
@@ -84,16 +96,20 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
     override func prepare() {
         super.prepare()
         
+        let anchorPointY = ((itemSize.height/2) + radius) / itemSize.height
+        
         let centerX = collectionView!.contentOffset.x + CGFloat(collectionView!.bounds.width / 2.0)
         attributesList = (0..<collectionView!.numberOfItems(inSection: 0)).map { (i) -> CircularCollectionViewLayoutAttributes in
-        
-        let attributes = CircularCollectionViewLayoutAttributes(forCellWith: IndexPath(item: i, section: 0))
-          attributes.size = self.itemSize
-          // 2
+            
+            let attributes = CircularCollectionViewLayoutAttributes(
+                forCellWith: IndexPath(item: i, section: 0))
+            
+            attributes.size = self.itemSize
             attributes.center = CGPoint(x: centerX, y: self.collectionView!.bounds.midY)
-          // 3
-          attributes.angle = self.anglePerItem * CGFloat(i)
-          return attributes
+            attributes.anchorPoint = CGPoint(x: 0.5, y: anchorPointY)
+            attributes.angle = self.angle + self.anglePerItem * CGFloat(i)
+            
+            return attributes
         }
     }
     

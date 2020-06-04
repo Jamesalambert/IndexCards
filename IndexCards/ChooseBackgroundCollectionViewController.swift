@@ -23,6 +23,9 @@ UICollectionViewDataSource{
             backgroundChoicesCollectionView.delegate = self
             backgroundChoicesCollectionView.dataSource = self
             
+            backgroundChoicesCollectionView.contentSize = CGSize(
+                width: CGFloat(200 * BackgroundSourceType.allCases.count),
+                height: backgroundChoicesCollectionView.bounds.height)
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(choiceCardTapped(sender:)))
             tap.numberOfTouchesRequired = 1
