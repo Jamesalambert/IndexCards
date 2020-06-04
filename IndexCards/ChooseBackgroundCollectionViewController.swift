@@ -12,8 +12,7 @@ import UIKit
 class ChooseBackgroundCollectionViewController:
 UIViewController,
 UICollectionViewDelegate,
-UICollectionViewDataSource,
-UICollectionViewDelegateFlowLayout{
+UICollectionViewDataSource{
 
     //MARK:- vars
     
@@ -125,12 +124,7 @@ UICollectionViewDelegateFlowLayout{
     */
 
     
-    //MARK:- Flow Layout
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width: 300, height: 200)
-    }
+   
     
     //MARK:- UIView
     override func viewDidLoad() {
