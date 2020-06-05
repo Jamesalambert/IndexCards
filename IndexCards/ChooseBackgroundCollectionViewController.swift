@@ -12,10 +12,13 @@ import UIKit
 class ChooseBackgroundCollectionViewController:
 UIViewController,
 UICollectionViewDelegate,
-UICollectionViewDataSource{
+UICollectionViewDataSource,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate{
 
     //MARK:- vars
-    
+    var theme : Theme?
+    var currentDeck : Deck?
     
     //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
@@ -26,12 +29,6 @@ UICollectionViewDataSource{
             backgroundChoicesCollectionView.contentSize = CGSize(
                 width: CGFloat(200 * BackgroundSourceType.allCases.count),
                 height: backgroundChoicesCollectionView.bounds.height)
-            
-//            let tap = UITapGestureRecognizer(target: self, action: #selector(choiceCardTapped(sender:)))
-//            tap.numberOfTouchesRequired = 1
-//            tap.numberOfTapsRequired = 1
-//
-//            backgroundChoicesCollectionView.addGestureRecognizer(tap)
         }
     }
     
@@ -40,34 +37,58 @@ UICollectionViewDataSource{
     //MARK:- helper funcs
     @objc func choiceCardTapped(sender : UITapGestureRecognizer){
         
-//        guard let indexPath = backgroundChoicesCollectionView.indexPathForItem(at: sender.location(in: backgroundChoicesCollectionView)) else { return }
-//
-//        guard let tappedCell = backgroundChoicesCollectionView.cellForItem(at: indexPath) as? ChooseBackgroundTypeCell else {return}
-        
         guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
+        
+        guard let indexPath = backgroundChoicesCollectionView.indexPath(for: tappedCell) else {return}
         
         switch tappedCell.sourceType {
         case .ChooseFromLibaray:
-            chooseAPicture(nil)
+            chooseAPicture(indexPath)
         case .TakePhoto:
-            takeAPhoto(nil)
+            takeAPhoto(indexPath)
         case .PresetBackground:
-            presetBackground(IndexPath(item: 0, section: 0))
+            presetBackground(indexPath)
         }
     }
     
-    private func takeAPhoto(_ indexPath : IndexPath?){
+    private func takeAPhoto(_ indexPath : IndexPath){
         print("photo")
+        do{
+            try presentImagePicker(
+                delegate: self,
+                sourceType: .camera,
+                allowsEditing: false,
+                sourceView: nil)
+        }   catch CameraAccessError.notPermitted {
+            print("camera not available, remember to edit plist for permission")
+        } catch CameraAccessError.noSourceViewForPopover {
+            print("popover needs a source view to point at")
+        } catch {
+            print("Unknown error \(error) when accessing camera")
+        }
     }
     
-    private func chooseAPicture(_ indexPath : IndexPath?){
+    private func chooseAPicture(_ indexPath : IndexPath){
+        
         print("choose")
-
+        do{
+            try presentImagePicker(
+                delegate: self,
+                sourceType: .photoLibrary,
+                allowsEditing: false,
+                sourceView: backgroundChoicesCollectionView.cellForItem(at: indexPath)!)
+        }   catch CameraAccessError.notPermitted {
+            print("camera not available, remember to edit plist for permission")
+        } catch CameraAccessError.noSourceViewForPopover {
+            print("popover needs a source view to point at")
+        } catch {
+            print("Unknown error \(error) when accessing camera")
+        }
+        
     }
     
     private func presetBackground(_ indexPath : IndexPath) {
         print("preset")
-
     }
     
     
@@ -130,7 +151,32 @@ UICollectionViewDataSource{
     }
     */
 
+    //MARK:- UIImagePickerControllerDelegate
     
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    var chosenImage : UIImage?
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        switch picker.sourceType {
+        case .camera:
+            
+            if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
+                chosenImage = photo
+            }
+        case .photoLibrary:
+            if let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
+                self.chosenImage = chosenImage
+            }
+        default: print("unknown sourceType: \(picker.sourceType)")
+        }
+        
+        picker.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
    
     
     //MARK:- UIView
@@ -144,10 +190,12 @@ UICollectionViewDataSource{
     
     @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
         
+        //see if any cells were tapped
         let tappedCells = backgroundChoicesCollectionView.visibleCells.map { cell -> Bool in
             cell.frame.contains(sender.location(in: backgroundChoicesCollectionView))
         }
         
+        //if the tap was outside all cells then dismiss
         if !tappedCells.contains(true){
             presentingViewController?.dismiss(animated: true, completion: nil)
         }

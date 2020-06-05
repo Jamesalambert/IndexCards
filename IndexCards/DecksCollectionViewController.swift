@@ -201,6 +201,8 @@ class DecksCollectionViewController:
         transitionDelegate.duration = theme.timeOf(.editCardZoom)
         
         //set up transition
+        addCardVC.currentDeck = lastSelectedDeck
+        addCardVC.theme = theme
         addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
         addCardVC.transitioningDelegate = transitionDelegate
         

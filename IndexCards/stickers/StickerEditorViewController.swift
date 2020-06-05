@@ -177,7 +177,6 @@ class StickerEditorViewController:
     }
     
     
-    
     @IBAction func chooseAPicture() {
         if UIImagePickerController.isSourceTypeAvailable(.camera){
             
@@ -291,7 +290,8 @@ class StickerEditorViewController:
     }
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         switch picker.sourceType {
         case .camera:

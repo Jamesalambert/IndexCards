@@ -104,8 +104,46 @@ extension UIView{
     }
     
     
-    
-    
 }
 
+extension UIViewController{
+    
+    enum CameraAccessError : Error{
+        case notPermitted
+        case noSourceViewForPopover
+    }
+    
+    func presentImagePicker(delegate : (UIImagePickerControllerDelegate & UINavigationControllerDelegate),
+                            sourceType : UIImagePickerController.SourceType,
+                            allowsEditing : Bool,
+                            sourceView : UIView?) throws{
+        
+        
+        
+        guard UIImagePickerController.isSourceTypeAvailable(sourceType) else {
+            throw CameraAccessError.notPermitted
+        }
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = delegate
+        imagePicker.sourceType = sourceType
+        imagePicker.mediaTypes = ["public.image"]
+        imagePicker.allowsEditing = allowsEditing
+        
+        
+        if sourceType == .photoLibrary {
+            
+            guard sourceView != nil else {throw CameraAccessError.noSourceViewForPopover}
+            
+            imagePicker.modalPresentationStyle = .popover
+            if let popoverController = imagePicker.popoverPresentationController {
+                popoverController.sourceView = sourceView
+            }
+        }
+        
+        present(imagePicker, animated: true, completion: nil)
+        
+        
+    }//func
+}
 
