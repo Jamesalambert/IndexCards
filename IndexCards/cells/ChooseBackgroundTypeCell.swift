@@ -53,6 +53,13 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         }
     }
     
+    let tapGestureRecognizer : UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer()
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        return tap
+    }()
+    
     //needed for custom layout
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)

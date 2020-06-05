@@ -27,11 +27,11 @@ UICollectionViewDataSource{
                 width: CGFloat(200 * BackgroundSourceType.allCases.count),
                 height: backgroundChoicesCollectionView.bounds.height)
             
-            let tap = UITapGestureRecognizer(target: self, action: #selector(choiceCardTapped(sender:)))
-            tap.numberOfTouchesRequired = 1
-            tap.numberOfTapsRequired = 1
-            
-            backgroundChoicesCollectionView.addGestureRecognizer(tap)
+//            let tap = UITapGestureRecognizer(target: self, action: #selector(choiceCardTapped(sender:)))
+//            tap.numberOfTouchesRequired = 1
+//            tap.numberOfTapsRequired = 1
+//
+//            backgroundChoicesCollectionView.addGestureRecognizer(tap)
         }
     }
     
@@ -40,9 +40,11 @@ UICollectionViewDataSource{
     //MARK:- helper funcs
     @objc func choiceCardTapped(sender : UITapGestureRecognizer){
         
-        guard let indexPath = backgroundChoicesCollectionView.indexPathForItem(at: sender.location(in: backgroundChoicesCollectionView)) else { return }
+//        guard let indexPath = backgroundChoicesCollectionView.indexPathForItem(at: sender.location(in: backgroundChoicesCollectionView)) else { return }
+//
+//        guard let tappedCell = backgroundChoicesCollectionView.cellForItem(at: indexPath) as? ChooseBackgroundTypeCell else {return}
         
-        guard let tappedCell = backgroundChoicesCollectionView.cellForItem(at: indexPath) as? ChooseBackgroundTypeCell else {return}
+        guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
         
         switch tappedCell.sourceType {
         case .ChooseFromLibaray:
@@ -50,7 +52,7 @@ UICollectionViewDataSource{
         case .TakePhoto:
             takeAPhoto(nil)
         case .PresetBackground:
-            presetBackground(indexPath)
+            presetBackground(IndexPath(item: 0, section: 0))
         }
     }
     
@@ -87,9 +89,10 @@ UICollectionViewDataSource{
         if let cell = cell as? ChooseBackgroundTypeCell{
         
             let sourceType = BackgroundSourceType.allCases[indexPath.item]
-            
             cell.sourceType = sourceType
             
+            cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
+            cell.addGestureRecognizer(cell.tapGestureRecognizer)
         }
         
         return cell
