@@ -36,9 +36,15 @@ UINavigationControllerDelegate{
     
    
     //MARK:- helper funcs
+    
+    var tappedCell : UICollectionViewCell?
+    
     @objc func choiceCardTapped(sender : UITapGestureRecognizer){
         
         guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
+        
+        //save for animation origin later
+        self.tappedCell = tappedCell
         
         guard let indexPath = backgroundChoicesCollectionView.indexPath(for: tappedCell) else {return}
         
@@ -107,35 +113,7 @@ UINavigationControllerDelegate{
 
     }
     
-    
-    
-    func addCard() {
-        guard let presentingVC = presentingViewController as? DecksCollectionViewController else {return}
-        
-        let indexCardsCollectionView = presentingVC.indexCardsCollectionView
-        let indexCardCollectionController = presentingVC.indexCardCollectionController
-        let document = presentingVC.document
-        
-        indexCardsCollectionView?.performBatchUpdates({
-            //update model
-            indexCardCollectionController.currentDeck?.addCard()
-            
-            //update collection view
-            indexCardsCollectionView?.insertItems(at: [IndexPath(row: 0, section: 0)])
-            
-        }, completion: { finished in
-            
-            //send image to new card
-            indexCardCollectionController.currentDeck?.cards.first?.imageData = self.chosenImage?.jpegData(compressionQuality: 1.0)
-            
-            //hide card on tabletop until we segue back there
-            indexCardsCollectionView?.cellForItem(at: IndexPath(row: 0, section: 0))?.alpha = 0
-        }
-        )
-        
-        document?.updateChangeCount(UIDocument.ChangeKind.done)
-        
-    }
+
     
     
     
@@ -214,17 +192,32 @@ UINavigationControllerDelegate{
             
             if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 chosenImage = photo
-                addCard()
+                //addCard()
             }
         case .photoLibrary:
             if let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 self.chosenImage = chosenImage
-                addCard()
+                //addCard()
             }
         default: print("unknown sourceType: \(picker.sourceType)")
         }
         
-        picker.presentingViewController?.dismiss(animated: true, completion: nil)
+        //dismiss ImagePicker
+        picker.presentingViewController?.dismiss(animated: true, completion: {
+            
+            //dismiss ourselves
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+            //pass the image back to the presenting VC
+            if let deckController = self.presentingViewController as? DecksCollectionViewController,
+                let image = self.chosenImage,
+                let cell = self.tappedCell{
+                
+                deckController.addCard(with: image, animatedFrom: cell)
+            }
+    
+            
+        })
     }
    
     

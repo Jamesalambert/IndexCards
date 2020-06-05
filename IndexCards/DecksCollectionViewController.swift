@@ -112,7 +112,7 @@ class DecksCollectionViewController:
                 //where the Edit view springs from
                 transitionDelegate.startingCenter = startCenter
                 transitionDelegate.startingFrame = startFrame
-                transitionDelegate.tappedCell = cell
+                transitionDelegate.tappedView = cell
                 transitionDelegate.duration = theme.timeOf(.editCardZoom)
                 
                 //set up transition
@@ -121,9 +121,52 @@ class DecksCollectionViewController:
                 
                 //go
                 present(editVC, animated: true, completion: nil)
-            }   
+            }//if let
+            
         }
     }
+    
+    
+    func presentStickerEditor(from view : UIView,
+                              with indexCard : IndexCard,
+                              forCropping image : UIImage?){
+        //get the next VC
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        
+        if let editVC = storyboard.instantiateViewController(
+            withIdentifier: "StickerViewController") as? StickerEditorViewController{
+            
+            //hand data to the editor
+            editVC.indexCard = indexCard
+            editVC.theme = theme
+            
+            if let imageToCrop = image {
+                editVC.passedImageForCropping = imageToCrop
+            }
+            
+           let startCenter = view.center.offsetBy(
+                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
+                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
+            let startFrame = view.bounds.offsetBy(
+                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
+                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
+            
+            //where the Edit view springs from
+            transitionDelegate.startingCenter = startCenter
+            transitionDelegate.startingFrame = startFrame
+            transitionDelegate.tappedView = view
+            transitionDelegate.duration = theme.timeOf(.editCardZoom)
+            
+            //set up transition
+            editVC.modalPresentationStyle = UIModalPresentationStyle.custom
+            editVC.transitioningDelegate = transitionDelegate
+            
+            //go
+            present(editVC, animated: true, completion: nil)
+        }//if let
+    }
+    
+    
     
     @IBOutlet weak var decksCollectionView: UICollectionView!{
         didSet{
@@ -170,20 +213,25 @@ class DecksCollectionViewController:
     
     
     
-//    @IBAction func addCard(_ sender: UIButton?) {
-//
-//        indexCardsCollectionView.performBatchUpdates({
-//            indexCardCollectionController.currentDeck?.addCard()
-//
-//            indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
-//
-//        }, completion: nil
-//        )
-//
-//        document?.updateChangeCount(UIDocument.ChangeKind.done)
-//
-//
-//    }
+    func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
+
+        //add empty index card
+        indexCardsCollectionView.performBatchUpdates({
+            indexCardCollectionController.currentDeck?.addCard()
+
+            indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
+
+        }, completion: { finished in
+            self.document?.updateChangeCount(UIDocument.ChangeKind.done)
+        }
+        )
+        
+        //present new sticker editor
+        presentStickerEditor(
+            from: animatedFrom,
+            with: (indexCardCollectionController.currentDeck?.cards.first)!,
+            forCropping: backgroundImage)
+    }
     
     //new add card func
     @objc func presentAddCardVC(_ sender: UITapGestureRecognizer){
@@ -197,7 +245,7 @@ class DecksCollectionViewController:
         //where the Edit view springs from
         transitionDelegate.startingCenter = view.convert(tappedCell.center, from: decksCollectionView)
         transitionDelegate.startingFrame = view.convert(tappedCell.frame, from: decksCollectionView) 
-        transitionDelegate.tappedCell = tappedCell
+        transitionDelegate.tappedView = tappedCell
         transitionDelegate.duration = theme.timeOf(.editCardZoom)
         
         //set up transition
@@ -691,11 +739,12 @@ class DecksCollectionViewController:
     
     
     
-//    //MARK:- navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.destination == self {
-//            //reload index cards
-//        }
+    //MARK:- navigation
+//    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+//        super.dismiss(animated: flag, completion: completion)
+//
+//
+//
 //    }
     
     

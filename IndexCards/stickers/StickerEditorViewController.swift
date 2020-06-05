@@ -25,16 +25,18 @@ class StickerEditorViewController:
     //TODO: - undo redo etc
     var document : IndexCardsDocument?
     
-    private var backgroundImage : UIImage?{
+    var passedImageForCropping : UIImage?
+    
+    var backgroundImage : UIImage?{
         didSet{
-            if let image = backgroundImage{
+            if let image = backgroundImage {
                 
                 //set image
                 cropView.imageForCropping = image
   
                 //Menus!
                 //hide first menu
-                getImageHint.isHidden = true
+                //getImageHint.isHidden = true
                 
                 //show next menu
                 //set-up
@@ -55,13 +57,13 @@ class StickerEditorViewController:
                     completion: nil)
                 
             } else {
-                getImageHint.alpha = 1
+                //getImageHint.alpha = 1
             }
         }
     }
 
     //accessed by the presenting animator
-    lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView, getImageHint]}()
+    lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView]}()
     
     var viewsToReveal : [UIView] = []{
         didSet{
@@ -103,11 +105,6 @@ class StickerEditorViewController:
     }
     
     //MARK: menus
-    @IBOutlet weak var getImageHint: UIStackView!{
-        didSet{
-            getImageHint.isHidden = true
-        }
-    }
     @IBOutlet weak var repositionImageHint: UIStackView!{
         didSet{
             repositionImageHint.isHidden = true
@@ -177,24 +174,24 @@ class StickerEditorViewController:
     }
     
     
-    @IBAction func chooseAPicture() {
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-            
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.mediaTypes = ["public.image"]
-            imagePicker.modalPresentationStyle = .popover
-            
-            if let popoverController = imagePicker.popoverPresentationController {
-                popoverController.sourceView = getImageHint
-                
-                present(imagePicker, animated: true, completion: nil)
-            }
-        } else {
-            print("camera not available")
-        }
-    }
+//    @IBAction func chooseAPicture() {
+//        if UIImagePickerController.isSourceTypeAvailable(.camera){
+//
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = .photoLibrary
+//            imagePicker.mediaTypes = ["public.image"]
+//            imagePicker.modalPresentationStyle = .popover
+//
+//            if let popoverController = imagePicker.popoverPresentationController {
+//                popoverController.sourceView = getImageHint
+//
+//                present(imagePicker, animated: true, completion: nil)
+//            }
+//        } else {
+//            print("camera not available")
+//        }
+//    }
     
    
     
@@ -457,14 +454,20 @@ class StickerEditorViewController:
         
         //if we got inited with data then prevent scrolling
         
-        
+        //if the card is previously set up
         if let _ = stickerView.backgroundImage {
             //should fade in
             viewsToReveal += [toolBarView, shapeCollectionView, colorsCollectionView]
             cropView.alpha = 0
         }else{
             //should fade in
-            viewsToReveal += [hintBarBackgroundView, getImageHint]
+            viewsToReveal += [hintBarBackgroundView]
+            
+            //pass the inherited image to the cropping view
+            if let _ = passedImageForCropping{
+                backgroundImage = passedImageForCropping
+            }
+            
         }
         
         
