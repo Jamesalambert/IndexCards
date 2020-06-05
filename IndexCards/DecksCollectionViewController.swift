@@ -31,12 +31,21 @@ class DecksCollectionViewController:
         }
     }
 
-    
     var theme = Theme()
-    
     var indexCardCollectionController = IndexCardsCollectionViewController()
-        
     var transitionDelegate = TransitioningDelegateforEditCardViewController()
+    var editorDidMakeChanges : Bool = false{
+        didSet{
+            if let indexPath = indexPathOfEditedCard{
+                document?.updateChangeCount(UIDocument.ChangeKind.done)
+
+                indexCardsCollectionView.reloadItems(at: [indexPath])
+            }
+        }
+    }
+    
+    var indexPathOfEditedCard : IndexPath?
+    var actionMenuIndexPath : IndexPath?
     
     //MARK:- Outlets
     
@@ -55,20 +64,33 @@ class DecksCollectionViewController:
         }
     }
 
-    var editorDidMakeChanges : Bool = false{
+    
+    @IBOutlet weak var stackViewTopInset: NSLayoutConstraint!
+    
+    @IBOutlet weak var decksCollectionView: UICollectionView!{
         didSet{
-            if let indexPath = indexPathOfEditedCard{
-                document?.updateChangeCount(UIDocument.ChangeKind.done)
-
-                indexCardsCollectionView.reloadItems(at: [indexPath])
-            }
+            decksCollectionView.delegate = self
+            decksCollectionView.dataSource = self
+            decksCollectionView.dragDelegate = self
+            decksCollectionView.dropDelegate = self
         }
     }
     
-    var indexPathOfEditedCard : IndexPath?
+    
+    @IBOutlet weak var addDeckView: addDeckButtonView!{
+        didSet{
+            let tap = UITapGestureRecognizer()
+            tap.numberOfTapsRequired = 1
+            tap.numberOfTouchesRequired = 1
+            tap.addTarget(self, action: #selector(addNewDeck))
+            
+            addDeckView.addGestureRecognizer(tap)
+        }
+    }
     
     
-    @IBOutlet weak var stackViewTopInset: NSLayoutConstraint!
+    
+    //MARK:- actions
     
     @objc private func tap(_ sender: UITapGestureRecognizer){
         //get tapped cell
@@ -100,6 +122,7 @@ class DecksCollectionViewController:
             
             
             //get the next VC
+            //TODO: use the function below instead of this
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
             
             if let editVC = storyboard.instantiateViewController(
@@ -165,35 +188,10 @@ class DecksCollectionViewController:
             present(editVC, animated: true, completion: nil)
         }//if let
     }
+
     
     
-    
-    @IBOutlet weak var decksCollectionView: UICollectionView!{
-        didSet{
-            decksCollectionView.delegate = self
-            decksCollectionView.dataSource = self
-            decksCollectionView.dragDelegate = self
-            decksCollectionView.dropDelegate = self
-        }
-    }
-    
-    
-    @IBOutlet weak var addDeckView: addDeckButtonView!{
-        didSet{
-            let tap = UITapGestureRecognizer()
-            tap.numberOfTapsRequired = 1
-            tap.numberOfTouchesRequired = 1
-            tap.addTarget(self, action: #selector(addNewDeck))
-            
-            addDeckView.addGestureRecognizer(tap)
-        }
-    }
-    
-    
-    
-    //MARK:- actions
     @objc func addNewDeck() {
-        
         decksCollectionView.performBatchUpdates({
             
             if let currentModel = model {
@@ -212,12 +210,12 @@ class DecksCollectionViewController:
     }
     
     
-    
+    //for adding cards using the background picker.
     func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
 
         //add empty index card
         indexCardsCollectionView.performBatchUpdates({
-            indexCardCollectionController.currentDeck?.addCard()
+            lastSelectedDeck?.addCard()
 
             indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
 
@@ -233,7 +231,8 @@ class DecksCollectionViewController:
             forCropping: backgroundImage)
     }
     
-    //new add card func
+    
+    
     @objc func presentAddCardVC(_ sender: UITapGestureRecognizer){
         
         let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
@@ -264,8 +263,7 @@ class DecksCollectionViewController:
 
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
-        //2 active and deleted
+        //2 sections, active and deleted
         return 2
     }
 
@@ -428,7 +426,9 @@ class DecksCollectionViewController:
         return true
     }
 
-    var actionMenuIndexPath : IndexPath?
+    
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
         canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
@@ -454,13 +454,17 @@ class DecksCollectionViewController:
         return UIMenuController.shared.menuItems?.compactMap{$0.action}.contains(action) ?? false
     }
 
+    
+    
     //this function does not appear to be called but needs to be here
     //to enable deleting decks.
     func collectionView(_ collectionView: UICollectionView,
             performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     }
 
-    @objc func deleteTappedDeck(_ sender:UIMenuController){        
+    
+    
+    @objc func deleteTappedDeck(_ sender : UIMenuController){
         //batch updates
         decksCollectionView.performBatchUpdates({
             if let indexPath = actionMenuIndexPath {
@@ -486,6 +490,8 @@ class DecksCollectionViewController:
         })
         
     }
+    
+    
     
     @objc func unDeleteTappedDeck(_ sender: UIMenuController){
         
@@ -548,7 +554,7 @@ class DecksCollectionViewController:
     }
 
     
-    //MARK:- UIColllectionViewDropDelegate
+    //MARK:- UICollectionViewDropDelegate
     
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
@@ -665,7 +671,7 @@ class DecksCollectionViewController:
     //MARK:- UIView
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        //TODO: move to iCloud
         if let url = fileLocationURL{
             document?.save(to: url, for: .forOverwriting, completionHandler: nil)
         }
@@ -738,14 +744,7 @@ class DecksCollectionViewController:
     }
     
     
-    
-    //MARK:- navigation
-//    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-//        super.dismiss(animated: flag, completion: completion)
-//
-//
-//
-//    }
+
     
     
 }//class

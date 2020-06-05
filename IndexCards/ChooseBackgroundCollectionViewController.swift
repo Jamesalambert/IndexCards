@@ -110,10 +110,7 @@ UINavigationControllerDelegate{
         if !tappedCells.contains(true){
             presentingViewController?.dismiss(animated: true, completion: nil)
         }
-
     }
-    
-
     
     
     
@@ -145,36 +142,7 @@ UINavigationControllerDelegate{
         return cell
     }
 
-    // MARK:- UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
-    }
-    */
 
     //MARK:- UIImagePickerControllerDelegate
     
@@ -185,22 +153,24 @@ UINavigationControllerDelegate{
     
     
     func imagePickerController(_ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         switch picker.sourceType {
         case .camera:
             
             if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 chosenImage = photo
-                //addCard()
             }
         case .photoLibrary:
-            if let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
-                self.chosenImage = chosenImage
-                //addCard()
+            if let image = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
+                chosenImage = image
             }
         default: print("unknown sourceType: \(picker.sourceType)")
         }
+        
+        
+        //dismiss the picker and the choose background cards!
+        
         
         //dismiss ImagePicker
         picker.presentingViewController?.dismiss(animated: true, completion: {
@@ -215,10 +185,11 @@ UINavigationControllerDelegate{
                 
                 deckController.addCard(with: image, animatedFrom: cell)
             }
-    
+            
             
         })
     }
+    
    
     
     //MARK:- UIView
