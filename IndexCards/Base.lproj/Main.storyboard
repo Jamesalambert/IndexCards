@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qnM-16-G8c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Et5-KU-r5g">
     <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -215,13 +215,13 @@
         <!--Choose Background Collection View Controller-->
         <scene sceneID="0Zi-8d-Vde">
             <objects>
-                <viewController id="qnM-16-G8c" customClass="ChooseBackgroundCollectionViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChooseCardType" id="qnM-16-G8c" customClass="ChooseBackgroundCollectionViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0WI-pZ-Vvb">
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
-                                <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                                <rect key="frame" x="0.0" y="600" width="834" height="312"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewLayout key="collectionViewLayout" id="ldz-mu-clK" customClass="CircularCollectionViewLayout" customModule="IndexCards" customModuleProvider="target"/>
                                 <cells>
@@ -253,14 +253,13 @@
                                 </cells>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1LA-zd-YN5" firstAttribute="centerX" secondItem="YzW-s1-Hza" secondAttribute="centerX" id="Jyl-1h-9YQ"/>
                             <constraint firstItem="1LA-zd-YN5" firstAttribute="leading" secondItem="YzW-s1-Hza" secondAttribute="leading" id="QGi-rN-12Y"/>
-                            <constraint firstItem="YzW-s1-Hza" firstAttribute="bottom" secondItem="1LA-zd-YN5" secondAttribute="bottom" id="Vq6-hN-Igd"/>
+                            <constraint firstItem="YzW-s1-Hza" firstAttribute="bottom" secondItem="1LA-zd-YN5" secondAttribute="bottom" constant="200" id="Vq6-hN-Igd"/>
                             <constraint firstItem="YzW-s1-Hza" firstAttribute="trailing" secondItem="1LA-zd-YN5" secondAttribute="trailing" id="eTV-iy-o52"/>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="top" secondItem="YzW-s1-Hza" secondAttribute="top" id="jfx-kI-dDx"/>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="centerY" secondItem="YzW-s1-Hza" secondAttribute="centerY" id="mU8-Ls-7RZ"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="top" secondItem="YzW-s1-Hza" secondAttribute="top" constant="600" id="jfx-kI-dDx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YzW-s1-Hza"/>
                     </view>
@@ -385,24 +384,16 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="150" height="86"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuI-Wo-XaW">
-                                                                    <rect key="frame" x="29.5" y="25" width="91" height="36"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                    <state key="normal" title="add a card"/>
-                                                                    <connections>
-                                                                        <action selector="addCard:" destination="Et5-KU-r5g" eventType="touchUpInside" id="a65-Mu-fKg"/>
-                                                                    </connections>
-                                                                </button>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add a Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPu-Lf-z91">
+                                                                    <rect key="frame" x="32" y="33" width="86" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                         </view>
-                                                        <constraints>
-                                                            <constraint firstItem="vuI-Wo-XaW" firstAttribute="centerY" secondItem="MjS-ce-gn0" secondAttribute="centerY" id="Dg3-aD-So0"/>
-                                                            <constraint firstItem="vuI-Wo-XaW" firstAttribute="centerX" secondItem="MjS-ce-gn0" secondAttribute="centerX" id="MQ4-Cz-73D"/>
-                                                        </constraints>
                                                         <size key="customSize" width="150" height="86"/>
-                                                        <connections>
-                                                            <outlet property="addCardButton" destination="vuI-Wo-XaW" id="qVE-8K-Zbu"/>
-                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>

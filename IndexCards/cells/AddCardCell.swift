@@ -9,17 +9,13 @@
 import UIKit
 
 class AddCardCell: UICollectionViewCell {
- 
-    
-    @IBOutlet weak var addCardButton: UIButton!{
-        didSet{
-            addCardButton.setTitleColor(UIColor.blue, for: .normal)
-        }
-    }
     
     
     var theme : Theme?
     var delegate : DecksCollectionViewController?
+    
+    var tapGestureRecognizer = UITapGestureRecognizer()
+    
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -37,6 +33,9 @@ class AddCardCell: UICollectionViewCell {
         self.backgroundColor = nil
         self.layer.backgroundColor = UIColor.clear.cgColor
         self.isOpaque = false
+        
+        //tap
+        addGestureRecognizer(tapGestureRecognizer)
     }
     
     

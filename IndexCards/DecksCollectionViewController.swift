@@ -185,6 +185,32 @@ class DecksCollectionViewController:
         
     }
     
+    //new add card func
+    @objc func presentAddCardVC(_ sender: UITapGestureRecognizer){
+        
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        
+        guard let addCardVC = storyBoard.instantiateViewController(identifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
+        
+        guard let tappedCell = sender.view as? AddCardCell else {return}
+        
+        //where the Edit view springs from
+        transitionDelegate.startingCenter = tappedCell.center
+        transitionDelegate.startingFrame = tappedCell.frame
+        transitionDelegate.tappedCell = tappedCell
+        transitionDelegate.duration = theme.timeOf(.editCardZoom)
+        
+        //set up transition
+        addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
+        addCardVC.transitioningDelegate = transitionDelegate
+        
+        //go
+        present(addCardVC, animated: true, completion: nil)
+    }
+    
+    
+    
+    
 
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -246,6 +272,8 @@ class DecksCollectionViewController:
                     cell.theme = theme
                     cell.delegate = self
     
+                    cell.tapGestureRecognizer.addTarget(self, action: #selector(presentAddCardVC(_:)))
+                    
                     return cell
                 }
                 //otherwise...

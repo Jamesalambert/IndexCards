@@ -17,7 +17,7 @@ UICollectionViewDataSource{
     //MARK:- vars
     
     
-    //MARK:- Outletsm
+    //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
         didSet{
             backgroundChoicesCollectionView.delegate = self
@@ -143,9 +143,19 @@ UICollectionViewDataSource{
         //self.backgroundChoicesCollectionView!.register(ChooseBackgroundTypeCell.self, forCellWithReuseIdentifier: "ChooseBackgroundTypeCell")
 
         // Do any additional setup after loading the view.
-    
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
+        view.addGestureRecognizer(tap)
         
     }
+    
+    @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
+        
+        if !backgroundChoicesCollectionView.bounds.contains(sender.location(in: view)){
+            presentingViewController?.dismiss(animated: true, completion: nil)
+        }
+
+    }
+    
 }
 
