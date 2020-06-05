@@ -109,7 +109,7 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
             
             return newDeck
         } catch {
-            fatalError(error as! String)
+            fatalError(error.localizedDescription)
         }
     }
     
@@ -214,7 +214,7 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
         return [(kUTTypeData) as String]
     }
     
-    //had to add final class Deck after changeing the return type from Self to Deck
+    //had to add final class Deck after changeing the return type from Self to IndexCard
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> IndexCard {
         
         let decoder = JSONDecoder()
@@ -225,7 +225,7 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
             
             return newCard
         } catch {
-            fatalError(error as! String)
+            fatalError(error.localizedDescription)
         }
     }
     
@@ -254,6 +254,8 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
     var thumbnail : UIImage?{
         get{
             if let storedData = thumbnailData {
+                return UIImage(data: storedData)
+            } else if let storedData = imageData{
                 return UIImage(data: storedData)
             }
             return nil

@@ -170,20 +170,20 @@ class DecksCollectionViewController:
     
     
     
-    @IBAction func addCard(_ sender: UIButton?) {
-        
-        indexCardsCollectionView.performBatchUpdates({
-            indexCardCollectionController.currentDeck?.addCard()
-            
-            indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
-            
-        }, completion: nil
-        )
-        
-        document?.updateChangeCount(UIDocument.ChangeKind.done)
-
-        
-    }
+//    @IBAction func addCard(_ sender: UIButton?) {
+//
+//        indexCardsCollectionView.performBatchUpdates({
+//            indexCardCollectionController.currentDeck?.addCard()
+//
+//            indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
+//
+//        }, completion: nil
+//        )
+//
+//        document?.updateChangeCount(UIDocument.ChangeKind.done)
+//
+//
+//    }
     
     //new add card func
     @objc func presentAddCardVC(_ sender: UITapGestureRecognizer){

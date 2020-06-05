@@ -19,6 +19,7 @@ UINavigationControllerDelegate{
     //MARK:- vars
     var theme : Theme?
     var currentDeck : Deck?
+    var chosenImage : UIImage?
     
     //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
@@ -92,7 +93,53 @@ UINavigationControllerDelegate{
     }
     
     
-    // MARK: UICollectionViewDataSource
+    @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
+        
+        //see if any cells were tapped
+        let tappedCells = backgroundChoicesCollectionView.visibleCells.map { cell -> Bool in
+            cell.frame.contains(sender.location(in: backgroundChoicesCollectionView))
+        }
+        
+        //if the tap was outside all cells then dismiss
+        if !tappedCells.contains(true){
+            presentingViewController?.dismiss(animated: true, completion: nil)
+        }
+
+    }
+    
+    
+    
+    func addCard() {
+        guard let presentingVC = presentingViewController as? DecksCollectionViewController else {return}
+        
+        let indexCardsCollectionView = presentingVC.indexCardsCollectionView
+        let indexCardCollectionController = presentingVC.indexCardCollectionController
+        let document = presentingVC.document
+        
+        indexCardsCollectionView?.performBatchUpdates({
+            //update model
+            indexCardCollectionController.currentDeck?.addCard()
+            
+            //update collection view
+            indexCardsCollectionView?.insertItems(at: [IndexPath(row: 0, section: 0)])
+            
+        }, completion: { finished in
+            
+            //send image to new card
+            indexCardCollectionController.currentDeck?.cards.first?.imageData = self.chosenImage?.jpegData(compressionQuality: 1.0)
+            
+            //hide card on tabletop until we segue back there
+            indexCardsCollectionView?.cellForItem(at: IndexPath(row: 0, section: 0))?.alpha = 0
+        }
+        )
+        
+        document?.updateChangeCount(UIDocument.ChangeKind.done)
+        
+    }
+    
+    
+    
+    // MARK:- UICollectionViewDataSource
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -120,7 +167,7 @@ UINavigationControllerDelegate{
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
+    // MARK:- UICollectionViewDelegate
 
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking
@@ -157,7 +204,7 @@ UINavigationControllerDelegate{
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    var chosenImage : UIImage?
+    
     
     func imagePickerController(_ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -167,10 +214,12 @@ UINavigationControllerDelegate{
             
             if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 chosenImage = photo
+                addCard()
             }
         case .photoLibrary:
             if let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 self.chosenImage = chosenImage
+                addCard()
             }
         default: print("unknown sourceType: \(picker.sourceType)")
         }
@@ -187,20 +236,7 @@ UINavigationControllerDelegate{
         view.addGestureRecognizer(tap)
         
     }
-    
-    @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
-        
-        //see if any cells were tapped
-        let tappedCells = backgroundChoicesCollectionView.visibleCells.map { cell -> Bool in
-            cell.frame.contains(sender.location(in: backgroundChoicesCollectionView))
-        }
-        
-        //if the tap was outside all cells then dismiss
-        if !tappedCells.contains(true){
-            presentingViewController?.dismiss(animated: true, completion: nil)
-        }
 
-    }
     
 }
 
