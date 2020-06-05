@@ -83,7 +83,9 @@ UICollectionViewDataSource{
         return BackgroundSourceType.allCases.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChooseBackgroundTypeCell", for: indexPath)
     
         if let cell = cell as? ChooseBackgroundTypeCell{
@@ -134,14 +136,6 @@ UICollectionViewDataSource{
     //MARK:- UIView
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        //self.backgroundChoicesCollectionView!.register(ChooseBackgroundTypeCell.self, forCellWithReuseIdentifier: "ChooseBackgroundTypeCell")
-
-        // Do any additional setup after loading the view.
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
         view.addGestureRecognizer(tap)
@@ -150,7 +144,7 @@ UICollectionViewDataSource{
     
     @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
         
-        if !backgroundChoicesCollectionView.bounds.contains(sender.location(in: view)){
+        if !backgroundChoicesCollectionView.bounds.contains(sender.location(in: backgroundChoicesCollectionView)){
             presentingViewController?.dismiss(animated: true, completion: nil)
         }
 

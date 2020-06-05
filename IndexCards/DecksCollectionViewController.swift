@@ -195,8 +195,8 @@ class DecksCollectionViewController:
         guard let tappedCell = sender.view as? AddCardCell else {return}
         
         //where the Edit view springs from
-        transitionDelegate.startingCenter = tappedCell.center
-        transitionDelegate.startingFrame = tappedCell.frame
+        transitionDelegate.startingCenter = view.convert(tappedCell.center, from: decksCollectionView)
+        transitionDelegate.startingFrame = view.convert(tappedCell.frame, from: decksCollectionView) 
         transitionDelegate.tappedCell = tappedCell
         transitionDelegate.duration = theme.timeOf(.editCardZoom)
         

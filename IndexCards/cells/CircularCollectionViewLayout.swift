@@ -79,14 +79,6 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         return attributesList[indexPath.item]
     }
     
-//    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-//        return CircularCollectionViewLayoutAttributes()
-//    }
-//
-//    override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-//        return CircularCollectionViewLayoutAttributes()
-//    }
-    
     //invalidate while scrolling so we can recompute the angle, this way we get custom scrolling.
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
@@ -113,7 +105,8 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         }
     }
     
-    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    override func initialLayoutAttributesForAppearingItem(at
+        itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
     
         return attributesList[itemIndexPath.item]
     }
