@@ -17,6 +17,9 @@ enum BackgroundSourceType: CaseIterable {
 class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     //MARK:- vars
+    
+    var theme : Theme?
+    
     var sourceType = BackgroundSourceType.ChooseFromLibaray {
         didSet{
         
@@ -67,10 +70,29 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         self.center.y += (layoutAttributes.anchorPoint.y - 0.5) * bounds.height
     }//func
         
+   
+   //MARK:- UIView
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        
+        //rounded corners
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width
+        self.layer.masksToBounds = false
+        
+        //border
+        self.layer.borderColor = UIColor.blue.cgColor
+        self.layer.borderWidth = CGFloat(3.0)
+        
+        //background color
+        self.backgroundColor = nil
+        self.layer.backgroundColor = UIColor.gray.cgColor
+        self.isOpaque = false
+        
+        //tap
         addGestureRecognizer(tapGestureRecognizer)
     }
+    
+    
     
     
 }

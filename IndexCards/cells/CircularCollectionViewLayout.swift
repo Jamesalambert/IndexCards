@@ -32,7 +32,7 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
 
     let itemSize = CGSize(width: 300, height: 200)
     
-    var radius: CGFloat = 200{
+    var radius: CGFloat = 400{
         didSet{
             invalidateLayout()
         }

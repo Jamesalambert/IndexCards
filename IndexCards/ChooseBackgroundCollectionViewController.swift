@@ -144,7 +144,11 @@ UICollectionViewDataSource{
     
     @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
         
-        if !backgroundChoicesCollectionView.bounds.contains(sender.location(in: backgroundChoicesCollectionView)){
+        let tappedCells = backgroundChoicesCollectionView.visibleCells.map { cell -> Bool in
+            cell.frame.contains(sender.location(in: backgroundChoicesCollectionView))
+        }
+        
+        if !tappedCells.contains(true){
             presentingViewController?.dismiss(animated: true, completion: nil)
         }
 
