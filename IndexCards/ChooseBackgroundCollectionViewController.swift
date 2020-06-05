@@ -92,7 +92,6 @@ UICollectionViewDataSource{
             cell.sourceType = sourceType
             
             cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
-            cell.addGestureRecognizer(cell.tapGestureRecognizer)
         }
         
         return cell
