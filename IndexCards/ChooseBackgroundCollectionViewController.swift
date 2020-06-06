@@ -20,6 +20,7 @@ UINavigationControllerDelegate{
     var theme : Theme?
     var currentDeck : Deck?
     var chosenImage : UIImage?
+    var tappedCell : UICollectionViewCell?
     
     //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
@@ -36,8 +37,6 @@ UINavigationControllerDelegate{
     
    
     //MARK:- helper funcs
-    
-    var tappedCell : UICollectionViewCell?
     
     @objc func choiceCardTapped(sender : UITapGestureRecognizer){
         

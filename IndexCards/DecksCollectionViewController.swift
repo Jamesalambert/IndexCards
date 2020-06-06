@@ -23,7 +23,6 @@ class DecksCollectionViewController:
     
     
     //MARK:- vars
-    //model
     var model : Notes?{
         didSet{
             decksCollectionView.reloadData()
@@ -31,6 +30,14 @@ class DecksCollectionViewController:
         }
     }
 
+    var document : IndexCardsDocument? {
+        didSet{
+            indexCardCollectionController.currentDocument = document
+        }
+    }
+    
+    var fileLocationURL : URL?
+    
     var theme = Theme()
     var indexCardCollectionController = IndexCardsCollectionViewController()
     var transitionDelegate = TransitioningDelegateforEditCardViewController()
@@ -46,6 +53,7 @@ class DecksCollectionViewController:
     
     var indexPathOfEditedCard : IndexPath?
     var actionMenuIndexPath : IndexPath?
+    var lastSelectedDeck : Deck?
     
     //MARK:- Outlets
     
@@ -151,8 +159,8 @@ class DecksCollectionViewController:
     
     
     func presentStickerEditor(from view : UIView,
-                              with indexCard : IndexCard,
-                              forCropping image : UIImage?){
+            with indexCard : IndexCard, forCropping image : UIImage?){
+        
         //get the next VC
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
@@ -391,7 +399,7 @@ class DecksCollectionViewController:
         return true
     }
     
-    var lastSelectedDeck : Deck?
+    
   
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
@@ -691,11 +699,7 @@ class DecksCollectionViewController:
     }
     
     
-    var document : IndexCardsDocument? {
-        didSet{
-            indexCardCollectionController.currentDocument = document
-        }
-    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -714,7 +718,7 @@ class DecksCollectionViewController:
     }
     
     
-    var fileLocationURL : URL?
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
