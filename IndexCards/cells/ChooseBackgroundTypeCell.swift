@@ -109,7 +109,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
             roundedRect: layer.bounds,
             cornerRadius: layer.cornerRadius)
         layer.shadowPath = shadowPath.cgPath
-        layer.shadowOffset = CGSize(width: -3.0, height: 3.0)
+        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowRadius = 2.0
         layer.shadowOpacity = 0.7

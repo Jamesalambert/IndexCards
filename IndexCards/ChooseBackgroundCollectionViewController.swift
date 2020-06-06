@@ -211,7 +211,7 @@ UINavigationControllerDelegate{
 
     
     override func viewDidAppear(_ animated: Bool) {
-        BackgroundSourceType.allCases.forEach{ cardType in
+        BackgroundSourceType.allCases.reversed().forEach{ cardType in
             
             self.backgroundChoicesCollectionView.performBatchUpdates({
                 //add card to array
