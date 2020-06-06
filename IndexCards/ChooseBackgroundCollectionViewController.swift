@@ -115,28 +115,36 @@ UINavigationControllerDelegate{
     
     // MARK:- UICollectionViewDataSource
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {return 1}
 
 
     func collectionView(_ collectionView: UICollectionView,
-                                 numberOfItemsInSection section: Int) -> Int {
+                numberOfItemsInSection section: Int) -> Int {
         return BackgroundSourceType.allCases.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChooseBackgroundTypeCell", for: indexPath)
-    
-        if let cell = cell as? ChooseBackgroundTypeCell{
-        
+        if let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "ChooseBackgroundTypeCell",
+            for: indexPath) as? ChooseBackgroundTypeCell{
+            
             let sourceType = BackgroundSourceType.allCases[indexPath.item]
             cell.sourceType = sourceType
+            cell.theme = theme
             
             cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
+            
+            print("cell for item: \(String(describing: theme?.chosenTheme))")
+            
+            return cell
+            
         }
+        
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "ChooseBackgroundTypeCell",
+            for: indexPath)
         
         return cell
     }

@@ -25,7 +25,7 @@ class IndexCardViewCell: UICollectionViewCell {
         super.didMoveToWindow()
         
         //rounded corners
-        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
         //drop shadow

@@ -245,7 +245,7 @@ class DecksCollectionViewController:
         
         let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
         
-        guard let addCardVC = storyBoard.instantiateViewController(identifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
+        guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
         
         guard let tappedCell = sender.view as? AddCardCell else {return}
         

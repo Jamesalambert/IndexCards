@@ -199,7 +199,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eiz-xs-iGp">
                                                     <rect key="frame" x="79" y="89.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -208,7 +208,6 @@
                                                 <constraint firstItem="eiz-xs-iGp" firstAttribute="centerX" secondItem="1mS-Iy-Akk" secondAttribute="centerX" id="brf-Z2-veW"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                         <size key="customSize" width="200" height="200"/>
                                         <connections>
                                             <outlet property="label" destination="eiz-xs-iGp" id="QXX-oX-MsO"/>
@@ -348,15 +347,18 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="150" height="86"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add a Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPu-Lf-z91">
-                                                                    <rect key="frame" x="32" y="33" width="86" height="21"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPu-Lf-z91">
+                                                                    <rect key="frame" x="32.5" y="33" width="85.5" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </view>
+                                                        <constraints>
+                                                            <constraint firstItem="KPu-Lf-z91" firstAttribute="centerY" secondItem="MjS-ce-gn0" secondAttribute="centerY" id="e4o-fy-Z1b"/>
+                                                            <constraint firstItem="KPu-Lf-z91" firstAttribute="centerX" secondItem="MjS-ce-gn0" secondAttribute="centerX" id="rfi-HP-top"/>
+                                                        </constraints>
                                                         <size key="customSize" width="150" height="86"/>
                                                     </collectionViewCell>
                                                 </cells>

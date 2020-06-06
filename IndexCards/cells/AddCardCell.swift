@@ -31,7 +31,7 @@ class AddCardCell: UICollectionViewCell {
         
         //background color
         self.backgroundColor = nil
-        self.layer.backgroundColor = UIColor.clear.cgColor
+        self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
         self.isOpaque = false
         
         //tap

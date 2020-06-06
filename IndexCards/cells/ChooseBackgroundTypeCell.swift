@@ -17,8 +17,16 @@ enum BackgroundSourceType: CaseIterable {
 class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     //MARK:- vars
-    
-    var theme : Theme?
+    //no guarantee the theme will be set when DidMoveToWindow() below runs so we use didset too.
+    var theme : Theme?{
+        didSet{
+            //rounded corners
+            self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
+            
+            //background color
+            self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
+        }
+    }
     
     var sourceType = BackgroundSourceType.ChooseFromLibaray {
         didSet{
@@ -76,7 +84,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         super.didMoveToWindow()
         
         //rounded corners
-        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
         //border
@@ -84,8 +92,9 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         self.layer.borderWidth = CGFloat(3.0)
         
         //background color
-        self.backgroundColor = nil
-        self.layer.backgroundColor = UIColor.gray.cgColor
+        self.backgroundColor =  nil
+        print("cell: \(theme?.chosenTheme)")
+        self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
         self.isOpaque = false
         
         //tap
