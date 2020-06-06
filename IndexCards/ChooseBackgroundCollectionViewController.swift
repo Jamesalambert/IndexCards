@@ -21,12 +21,16 @@ UINavigationControllerDelegate{
     var currentDeck : Deck?
     var chosenImage : UIImage?
     var tappedCell : UICollectionViewCell?
+    var layoutObject = CircularCollectionViewLayout()
+    var listOfCards : [BackgroundSourceType] = []
+    
     
     //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
         didSet{
             backgroundChoicesCollectionView.delegate = self
             backgroundChoicesCollectionView.dataSource = self
+            backgroundChoicesCollectionView.collectionViewLayout = layoutObject
             
             backgroundChoicesCollectionView.contentSize = CGSize(
                 width: CGFloat(200 * BackgroundSourceType.allCases.count),
@@ -120,26 +124,23 @@ UINavigationControllerDelegate{
 
     func collectionView(_ collectionView: UICollectionView,
                 numberOfItemsInSection section: Int) -> Int {
-        return BackgroundSourceType.allCases.count
+        return listOfCards.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "ChooseBackgroundTypeCell",
             for: indexPath) as? ChooseBackgroundTypeCell{
             
-            let sourceType = BackgroundSourceType.allCases[indexPath.item]
+            let sourceType = listOfCards[indexPath.item]
             cell.sourceType = sourceType
             cell.theme = theme
             
             cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
-            
-            print("cell for item: \(String(describing: theme?.chosenTheme))")
-            
+                        
             return cell
-            
         }
         
         let cell = collectionView.dequeueReusableCell(
@@ -205,9 +206,27 @@ UINavigationControllerDelegate{
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
         view.addGestureRecognizer(tap)
-        
-    }
+   
+    }//func
 
     
-}
+    override func viewDidAppear(_ animated: Bool) {
+        BackgroundSourceType.allCases.forEach{ cardType in
+            
+            self.backgroundChoicesCollectionView.performBatchUpdates({
+                //add card to array
+                self.listOfCards.insert(cardType, at: 0)
+                
+                //update collection view
+                self.backgroundChoicesCollectionView.insertItems(at: [IndexPath(item: 0,                                                                 section: 0)])
+            }, completion: {finished in
+                //redraw drop shadows at the right size
+                self.backgroundChoicesCollectionView.visibleCells.forEach{cell in cell.layer.setNeedsDisplay()}})
+            
+        }//for each
+  
+    }//func
+    
+    
+}//class
 

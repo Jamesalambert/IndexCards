@@ -87,21 +87,34 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
+        
+        
         //border
-        self.layer.borderColor = UIColor.blue.cgColor
-        self.layer.borderWidth = CGFloat(3.0)
+//        self.layer.borderColor = UIColor.blue.cgColor
+//        self.layer.borderWidth = CGFloat(3.0)
         
         //background color
         self.backgroundColor =  nil
-        print("cell: \(theme?.chosenTheme)")
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
-        self.isOpaque = false
+        //self.isOpaque = false
         
-        //tap
+        //tap to dismiss
         addGestureRecognizer(tapGestureRecognizer)
     }
     
-    
+    //so we can redraw shadows once the bounds have resized
+    override func draw(_ layer: CALayer, in ctx: CGContext) {
+        //drop shadow
+        let shadowPath = UIBezierPath(
+            roundedRect: layer.bounds,
+            cornerRadius: layer.cornerRadius)
+        layer.shadowPath = shadowPath.cgPath
+        layer.shadowOffset = CGSize(width: -3.0, height: 3.0)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.7
+        layer.shouldRasterize = false
+    }
     
     
 }

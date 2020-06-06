@@ -187,7 +187,7 @@
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
                                 <rect key="frame" x="0.0" y="778.5" width="834" height="333.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewLayout key="collectionViewLayout" id="ldz-mu-clK" customClass="CircularCollectionViewLayout" customModule="IndexCards" customModuleProvider="target"/>
+                                <collectionViewLayout key="collectionViewLayout" id="ldz-mu-clK"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseBackgroundTypeCell" id="b0Y-BO-Pmw" customClass="ChooseBackgroundTypeCell" customModule="IndexCards" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>

@@ -79,7 +79,7 @@ class Theme : ThemeDelegateProtocol {
     private static let defaultTime = TimeFor(
         editCardZoom: 0.2,
         tapDeckTurn: 0.2,
-        showMenu: 0.2,
+        showMenu: 1.0,
         addShape: 0.2)
 }
 

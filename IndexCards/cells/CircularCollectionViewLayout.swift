@@ -30,6 +30,8 @@ class CircularCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
 
 class CircularCollectionViewLayout: UICollectionViewLayout {
 
+    var originRect : CGRect = CGRect(origin: CGPoint.zero, size: CGSize.zero)
+    
     let itemSize = CGSize(width: 300, height: 200)
     
     var radius: CGFloat = 400{
@@ -91,6 +93,7 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         let anchorPointY = ((itemSize.height/2) + radius) / itemSize.height
         
         let centerX = collectionView!.contentOffset.x + CGFloat(collectionView!.bounds.width / 2.0)
+        
         attributesList = (0..<collectionView!.numberOfItems(inSection: 0)).map { (i) -> CircularCollectionViewLayoutAttributes in
             
             let attributes = CircularCollectionViewLayoutAttributes(
@@ -108,7 +111,20 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
     override func initialLayoutAttributesForAppearingItem(at
         itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
     
-        return attributesList[itemIndexPath.item]
+        
+        //cards start at the origin rect
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: itemIndexPath)
+        
+        attributes.size = originRect.size
+        attributes.center =  CGPoint(x: originRect.origin.x + originRect.width / 2,
+                                     y: originRect.origin.y + originRect.height / 2).offsetBy(
+                dx: collectionView!.frame.origin.x,
+                dy: -1 * collectionView!.frame.origin.y)
+        print("center: \(attributes.center)")
+        
+        return attributes
+        
+        //return attributesList[itemIndexPath.item]
     }
     
 }
