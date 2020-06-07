@@ -182,7 +182,6 @@ UINavigationControllerDelegate{
         
         switch picker.sourceType {
         case .camera:
-            
             if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
                 chosenImage = photo
             }
@@ -194,12 +193,9 @@ UINavigationControllerDelegate{
         }
         
         
-        //dismiss the picker and the choose background cards!
+        //dismiss the picker and the choose background cards
         //dismiss ImagePicker
         picker.presentingViewController?.dismiss(animated: true, completion: {
-            
-            //dismiss ourselves
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
             
             //pass the image back to the presenting VC
             if let deckController = self.presentingViewController as? DecksCollectionViewController,
@@ -209,8 +205,10 @@ UINavigationControllerDelegate{
                 deckController.addCard(with: image, animatedFrom: cell)
             }
             
-            
+            //dismiss ourselves
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
         })
+        
     }
     
    

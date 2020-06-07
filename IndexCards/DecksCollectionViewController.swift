@@ -140,13 +140,23 @@ class DecksCollectionViewController:
             editVC.passedImageForCropping = imageToCrop
         }
         
-        let startCenter = view.convert(sourceView.center, from: indexCardsCollectionView)
-        let startFrame = view.convert(sourceView.frame, from: indexCardsCollectionView)
+        //origin of the animation
+        let startCenter = view.convert(sourceView.center, from: sourceView.superview)
+        let startFrame = view.convert(sourceView.frame, from: sourceView.superview)
+        
+        //get index card location on screen so we can animate back to it after editing
+        let cardIndex = (lastSelectedDeck?.cards.firstIndex(of: indexCard))!
+        guard let endCell = indexCardsCollectionView.cellForItem(at: IndexPath(item: cardIndex, section: 0)) else {return}
+        
+        let endCenter = view.convert(endCell.center, from: endCell.superview)
+        let endFrame = view.convert(endCell.frame, from: endCell.superview)
         
         //set up the animation
         transitionDelegate.startingCenter = startCenter
         transitionDelegate.startingFrame = startFrame
-        transitionDelegate.tappedView = sourceView
+        transitionDelegate.endingCenter = endCenter
+        transitionDelegate.endingFrame = endFrame
+        transitionDelegate.viewToHide = endCell
         transitionDelegate.duration = theme.timeOf(.editCardZoom)
         
         //set up transition
@@ -183,21 +193,24 @@ class DecksCollectionViewController:
 
         //add empty index card
         indexCardsCollectionView.performBatchUpdates({
+            //model
             lastSelectedDeck?.addCard()
 
+            //collection view
             indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
-
         }, completion: { finished in
+            //save doc
             self.document?.updateChangeCount(UIDocument.ChangeKind.done)
-        }
-        )
+            
+            //present new sticker editor
+            self.presentStickerEditor(
+                from: animatedFrom,
+                with: (self.indexCardCollectionController.currentDeck?.cards.first)!,
+                forCropping: backgroundImage)
+        })
         
-        //present new sticker editor
-        presentStickerEditor(
-            from: animatedFrom,
-            with: (indexCardCollectionController.currentDeck?.cards.first)!,
-            forCropping: backgroundImage)
-    }
+        
+    }//func
     
     
     
@@ -212,7 +225,9 @@ class DecksCollectionViewController:
         //where the Edit view springs from
         transitionDelegate.startingCenter = view.convert(tappedCell.center, from: decksCollectionView)
         transitionDelegate.startingFrame = view.convert(tappedCell.frame, from: decksCollectionView)
-        transitionDelegate.tappedView = tappedCell //for fading out the tapped view
+        transitionDelegate.endingCenter = transitionDelegate.startingCenter
+        transitionDelegate.endingFrame = transitionDelegate.startingFrame
+        transitionDelegate.viewToHide = tappedCell //for fading out the tapped view
         transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
         
         //set up transition

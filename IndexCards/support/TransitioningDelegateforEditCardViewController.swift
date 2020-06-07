@@ -16,7 +16,9 @@ UIViewControllerTransitioningDelegate
     var duration : Double = 0.5
     var startingCenter : CGPoint?
     var startingFrame : CGRect?
-    var tappedView : UIView?
+    var endingCenter : CGPoint?
+    var endingFrame : CGRect?
+    var viewToHide : UIView?
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
@@ -24,7 +26,7 @@ UIViewControllerTransitioningDelegate
         animator.duration = duration
         animator.startingCenter = startingCenter
         animator.startingFrame = startingFrame
-        animator.tappedView = tappedView
+        animator.tappedView = viewToHide
         
         return animator
     }
@@ -33,9 +35,9 @@ UIViewControllerTransitioningDelegate
         
         let animator = DismissingAnimator()
         animator.duration = duration
-        animator.endingCenter = startingCenter
-        animator.endingFrame = startingFrame
-        animator.tappedView = tappedView
+        animator.endingCenter = endingCenter
+        animator.endingFrame = endingFrame
+        animator.tappedView = viewToHide
         
         return animator
     }
