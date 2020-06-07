@@ -252,15 +252,14 @@ class DecksCollectionViewController:
         //where the Edit view springs from
         transitionDelegate.startingCenter = view.convert(tappedCell.center, from: decksCollectionView)
         transitionDelegate.startingFrame = view.convert(tappedCell.frame, from: decksCollectionView)
-        transitionDelegate.tappedView = tappedCell
+        transitionDelegate.tappedView = tappedCell //for fading out the tapped view
         transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
         
         //set up transition
-        addCardVC.currentDeck = lastSelectedDeck
         addCardVC.theme = theme
         addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
         addCardVC.transitioningDelegate = transitionDelegate
-        addCardVC.layoutObject.originRect = view.convert(tappedCell.frame, from: decksCollectionView)
+        addCardVC.layoutObject.originRect = view.convert(tappedCell.frame, from: tappedCell.superview)
         
         //go
         present(addCardVC, animated: true, completion: nil)

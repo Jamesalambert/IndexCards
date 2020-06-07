@@ -18,7 +18,7 @@ UINavigationControllerDelegate{
 
     //MARK:- vars
     var theme : Theme?
-    var currentDeck : Deck?
+    //var currentDeck : Deck?
     var chosenImage : UIImage?
     var tappedCell : UICollectionViewCell?
     var layoutObject = CircularCollectionViewLayout()
@@ -67,7 +67,7 @@ UINavigationControllerDelegate{
             try presentImagePicker(
                 delegate: self,
                 sourceType: .camera,
-                allowsEditing: false,
+                allowsEditing: true,
                 sourceView: nil)
         }   catch CameraAccessError.notPermitted {
             print("camera not available, remember to edit plist for permission")
@@ -85,7 +85,7 @@ UINavigationControllerDelegate{
             try presentImagePicker(
                 delegate: self,
                 sourceType: .photoLibrary,
-                allowsEditing: false,
+                allowsEditing: true,
                 sourceView: backgroundChoicesCollectionView.cellForItem(at: indexPath)!)
         }   catch CameraAccessError.notPermitted {
             print("camera not available, remember to edit plist for permission")
@@ -178,8 +178,6 @@ UINavigationControllerDelegate{
         
         
         //dismiss the picker and the choose background cards!
-        
-        
         //dismiss ImagePicker
         picker.presentingViewController?.dismiss(animated: true, completion: {
             
@@ -211,20 +209,27 @@ UINavigationControllerDelegate{
 
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        var itemIndex = Int(0)
+        
         BackgroundSourceType.allCases.reversed().forEach{ cardType in
-            
             self.backgroundChoicesCollectionView.performBatchUpdates({
                 //add card to array
-                self.listOfCards.insert(cardType, at: 0)
+                self.listOfCards += [cardType]
                 
                 //update collection view
-                self.backgroundChoicesCollectionView.insertItems(at: [IndexPath(item: 0,                                                                 section: 0)])
+                self.backgroundChoicesCollectionView.insertItems(at: [IndexPath(item: itemIndex,                                                                 section: 0)])
             }, completion: {finished in
                 //redraw drop shadows at the right size
-                self.backgroundChoicesCollectionView.visibleCells.forEach{cell in cell.layer.setNeedsDisplay()}})
+                self.backgroundChoicesCollectionView.visibleCells.forEach{cell in
+                    cell.layer.setNeedsDisplay()}
+            })
+            
+            itemIndex += 1
             
         }//for each
-  
+        
+        
     }//func
     
     

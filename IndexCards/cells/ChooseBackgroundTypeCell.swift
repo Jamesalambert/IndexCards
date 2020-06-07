@@ -66,15 +66,18 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     let tapGestureRecognizer = UITapGestureRecognizer()
     
+    
+    //MARK:- UICollectionViewCell
     //needed for custom layout
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         
         guard let layoutAttributes = layoutAttributes as? CircularCollectionViewLayoutAttributes else {return}
         
+        //so that the cards pivot about an anchor point below them.
         self.layer.anchorPoint = layoutAttributes.anchorPoint
         
-        //unsure of this!
+        //unsure of this! moves down by half bounds height
         self.center.y += (layoutAttributes.anchorPoint.y - 0.5) * bounds.height
     }//func
         
@@ -83,20 +86,16 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         
+        //for debugging animation
+        //layer.speed = 0.1
+        
         //rounded corners
         self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
-        
-        
-        //border
-//        self.layer.borderColor = UIColor.blue.cgColor
-//        self.layer.borderWidth = CGFloat(3.0)
-        
         //background color
         self.backgroundColor =  nil
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
-        //self.isOpaque = false
         
         //tap to dismiss
         addGestureRecognizer(tapGestureRecognizer)
