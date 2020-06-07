@@ -38,15 +38,6 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             destination.view.center = center
             destination.view.transform = CGAffineTransform(scaleX: startScale, y: startScale)
             
-            //hide buttons
-            if let indexCardVC = destination as? EditIndexCardViewController {
-                indexCardVC.addPhotoButton.alpha = 0
-                indexCardVC.takePhotoButton.alpha = 0
-                indexCardVC.doneButton.alpha = 0
-            }
-            
-
-            
             //add the new view!
             transitionContext.containerView.addSubview(destination.view)
             
@@ -62,15 +53,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     //move card
                     destination.view.center = originalCenter
                     destination.view.transform = CGAffineTransform.identity
-                    
-                    //show the buttons
-                    if let indexCardVC = destination as? EditIndexCardViewController {
-                        indexCardVC.addPhotoButton.alpha = 1
-                        indexCardVC.takePhotoButton.alpha = 1
-                        indexCardVC.doneButton.alpha = 1
-                    }
-                    
-                    
+
             },
                 completion: {success in
                     

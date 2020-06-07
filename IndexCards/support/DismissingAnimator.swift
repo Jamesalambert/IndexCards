@@ -54,13 +54,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                             //move card
                             source.view.center = center
                             source.view.transform = CGAffineTransform(scaleX: endScale, y: endScale)
-                            
-                            //fade out buttons
-                            if let indexCardVC = source as? EditIndexCardViewController {
-                                indexCardVC.addPhotoButton.alpha = 0
-                                indexCardVC.takePhotoButton.alpha = 0
-                                indexCardVC.doneButton.alpha = 0
-                            }
+                                                       
                         },
                         completion:  {success in
                             transitionContext.completeTransition(success)
