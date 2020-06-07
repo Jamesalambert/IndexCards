@@ -248,25 +248,26 @@ class DecksCollectionViewController:
                 return 0
             }
         }
-        
         return 0
     }
 
     //helper func
     private func deckFor(_ indexPath : IndexPath) -> Deck?{
-            switch indexPath.section{
+              
+        guard let model = model else {return nil}
+        
+        switch indexPath.section{
             case 0:
-                if model?.decks.indices.contains(indexPath.item) ?? false{
-                    return model?.decks[indexPath.item]
+                if model.decks.indices.contains(indexPath.item){
+                    return model.decks[indexPath.item]
                 }
             case 1:
-                if model?.deletedDecks.indices.contains(indexPath.item) ?? false{
-                    return model?.deletedDecks[indexPath.item]
+                if model.deletedDecks.indices.contains(indexPath.item){
+                    return model.deletedDecks[indexPath.item]
                 }
             default:
                 return nil
             }
-        
         return nil
     }
     
@@ -677,7 +678,6 @@ class DecksCollectionViewController:
     
     
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -700,8 +700,6 @@ class DecksCollectionViewController:
             if let url = fileLocationURL{
                 document = IndexCardsDocument(fileURL: url)
             }
-            
-            
         }//if let
     }
     

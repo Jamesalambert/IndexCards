@@ -36,8 +36,8 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 withDuration: duration,
                 animations: {
                     //hide toolbars
-                    if let indexCardVC = destination as? StickerEditorViewController{
-                        indexCardVC.toolsAndMenus.forEach { (view) in
+                    if let editorVC = destination as? StickerEditorViewController{
+                        editorVC.toolsAndMenus.forEach { (view) in
                             view.isHidden = true
                         }
                     }
@@ -66,7 +66,6 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                             source.view.removeFromSuperview()
                             
                             if let destinationVC =  destination as? DecksCollectionViewController {
-                                
                                 destinationVC.editorDidMakeChanges = true
                             }
                         })

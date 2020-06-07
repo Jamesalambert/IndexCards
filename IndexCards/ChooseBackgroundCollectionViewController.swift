@@ -221,31 +221,35 @@ UINavigationControllerDelegate{
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
         view.addGestureRecognizer(tap)
+        
    
     }//func
-
     
+    private var appearingForTheFirstTime = true
     override func viewDidAppear(_ animated: Bool) {
         
-        var itemIndex = Int(0)
+        guard appearingForTheFirstTime else {return}
+        appearingForTheFirstTime = false
         
+        var itemIndex = Int(0)
+
         BackgroundSourceType.allCases.forEach{ cardType in
             self.backgroundChoicesCollectionView.performBatchUpdates({
                 //add card to array
                 self.listOfCards += [cardType]
-                
+
                 //update collection view
                 self.backgroundChoicesCollectionView.insertItems(at:
                                     [IndexPath(item: itemIndex, section: 0)])
-                
+
             }, completion: {finished in
                 //redraw drop shadows at the right size
                 self.backgroundChoicesCollectionView.visibleCells.forEach{cell in
                     cell.layer.setNeedsDisplay()}
             })
-            
+
             itemIndex += 1
-            
+
         }//for each
     }//func
     
