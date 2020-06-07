@@ -27,7 +27,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             let source = transitionContext.viewController(forKey: .from){
             
             //center of the screen
-            let originalCenter = source.view.center
+            let centerOfScreen = source.view.center
             
             //start frame for new view
             let startScale = CGFloat(
@@ -51,7 +51,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 animations: {
                     
                     //move card
-                    destination.view.center = originalCenter
+                    destination.view.center = centerOfScreen
                     destination.view.transform = CGAffineTransform.identity
 
             },

@@ -102,99 +102,59 @@ class DecksCollectionViewController:
     
     @objc private func tap(_ sender: UITapGestureRecognizer){
         //get tapped cell
-        
         let locaton = sender.location(in: indexCardsCollectionView)
         
-        if let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton){
+        guard let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton) else {return}
+        guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}
+        guard let chosenCard = lastSelectedDeck?.cards[indexPath.item] else {return}
         
-            //prevent editing of deleted decks
-            if let tappedDeck = lastSelectedDeck{
-                if model!.deletedDecks.contains(tappedDeck){return}
-            }
-            
-            indexPathOfEditedCard = indexPath
-            
-            //get location of tapped cell
-            let cell = indexCardsCollectionView.cellForItem(at: indexPath)
-            
-            
-            let startCenter = cell?.center.offsetBy(
-                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
-                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
-            let startFrame = cell?.bounds.offsetBy(
-                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
-                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
-            
-            
-            let chosenCard = lastSelectedDeck?.cards[indexPath.item]
-            
-            
-            //get the next VC
-            //TODO: use the function below instead of this
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            
-            if let editVC = storyboard.instantiateViewController(
-                withIdentifier: "StickerViewController") as? StickerEditorViewController{
-                
-                //hand data to the editor
-                editVC.indexCard = chosenCard
-                editVC.theme = theme
-                
-                //where the Edit view springs from
-                transitionDelegate.startingCenter = startCenter
-                transitionDelegate.startingFrame = startFrame
-                transitionDelegate.tappedView = cell
-                transitionDelegate.duration = theme.timeOf(.editCardZoom)
-                
-                //set up transition
-                editVC.modalPresentationStyle = UIModalPresentationStyle.custom
-                editVC.transitioningDelegate = transitionDelegate
-                
-                //go
-                present(editVC, animated: true, completion: nil)
-            }//if let
-            
+        //prevent editing of deleted decks
+        if let tappedDeck = lastSelectedDeck{
+            if model!.deletedDecks.contains(tappedDeck){return}
         }
+        
+        //save for later
+        indexPathOfEditedCard = indexPath
+        
+        //show the editor
+        presentStickerEditor(from: cell, with: chosenCard, forCropping: nil)
     }
     
     
-    func presentStickerEditor(from view : UIView,
-            with indexCard : IndexCard, forCropping image : UIImage?){
+    func presentStickerEditor(from sourceView : UIView,
+                              with indexCard : IndexCard, forCropping image : UIImage?){
         
         //get the next VC
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
-        if let editVC = storyboard.instantiateViewController(
-            withIdentifier: "StickerViewController") as? StickerEditorViewController{
-            
-            //hand data to the editor
-            editVC.indexCard = indexCard
-            editVC.theme = theme
-            
-            if let imageToCrop = image {
-                editVC.passedImageForCropping = imageToCrop
-            }
-            
-           let startCenter = view.center.offsetBy(
-                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
-                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
-            let startFrame = view.bounds.offsetBy(
-                dx: indexCardsCollectionView.adjustedContentInset.left - indexCardsCollectionView.contentOffset.x,
-                dy: (view.safeAreaInsets.top + stackViewTopInset.constant))
-            
-            //where the Edit view springs from
-            transitionDelegate.startingCenter = startCenter
-            transitionDelegate.startingFrame = startFrame
-            transitionDelegate.tappedView = view
-            transitionDelegate.duration = theme.timeOf(.editCardZoom)
-            
-            //set up transition
-            editVC.modalPresentationStyle = UIModalPresentationStyle.custom
-            editVC.transitioningDelegate = transitionDelegate
-            
-            //go
-            present(editVC, animated: true, completion: nil)
-        }//if let
+        guard let editVC = storyboard.instantiateViewController(
+            withIdentifier: "StickerViewController") as? StickerEditorViewController else {return}
+        
+        //hand data to the editor
+        editVC.indexCard = indexCard
+        editVC.theme = theme
+        
+        //if we're passing a new background image that hasn't been cropped to size yet.
+        //this is used when creating a new card, not when opening an existing one.
+        if let imageToCrop = image {
+            editVC.passedImageForCropping = imageToCrop
+        }
+        
+        let startCenter = view.convert(sourceView.center, from: indexCardsCollectionView)
+        let startFrame = view.convert(sourceView.frame, from: indexCardsCollectionView)
+        
+        //set up the animation
+        transitionDelegate.startingCenter = startCenter
+        transitionDelegate.startingFrame = startFrame
+        transitionDelegate.tappedView = sourceView
+        transitionDelegate.duration = theme.timeOf(.editCardZoom)
+        
+        //set up transition
+        editVC.modalPresentationStyle = UIModalPresentationStyle.custom
+        editVC.transitioningDelegate = transitionDelegate
+        
+        //go
+        present(editVC, animated: true, completion: nil)
     }
 
     
