@@ -235,7 +235,9 @@ UINavigationControllerDelegate{
                 self.listOfCards += [cardType]
                 
                 //update collection view
-                self.backgroundChoicesCollectionView.insertItems(at: [IndexPath(item: itemIndex,                                                                 section: 0)])
+                self.backgroundChoicesCollectionView.insertItems(at:
+                                    [IndexPath(item: itemIndex, section: 0)])
+                
             }, completion: {finished in
                 //redraw drop shadows at the right size
                 self.backgroundChoicesCollectionView.visibleCells.forEach{cell in
@@ -245,8 +247,6 @@ UINavigationControllerDelegate{
             itemIndex += 1
             
         }//for each
-        
-        
     }//func
     
     

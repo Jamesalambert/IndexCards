@@ -14,7 +14,7 @@ class CircularCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
     var anchorPoint = CGPoint(x: 0.5, y: 0.5)
     var angle : CGFloat = 0 {
         didSet{
-            zIndex = Int(-angle * 1000000) //make sure the angle is definitely turned into a distinct Int for each card
+            zIndex = Int(angle * 1000000) //make sure the angle is definitely turned into a distinct Int for each card
             transform = CGAffineTransform.identity.rotated(by: angle)
         }
     }
