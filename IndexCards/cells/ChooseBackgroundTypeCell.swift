@@ -30,7 +30,6 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     var sourceType = BackgroundSourceType.ChooseFromLibaray {
         didSet{
-        
             guard label != nil
                 else {return}
             
@@ -89,6 +88,13 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         //for debugging animation
         //layer.speed = 0.1
         
+        //shadow
+        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.7
+        layer.shouldRasterize = true
+        
         //rounded corners
         self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
         self.layer.masksToBounds = false
@@ -101,19 +107,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         addGestureRecognizer(tapGestureRecognizer)
     }
     
-    //so we can redraw shadows once the bounds have resized
-    override func draw(_ layer: CALayer, in ctx: CGContext) {
-        //drop shadow
-        let shadowPath = UIBezierPath(
-            roundedRect: layer.bounds,
-            cornerRadius: layer.cornerRadius)
-        layer.shadowPath = shadowPath.cgPath
-        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 0.7
-        layer.shouldRasterize = false
-    }
+    
     
     
 }

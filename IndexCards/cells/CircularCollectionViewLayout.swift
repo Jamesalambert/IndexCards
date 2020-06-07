@@ -125,5 +125,16 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         
     }
     
+    override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        //return to the origin rect
+        
+        let attributes = CircularCollectionViewLayoutAttributes(forCellWith: itemIndexPath)
+                    
+            attributes.frame = collectionView!.convert(originRect, from: collectionView!.superview)
+        
+            
+            return attributes
+    }
+    
     
 }

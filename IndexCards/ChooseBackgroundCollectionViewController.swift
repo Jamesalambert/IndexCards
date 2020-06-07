@@ -111,9 +111,26 @@ UINavigationControllerDelegate{
         
         //if the tap was outside all cells then dismiss
         if !tappedCells.contains(true){
-            presentingViewController?.dismiss(animated: true, completion: nil)
-        }
-    }
+            
+            //empty collection view to animate away.
+            backgroundChoicesCollectionView.performBatchUpdates({
+                
+                //empty array
+                listOfCards.removeAll()
+                
+                //update collection view
+                backgroundChoicesCollectionView.deleteItems(at:
+                    [IndexPath(item: 0, section: 0),
+                     IndexPath(item: 1, section: 0),
+                     IndexPath(item: 2, section: 0),
+                ])
+            }, completion: { finished in
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
+            })//completion of batch updates
+            
+            
+        }//if
+    }//func
     
     
     
@@ -212,7 +229,7 @@ UINavigationControllerDelegate{
         
         var itemIndex = Int(0)
         
-        BackgroundSourceType.allCases.reversed().forEach{ cardType in
+        BackgroundSourceType.allCases.forEach{ cardType in
             self.backgroundChoicesCollectionView.performBatchUpdates({
                 //add card to array
                 self.listOfCards += [cardType]
