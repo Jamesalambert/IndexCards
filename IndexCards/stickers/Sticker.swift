@@ -86,7 +86,6 @@ UITextFieldDelegate {
     var isInsideCanvas : Bool {
         let x = Int(ceil(Double(unitLocation.x)))
         let y = Int(ceil(Double(unitLocation.y)))
-        
         return x * y == 1 ? true : false
     }
     
@@ -95,7 +94,7 @@ UITextFieldDelegate {
     private var scale = CGFloat(1.0)
     
     private var font : UIFont = {
-        return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(50)))
+        return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(200)))
     }()
     
     //MARK:- IBOutlets
