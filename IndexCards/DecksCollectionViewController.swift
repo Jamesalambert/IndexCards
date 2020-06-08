@@ -218,7 +218,7 @@ class DecksCollectionViewController:
             //present new sticker editor
             self.presentStickerEditor(
                 from: animatedFrom,
-                with: (self.indexCardCollectionController.currentDeck?.cards.last)!,
+                with: (currentDeck.cards.last)!,
                 forCropping: backgroundImage)
         })
         
@@ -641,11 +641,12 @@ class DecksCollectionViewController:
                     
                     
                     //add card to new deck
-                    let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
-                    let destinationDeck = model?.decks[destinationIndexPath.item]
+                   let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
                     
-                    if let droppedCard = item.dragItem.localObject as? IndexCard{
-                        destinationDeck?.cards.insert(droppedCard, at: 0)
+                    if let destinationDeck = model?.decks[destinationIndexPath.item],
+                        let droppedCard = item.dragItem.localObject as? IndexCard{
+                        
+                        destinationDeck.cards.append(droppedCard)
                     }
                     
                 }
