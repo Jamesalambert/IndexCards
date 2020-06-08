@@ -117,22 +117,15 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
     
         //cards start at the origin rect
         let attributes = CircularCollectionViewLayoutAttributes(forCellWith: itemIndexPath)
-                
         attributes.frame = collectionView!.convert(originRect, from: collectionView!.superview)
-    
-        
         return attributes
         
     }
     
     override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         //return to the origin rect
-        
         let attributes = CircularCollectionViewLayoutAttributes(forCellWith: itemIndexPath)
-                    
             attributes.frame = collectionView!.convert(originRect, from: collectionView!.superview)
-        
-            
             return attributes
     }
     

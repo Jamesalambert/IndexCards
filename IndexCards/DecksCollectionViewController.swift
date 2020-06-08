@@ -67,7 +67,7 @@ class DecksCollectionViewController:
             let tap = UITapGestureRecognizer()
             tap.numberOfTouchesRequired = 1
             tap.numberOfTapsRequired = 1
-            tap.addTarget(self, action: #selector(tap(_:)))
+            tap.addTarget(self, action: #selector(tappedIndexCard(_:)))
             indexCardsCollectionView.addGestureRecognizer(tap)
         }
     }
@@ -90,7 +90,7 @@ class DecksCollectionViewController:
             let tap = UITapGestureRecognizer()
             tap.numberOfTapsRequired = 1
             tap.numberOfTouchesRequired = 1
-            tap.addTarget(self, action: #selector(addNewDeck))
+            tap.addTarget(self, action: #selector(tappedAddNewDeck(_:)))
             
             addDeckView.addGestureRecognizer(tap)
         }
@@ -98,9 +98,8 @@ class DecksCollectionViewController:
     
     
     
-    //MARK:- actions
-    
-    @objc private func tap(_ sender: UITapGestureRecognizer){
+    //MARK:- gesture handlers
+    @objc private func tappedIndexCard(_ sender: UITapGestureRecognizer){
         //get tapped cell
         let locaton = sender.location(in: indexCardsCollectionView)
         
@@ -120,6 +119,33 @@ class DecksCollectionViewController:
         presentStickerEditor(from: cell, with: chosenCard, forCropping: nil)
     }
     
+    
+    @objc func tappedAddNewDeck(_ sender : UITapGestureRecognizer) {
+        
+        decksCollectionView.performBatchUpdates({
+            
+            if let currentModel = model {
+                currentModel.addDeck()
+                
+                decksCollectionView.insertItems(
+                at: [IndexPath(row: 0, section: 0)])
+            }
+            
+        }, completion: { finished in
+            if finished{
+                self.document?.updateChangeCount(.done)
+                self.selectDeck(at: IndexPath(item: 0, section: 0))
+                self.presentAddCardVC(fromView: self.addDeckView)
+            }
+        })
+    }
+    
+    @objc func tappedAddCardToDeck(_ sender: UITapGestureRecognizer){
+        presentAddCardVC(fromView: sender.view!)
+    }
+    
+    
+    //MARK:- actions
     
     func presentStickerEditor(from sourceView : UIView,
                               with indexCard : IndexCard, forCropping image : UIImage?){
@@ -169,25 +195,6 @@ class DecksCollectionViewController:
 
     
     
-    @objc func addNewDeck() {
-        decksCollectionView.performBatchUpdates({
-            
-            if let currentModel = model {
-                currentModel.addDeck()
-            }
-            
-            decksCollectionView.insertItems(
-                at: [IndexPath(row: 0, section: 0)])
-            
-            
-        }, completion: { finished in
-            self.document?.updateChangeCount(.done)
-            self.selectDeck(at: IndexPath(row: 0, section: 0))
-        })
-        
-    }
-    
-    
     //for adding cards using the background picker.
     func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
 
@@ -200,7 +207,7 @@ class DecksCollectionViewController:
             indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
         }, completion: { finished in
             //save doc
-            self.document?.updateChangeCount(UIDocument.ChangeKind.done)
+            self.document?.updateChangeCount(.done)
             
             //present new sticker editor
             self.presentStickerEditor(
@@ -212,35 +219,31 @@ class DecksCollectionViewController:
         
     }//func
     
-    
-    
-    @objc func presentAddCardVC(_ sender: UITapGestureRecognizer){
-        
+    func presentAddCardVC(fromView sourceView : UIView){
         let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
         
         guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
         
-        guard let tappedCell = sender.view as? AddCardCell else {return}
         
         //where the Edit view springs from
-        transitionDelegate.startingCenter = view.convert(tappedCell.center, from: decksCollectionView)
-        transitionDelegate.startingFrame = view.convert(tappedCell.frame, from: decksCollectionView)
+        transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
+        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
         transitionDelegate.endingCenter = transitionDelegate.startingCenter
         transitionDelegate.endingFrame = transitionDelegate.startingFrame
-        transitionDelegate.viewToHide = tappedCell //for fading out the tapped view
+        transitionDelegate.viewToHide = sourceView //for fading out the tapped view
         transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
         
         //set up transition
         addCardVC.theme = theme
         addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
         addCardVC.transitioningDelegate = transitionDelegate
-        addCardVC.layoutObject.originRect = view.convert(tappedCell.frame, from: tappedCell.superview)
+        addCardVC.layoutObject.originRect = view.convert(sourceView.frame, from: sourceView.superview)
         
         //go
         present(addCardVC, animated: true, completion: nil)
     }
     
-
+    
 
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -302,7 +305,7 @@ class DecksCollectionViewController:
                     cell.theme = theme
                     cell.delegate = self
     
-                    cell.tapGestureRecognizer.addTarget(self, action: #selector(presentAddCardVC(_:)))
+                    cell.tapGestureRecognizer.addTarget(self, action: #selector(tappedAddCardToDeck(_:)))
                     
                     return cell
                 }

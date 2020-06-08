@@ -33,7 +33,7 @@ class Notes : Codable{
     }
     
     func permanentlyDelete(at index : Int){
-        assert(index >= 0 && index < deletedDecks.count, "deleted deck at index \(index) does not exist so can't be restored")
+        assert(index >= 0 && index < deletedDecks.count, "deleted deck at index \(index) does not exist so can't be deleted")
         deletedDecks.remove(at: index)
     }
     
@@ -67,60 +67,9 @@ class Notes : Codable{
 
 //MARK:- Deck of cards
 final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReading {
-    
-    
-    
-    static var writableTypeIdentifiersForItemProvider: [String]{
-        return [(kUTTypeData) as String]
-    }
-    
-    
-    func loadData(withTypeIdentifier typeIdentifier: String,
-        forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-        
-        let progress = Progress(totalUnitCount: 100)
-        
-        do{
-            //encode to JSON
-            let data = try JSONEncoder().encode(self)
-            progress.completedUnitCount = 100
-            
-            completionHandler(data,nil)
-            
-        } catch {
-            completionHandler(nil, error)
-        }
-        
-        return progress
-    }
-    
-    static var readableTypeIdentifiersForItemProvider: [String]{
-        return [(kUTTypeData) as String]
-    }
-    
-    //had to add final class Deck after changeing the return type from Self to Deck
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Deck {
-        
-        let decoder = JSONDecoder()
-        
-        do{
-            //decode back to a deck
-            let newDeck = try decoder.decode(Deck.self, from: data)
-            
-            return newDeck
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-    
-
-    override var description: String {
-        return title ?? ""
-    }
-    
 
     var title : String?
-    var cards = [IndexCard()] //start with 1 card
+    var cards : [IndexCard] = [] //start with 0 cards
     var count : Int {
         return cards.count
     }
@@ -177,6 +126,55 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
     private static func getIdentifier()->Int{
         return Int.random(in: 1...10000)
     }
+    
+    
+    override var description: String {
+        return title ?? ""
+    }
+    
+    //MARK:- Drag and Drop handling
+    static var writableTypeIdentifiersForItemProvider: [String]{
+           return [(kUTTypeData) as String]
+       }
+       
+       
+       func loadData(withTypeIdentifier typeIdentifier: String,
+           forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+           
+           let progress = Progress(totalUnitCount: 100)
+           
+           do{
+               //encode to JSON
+               let data = try JSONEncoder().encode(self)
+               progress.completedUnitCount = 100
+               
+               completionHandler(data,nil)
+               
+           } catch {
+               completionHandler(nil, error)
+           }
+           
+           return progress
+       }
+       
+       static var readableTypeIdentifiersForItemProvider: [String]{
+           return [(kUTTypeData) as String]
+       }
+       
+       //had to add final class Deck after changeing the return type from Self to Deck
+       static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Deck {
+           
+           let decoder = JSONDecoder()
+           
+           do{
+               //decode back to a deck
+               let newDeck = try decoder.decode(Deck.self, from: data)
+               
+               return newDeck
+           } catch {
+               fatalError(error.localizedDescription)
+           }
+       }
     
     
 }
