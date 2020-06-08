@@ -70,9 +70,9 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
 
     var title : String?
     var cards : [IndexCard] = [] //start with 0 cards
-    var count : Int {
-        return cards.count
-    }
+//    var count : Int {
+//        return cards.count
+//    }
     
     var thumbnail : UIImage? {
             return cards.first?.thumbnail
@@ -91,7 +91,7 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
     
     func addCard(){
         let newCard = IndexCard()
-        cards.insert(newCard, at: 0)
+        cards.append(newCard)
     }
     
     func deleteCard(_ card: IndexCard){

@@ -198,13 +198,19 @@ class DecksCollectionViewController:
     //for adding cards using the background picker.
     func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
 
+        guard let currentDeck = lastSelectedDeck else {return}
+        
         //add empty index card
         indexCardsCollectionView.performBatchUpdates({
             //model
-            lastSelectedDeck?.addCard()
+            currentDeck.addCard()
 
             //collection view
-            indexCardsCollectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
+            let numberOfCards = currentDeck.cards.count
+            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
+            
+            indexCardsCollectionView.insertItems(at: [newIndexPath])
+            
         }, completion: { finished in
             //save doc
             self.document?.updateChangeCount(.done)
@@ -212,7 +218,7 @@ class DecksCollectionViewController:
             //present new sticker editor
             self.presentStickerEditor(
                 from: animatedFrom,
-                with: (self.indexCardCollectionController.currentDeck?.cards.first)!,
+                with: (self.indexCardCollectionController.currentDeck?.cards.last)!,
                 forCropping: backgroundImage)
         })
         

@@ -38,7 +38,7 @@ UICollectionViewDropDelegate
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return currentDeck?.count ?? 0
+        return currentDeck?.cards.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
