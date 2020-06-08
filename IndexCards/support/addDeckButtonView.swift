@@ -9,6 +9,8 @@
 import UIKit
 
 class addDeckButtonView: UIView {
+    
+    var theme : Theme?
 
     override func draw(_ rect: CGRect) {
         
@@ -17,7 +19,7 @@ class addDeckButtonView: UIView {
         //border
         let path = UIBezierPath(
             roundedRect: self.bounds.zoom(by: scale),
-            cornerRadius: self.bounds.width * 0.15 * scale)
+            cornerRadius: self.bounds.width * (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? 0.0) * scale)
         
         UIColor.blue.setStroke()
         path.lineWidth = CGFloat(2.0)

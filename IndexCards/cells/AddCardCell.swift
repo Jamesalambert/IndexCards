@@ -21,7 +21,7 @@ class AddCardCell: UICollectionViewCell {
         super.didMoveToWindow()
         
         //rounded corners
-        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.07)) * self.layer.bounds.width
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? 0.0) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
         //border

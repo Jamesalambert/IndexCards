@@ -21,7 +21,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     var theme : Theme?{
         didSet{
             //rounded corners
-            self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
+            self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? CGFloat(0.15)) * self.layer.bounds.width
             
             //background color
             self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
@@ -89,15 +89,18 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         //layer.speed = 0.1
         
         //shadow
-        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 0.7
-        layer.shouldRasterize = true
+//        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowRadius = 2.0
+//        layer.shadowOpacity = 0.7
+//        layer.shouldRasterize = true
         
         //rounded corners
-        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? CGFloat(0.15)) * self.layer.bounds.width
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? CGFloat(0.15)) * self.layer.bounds.width
         self.layer.masksToBounds = false
+        
+        self.layer.borderColor = UIColor.blue.cgColor
+        self.layer.borderWidth = CGFloat(3.0)
         
         //background color
         self.backgroundColor =  nil

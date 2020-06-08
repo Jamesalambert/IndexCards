@@ -29,6 +29,8 @@ class Theme : ThemeDelegateProtocol {
         switch item {
         case .cornerRadiusToBoundsWidth:
             return Theme.themes[chosenTheme].size.cornerRadiusToBoundsWidth
+        case .cornerRadiusToBoundsWidthForButtons:
+            return Theme.themes[chosenTheme].size.cornerRadiusToBoundsWidthForButtons
         case .indexCardAspectRatio:
             return Theme.themes[chosenTheme].size.indexCardAspectRatio
         }
@@ -63,7 +65,7 @@ class Theme : ThemeDelegateProtocol {
             card4:  #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1),
             card5:  #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1),
             text:   #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
-            deck:   #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1),
+            deck:   #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 0),
             table:  #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)),
         size: defaultSize,
         time: defaultTime)
@@ -74,6 +76,7 @@ class Theme : ThemeDelegateProtocol {
     //defaults
     private static let defaultSize = SizeFor(
         cornerRadiusToBoundsWidth: 0.03,
+        cornerRadiusToBoundsWidthForButtons: 0.15,
         indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
@@ -109,6 +112,7 @@ enum Item {
 
 enum Shape {
     case cornerRadiusToBoundsWidth
+    case cornerRadiusToBoundsWidthForButtons
     case indexCardAspectRatio
 }
 
@@ -149,5 +153,6 @@ private struct TimeFor {
 
 private struct SizeFor {
     let cornerRadiusToBoundsWidth : CGFloat
+    let cornerRadiusToBoundsWidthForButtons : CGFloat
     let indexCardAspectRatio : CGFloat
 }

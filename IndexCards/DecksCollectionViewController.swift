@@ -87,6 +87,9 @@ class DecksCollectionViewController:
     
     @IBOutlet weak var addDeckView: addDeckButtonView!{
         didSet{
+            
+            addDeckView.theme = theme
+            
             let tap = UITapGestureRecognizer()
             tap.numberOfTapsRequired = 1
             tap.numberOfTouchesRequired = 1
