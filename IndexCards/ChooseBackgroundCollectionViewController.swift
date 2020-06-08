@@ -18,11 +18,10 @@ UINavigationControllerDelegate{
 
     //MARK:- vars
     var theme : Theme?
-    //var currentDeck : Deck?
     var chosenImage : UIImage?
-    var tappedCell : UICollectionViewCell?
     var layoutObject = CircularCollectionViewLayout()
-    var listOfCards : [BackgroundSourceType] = []
+    private var tappedCell : UICollectionViewCell?
+    private var listOfCards : [BackgroundSourceType] = []
     
     
     //MARK:- Outlets
@@ -42,7 +41,7 @@ UINavigationControllerDelegate{
    
     //MARK:- helper funcs
     
-    @objc func choiceCardTapped(sender : UITapGestureRecognizer){
+    @objc private func choiceCardTapped(sender : UITapGestureRecognizer){
         
         guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
         
