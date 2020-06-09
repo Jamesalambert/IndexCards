@@ -246,7 +246,7 @@ class DecksCollectionViewController:
         addCardVC.theme = theme
         addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
         addCardVC.transitioningDelegate = transitionDelegate
-        addCardVC.layoutObject.originRect = view.convert(sourceView.frame, from: sourceView.superview)
+        addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
         
         //go
         present(addCardVC, animated: true, completion: nil)

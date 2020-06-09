@@ -75,9 +75,9 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         
         //so that the cards pivot about an anchor point below them.
         self.layer.anchorPoint = layoutAttributes.anchorPoint
-        
-        //unsure of this! moves down by half bounds height
-        self.center.y += (layoutAttributes.anchorPoint.y - 0.5) * bounds.height
+        //remember to offset the layer's position because changing the anchorpoint
+        //moves the layer's frame. Layers' position and anchorpoint always coincide onscreen.
+        self.center.x += (layoutAttributes.anchorPoint.x - 0.5) * bounds.width
     }//func
         
    

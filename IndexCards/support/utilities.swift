@@ -24,11 +24,24 @@ extension String {
 
 extension CGPoint {
     func offsetBy(dx : CGFloat, dy : CGFloat) -> CGPoint{
-        return CGPoint(x: self.x + dx, y: self.y + dy)
+        return CGPoint(x: self.x + dx,
+                       y: self.y + dy)
     }
+    
+    func normalized(for rect : CGRect) -> CGPoint{
+        return CGPoint(x: self.x / rect.width, y: self.y / rect.width)
+    }
+    
 }
 
 extension CGRect{
+    
+    var center : CGPoint {
+        return CGPoint(x: self.midX,
+                       y: self.midY)
+    }
+    
+    
     func zoom(by factor:CGFloat) -> CGRect{
         
         let newWidth = self.width * factor
@@ -42,6 +55,7 @@ extension CGRect{
                 width: newWidth,
                 height: newHeight))
     }
+    
 }
 
 extension UIView{

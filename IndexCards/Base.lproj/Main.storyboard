@@ -180,9 +180,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
-                                <rect key="frame" x="0.0" y="778.5" width="834" height="333.5"/>
+                                <rect key="frame" x="0.0" y="556" width="834" height="556"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewLayout key="collectionViewLayout" id="ldz-mu-clK"/>
+                                <collectionViewLayout key="collectionViewLayout" id="5x8-RD-oh8"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseBackgroundTypeCell" id="b0Y-BO-Pmw" customClass="ChooseBackgroundTypeCell" customModule="IndexCards" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -213,7 +213,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="height" secondItem="0WI-pZ-Vvb" secondAttribute="height" multiplier="0.3" id="1AP-tb-enC"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="height" secondItem="0WI-pZ-Vvb" secondAttribute="height" multiplier="0.5" id="1AP-tb-enC"/>
                             <constraint firstItem="1LA-zd-YN5" firstAttribute="centerX" secondItem="YzW-s1-Hza" secondAttribute="centerX" id="Jyl-1h-9YQ"/>
                             <constraint firstItem="1LA-zd-YN5" firstAttribute="leading" secondItem="YzW-s1-Hza" secondAttribute="leading" id="QGi-rN-12Y"/>
                             <constraint firstItem="YzW-s1-Hza" firstAttribute="bottom" secondItem="1LA-zd-YN5" secondAttribute="bottom" id="Vq6-hN-Igd"/>

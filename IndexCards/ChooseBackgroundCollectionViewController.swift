@@ -31,6 +31,7 @@ UINavigationControllerDelegate{
             backgroundChoicesCollectionView.dataSource = self
             backgroundChoicesCollectionView.collectionViewLayout = layoutObject
             
+            
             backgroundChoicesCollectionView.contentSize = CGSize(
                 width: CGFloat(200 * BackgroundSourceType.allCases.count),
                 height: backgroundChoicesCollectionView.bounds.height)
