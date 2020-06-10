@@ -21,9 +21,34 @@ UITextFieldDelegate {
     //MARK:- public
     var currentShape : StickerShape = .RoundRect {didSet{setNeedsDisplay()}}
     
-    var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}
+    var isAboutToBeDeleted = false {
+        willSet{
+            if isAboutToBeDeleted != newValue{
+                setNeedsDisplay()
+            }
+        }
+    }
     
-    var stickerColor = UIColor.blue.withAlphaComponent(CGFloat(0.8))
+    var stickerColor : UIColor {
+        
+        var color : UIColor
+        
+        if isAboutToBeDeleted{
+            color =  UIColor.darkGray
+        } else {
+            switch currentShape {
+            case .Circle:
+                color = UIColor.blue.withAlphaComponent(CGFloat(0.8))
+            case .RoundRect:
+                color = UIColor.blue.withAlphaComponent(CGFloat(0.8))
+            case .Quiz:
+                color = UIColor.red
+            case .Highlight:
+                color = UIColor.green.withAlphaComponent(CGFloat(0.2))
+            }
+        }
+        return color
+    }
     
     var stickerText = ""
     
@@ -82,12 +107,13 @@ UITextFieldDelegate {
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
         
-        if isAboutToBeDeleted{
-            UIColor.gray.setFill()
-        } else {
-            stickerColor.setFill()
-        }
+//        if isAboutToBeDeleted{
+//            UIColor.gray.setFill()
+//        } else {
+//            stickerColor.setFill()
+//        }
         
+        stickerColor.setFill()
         
         switch currentShape {
         case .Circle:

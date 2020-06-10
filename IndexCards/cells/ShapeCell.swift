@@ -16,12 +16,14 @@ class ShapeCell: UICollectionViewCell {
     var stickerColor : UIColor {
         get{
             switch currentShape {
+            case .Circle:
+                return UIColor.blue.withAlphaComponent(CGFloat(0.8))
+            case .RoundRect:
+                return UIColor.blue.withAlphaComponent(CGFloat(0.8))
+            case .Quiz:
+                return UIColor.red.withAlphaComponent(CGFloat(0.8))
             case .Highlight:
                 return UIColor.green.withAlphaComponent(CGFloat(0.25))
-            case .Quiz:
-                return UIColor.yellow
-            default:
-                return UIColor.blue.withAlphaComponent(CGFloat(0.8))
             }
         }
     }

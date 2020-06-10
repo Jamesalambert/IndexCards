@@ -169,13 +169,15 @@ UIGestureRecognizerDelegate
                 
                 sticker.unitLocation = newLocation
                 gesture.setTranslation(CGPoint.zero, in: gesture.view)
-            
+                
+                
                 if sticker.isInsideCanvas{
                     sticker.isAboutToBeDeleted = false
                 } else {
                     sticker.isAboutToBeDeleted = true
                 }
 
+                
             }
             
         case .ended:
@@ -297,8 +299,9 @@ UIGestureRecognizerDelegate
             currentTextField?.becomeFirstResponder()
         }
         
-        //TODO:- handle taps to other types
-
+        if let sticker = gesture.view as? QuizSticker{
+            sticker.isConcealed = !sticker.isConcealed
+        }
     }
 
     
