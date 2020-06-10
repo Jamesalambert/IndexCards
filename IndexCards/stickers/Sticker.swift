@@ -70,7 +70,6 @@ class Sticker: StickerObject {
     override func textFieldDidEndEditing(_ textField: UITextField) {
         super.textFieldDidEndEditing(textField)
         
-        stickerText = textField.text ?? ""
         textLabel.alpha = 1.0
         textField.alpha = 0.0
     }//func

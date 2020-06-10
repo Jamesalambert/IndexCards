@@ -80,11 +80,9 @@ UITextFieldDelegate {
     }
     
     
-    //MARK:- private
     var scale = CGFloat(1.0)
     
     var font : UIFont = {
-
         return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(200)))
     }()
 
@@ -93,18 +91,14 @@ UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {}
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {return true}
     
     //dismiss keyboard
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {return true}
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         stickerText = textField.text ?? ""
-    }//func
+    }
 
     
     //MARK:- UIView

@@ -241,19 +241,7 @@ class StickerEditorViewController:
                 at: tappedIndexPath) as? ShapeCell){
             
             
-            
             let newSticker = addSticker(ofShape: tappedCell.currentShape, from: tappedCell)
-//            let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
-//
-//            newSticker.currentShape = tappedCell.currentShape
-//
-//            //starting place
-//            stickerView.importShape(sticker: newSticker)
-//
-//            newSticker.unitLocation = stickerView.unitLocationFrom(
-//                point: stickerView.convert(tappedCell.contentView.center, from: tappedCell.contentView))
-//
-//            newSticker.unitSize = stickerView.unitSizeFrom(size: tappedCell.contentView.bounds.size)
             
             //animate to center
             UIView.transition(
@@ -271,17 +259,20 @@ class StickerEditorViewController:
                     newSticker.unitLocation = newLocation
                     newSticker.unitSize = newSize
                     
-                    
             },
                 completion: { finished in
-                    newSticker.textField.becomeFirstResponder()
+                    
+                    if let stickerTextField = (newSticker as? Sticker)?.textField {
+                        stickerTextField.becomeFirstResponder()
+                    }
+                    
             })
             
         }//if lets
     }//func
     
-    private func addSticker(ofShape shape : StickerShape, from view : UIView) -> Sticker{
-        let newSticker : Sticker
+    private func addSticker(ofShape shape : StickerShape, from view : UIView) -> StickerObject{
+        let newSticker : StickerObject
         
         switch shape {
         case .RoundRect:
