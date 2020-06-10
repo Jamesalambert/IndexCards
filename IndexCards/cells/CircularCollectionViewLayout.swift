@@ -29,9 +29,6 @@ class CircularCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
 }
 
 
-
-
-
 class CircularCollectionViewLayout: UICollectionViewLayout {
     
     //view that was tapped to show menu

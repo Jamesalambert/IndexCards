@@ -18,38 +18,6 @@
             endingLineNumber = "30"
             landmarkName = "stickerColor"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "A96CA0A4-D5D2-4D58-9B4D-0CAF99F12142 - 62a892814ff161c0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IndexCards.Sticker.currentShape.didset : IndexCards.StickerShape"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/Sticker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "340">
-               </Location>
-               <Location
-                  uuid = "A96CA0A4-D5D2-4D58-9B4D-0CAF99F12142 - 748d968f3f797778"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.NSLayoutConstraint) -&gt; Swift.Bool in IndexCards.Sticker.currentShape.didset : IndexCards.StickerShape"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/Sticker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

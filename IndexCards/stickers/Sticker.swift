@@ -54,8 +54,9 @@ UITextFieldDelegate {
     var stickerText = "" {
         didSet{
             textLabel.text = stickerText
-            textLabel.sizeToFit()
-            self.setNeedsLayout()
+            print(predictedNumberOfLines())
+//            textLabel.sizeToFit()
+//            self.setNeedsLayout()
         }
     }
     
@@ -94,6 +95,7 @@ UITextFieldDelegate {
     private var scale = CGFloat(1.0)
     
     private var font : UIFont = {
+
         return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(200)))
     }()
     
@@ -110,14 +112,19 @@ UITextFieldDelegate {
     
     @IBOutlet weak var textLabel: UILabel!{
         didSet{
-        textLabel.numberOfLines = 0
-        textLabel.textAlignment = .center
-        textLabel.textColor = UIColor.white
-        textLabel.font = font
-        textLabel.text = stickerText
+            textLabel.font = font
+            textLabel.text = stickerText
+            
+            textLabel.textAlignment = .center
+            textLabel.textColor = UIColor.white
+            
+            //any number of lines
+            textLabel.numberOfLines = 0
+            textLabel.lineBreakMode = .byClipping
+            textLabel.adjustsFontSizeToFitWidth = true
+            textLabel.minimumScaleFactor = 0.1
+        }
     }
-}
-    
     
     //MARK:- UITextFieldDelegate
     
@@ -185,6 +192,7 @@ UITextFieldDelegate {
         }//switch
         
     }//func
+    
     
     
 }//class
