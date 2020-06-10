@@ -54,9 +54,6 @@ UITextFieldDelegate {
     var stickerText = "" {
         didSet{
             textLabel.text = stickerText
-            print(predictedNumberOfLines())
-//            textLabel.sizeToFit()
-//            self.setNeedsLayout()
         }
     }
     
