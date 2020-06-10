@@ -156,22 +156,22 @@ class StickerEditorViewController:
     @IBOutlet weak var cardBackgroundView: UIView!
     
     //MARK:- Actions
-    @IBAction func takeAPhoto() {
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-            
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .camera
-            imagePicker.allowsEditing = true
-            imagePicker.mediaTypes = ["public.image"]
-            
-            if let _ = imagePicker.presentationController{
-                present(imagePicker, animated: true, completion: nil)
-            } else{
-                print("Could not present imagepicker")
-            }
-        }
-    }
+//    @IBAction func takeAPhoto() {
+//        if UIImagePickerController.isSourceTypeAvailable(.camera){
+//
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = .camera
+//            imagePicker.allowsEditing = true
+//            imagePicker.mediaTypes = ["public.image"]
+//
+//            if let _ = imagePicker.presentationController{
+//                present(imagePicker, animated: true, completion: nil)
+//            } else{
+//                print("Could not present imagepicker")
+//            }
+//        }
+//    }
     
     
 //    @IBAction func chooseAPicture() {
@@ -240,17 +240,20 @@ class StickerEditorViewController:
             let tappedCell = (shapeCollectionView.cellForItem(
                 at: tappedIndexPath) as? ShapeCell){
             
-            let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
-        
-            newSticker.currentShape = tappedCell.currentShape
             
-            //starting place
-            stickerView.importShape(sticker: newSticker)
             
-            newSticker.unitLocation = stickerView.unitLocationFrom(
-                point: stickerView.convert(tappedCell.contentView.center, from: tappedCell.contentView))
-            
-            newSticker.unitSize = stickerView.unitSizeFrom(size: tappedCell.contentView.bounds.size)
+            let newSticker = addSticker(ofShape: tappedCell.currentShape, from: tappedCell)
+//            let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
+//
+//            newSticker.currentShape = tappedCell.currentShape
+//
+//            //starting place
+//            stickerView.importShape(sticker: newSticker)
+//
+//            newSticker.unitLocation = stickerView.unitLocationFrom(
+//                point: stickerView.convert(tappedCell.contentView.center, from: tappedCell.contentView))
+//
+//            newSticker.unitSize = stickerView.unitSizeFrom(size: tappedCell.contentView.bounds.size)
             
             //animate to center
             UIView.transition(
@@ -277,8 +280,31 @@ class StickerEditorViewController:
         }//if lets
     }//func
     
-
+    private func addSticker(ofShape shape : StickerShape, from view : UIView) -> Sticker{
+        let newSticker : Sticker
+        
+        switch shape {
+        case .RoundRect:
+            newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
+            newSticker.currentShape = shape
+        case .Circle:
+            newSticker = Bundle.main.loadNibNamed("quizSticker", owner: nil, options: nil)?.first as! QuizSticker
+        default:
+            newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
+            newSticker.currentShape = shape
+            print("unknown shape!")
+        }//switch
+        
+        //add shape
+        stickerView.importShape(sticker: newSticker)
+        
+        newSticker.unitLocation = stickerView.unitLocationFrom(
+            point: stickerView.convert(view.center, from: view.superview))
+        
+        newSticker.unitSize = stickerView.unitSizeFrom(size: view.bounds.size)
     
+        return newSticker
+    }
     
     //MARK:- UIImagePicker
     

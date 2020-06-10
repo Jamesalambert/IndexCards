@@ -70,9 +70,7 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
 
     var title : String?
     var cards : [IndexCard] = [] //start with 0 cards
-//    var count : Int {
-//        return cards.count
-//    }
+
     
     var thumbnail : UIImage? {
             return cards.first?.thumbnail

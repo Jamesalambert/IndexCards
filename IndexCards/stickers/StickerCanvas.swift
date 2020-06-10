@@ -104,15 +104,21 @@ UIGestureRecognizerDelegate
     }
     
     //importing a shape
-    func importShape(sticker : Sticker){
+    func importShape(sticker : StickerObject){
         addStickerGestureRecognizers(to: sticker)
-        currentTextField = sticker.textField
+        
+        //check if the new sticker has a text field
+        //this is for making it first responder
+        if let newSticker = sticker as? Sticker {
+            currentTextField = newSticker.textField
+        }
+        
         self.addSubview(sticker)
     }
 
     //MARK:- Gestures
     //helper func
-    private func addStickerGestureRecognizers(to sticker : Sticker){
+    private func addStickerGestureRecognizers(to sticker : StickerObject){
         
         sticker.isUserInteractionEnabled = true
         
@@ -156,7 +162,7 @@ UIGestureRecognizerDelegate
         switch gesture.state {
         case .changed:
             
-            if let sticker = gesture.view as? Sticker{
+            if let sticker = gesture.view as? StickerObject{
                 
                 let oldLocation = sticker.unitLocation
                 let newLocation = oldLocation.offsetBy(
@@ -175,7 +181,7 @@ UIGestureRecognizerDelegate
             }
             
         case .ended:
-            if let sticker = gesture.view as? Sticker{
+            if let sticker = gesture.view as? StickerObject{
                 if sticker.isAboutToBeDeleted {
                     sticker.removeFromSuperview()
                 }
@@ -224,7 +230,7 @@ UIGestureRecognizerDelegate
         switch gesture.state {
         case .changed:
         
-            if let sticker = gesture.view as? Sticker{
+            if let sticker = gesture.view as? StickerObject{
                 
                 switch sticker.currentShape {
                 case .Circle:
@@ -259,7 +265,7 @@ UIGestureRecognizerDelegate
         case .ended:
             
             //check to see if the sticker is too small.
-            if let sticker = gesture.view as? Sticker,
+            if let sticker = gesture.view as? StickerObject,
                 min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
 
                 let width = sticker.unitSize.width
@@ -286,21 +292,16 @@ UIGestureRecognizerDelegate
     }
     
     @objc func tap(_ gesture : UITapGestureRecognizer){
-        if let sticker = gesture.view as? Sticker {
+        
+        if let sticker = gesture.view as? Sticker{
             currentTextField = sticker.textField
             currentTextField?.becomeFirstResponder()
         }
+        
+        //TODO:- handle taps to other types
+
     }
-    
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-//        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//
-//        if gestureRecognizer.view == otherGestureRecognizer.view {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
+
     
     //MARK:- init()
     
@@ -343,7 +344,7 @@ UIGestureRecognizerDelegate
 
 extension IndexCard.StickerData{
     
-    init?(sticker : Sticker){
+    init?(sticker : StickerObject){
         
         switch sticker.currentShape {
         case .Circle:
@@ -362,7 +363,7 @@ extension IndexCard.StickerData{
 }
 
 
-extension Sticker{
+extension StickerObject{
     
     convenience init?(data : IndexCard.StickerData ){
         self.init()
@@ -386,11 +387,11 @@ extension Sticker{
     }
     
     
-    static func fromNib(withData data : IndexCard.StickerData) -> Sticker {
+    static func fromNib(withData data : IndexCard.StickerData) -> StickerObject {
         
         let newSticker = Bundle.main.loadNibNamed("sticker",
                                                   owner: nil,
-                                                  options: nil)?.first as! Sticker
+                                                  options: nil)?.first as! StickerObject
         
     
         switch data.typeOfShape {

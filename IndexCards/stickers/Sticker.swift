@@ -9,92 +9,16 @@
 import UIKit
 
 
-enum StickerShape{
-    case Circle
-    case RoundRect
-    case Highlight
-}
 
-class Sticker:
-UIView,
-UITextFieldDelegate {
 
-    //MARK:- public
-    var currentShape : StickerShape = .RoundRect {didSet{setNeedsDisplay()}}
-    
-    var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}
-    
-    var color : UIColor?
-    
-    var stickerColor : UIColor {
-        get{
-            if let color = color{
-                return color
-            } else {
-                switch currentShape {
-                case .Highlight:
-                    return UIColor.green.withAlphaComponent(CGFloat(0.25))
-                default:
-                    return UIColor.blue.withAlphaComponent(CGFloat(0.8))
-                }
-            }
-        }
-        set{
-            switch currentShape {
-            case .Highlight:
-                color = newValue.withAlphaComponent(CGFloat(0.25))
-            default:
-                color = newValue.withAlphaComponent(CGFloat(0.8))
-            }
-        }
-    }
-    
-    
-    
-    var stickerText = "" {
+class Sticker: StickerObject {
+
+    override var stickerText: String{
         didSet{
             textLabel.text = stickerText
         }
     }
     
-    //scale factor determining the sticker's bounds
-    //this is to deal with switching from portrait to landscape,
-    //the background enlarges so stickers should be bigger too.
-    //This represnets the sticker's size as a fracion of the bounds width.
-    var unitSize = CGSize(width: CGFloat(0.5), height: CGFloat(0.5)){
-        didSet{
-            if let canvas = superview as? StickerCanvas{
-                bounds.size = CGSize(
-                    width: unitSize.width * canvas.bounds.width,
-                    height: unitSize.height * canvas.bounds.width)
-            }
-        }
-    }
-    
-    var unitLocation = CGPoint(x: 0.5, y: 0.5){
-        didSet{
-            if let canvas = superview as? StickerCanvas{
-                center = CGPoint(
-                    x: unitLocation.x * canvas.bounds.width,
-                    y: unitLocation.y * canvas.bounds.height)
-            }
-        }
-    }
-    
-    var isInsideCanvas : Bool {
-        let x = Int(ceil(Double(unitLocation.x)))
-        let y = Int(ceil(Double(unitLocation.y)))
-        return x * y == 1 ? true : false
-    }
-    
-    
-    //MARK:- private
-    private var scale = CGFloat(1.0)
-    
-    private var font : UIFont = {
-
-        return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(200)))
-    }()
     
     //MARK:- IBOutlets
     @IBOutlet weak var textField: UITextField!{
@@ -125,28 +49,33 @@ UITextFieldDelegate {
     
     //MARK:- UITextFieldDelegate
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    override func textFieldDidBeginEditing(_ textField: UITextField) {
+        super.textFieldDidBeginEditing(textField)
+        
         textLabel.alpha = 0.0
         textField.alpha = 1.0
         textField.text = stickerText
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
     //dismiss keyboard
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    override func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    override func textFieldDidEndEditing(_ textField: UITextField) {
+        super.textFieldDidEndEditing(textField)
+        
         stickerText = textField.text ?? ""
         textLabel.alpha = 1.0
         textField.alpha = 0.0
     }//func
 
+    
     
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
