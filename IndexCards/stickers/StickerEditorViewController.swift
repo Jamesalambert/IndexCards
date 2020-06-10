@@ -262,7 +262,7 @@ class StickerEditorViewController:
             },
                 completion: { finished in
                     
-                    if let stickerTextField = (newSticker as? Sticker)?.textField {
+                    if let stickerTextField = (newSticker as? TextSticker)?.textField {
                         stickerTextField.becomeFirstResponder()
                     }
                     
@@ -272,21 +272,12 @@ class StickerEditorViewController:
     }//func
     
     private func addSticker(ofShape shape : StickerShape, from view : UIView) -> StickerObject{
-        let newSticker : StickerObject
         
-        switch shape {
-        case .RoundRect:
-            newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
-            newSticker.currentShape = shape
-        case .Circle:
-            newSticker = Bundle.main.loadNibNamed("quizSticker", owner: nil, options: nil)?.first as! QuizSticker
-        default:
-            newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
-            newSticker.currentShape = shape
-            print("unknown shape!")
-        }//switch
+        let newSticker = StickerObject.fromNib(shape: shape)
+
+        newSticker.currentShape = shape
         
-        //add shape
+        //add shape to canvas
         stickerView.importShape(sticker: newSticker)
         
         newSticker.unitLocation = stickerView.unitLocationFrom(
@@ -347,7 +338,7 @@ class StickerEditorViewController:
             case 0:
                 shapeCell.currentShape = .RoundRect
             case 1:
-                shapeCell.currentShape = .Circle
+                shapeCell.currentShape = .Quiz
             case 2:
                 shapeCell.currentShape = .Highlight
             default:
@@ -396,6 +387,8 @@ class StickerEditorViewController:
                 dragString = "RoundRect"
             case .Highlight:
                 dragString = "Highlight"
+            case .Quiz:
+                dragString = "Quiz"
             }
             
             let dragItem = UIDragItem(itemProvider: NSItemProvider(object: dragString.attributedText()))
@@ -411,8 +404,8 @@ class StickerEditorViewController:
     
 
     //MARK:- keyboard handling
-    private var currentSticker : Sticker? {
-        if let sticker = stickerView.currentTextField?.superview as? Sticker {
+    private var currentSticker : TextSticker? {
+        if let sticker = stickerView.currentTextField?.superview as? TextSticker {
             return sticker
         }
         return nil
@@ -490,12 +483,12 @@ class StickerEditorViewController:
         
         if let currentTheme = theme{
             
-            let croplayer = cropView.layer
+            let cropLayer = cropView.layer
             
             //background and corners
-            croplayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
-            croplayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * croplayer.bounds.width
-            croplayer.masksToBounds = true
+            cropLayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
+            cropLayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * cropLayer.bounds.width
+            cropLayer.masksToBounds = true
             
             //shadow
 //            let path = UIBezierPath(roundedRect: scrollLayer.bounds, cornerRadius: scrollLayer.cornerRadius)
@@ -573,7 +566,7 @@ extension StickerCanvas{
         //stickers
         indexCard.stickers?.forEach {
             //create a sticker from the data
-            if let newSticker = Sticker(data: $0){
+            if let newSticker = TextSticker(data: $0){
 
                 self.importShape(sticker: newSticker)
             }

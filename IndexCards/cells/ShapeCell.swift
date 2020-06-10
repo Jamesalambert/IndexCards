@@ -18,6 +18,8 @@ class ShapeCell: UICollectionViewCell {
             switch currentShape {
             case .Highlight:
                 return UIColor.green.withAlphaComponent(CGFloat(0.25))
+            case .Quiz:
+                return UIColor.yellow
             default:
                 return UIColor.blue.withAlphaComponent(CGFloat(0.8))
             }
@@ -29,7 +31,7 @@ class ShapeCell: UICollectionViewCell {
         stickerColor.setFill()
         
         switch currentShape {
-        case .Circle:
+        case .Quiz:
 
             let path = UIBezierPath(
                 arcCenter: CGPoint(x: self.bounds.midX, y: self.bounds.midY),
@@ -55,6 +57,11 @@ class ShapeCell: UICollectionViewCell {
             path.addLine(to: CGPoint(x: 0.9 * bounds.width, y: 0.6 * bounds.height))
             path.addLine(to: CGPoint(x: 0, y: 0.6 * bounds.height))
             path.close()
+            
+            path.fill()
+        default:
+            let rect = self.bounds.zoom(by: scale)
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
             
             path.fill()
             

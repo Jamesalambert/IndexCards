@@ -8,8 +8,9 @@
 
 import UIKit
 
-enum StickerShape{
+enum StickerShape{    
     case Circle
+    case Quiz
     case RoundRect
     case Highlight
 }
@@ -22,30 +23,7 @@ UITextFieldDelegate {
     
     var isAboutToBeDeleted = false {didSet{setNeedsDisplay()}}
     
-    var color : UIColor?
-    
-    var stickerColor : UIColor {
-        get{
-            if let color = color{
-                return color
-            } else {
-                switch currentShape {
-                case .Highlight:
-                    return UIColor.green.withAlphaComponent(CGFloat(0.25))
-                default:
-                    return UIColor.blue.withAlphaComponent(CGFloat(0.8))
-                }
-            }
-        }
-        set{
-            switch currentShape {
-            case .Highlight:
-                color = newValue.withAlphaComponent(CGFloat(0.25))
-            default:
-                color = newValue.withAlphaComponent(CGFloat(0.8))
-            }
-        }
-    }
+    var stickerColor = UIColor.blue.withAlphaComponent(CGFloat(0.8))
     
     var stickerText = ""
     
@@ -139,10 +117,25 @@ UITextFieldDelegate {
             path.close()
             
             path.fill()
+        default:
+            let rect = self.bounds.zoom(by: scale)
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            
+            path.fill()
         }//switch
         
     }//func
     
+    
+    //MARK:- Init()
+    //everything has default values above
+    init() {
+        super.init(frame: CGRect.zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     
 }//class

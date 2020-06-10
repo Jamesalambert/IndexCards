@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class Sticker: StickerObject {
+class TextSticker: StickerObject {
 
     override var stickerText: String{
         didSet{
@@ -114,9 +114,23 @@ class Sticker: StickerObject {
             path.close()
             
             path.fill()
+        default:
+            let rect = self.bounds.zoom(by: scale)
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            
+            path.fill()
         }//switch
         
     }//func
+    
+    //MARK:-  init()
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     
     

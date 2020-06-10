@@ -24,13 +24,13 @@ UIGestureRecognizerDelegate
     
     var stickerData : [IndexCard.StickerData]?{
         get {
-            let stickerDataArray = subviews.compactMap{$0 as? Sticker}.compactMap{IndexCard.StickerData(sticker: $0)}
+            let stickerDataArray = subviews.compactMap{$0 as? StickerObject}.compactMap{IndexCard.StickerData(sticker: $0)}
             return stickerDataArray
         }
         set{
             //array of sticker data structs
             newValue?.forEach { stickerData in
-                let newSticker = Sticker.fromNib(withData: stickerData)
+                let newSticker = StickerObject.fromNib(withData: stickerData)
                 importShape(sticker: newSticker)
             }
         }
@@ -67,32 +67,30 @@ UIGestureRecognizerDelegate
                 
                 let shape : StickerShape
                 
-                switch attributedString.string {
-                case "Circle":
-                    shape = StickerShape.Circle
-                case "RoundRect":
-                    shape = StickerShape.RoundRect
-                case "Highlight":
-                    shape = StickerShape.Highlight
-                default:
-                    shape = StickerShape.RoundRect
-                }
+                shape = attributedString.string.asShape()
+                
+                
                 
                 let _ = self.addDroppedShape(shape: shape,
                                   atLocation: dropPoint)
                 
-                //TODO: make dropped sticker the first responder
-                //self.currentTextField = newSticker.textField
-                //self.currentTextField?.becomeFirstResponder()
+               
             }//for
         } //completion
         
     }
     
     //MARK:- shape handling
-    func addDroppedShape(shape: StickerShape, atLocation dropPoint : CGPoint) -> Sticker {
+    func addDroppedShape(shape: StickerShape, atLocation dropPoint : CGPoint) -> StickerObject {
         
-        let newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! Sticker
+        let newSticker : StickerObject
+        
+        switch shape {
+        case .Quiz:
+            newSticker = Bundle.main.loadNibNamed("quizSticker", owner: nil, options: nil)?.first as! QuizSticker
+        default:
+            newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! TextSticker
+        }
         
         newSticker.currentShape = shape
         newSticker.unitLocation = unitLocationFrom(point: dropPoint)
@@ -109,7 +107,7 @@ UIGestureRecognizerDelegate
         
         //check if the new sticker has a text field
         //this is for making it first responder
-        if let newSticker = sticker as? Sticker {
+        if let newSticker = sticker as? TextSticker {
             currentTextField = newSticker.textField
         }
         
@@ -229,18 +227,18 @@ UIGestureRecognizerDelegate
     @objc func zooming(_ gesture: UIPinchGestureRecognizer){
         switch gesture.state {
         case .changed:
-        
+            
             if let sticker = gesture.view as? StickerObject{
                 
                 switch sticker.currentShape {
-                case .Circle:
+                case .Quiz:
+                    
                     sticker.unitSize = CGSize(
-                        width: sticker.unitSize.width * gesture.scale,
-                        height: sticker.unitSize.height * gesture.scale)
+                    width: sticker.unitSize.width * gesture.scale,
+                    height: sticker.unitSize.height * gesture.scale)
+                    
                 default:
-                    
                     let orientation = pinchOrientation(pinch: gesture)
-                    
                     
                     switch orientation{
                     case 1:
@@ -258,8 +256,9 @@ UIGestureRecognizerDelegate
                     default:
                         print("Error while pinching")
                     }
+                    
                 }
-            
+                
                 gesture.scale = CGFloat(1)
             }
         case .ended:
@@ -267,12 +266,12 @@ UIGestureRecognizerDelegate
             //check to see if the sticker is too small.
             if let sticker = gesture.view as? StickerObject,
                 min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
-
+                
                 let width = sticker.unitSize.width
                 let height = sticker.unitSize.height
                 
                 var newUnitSize = CGSize.zero
-              
+                
                 newUnitSize.width = width <= height ? CGFloat(0.15) : width
                 newUnitSize.height = height <= width ? CGFloat(0.15) : height
                 
@@ -283,7 +282,7 @@ UIGestureRecognizerDelegate
                     options: .curveEaseInOut,
                     animations: {
                         sticker.unitSize = newUnitSize
-                    },
+                },
                     completion: nil)
             }
         default:
@@ -293,7 +292,7 @@ UIGestureRecognizerDelegate
     
     @objc func tap(_ gesture : UITapGestureRecognizer){
         
-        if let sticker = gesture.view as? Sticker{
+        if let sticker = gesture.view as? TextSticker{
             currentTextField = sticker.textField
             currentTextField?.becomeFirstResponder()
         }
@@ -329,7 +328,7 @@ UIGestureRecognizerDelegate
     }
     
     override func layoutSubviews() {
-        subviews.compactMap{$0 as? Sticker}.forEach{
+        subviews.compactMap{$0 as? StickerObject}.forEach{
             let size = $0.unitSize
             let location = $0.unitLocation
             
@@ -353,6 +352,8 @@ extension IndexCard.StickerData{
             typeOfShape = "RoundRect"
         case .Highlight:
             typeOfShape = "Highlight"
+        case .Quiz:
+            typeOfShape = "Quiz"
         }
         
         center = sticker.unitLocation
@@ -375,6 +376,8 @@ extension StickerObject{
             self.currentShape = .RoundRect
         case "Highlight":
             self.currentShape = .Highlight
+        case "Quiz":
+            self.currentShape = .Quiz
         default:
             self.currentShape = .RoundRect
         }
@@ -387,24 +390,30 @@ extension StickerObject{
     }
     
     
+    static func fromNib(shape : StickerShape) -> StickerObject{
+        
+        let newSticker : StickerObject
+        
+        switch shape {
+        case .Quiz:
+            newSticker = Bundle.main.loadNibNamed("quizSticker",
+            owner: nil,
+            options: nil)?.first as! QuizSticker
+        default:
+            newSticker = Bundle.main.loadNibNamed("sticker",
+            owner: nil,
+            options: nil)?.first as! TextSticker
+        }
+
+        newSticker.currentShape = shape
+        
+        return newSticker
+    }
+    
     static func fromNib(withData data : IndexCard.StickerData) -> StickerObject {
         
-        let newSticker = Bundle.main.loadNibNamed("sticker",
-                                                  owner: nil,
-                                                  options: nil)?.first as! StickerObject
-        
-    
-        switch data.typeOfShape {
-        case "Circle":
-            newSticker.currentShape = .Circle
-        case "RouncRect":
-            newSticker.currentShape = .RoundRect
-        case "Highlight":
-            newSticker.currentShape = .Highlight
-        default:
-            newSticker.currentShape = .RoundRect
-        }
-        
+        let newSticker = StickerObject.fromNib(shape: data.typeOfShape.asShape())
+                
         newSticker.stickerText = data.text
         newSticker.unitLocation = data.center
         newSticker.unitSize = data.size
@@ -414,4 +423,21 @@ extension StickerObject{
         return newSticker
     }
     
+}
+
+extension String{
+    func asShape() -> StickerShape {
+        switch self {
+        case "Circle":
+            return .Circle
+        case "RoundRect":
+            return .RoundRect
+        case "Highlight":
+            return .Highlight
+        case "Quiz":
+            return .Quiz
+        default:
+            return.Circle
+        }
+    }
 }
