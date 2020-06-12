@@ -270,7 +270,6 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
         var typeOfShape : String
         var center : CGPoint
         var size : CGSize
-        //var frame : CGRect
         var text : String
         var rotation : Double
     }

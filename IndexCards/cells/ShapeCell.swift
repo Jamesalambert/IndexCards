@@ -43,7 +43,7 @@ class ShapeCell: UICollectionViewCell {
                 clockwise: true)
             
             path.fill()
-
+    
         case .RoundRect:
             
             let rect = self.bounds.zoom(by: scale)

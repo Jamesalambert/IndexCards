@@ -107,12 +107,6 @@ UITextFieldDelegate {
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
         
-//        if isAboutToBeDeleted{
-//            UIColor.gray.setFill()
-//        } else {
-//            stickerColor.setFill()
-//        }
-        
         stickerColor.setFill()
         
         switch currentShape {

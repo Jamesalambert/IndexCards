@@ -26,7 +26,7 @@ class QuizSticker: StickerObject {
         
         
         if isConcealed{
-            //draw question mark or somehting
+            //draw question mark or something
             stickerColor.setFill()
             path.fill()
             

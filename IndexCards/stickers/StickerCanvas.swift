@@ -69,12 +69,9 @@ UIGestureRecognizerDelegate
                 
                 shape = attributedString.string.asShape()
                 
-                
-                
                 let _ = self.addDroppedShape(shape: shape,
                                   atLocation: dropPoint)
                 
-               
             }//for
         } //completion
         
@@ -300,7 +297,16 @@ UIGestureRecognizerDelegate
         }
         
         if let sticker = gesture.view as? QuizSticker{
-            sticker.isConcealed = !sticker.isConcealed
+            
+            
+            UIView.transition(with: sticker,
+                              duration: 1.0,
+                              options: .curveEaseInOut,
+                              animations: {
+                sticker.isConcealed = !sticker.isConcealed
+            }, completion: nil)
+
+            
         }
     }
 
@@ -371,20 +377,7 @@ extension StickerObject{
     
     convenience init?(data : IndexCard.StickerData ){
         self.init()
-        
-        switch data.typeOfShape {
-        case "Circle":
-            self.currentShape = .Circle
-        case "RouncRect":
-            self.currentShape = .RoundRect
-        case "Highlight":
-            self.currentShape = .Highlight
-        case "Quiz":
-            self.currentShape = .Quiz
-        default:
-            self.currentShape = .RoundRect
-        }
-        
+        self.currentShape = data.typeOfShape.asShape()
         self.stickerText = data.text
         self.unitLocation = data.center
         self.unitSize = data.size

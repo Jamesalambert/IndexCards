@@ -7,54 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2A7B9D34-65B8-403E-AED5-A9135618D365"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/StickerCanvas.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
-            landmarkName = "init(data:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2A7B9D34-65B8-403E-AED5-A9135618D365 - 3f634576b434fbb5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IndexCards.StickerObject.__allocating_init(data: IndexCards.IndexCard.StickerData) -&gt; Swift.Optional&lt;IndexCards.StickerObject&gt;"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/StickerCanvas.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "375"
-                  endingLineNumber = "375"
-                  offsetFromSymbolStart = "272">
-               </Location>
-               <Location
-                  uuid = "2A7B9D34-65B8-403E-AED5-A9135618D365 - 3f634576b434fbb5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IndexCards.StickerObject.__allocating_init(data: IndexCards.IndexCard.StickerData) -&gt; Swift.Optional&lt;IndexCards.StickerObject&gt;"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/StickerCanvas.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "375"
-                  endingLineNumber = "375"
-                  offsetFromSymbolStart = "304">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "14CEB2DF-F95A-4CFF-AB96-73C77E552D6A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
