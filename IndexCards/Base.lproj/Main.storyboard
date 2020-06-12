@@ -98,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7wl-gQ-Uwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1863" y="-1815"/>
+            <point key="canvasLocation" x="1877" y="-1815"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Nh6-F9-Lqn">
@@ -172,7 +172,7 @@
                     <navigationItem key="navigationItem" id="GbT-jb-z59"/>
                     <connections>
                         <outlet property="decksCollectionView" destination="vMn-Vc-KOZ" id="dCv-y4-tgZ"/>
-                        <segue destination="vow-26-Kf8" kind="showDetail" id="tDF-9U-Pr5"/>
+                        <segue destination="vow-26-Kf8" kind="showDetail" identifier="ShowCardsFromDeck" id="tDF-9U-Pr5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="woj-fl-XxO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
