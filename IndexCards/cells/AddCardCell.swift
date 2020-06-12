@@ -12,7 +12,7 @@ class AddCardCell: UICollectionViewCell {
     
     
     var theme : Theme?
-    var delegate : DecksCollectionViewController?
+    var delegate : DecksViewController?
     
     var tapGestureRecognizer = UITapGestureRecognizer()
     
@@ -21,7 +21,7 @@ class AddCardCell: UICollectionViewCell {
         super.didMoveToWindow()
         
         //rounded corners
-        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? 0.0) * self.layer.bounds.width
+        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? 0.0) *                                                                    self.layer.bounds.width
         self.layer.masksToBounds = false
         
         //border

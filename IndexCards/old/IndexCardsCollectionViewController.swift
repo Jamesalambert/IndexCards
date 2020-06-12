@@ -46,7 +46,7 @@ UICollectionViewDropDelegate
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath) as? IndexCardViewCell {
             
             cell.theme = theme
-            cell.delegate = self
+            //cell.delegate = self
             
             if let currentIndexCard = currentDeck?.cards[indexPath.item]{
                 

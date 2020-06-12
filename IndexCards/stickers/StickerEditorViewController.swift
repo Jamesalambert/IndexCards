@@ -545,7 +545,7 @@ class StickerEditorViewController:
             indexCard?.stickers = stickerView.stickerData
             document?.updateChangeCount(.done)
             
-            if let presentingVC = self.presentingViewController as? DecksCollectionViewController {
+            if let presentingVC = self.presentingViewController{
                 presentingVC.dismiss(animated: true, completion: nil)
             }
         }//if

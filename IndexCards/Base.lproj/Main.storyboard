@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Et5-KU-r5g">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="a2o-pL-Mo9">
     <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -26,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="1140" y="-1815"/>
         </scene>
-        <!--Index Cards Collection View Controller-->
+        <!--Cards View Controller-->
         <scene sceneID="zYW-Uq-FC8">
             <objects>
-                <viewController id="5Wa-5o-TRT" customClass="IndexCardsCollectionViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5Wa-5o-TRT" customClass="CardsViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jU5-Jg-P1v">
                         <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,6 +95,9 @@
                         <viewLayoutGuide key="safeArea" id="23t-Cd-ysd"/>
                     </view>
                     <navigationItem key="navigationItem" id="Czm-0O-hQV"/>
+                    <connections>
+                        <outlet property="indexCardsCollectionView" destination="STl-VN-UdO" id="Ned-ws-xZg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7wl-gQ-Uwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -116,10 +119,10 @@
             </objects>
             <point key="canvasLocation" x="401" y="-976"/>
         </scene>
-        <!--Decks Collection View Controller-->
+        <!--Decks View Controller-->
         <scene sceneID="NRR-fd-GQH">
             <objects>
-                <viewController id="GJ9-Tg-zGl" customClass="DecksCollectionViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="GJ9-Tg-zGl" customClass="DecksViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6yY-Km-CUb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -156,6 +159,26 @@
                                         <connections>
                                             <outlet property="thumbnailView" destination="T9Y-tB-Dat" id="Tcv-Eq-Frr"/>
                                         </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="AddCardToDeck" id="LGc-Hf-Mej" customClass="AddCardCell" customModule="IndexCards" customModuleProvider="target">
+                                        <rect key="frame" x="170" y="0.0" width="150" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="u3n-hp-7CX">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gR-aT-ByM">
+                                                    <rect key="frame" x="32" y="39.5" width="86" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="5gR-aT-ByM" firstAttribute="centerX" secondItem="u3n-hp-7CX" secondAttribute="centerX" id="S4r-Et-lrK"/>
+                                                <constraint firstItem="5gR-aT-ByM" firstAttribute="centerY" secondItem="u3n-hp-7CX" secondAttribute="centerY" id="kV9-fr-xgk"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -351,7 +374,7 @@
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
                                 <rect key="frame" x="0.0" y="417" width="1112" height="417"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewLayout key="collectionViewLayout" id="5x8-RD-oh8"/>
+                                <collectionViewLayout key="collectionViewLayout" id="5x8-RD-oh8" customClass="CircularCollectionViewLayout" customModule="IndexCards" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseBackgroundTypeCell" id="b0Y-BO-Pmw" customClass="ChooseBackgroundTypeCell" customModule="IndexCards" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -556,7 +579,7 @@
         <!--Split View Controller-->
         <scene sceneID="MsA-Cr-6zv">
             <objects>
-                <splitViewController id="a2o-pL-Mo9" sceneMemberID="viewController">
+                <splitViewController maximumPrimaryColumnWidth="400" minimumPrimaryColumnWidth="200" preferredPrimaryColumnWidthFraction="0.20000000000000001" id="a2o-pL-Mo9" sceneMemberID="viewController">
                     <connections>
                         <segue destination="seU-H5-XhQ" kind="relationship" relationship="masterViewController" id="Qsc-YL-qJS"/>
                         <segue destination="vow-26-Kf8" kind="relationship" relationship="detailViewController" id="y2T-07-ZOb"/>
@@ -568,6 +591,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tDF-9U-Pr5"/>
+        <segue reference="y2T-07-ZOb"/>
     </inferredMetricsTieBreakers>
 </document>

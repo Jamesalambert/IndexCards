@@ -10,7 +10,7 @@ import UIKit
 
 class DeckOfCardsCell: UICollectionViewCell {
     
-    var delegate : DecksCollectionViewController?
+    var delegate : DecksViewController?
     
     var theme : Theme?
     

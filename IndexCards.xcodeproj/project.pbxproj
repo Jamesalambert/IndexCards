@@ -469,7 +469,7 @@
 				1AFD960C245CDE650092CF99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		1AFD960D245CDE650092CF99 /* Build configuration list for PBXNativeTarget "IndexCards" */ = {
 			isa = XCConfigurationList;
@@ -478,7 +478,7 @@
 				1AFD960F245CDE650092CF99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

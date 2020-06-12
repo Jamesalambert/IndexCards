@@ -34,7 +34,7 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
     //view that was tapped to show menu
     var originRect : CGRect = CGRect(origin: CGPoint.zero, size: CGSize.zero)
     
-    let itemSize = CGSize(width: 150, height: 100)
+    let itemSize = CGSize(width: 300, height: 200)
     
     var radius: CGFloat = 400{
         didSet{

@@ -310,7 +310,8 @@ class DecksCollectionViewController:
                     withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
                     
                     cell.theme = theme
-                    cell.delegate = self
+                    //todo add the delegate to enable action menu
+                    //cell.delegate = self
     
                     cell.tapGestureRecognizer.addTarget(self, action: #selector(tappedAddCardToDeck(_:)))
                     
@@ -323,7 +324,7 @@ class DecksCollectionViewController:
                     withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                     
                     cell.theme = theme
-                    cell.delegate = self
+                    //cell.delegate = self
                     
                     if let deck = deckFor(indexPath){
                         cell.image = deck.thumbnail
@@ -337,7 +338,7 @@ class DecksCollectionViewController:
                 withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                 
                 cell.theme = theme
-                cell.delegate = self
+                //cell.delegate = self
                 
                 if let deck = deckFor(indexPath){
                     cell.image = deck.thumbnail
