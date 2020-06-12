@@ -26,7 +26,6 @@ UICollectionViewDropDelegate
     var currentDocument : UIDocument?
     
     
-    
     // MARK: UICollectionViewDataSource
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {

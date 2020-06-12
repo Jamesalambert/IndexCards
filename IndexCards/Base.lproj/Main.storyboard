@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="a2o-pL-Mo9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Et5-KU-r5g">
     <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -547,7 +547,6 @@
                         <outlet property="addDeckView" destination="Fjs-GE-BIc" id="Hcx-VX-fU7"/>
                         <outlet property="decksCollectionView" destination="aOZ-bb-kWi" id="J4L-Qd-9lD"/>
                         <outlet property="indexCardsCollectionView" destination="NM0-K2-zbl" id="lCI-0D-4xi"/>
-                        <outlet property="stackViewTopInset" destination="Nf1-1r-gli" id="TFZ-Ty-XGA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NvB-c5-gPC" userLabel="First Responder" sceneMemberID="firstResponder"/>

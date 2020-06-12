@@ -73,8 +73,6 @@ class DecksCollectionViewController:
     }
 
     
-    @IBOutlet weak var stackViewTopInset: NSLayoutConstraint!
-    
     @IBOutlet weak var decksCollectionView: UICollectionView!{
         didSet{
             decksCollectionView.delegate = self
