@@ -315,6 +315,16 @@ class DecksViewController:
         }
     }
     
+    
+    var cardsCollectionView : UICollectionView? {
+        if let navCon = cardsViewNavCon as? UINavigationController,
+            let cardsView = navCon.visibleViewController as? CardsViewController{
+            
+            return cardsView.indexCardsCollectionView
+        }
+        return nil
+    }
+    
     var cardsViewNavCon : UIViewController? {
         if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
             return navController
@@ -538,25 +548,16 @@ class DecksViewController:
             
             for item in coordinator.items {
                 
-                if let droppedIndexCard = item.dragItem.localObject as? IndexCard,
-                    let sourceIndexPath = coordinator.session.localDragSession?.localContext as? IndexPath{
+                guard let dragData = coordinator.session.localDragSession?.localContext as? DragData else {return}
                 
-                    //remove from old deck
-                    //batch updates
-                    //TODO:- fix this!!!
-//                    indexCardsCollectionView.performBatchUpdates({
-//
-//                        //model
-//                indexCardCollectionController.currentDeck?.deleteCard(droppedIndexCard)
-//
-//                        //view
-//                        indexCardsCollectionView.deleteItems(at: [sourceIndexPath])
-//
-//                    }, completion: nil)
-                    
-                    
+                guard let droppedIndexCard = item.dragItem.localObject as? IndexCard else {return}
+                
+                let collectionView = dragData.collectionView
+                let sourceIndexPath = dragData.indexPath
+                
+               
                     //add card to new deck
-                   let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+                    let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
                     
                     if let destinationDeck = model?.decks[destinationIndexPath.item],
                         let droppedCard = item.dragItem.localObject as? IndexCard{
@@ -564,7 +565,22 @@ class DecksViewController:
                         destinationDeck.cards.append(droppedCard)
                     }
                     
-                }
+                    
+                    //remove from old deck
+                    //batch updates
+                    collectionView.performBatchUpdates({
+                        
+                        //model
+                        selectedDeck?.deleteCard(droppedIndexCard)
+                        
+                        //view
+                        collectionView.deleteItems(at: [sourceIndexPath])
+                        
+                    }, completion: nil)
+                    
+                    
+                    
+                
             }//for
             
             

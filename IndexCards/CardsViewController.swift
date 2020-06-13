@@ -8,6 +8,10 @@
 
 import UIKit
 
+struct DragData {
+    var collectionView : UICollectionView
+    var indexPath : IndexPath
+}
 
 class CardsViewController:
     UIViewController,
@@ -58,6 +62,9 @@ class CardsViewController:
             indexCardsCollectionView.addGestureRecognizer(tap)
         }
     }
+
+    
+    
     
     //MARK:- Actions
     
@@ -243,8 +250,8 @@ class CardsViewController:
                         itemsForBeginning session: UIDragSession,
                         at indexPath: IndexPath) -> [UIDragItem] {
         
-        //record the index path the card was dragged from otherwise the decks collection view has no way on knowing which card to delete
-        session.localContext = indexPath
+       //so if we drag the card to the deck collection we can call batch updates on this collection view from there.
+        session.localContext = DragData(collectionView: collectionView, indexPath: indexPath)
         
         return dragItemsAtIndexPath(at: indexPath)
     }
