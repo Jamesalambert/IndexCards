@@ -10,14 +10,14 @@ import UIKit
 
 
 class CardsViewController:
-UIViewController,
-UICollectionViewDataSource,
-UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout,
-UICollectionViewDragDelegate,
-UICollectionViewDropDelegate
+    UIViewController,
+    UICollectionViewDataSource,
+    UICollectionViewDelegate,
+    UICollectionViewDelegateFlowLayout,
+    UICollectionViewDragDelegate,
+    UICollectionViewDropDelegate
 {
-
+    
     
     //model
     var model : Notes?{
@@ -59,27 +59,94 @@ UICollectionViewDropDelegate
         }
     }
     
+    //MARK:- Actions
+    
+    
+    @IBAction func tappedAddCardButton(_ sender: UIBarButtonItem) {
+            
+        presentAddCardVC(fromView: indexCardsCollectionView)
+    }
+    
+    func presentAddCardVC(fromView sourceView : UIView){
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        
+        guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
+        
+        
+        //where the Edit view springs from
+        let transitionDelegate = TransitioningDelegateforEditCardViewController()
+        transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
+        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
+        transitionDelegate.endingCenter = transitionDelegate.startingCenter
+        transitionDelegate.endingFrame = transitionDelegate.startingFrame
+        transitionDelegate.viewToHide = nil //for fading out the tapped view
+        transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
+        
+        //set up transition
+        addCardVC.theme = theme
+        addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
+        addCardVC.transitioningDelegate = transitionDelegate
+        addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
+        addCardVC.delegate = self
+        //go
+        present(addCardVC, animated: true, completion: nil)
+    }
+
+
+    
+    
+    //for adding cards using the background picker.
+    func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
+        
+        guard let currentDeck = currentDeck else {return}
+        
+        //add empty index card
+        //TODO:- redo this!!
+        indexCardsCollectionView.performBatchUpdates({
+            //model
+            currentDeck.addCard()
+            
+            //collection view
+            let numberOfCards = currentDeck.cards.count
+            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
+            
+            indexCardsCollectionView.insertItems(at: [newIndexPath])
+            
+        }, completion: { finished in
+            //save doc
+            self.currentDocument?.updateChangeCount(.done)
+            
+            //present new sticker editor
+            self.presentStickerEditor(
+                from: animatedFrom,
+                with: (currentDeck.cards.last)!,
+                forCropping: backgroundImage)
+        })
+        
+        
+    }//func
+    
     
     //MARK:- Gesture handlers
     @objc private func tappedIndexCard(_ sender: UITapGestureRecognizer){
-           //get tapped cell
-           let locaton = sender.location(in: indexCardsCollectionView)
-           
-           guard let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton) else {return}
-           guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}
-           guard let chosenCard = currentDeck?.cards[indexPath.item] else {return}
-           
-           //prevent editing of deleted decks
-           if let currentDeck = currentDeck{
-               if model!.deletedDecks.contains(currentDeck){return}
-           }
-           
-           //save for later
-           indexPathOfEditedCard = indexPath
-           
-           //show the editor
-           presentStickerEditor(from: cell, with: chosenCard, forCropping: nil)
-       }
+        //get tapped cell
+        let locaton = sender.location(in: indexCardsCollectionView)
+        
+        guard let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton) else {return}
+        guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}
+        guard let chosenCard = currentDeck?.cards[indexPath.item] else {return}
+        
+        //prevent editing of deleted decks
+        if let currentDeck = currentDeck{
+            if model!.deletedDecks.contains(currentDeck){return}
+        }
+        
+        //save for later
+        indexPathOfEditedCard = indexPath
+        
+        //show the editor
+        presentStickerEditor(from: cell, with: chosenCard, forCropping: nil)
+    }
     
     
     //MARK:- actions
@@ -129,23 +196,23 @@ UICollectionViewDropDelegate
         //go
         present(editVC, animated: true, completion: nil)
     }
-
+    
     
     
     // MARK: UICollectionViewDataSource
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
+    
+    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return currentDeck?.cards.count ?? 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -157,14 +224,14 @@ UICollectionViewDropDelegate
             if let currentIndexCard = currentDeck?.cards[indexPath.item]{
                 
                 cell.image = currentIndexCard.thumbnail
-                 return cell
+                return cell
             }
         }
-
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath)
         return cell
     }
-
+    
     
     
     
@@ -173,8 +240,8 @@ UICollectionViewDropDelegate
     
     //items for beginning means 'this is what we're dragging'
     func collectionView(_ collectionView: UICollectionView,
-            itemsForBeginning session: UIDragSession,
-            at indexPath: IndexPath) -> [UIDragItem] {
+                        itemsForBeginning session: UIDragSession,
+                        at indexPath: IndexPath) -> [UIDragItem] {
         
         //record the index path the card was dragged from otherwise the decks collection view has no way on knowing which card to delete
         session.localContext = indexPath
@@ -209,9 +276,9 @@ UICollectionViewDropDelegate
             return []
         }
     }
-
-
-
+    
+    
+    
     
     
     
@@ -226,8 +293,8 @@ UICollectionViewDropDelegate
     
     
     func collectionView(_ collectionView: UICollectionView,
-            dropSessionDidUpdate session: UIDropSession,
-            withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+                        dropSessionDidUpdate session: UIDropSession,
+                        withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         
         
         if session.canLoadObjects(ofClass: IndexCard.self){
@@ -243,7 +310,7 @@ UICollectionViewDropDelegate
     
     
     func collectionView(_ collectionView: UICollectionView,
-            performDropWith coordinator: UICollectionViewDropCoordinator) {
+                        performDropWith coordinator: UICollectionViewDropCoordinator) {
         
         //batch updates
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
@@ -268,7 +335,7 @@ UICollectionViewDropDelegate
             }
         }
     }
-
+    
     
     
     
@@ -278,18 +345,18 @@ UICollectionViewDropDelegate
     var actionMenuCollectionView : UICollectionView?
     
     func collectionView(_ collectionView: UICollectionView,
-        shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+                        shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
         
         return true
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
-        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+                        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
         let delete = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
         
         let duplicate = UIMenuItem(title: "Duplicate", action: #selector(IndexCardViewCell.duplicateCard))
-
+        
         let cardActions = [delete, duplicate]
         
         UIMenuController.shared.menuItems = cardActions
@@ -299,9 +366,9 @@ UICollectionViewDropDelegate
         
         return cardActions.compactMap{$0.action}.contains(action)
     }
-
-    func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        
     }
     
     
@@ -333,22 +400,22 @@ UICollectionViewDropDelegate
             if finished {self.currentDocument?.updateChangeCount(.done)}
         })
     }
-
+    
     
     //MARK:- UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if let aspectRatio = theme?.sizeOf(.indexCardAspectRatio) {
-        
+            
             let height = cardWidth / aspectRatio
-        
-        return CGSize(width: cardWidth, height: height)
+            
+            return CGSize(width: cardWidth, height: height)
         }
         
         //default value
         return CGSize(width: 300, height: 200)
     }
- 
+    
     
     deinit {
         print("Cards controller removed!")

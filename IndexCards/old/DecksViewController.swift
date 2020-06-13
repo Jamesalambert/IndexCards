@@ -49,25 +49,16 @@ class DecksViewController:
         }
     }
     
+
+    //MARK:- Actions
     
-//    @IBOutlet weak var addDeckView: addDeckButtonView!{
-//        didSet{
-//
-//            addDeckView.theme = theme
-//
-//            let tap = UITapGestureRecognizer()
-//            tap.numberOfTapsRequired = 1
-//            tap.numberOfTouchesRequired = 1
-//            tap.addTarget(self, action: #selector(tappedAddNewDeck(_:)))
-//
-//            addDeckView.addGestureRecognizer(tap)
-//        }
-//    }
-    
+    @IBAction func addDeck(_ sender: Any) {
+        tappedAddNewDeck()
+    }
     
     
     //MARK:- gesture handlers
-    @objc func tappedAddNewDeck(_ sender : UITapGestureRecognizer) {
+    func tappedAddNewDeck() {
         
         decksCollectionView.performBatchUpdates({
             
@@ -83,74 +74,74 @@ class DecksViewController:
                 self.document?.updateChangeCount(.done)
                 self.selectDeck(at: IndexPath(item: 0, section: 0))
                 
-                guard let fromView = self.tappedDeckCell else {return}
-                
-                self.presentAddCardVC(fromView: fromView)
+//                let fromView = self.decksCollectionView.cellForItem(at: IndexPath(item: 0, section: 0))
+//
+//                self.presentAddCardVC(fromView: fromView!)
             }
         })
     }
     
-    @objc func tappedAddCardToDeck(_ sender: UITapGestureRecognizer){
-        presentAddCardVC(fromView: sender.view!)
-    }
-    
-    
-    //MARK:- actions
-    
-    //for adding cards using the background picker.
-    func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
-
-        //guard let currentDeck = lastSelectedDeck else {return}
-        
-        //add empty index card
-        //TODO:- redo this!!
-//        indexCardsCollectionView.performBatchUpdates({
-//            //model
-//            currentDeck.addCard()
+//    @objc func tappedAddCardToDeck(_ sender: UITapGestureRecognizer){
+//        presentAddCardVC(fromView: sender.view!)
+//    }
 //
-//            //collection view
-//            let numberOfCards = currentDeck.cards.count
-//            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
 //
-//            indexCardsCollectionView.insertItems(at: [newIndexPath])
+//    //MARK:- actions
 //
-//        }, completion: { finished in
-//            //save doc
-//            self.document?.updateChangeCount(.done)
+//    //for adding cards using the background picker.
+//    func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
 //
-//            //present new sticker editor
-//            self.presentStickerEditor(
-//                from: animatedFrom,
-//                with: (currentDeck.cards.last)!,
-//                forCropping: backgroundImage)
-//        })
-        
-        
-    }//func
-    
-    func presentAddCardVC(fromView sourceView : UIView){
-        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-        
-        guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
-        
-        
-        //where the Edit view springs from
-        transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
-        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
-        transitionDelegate.endingCenter = transitionDelegate.startingCenter
-        transitionDelegate.endingFrame = transitionDelegate.startingFrame
-        transitionDelegate.viewToHide = sourceView //for fading out the tapped view
-        transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
-        
-        //set up transition
-        addCardVC.theme = theme
-        addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
-        addCardVC.transitioningDelegate = transitionDelegate
-        addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
-        
-        //go
-        present(addCardVC, animated: true, completion: nil)
-    }
+//        //guard let currentDeck = lastSelectedDeck else {return}
+//
+//        //add empty index card
+//        //TODO:- redo this!!
+////        indexCardsCollectionView.performBatchUpdates({
+////            //model
+////            currentDeck.addCard()
+////
+////            //collection view
+////            let numberOfCards = currentDeck.cards.count
+////            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
+////
+////            indexCardsCollectionView.insertItems(at: [newIndexPath])
+////
+////        }, completion: { finished in
+////            //save doc
+////            self.document?.updateChangeCount(.done)
+////
+////            //present new sticker editor
+////            self.presentStickerEditor(
+////                from: animatedFrom,
+////                with: (currentDeck.cards.last)!,
+////                forCropping: backgroundImage)
+////        })
+//
+//
+//    }//func
+//
+//    func presentAddCardVC(fromView sourceView : UIView){
+//        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+//
+//        guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
+//
+//
+//        //where the Edit view springs from
+//        transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
+//        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
+//        transitionDelegate.endingCenter = transitionDelegate.startingCenter
+//        transitionDelegate.endingFrame = transitionDelegate.startingFrame
+//        transitionDelegate.viewToHide = sourceView //for fading out the tapped view
+//        transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
+//
+//        //set up transition
+//        addCardVC.theme = theme
+//        addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
+//        addCardVC.transitioningDelegate = transitionDelegate
+//        addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
+//
+//        //go
+//        present(addCardVC, animated: true, completion: nil)
+//    }
     
     
 
@@ -209,12 +200,16 @@ class DecksViewController:
             if selectedDeck == deckFor(indexPath)  {
                 
                 if let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "AddCardToDeck", for: indexPath) as? AddCardCell {
+                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                     
                     cell.theme = theme
                     cell.delegate = self
     
-                    cell.tapGestureRecognizer.addTarget(self, action: #selector(tappedAddCardToDeck(_:)))
+                    
+                    if let deck = deckFor(indexPath){
+                        cell.image = deck.thumbnail
+                    }
+                    //cell.tapGestureRecognizer.addTarget(self, action: #selector(tappedAddCardToDeck(_:)))
                     
                     return cell
                 }
@@ -291,9 +286,9 @@ class DecksViewController:
         didSelectItemAt indexPath: IndexPath) {
         
         selectDeck(at: indexPath)
-        
     }
 
+    
     private func selectDeck(at indexPath: IndexPath){
         
         if let deck = deckFor(indexPath),
@@ -308,7 +303,7 @@ class DecksViewController:
             //reload decks to show addCard button
             decksCollectionView.reloadData()
             
-            //perform segue
+            
             guard let navCon = cardsViewNavCon as? UINavigationController else {return}
             guard let cardsView = navCon.visibleViewController as? CardsViewController else {return}
             
@@ -319,12 +314,10 @@ class DecksViewController:
             cardsView.currentDocument = self.document
             
             showDetailViewController(navCon, sender: nil)
-            
         }
     }
     
     var cardsViewNavCon : UIViewController? {
-       
         if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
             return navController
         }
@@ -610,16 +603,19 @@ class DecksViewController:
     
     
     
+    var openingForTheFirstTime = true
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Access the document
+        //if we already have a model then don't try to load one
+        
         document?.open(completionHandler: { (success) in
-            if success {
+            if success && self.openingForTheFirstTime {
             
                 //update our model
                 self.model = self.document?.model
-                
+                self.openingForTheFirstTime = false
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }
@@ -654,7 +650,9 @@ class DecksViewController:
     }
     
     
-
+    deinit {
+        print("Decks deinit")
+    }
     
     
 }//class

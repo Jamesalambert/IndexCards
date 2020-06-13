@@ -22,7 +22,7 @@ UINavigationControllerDelegate{
     var layoutObject = CircularCollectionViewLayout()
     private var tappedCell : UICollectionViewCell?
     private var listOfCards : [BackgroundSourceType] = []
-    
+    var delegate : CardsViewController?
     
     //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
@@ -198,19 +198,18 @@ UINavigationControllerDelegate{
         picker.presentingViewController?.dismiss(animated: true, completion: {
             
             //pass the image back to the presenting VC
-            if let deckController = self.presentingViewController as? DecksViewController,
-                let image = self.chosenImage,
-                let cell = self.tappedCell{
-                
-                deckController.addCard(with: image, animatedFrom: cell)
+            if let image = self.chosenImage, let cell = self.tappedCell{
+                self.delegate?.addCard(with: image, animatedFrom: cell)
             }
             
             //dismiss ourselves
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            self.delegate?.dismiss(animated: true, completion: nil)
         })
         
     }
     
+    
+  
    
     
     //MARK:- UIView
