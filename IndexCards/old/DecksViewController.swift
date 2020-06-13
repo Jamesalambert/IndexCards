@@ -288,6 +288,7 @@ class DecksViewController:
         selectDeck(at: indexPath)
     }
 
+
     
     private func selectDeck(at indexPath: IndexPath){
         
@@ -299,10 +300,7 @@ class DecksViewController:
             
             //for animating the add card menu
             tappedDeckCell = tappedCell
-            
-            //reload decks to show addCard button
-            decksCollectionView.reloadData()
-            
+        
             
             guard let navCon = cardsViewNavCon as? UINavigationController else {return}
             guard let cardsView = navCon.visibleViewController as? CardsViewController else {return}

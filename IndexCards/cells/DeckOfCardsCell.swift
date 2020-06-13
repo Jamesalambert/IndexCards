@@ -11,7 +11,6 @@ import UIKit
 class DeckOfCardsCell: UICollectionViewCell {
     
     var delegate : DecksViewController?
-    
     var theme : Theme?
     
     var image : UIImage? {
@@ -26,6 +25,11 @@ class DeckOfCardsCell: UICollectionViewCell {
         }
     }
     
+    override var isSelected: Bool{
+        didSet{
+            layer.setNeedsDisplay()
+        }
+    }
     
     @IBOutlet weak var thumbnailView: UIImageView!
     
@@ -48,6 +52,7 @@ class DeckOfCardsCell: UICollectionViewCell {
         //background color
         self.backgroundColor = nil
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
+        
     }
 
     @objc func deleteDeck(_ sender : UIMenuController){
@@ -58,4 +63,15 @@ class DeckOfCardsCell: UICollectionViewCell {
         delegate?.unDeleteTappedDeck(sender)
     }
   
+    override func draw(_ layer: CALayer, in ctx: CGContext) {
+        //border
+        if isSelected{
+            self.layer.borderColor = UIColor.blue.cgColor
+            self.layer.borderWidth = CGFloat(3.0)
+        } else {
+            self.layer.borderColor = UIColor.black.cgColor
+            self.layer.borderWidth = CGFloat(0.0)
+        }
+    }
+    
 }
