@@ -1,8 +1,8 @@
 //
-//  DecksCollectionViewController.swift
+//  DecksViewController.swift
 //  IndexCards
 //
-//  Created by James Lambert on 03/05/2020.
+//  Created by James Lambert on 12/06/2020.
 //  Copyright © 2020 James Lambert. All rights reserved.
 //
 
@@ -309,26 +309,30 @@ class DecksViewController:
             decksCollectionView.reloadData()
             
             //perform segue
-            performSegue(withIdentifier: "ShowCardsFromDeck", sender: selectedDeck)
+            guard let navCon = cardsViewNavCon as? UINavigationController else {return}
+            guard let cardsView = navCon.visibleViewController as? CardsViewController else {return}
             
+            //pass on data
+            cardsView.model = self.model
+            cardsView.theme = self.theme
+            cardsView.currentDeck = selectedDeck
+            cardsView.currentDocument = self.document
+            
+            showDetailViewController(navCon, sender: nil)
             
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        guard let chosenDeck = sender as? Deck else {return}
-        
-        if let navCon = segue.destination as? UINavigationController ,
-            let detailView = navCon.viewControllers[0] as? CardsViewController{
-            
-            //pass on data to the detail view
-            detailView.model = self.model
-            detailView.theme = self.theme
-            detailView.currentDeck = chosenDeck
-            detailView.currentDocument = self.document
+    var cardsViewNavCon : UIViewController? {
+       
+        if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
+            return navController
         }
+        return nil
     }
+    
+    
+
     
 
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item

@@ -65,7 +65,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                             //remove from superview
                             source.view.removeFromSuperview()
                             
-                            if let destinationVC =  destination as? DecksCollectionViewController {
+                            if let destinationVC =  destination as? CardsViewController {
                                 destinationVC.editorDidMakeChanges = true
                             }
                         })

@@ -1,8 +1,8 @@
 //
-//  IndexCardsCollectionViewController.swift
+//  CardsViewController.swift
 //  IndexCards
 //
-//  Created by James Lambert on 03/05/2020.
+//  Created by James Lambert on 12/06/2020.
 //  Copyright © 2020 James Lambert. All rights reserved.
 //
 
@@ -38,7 +38,6 @@ UICollectionViewDropDelegate
         didSet{
             if let indexPath = indexPathOfEditedCard{
                 currentDocument?.updateChangeCount(UIDocument.ChangeKind.done)
-
                 indexCardsCollectionView.reloadItems(at: [indexPath])
             }
         }
@@ -131,6 +130,7 @@ UICollectionViewDropDelegate
         present(editVC, animated: true, completion: nil)
     }
 
+    
     
     // MARK: UICollectionViewDataSource
 
@@ -268,14 +268,7 @@ UICollectionViewDropDelegate
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     
@@ -356,6 +349,11 @@ UICollectionViewDropDelegate
         return CGSize(width: 300, height: 200)
     }
  
+    
+    deinit {
+        print("Cards controller removed!")
+    }
+    
     
 }
 

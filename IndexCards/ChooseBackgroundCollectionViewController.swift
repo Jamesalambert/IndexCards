@@ -198,7 +198,7 @@ UINavigationControllerDelegate{
         picker.presentingViewController?.dismiss(animated: true, completion: {
             
             //pass the image back to the presenting VC
-            if let deckController = self.presentingViewController as? DecksCollectionViewController,
+            if let deckController = self.presentingViewController as? DecksViewController,
                 let image = self.chosenImage,
                 let cell = self.tappedCell{
                 

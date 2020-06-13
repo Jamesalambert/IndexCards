@@ -14,6 +14,7 @@
         <scene sceneID="cyD-mG-V3J">
             <objects>
                 <navigationController id="vow-26-Kf8" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="SkI-WA-osL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oHF-Nz-Hbh">
                         <rect key="frame" x="0.0" y="0.0" width="791.5" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -36,7 +37,7 @@
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="STl-VN-UdO">
                                 <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="cg4-Fl-yXI">
                                     <size key="itemSize" width="502" height="288"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -591,6 +592,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="y2T-07-ZOb"/>
+        <segue reference="tDF-9U-Pr5"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -538,12 +538,15 @@ class StickerEditorViewController:
     
         if !cropView.frame.contains(sender.location(in: cropView)){
             
+            
             //store image data
             indexCard?.thumbnail = stickerView.snapshot
             
             //update model
             indexCard?.stickers = stickerView.stickerData
             document?.updateChangeCount(.done)
+            
+            //dismiss(animated: true, completion: nil)
             
             if let presentingVC = self.presentingViewController{
                 presentingVC.dismiss(animated: true, completion: nil)
