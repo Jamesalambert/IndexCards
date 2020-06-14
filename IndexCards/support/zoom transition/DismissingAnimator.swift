@@ -13,7 +13,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     var duration : Double = 0.5
     var endingCenter : CGPoint?
     var endingBounds : CGRect?
-    var tappedView : UIView?
+    var viewToHide : UIView?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -31,6 +31,9 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             let endScale = CGFloat(
                 bounds.width / source.view.frame.width)
 
+            //ensure index card is still hidden!
+            //viewToHide?.alpha = 0.0
+            
             //hide any menus
             UIView.animate(
                 withDuration: duration,
@@ -60,7 +63,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                             transitionContext.completeTransition(success)
                             
                             //unhide the cell
-                            self.tappedView?.alpha = 1.0
+                            self.viewToHide?.alpha = 1.0
                             
                             //remove from superview
                             source.view.removeFromSuperview()

@@ -19,7 +19,7 @@ UINavigationControllerDelegate{
     //MARK:- vars
     var theme : Theme?
     var chosenImage : UIImage?
-    var layoutObject = CircularCollectionViewLayout()
+    //var layoutObject = CircularCollectionViewLayout()
     private var tappedCell : UICollectionViewCell?
     private var listOfCards : [BackgroundSourceType] = []
     var delegate : CardsViewController?
@@ -204,11 +204,22 @@ UINavigationControllerDelegate{
             
             //pass the image back to the presenting VC
             if let image = self.chosenImage, let cell = self.tappedCell{
-                self.delegate?.addCard(with: image, animatedFrom: cell)
+                
+                let tempView = UIImageView()
+                tempView.image = image
+                tempView.bounds.size = cell.bounds.size
+                tempView.center = self.delegate!.view.convert(cell.center, from: cell.superview)
+                
+                self.delegate?.view.addSubview(tempView)
+                
+                self.delegate?.addCard(with: image, animatedFrom: tempView, temporaryView: true)
+                
+                
             }
             
             //dismiss ourselves
             self.delegate?.dismiss(animated: true, completion: nil)
+            
         })
         
     }
@@ -223,7 +234,7 @@ UINavigationControllerDelegate{
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
         tap.cancelsTouchesInView = false
-        backgroundChoicesCollectionView.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
         
    
     }//func

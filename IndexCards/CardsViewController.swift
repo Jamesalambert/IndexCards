@@ -72,8 +72,10 @@ class CardsViewController:
     
     
     @IBAction func tappedAddCardButton(_ sender: UIBarButtonItem) {
-            
-        presentAddCardVC(fromView: indexCardsCollectionView)
+        
+        let addButton = (navigationController?.navigationBar)!
+        
+        presentAddCardVC(fromView: addButton)
     }
     
     func presentAddCardVC(fromView sourceView : UIView){
@@ -83,9 +85,8 @@ class CardsViewController:
         
         
         //where the Edit view springs from
-        let transitionDelegate = TransitioningDelegateforEditCardViewController()
-        transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
-        transitionDelegate.startingBounds = view.convert(sourceView.frame, from: sourceView.superview)
+        transitionDelegate.startingCenter = sourceView.superview?.convert(sourceView.center, to: nil)
+        transitionDelegate.startingBounds = sourceView.superview?.convert(sourceView.frame, to: nil)
         transitionDelegate.endingCenter = transitionDelegate.startingCenter
         transitionDelegate.endingFrame = transitionDelegate.startingBounds
         transitionDelegate.viewToHide = nil //for fading out the tapped view
@@ -93,9 +94,10 @@ class CardsViewController:
         
         //set up transition
         addCardVC.theme = theme
-        addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
+        addCardVC.modalPresentationStyle = .custom
+        //addCardVC.popoverPresentationController?.sourceView = sourceView
         addCardVC.transitioningDelegate = transitionDelegate
-        addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
+        //addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
         addCardVC.delegate = self
         //go
         present(addCardVC, animated: true, completion: nil)
@@ -105,7 +107,7 @@ class CardsViewController:
     
     
     //for adding cards using the background picker.
-    func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
+    func addCard(with backgroundImage : UIImage, animatedFrom : UIView, temporaryView : Bool ) {
         
         guard let currentDeck = currentDeck else {return}
         
@@ -129,7 +131,8 @@ class CardsViewController:
             self.presentStickerEditor(
                 from: animatedFrom,
                 with: (currentDeck.cards.last)!,
-                forCropping: backgroundImage)
+                forCropping: backgroundImage,
+                temporaryView : temporaryView)
         })
         
         
@@ -152,13 +155,17 @@ class CardsViewController:
         indexPathOfEditedCard = indexPath
         
         //show the editor
-        presentStickerEditor(from: cell, with: chosenCard, forCropping: nil)
+        presentStickerEditor(from: cell,
+                             with: chosenCard, forCropping: nil,
+                             temporaryView: false)
     }
     
     
     //MARK:- actions
     func presentStickerEditor(from sourceView : UIView,
-                              with indexCard : IndexCard, forCropping image : UIImage?){
+                              with indexCard : IndexCard,
+                              forCropping image : UIImage?,
+                              temporaryView: Bool){
         
         //get the next VC
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
@@ -195,6 +202,7 @@ class CardsViewController:
         transitionDelegate.endingCenter = endCenter
         transitionDelegate.endingFrame = endFrame
         transitionDelegate.viewToHide = endCell
+        transitionDelegate.viewToRemove = temporaryView ? sourceView : nil
         transitionDelegate.duration = theme?.timeOf(.editCardZoom) ?? 2.0
         
         //set up transition

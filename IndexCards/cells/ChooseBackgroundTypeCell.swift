@@ -30,8 +30,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     var sourceType = BackgroundSourceType.ChooseFromLibaray {
         didSet{
-            guard label != nil
-                else {return}
+            guard label != nil else {return}
             
             switch sourceType {
             case .TakePhoto:
@@ -63,7 +62,6 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         }
     }
     
-    //let tapGestureRecognizer = UITapGestureRecognizer()
     
     
     //MARK:- UICollectionViewCell
@@ -105,9 +103,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         //background color
         self.backgroundColor =  nil
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
-        
-        //addGestureRecognizer(tapGestureRecognizer)
-    }
+        }
     
     
     
