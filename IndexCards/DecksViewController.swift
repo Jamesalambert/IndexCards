@@ -50,7 +50,7 @@ class DecksViewController:
     }
     
 
-    //MARK:- Actions
+    //MARK:- IBActions
     
     @IBAction func addDeck(_ sender: Any) {
         tappedAddNewDeck()
@@ -72,11 +72,10 @@ class DecksViewController:
         }, completion: { finished in
             if finished{
                 self.document?.updateChangeCount(.done)
-                self.selectDeck(at: IndexPath(item: 0, section: 0))
                 
-//                let fromView = self.decksCollectionView.cellForItem(at: IndexPath(item: 0, section: 0))
-//
-//                self.presentAddCardVC(fromView: fromView!)
+                self.decksCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
+                
+                self.displayDeck(at: IndexPath(item: 0, section: 0))
             }
         })
     }
@@ -104,6 +103,73 @@ class DecksViewController:
         }//iflet
     }
     
+    
+    //MARK:- Actions
+    
+    private func displayDeck(at indexPath: IndexPath){
+        
+        if let deck = deckFor(indexPath),
+            let tappedCell = decksCollectionView.cellForItem(at: indexPath){
+            
+            //save selected path so we can show the 'add card button' in the right place
+            selectedDeck = deck
+            
+            //for animating the add card menu
+            tappedDeckCell = tappedCell
+        
+            
+            guard let navCon = cardsViewNavCon as? UINavigationController else {return}
+            guard let cardsView = navCon.visibleViewController as? CardsViewController else {return}
+            
+            //pass on data
+            cardsView.model = self.model
+            cardsView.theme = self.theme
+            cardsView.currentDeck = selectedDeck
+            cardsView.currentDocument = self.document
+            
+            showDetailViewController(navCon, sender: nil)
+        }
+    }
+    
+    
+    var cardsCollectionView : UICollectionView? {
+        if let navCon = cardsViewNavCon as? UINavigationController,
+            let cardsView = navCon.visibleViewController as? CardsViewController{
+            
+            return cardsView.indexCardsCollectionView
+        }
+        return nil
+    }
+    
+    var cardsViewNavCon : UIViewController? {
+        if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
+            return navController
+        }
+        return nil
+    }
+    
+    
+    
+    //helper func
+    private func deckFor(_ indexPath : IndexPath) -> Deck?{
+              
+        guard let model = model else {return nil}
+        
+        switch indexPath.section{
+            case 0:
+                if model.decks.indices.contains(indexPath.item){
+                    return model.decks[indexPath.item]
+                }
+            case 1:
+                if model.deletedDecks.indices.contains(indexPath.item){
+                    return model.deletedDecks[indexPath.item]
+                }
+            default:
+                return nil
+            }
+        return nil
+    }
+    
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
@@ -128,25 +194,7 @@ class DecksViewController:
         return 0
     }
 
-    //helper func
-    private func deckFor(_ indexPath : IndexPath) -> Deck?{
-              
-        guard let model = model else {return nil}
-        
-        switch indexPath.section{
-            case 0:
-                if model.decks.indices.contains(indexPath.item){
-                    return model.decks[indexPath.item]
-                }
-            case 1:
-                if model.deletedDecks.indices.contains(indexPath.item){
-                    return model.deletedDecks[indexPath.item]
-                }
-            default:
-                return nil
-            }
-        return nil
-    }
+    
     
     
     func collectionView(_ collectionView: UICollectionView,
@@ -246,65 +294,16 @@ class DecksViewController:
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
-        selectDeck(at: indexPath)
+        displayDeck(at: indexPath)
     }
 
 
-    
-    private func selectDeck(at indexPath: IndexPath){
-        
-        if let deck = deckFor(indexPath),
-            let tappedCell = decksCollectionView.cellForItem(at: indexPath){
-
-            //save selected path so we can show the 'add card button' in the right place
-            selectedDeck = deck
-            
-            //for animating the add card menu
-            tappedDeckCell = tappedCell
-        
-            
-            guard let navCon = cardsViewNavCon as? UINavigationController else {return}
-            guard let cardsView = navCon.visibleViewController as? CardsViewController else {return}
-            
-            //pass on data
-            cardsView.model = self.model
-            cardsView.theme = self.theme
-            cardsView.currentDeck = selectedDeck
-            cardsView.currentDocument = self.document
-            
-            showDetailViewController(navCon, sender: nil)
-        }
-    }
-    
-    
-    var cardsCollectionView : UICollectionView? {
-        if let navCon = cardsViewNavCon as? UINavigationController,
-            let cardsView = navCon.visibleViewController as? CardsViewController{
-            
-            return cardsView.indexCardsCollectionView
-        }
-        return nil
-    }
-    
-    var cardsViewNavCon : UIViewController? {
-        if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
-            return navController
-        }
-        return nil
-    }
-    
-    
-
-    
 
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
     func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    
-    
-    
     
     func collectionView(_ collectionView: UICollectionView,
         canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
@@ -362,7 +361,7 @@ class DecksViewController:
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.selectDeck(at: IndexPath(item: 0, section: 0))
+            self.displayDeck(at: IndexPath(item: 0, section: 0))
         })
         
     }
@@ -381,7 +380,7 @@ class DecksViewController:
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.selectDeck(at: IndexPath(item: 0, section: 0))
+            self.displayDeck(at: IndexPath(item: 0, section: 0))
         })
     }
 
@@ -559,6 +558,9 @@ class DecksViewController:
         if let url = fileLocationURL{
             document?.save(to: url, for: .forOverwriting, completionHandler: nil)
         }
+        
+        NotificationCenter.default.removeObserver(self)
+        
     }
     
     
@@ -617,6 +619,25 @@ class DecksViewController:
                 document = IndexCardsDocument(fileURL: url)
             }
         }//if let
+        
+        
+        //register for UIDocument notifications
+        
+        let _ = NotificationCenter.default.addObserver(
+            forName: UIDocument.stateChangedNotification,
+            object: document,
+            queue: nil,
+            using: {notification in
+                
+                guard self.document?.documentState != UIDocument.State.inConflict else {return}
+                
+                self.decksCollectionView.reloadItems(
+                    at:self.decksCollectionView.indexPathsForSelectedItems ?? [])
+        })
+        
+        
+        
+        
     }
     
     
