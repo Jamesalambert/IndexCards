@@ -56,11 +56,12 @@ class CardsViewController:
             indexCardsCollectionView.dragDelegate = self
             indexCardsCollectionView.dropDelegate = self
             
-            let tap = UITapGestureRecognizer()
-            tap.numberOfTouchesRequired = 1
-            tap.numberOfTapsRequired = 1
-            tap.addTarget(self, action: #selector(tappedIndexCard(_:)))
-            indexCardsCollectionView.addGestureRecognizer(tap)
+            
+//            let tap = UITapGestureRecognizer()
+//            tap.numberOfTouchesRequired = 1
+//            tap.numberOfTapsRequired = 1
+//            tap.addTarget(self, action: #selector(tappedIndexCard(_:)))
+//            indexCardsCollectionView.addGestureRecognizer(tap)
         }
     }
 
@@ -84,9 +85,9 @@ class CardsViewController:
         //where the Edit view springs from
         let transitionDelegate = TransitioningDelegateforEditCardViewController()
         transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
-        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
+        transitionDelegate.startingBounds = view.convert(sourceView.frame, from: sourceView.superview)
         transitionDelegate.endingCenter = transitionDelegate.startingCenter
-        transitionDelegate.endingFrame = transitionDelegate.startingFrame
+        transitionDelegate.endingFrame = transitionDelegate.startingBounds
         transitionDelegate.viewToHide = nil //for fading out the tapped view
         transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
         
@@ -136,11 +137,9 @@ class CardsViewController:
     
     
     //MARK:- Gesture handlers
-    @objc private func tappedIndexCard(_ sender: UITapGestureRecognizer){
+    @objc private func tappedIndexCard(indexPath : IndexPath){
         //get tapped cell
-        let locaton = sender.location(in: indexCardsCollectionView)
         
-        guard let indexPath = indexCardsCollectionView.indexPathForItem(at: locaton) else {return}
         guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}
         guard let chosenCard = currentDeck?.cards[indexPath.item] else {return}
         
@@ -179,20 +178,20 @@ class CardsViewController:
             editVC.passedImageForCropping = imageToCrop
         }
         
-        //origin of the animation
-        let startCenter = view.convert(sourceView.center, from: sourceView.superview)
-        let startFrame = view.convert(sourceView.frame, from: sourceView.superview)
+        //origin of the animation, nil converts to the uiwindow system
+        let startCenter = sourceView.superview?.convert(sourceView.center, to: nil)
+        let startBounds = sourceView.superview?.convert(sourceView.bounds, to: nil)
         
         //get index card location on screen so we can animate back to it after editing
         let cardIndex = (currentDeck?.cards.firstIndex(of: indexCard))!
         guard let endCell = indexCardsCollectionView.cellForItem(at: IndexPath(item: cardIndex, section: 0)) else {return}
         
-        let endCenter = view.convert(endCell.center, from: endCell.superview)
-        let endFrame = view.convert(endCell.frame, from: endCell.superview)
+        let endCenter = endCell.superview?.convert(endCell.center, to: nil)
+        let endFrame = endCell.superview?.convert(endCell.bounds, to: nil)
         
         //set up the animation
         transitionDelegate.startingCenter = startCenter
-        transitionDelegate.startingFrame = startFrame
+        transitionDelegate.startingBounds = startBounds
         transitionDelegate.endingCenter = endCenter
         transitionDelegate.endingFrame = endFrame
         transitionDelegate.viewToHide = endCell
@@ -208,17 +207,15 @@ class CardsViewController:
     
     
     
-    // MARK: UICollectionViewDataSource
+    // MARK:- UICollectionViewDataSource
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return currentDeck?.cards.count ?? 0
     }
     
@@ -241,7 +238,11 @@ class CardsViewController:
         return cell
     }
     
-    
+    //MARK:- UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        tappedIndexCard(indexPath: indexPath)
+    }
     
     
     //MARK: - UICollectionViewDragDelegate
@@ -428,6 +429,12 @@ class CardsViewController:
     
     deinit {
         print("Cards controller removed!")
+    }
+    
+ 
+    //MARK:- UIView
+    override func viewDidLoad() {
+        view.backgroundColor = theme?.colorOf(.table)
     }
     
     

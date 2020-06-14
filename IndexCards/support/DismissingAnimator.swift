@@ -12,7 +12,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     var duration : Double = 0.5
     var endingCenter : CGPoint?
-    var endingFrame : CGRect?
+    var endingBounds : CGRect?
     var tappedView : UIView?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -23,13 +23,13 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         
         if let center = endingCenter,
-            let rect = endingFrame,
+            let bounds = endingBounds,
             let destination = transitionContext.viewController(forKey: .to),
             let source = transitionContext.viewController(forKey: .from){
 
           //end position for new view
             let endScale = CGFloat(
-                rect.width / source.view.frame.width)
+                bounds.width / source.view.frame.width)
 
             //hide any menus
             UIView.animate(
@@ -64,10 +64,6 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                             
                             //remove from superview
                             source.view.removeFromSuperview()
-                            
-//                            if let destinationVC =  destination as? CardsViewController {
-//                                destinationVC.editorDidMakeChanges = true
-//                            }
                         })
                     
                 })

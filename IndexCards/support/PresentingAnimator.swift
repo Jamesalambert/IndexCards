@@ -12,7 +12,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     var duration : Double = 0.5
     var startingCenter : CGPoint?
-    var startingFrame : CGRect?
+    var startingBounds : CGRect?
     var tappedView : UIView?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -22,7 +22,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         if let center = startingCenter,
-            let rect = startingFrame ,
+            let bounds = startingBounds ,
             let destination = transitionContext.viewController(forKey: .to),
             let source = transitionContext.viewController(forKey: .from){
             
@@ -31,7 +31,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             
             //start frame for new view
             let startScale = CGFloat(
-                rect.width / destination.view.frame.width)
+                bounds.width / destination.view.frame.width)
             
             
             //move card to starting position

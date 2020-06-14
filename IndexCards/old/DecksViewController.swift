@@ -567,11 +567,8 @@ class DecksViewController:
         
         //set up theme
         theme.chosenTheme = 0
-        //TODO:- pass on the theme
         view.backgroundColor = theme.colorOf(.table)
         
-        //for segue to editing cards view
-        //definesPresentationContext = true
     }
     
     

@@ -180,7 +180,7 @@ class DecksCollectionViewController:
         
         //set up the animation
         transitionDelegate.startingCenter = startCenter
-        transitionDelegate.startingFrame = startFrame
+        transitionDelegate.startingBounds = startFrame
         transitionDelegate.endingCenter = endCenter
         transitionDelegate.endingFrame = endFrame
         transitionDelegate.viewToHide = endCell
@@ -234,9 +234,9 @@ class DecksCollectionViewController:
         
         //where the Edit view springs from
         transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
-        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
+        transitionDelegate.startingBounds = view.convert(sourceView.frame, from: sourceView.superview)
         transitionDelegate.endingCenter = transitionDelegate.startingCenter
-        transitionDelegate.endingFrame = transitionDelegate.startingFrame
+        transitionDelegate.endingFrame = transitionDelegate.startingBounds
         transitionDelegate.viewToHide = sourceView //for fading out the tapped view
         transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
         
