@@ -24,7 +24,7 @@ class StickerEditorViewController:
     var theme : Theme?
     //TODO: - undo redo etc
     var document : IndexCardsDocument?
-    
+    var delegate : StickerEditorDelegate?
     var passedImageForCropping : UIImage?
     
     var backgroundImage : UIImage?{
@@ -539,17 +539,17 @@ class StickerEditorViewController:
         if !cropView.frame.contains(sender.location(in: cropView)){
             
             
-            //store image data
+            //store thumbnail snapshot
             indexCard?.thumbnail = stickerView.snapshot
             
             //update model
             indexCard?.stickers = stickerView.stickerData
+            
             document?.updateChangeCount(.done)
-            
-            //dismiss(animated: true, completion: nil)
-            
-            if let presentingVC = self.presentingViewController{
+                        
+            if let presentingVC = self.presentingViewController {
                 presentingVC.dismiss(animated: true, completion: nil)
+                delegate?.editorDidMakeChanges = true
             }
         }//if
     }//func
@@ -577,6 +577,8 @@ extension StickerCanvas{
     }
 }
 
-
+protocol StickerEditorDelegate {
+    var editorDidMakeChanges : Bool {get set}
+}
 
 

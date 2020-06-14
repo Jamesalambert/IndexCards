@@ -196,26 +196,6 @@ class DecksViewController:
         switch indexPath.section {
         case 0: //visible decks
             
-            //if it's selected
-            if selectedDeck == deckFor(indexPath)  {
-                
-                if let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
-                    
-                    cell.theme = theme
-                    cell.delegate = self
-    
-                    
-                    if let deck = deckFor(indexPath){
-                        cell.image = deck.thumbnail
-                    }
-                    //cell.tapGestureRecognizer.addTarget(self, action: #selector(tappedAddCardToDeck(_:)))
-                    
-                    return cell
-                }
-                //otherwise...
-            } else {
-                
                 if let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                     
@@ -227,7 +207,7 @@ class DecksViewController:
                     }
                     return cell
                 }
-            }
+            
             
         default: //deleted decks
             if let cell = collectionView.dequeueReusableCell(
@@ -248,6 +228,13 @@ class DecksViewController:
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let deletedHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedHeader", for: indexPath)
+        
+        return deletedHeader
+        
+    }
     
     //MARK:- UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -257,6 +244,21 @@ class DecksViewController:
         return CGSize(width: width, height: height)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        switch section {
+        case 1:
+            if let model = model,
+                !model.deletedDecks.isEmpty{
+                return CGSize(width: collectionView.bounds.width, height: CGFloat(50))
+            } else {
+                return CGSize.zero
+            }
+        default:
+            return CGSize.zero
+        }
+        
+    }
     
     // MARK:- UICollectionViewDelegate
 
@@ -607,11 +609,10 @@ class DecksViewController:
         //set up theme
         theme.chosenTheme = 0
         //TODO:- pass on the theme
-        //indexCardCollectionController.theme = theme
         view.backgroundColor = theme.colorOf(.table)
         
         //for segue to editing cards view
-        definesPresentationContext = true
+        //definesPresentationContext = true
     }
     
     
@@ -623,7 +624,6 @@ class DecksViewController:
         super.viewWillAppear(animated)
         
         //if we already have a model then don't try to load one
-        
         document?.open(completionHandler: { (success) in
             if success && self.openingForTheFirstTime {
             

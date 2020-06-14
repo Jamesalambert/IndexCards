@@ -19,7 +19,8 @@ class CardsViewController:
     UICollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
     UICollectionViewDragDelegate,
-    UICollectionViewDropDelegate
+    UICollectionViewDropDelegate,
+    StickerEditorDelegate
 {
     
     
@@ -170,6 +171,7 @@ class CardsViewController:
         editVC.indexCard = indexCard
         editVC.theme = theme
         editVC.document = currentDocument
+        editVC.delegate = self
         
         //if we're passing a new background image that hasn't been cropped to size yet.
         //this is used when creating a new card, not when opening an existing one.
