@@ -43,7 +43,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             transitionContext.containerView.addSubview(destination.view)
             
             //hide the tapped cell
-            viewToHide?.alpha = 0
+            viewToHide?.isHidden = true
             viewToRemove?.removeFromSuperview()
             
             UIView.animate(

@@ -31,8 +31,6 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             let endScale = CGFloat(
                 bounds.width / source.view.frame.width)
 
-            //ensure index card is still hidden!
-            //viewToHide?.alpha = 0.0
             
             //hide any menus
             UIView.animate(
@@ -63,9 +61,9 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                             transitionContext.completeTransition(success)
                             
                             //unhide the cell
-                            self.viewToHide?.alpha = 1.0
+                            self.viewToHide?.isHidden = false
                             
-                            //remove from superview
+                            //remove editor from superview
                             source.view.removeFromSuperview()
                         })
                     

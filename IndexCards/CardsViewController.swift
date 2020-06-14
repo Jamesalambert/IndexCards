@@ -55,13 +55,6 @@ class CardsViewController:
             indexCardsCollectionView.dataSource = self
             indexCardsCollectionView.dragDelegate = self
             indexCardsCollectionView.dropDelegate = self
-            
-            
-//            let tap = UITapGestureRecognizer()
-//            tap.numberOfTouchesRequired = 1
-//            tap.numberOfTapsRequired = 1
-//            tap.addTarget(self, action: #selector(tappedIndexCard(_:)))
-//            indexCardsCollectionView.addGestureRecognizer(tap)
         }
     }
 

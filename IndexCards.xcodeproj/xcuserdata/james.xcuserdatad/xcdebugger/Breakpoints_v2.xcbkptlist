@@ -62,8 +62,8 @@
             filePath = "IndexCards/stickers/StickerEditorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
+            startingLineNumber = "549"
+            endingLineNumber = "549"
             landmarkName = "tapToDismiss(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "IndexCards/stickers/StickerEditorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "finishedRepositioningImage()"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "IndexCards/CardsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "addCard(with:animatedFrom:temporaryView:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "IndexCards/CardsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "addCard(with:animatedFrom:temporaryView:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "IndexCards/CardsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "presentStickerEditor(from:with:forCropping:temporaryView:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol StickerEditorDelegate {
+    var editorDidMakeChanges : Bool {get set}
+}
+
+
+
 class StickerEditorViewController:
     UIViewController,
     UICollectionViewDataSource,
@@ -535,7 +541,7 @@ class StickerEditorViewController:
     }
     
     @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
-    
+        
         if !cropView.frame.contains(sender.location(in: cropView)){
             
             
@@ -546,10 +552,11 @@ class StickerEditorViewController:
             indexCard?.stickers = stickerView.stickerData
             
             document?.updateChangeCount(.done)
-                        
+            
             if let presentingVC = self.presentingViewController {
-                presentingVC.dismiss(animated: true, completion: nil)
-                delegate?.editorDidMakeChanges = true
+                presentingVC.dismiss(animated: true, completion: {
+                    
+                    self.delegate?.editorDidMakeChanges = true})
             }
         }//if
     }//func
@@ -577,8 +584,6 @@ extension StickerCanvas{
     }
 }
 
-protocol StickerEditorDelegate {
-    var editorDidMakeChanges : Bool {get set}
-}
+
 
 
