@@ -385,9 +385,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
-                                <rect key="frame" x="0.0" y="417" width="1112" height="417"/>
+                                <rect key="frame" x="889.5" y="0.0" width="222.5" height="834"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewLayout key="collectionViewLayout" id="5x8-RD-oh8" customClass="CircularCollectionViewLayout" customModule="IndexCards" customModuleProvider="target"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hYj-gw-KB6">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseBackgroundTypeCell" id="b0Y-BO-Pmw" customClass="ChooseBackgroundTypeCell" customModule="IndexCards" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -418,10 +423,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="height" secondItem="0WI-pZ-Vvb" secondAttribute="height" multiplier="0.5" id="1AP-tb-enC"/>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="centerX" secondItem="YzW-s1-Hza" secondAttribute="centerX" id="Jyl-1h-9YQ"/>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="leading" secondItem="YzW-s1-Hza" secondAttribute="leading" id="QGi-rN-12Y"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="top" secondItem="YzW-s1-Hza" secondAttribute="top" id="L7z-9L-fWR"/>
                             <constraint firstItem="YzW-s1-Hza" firstAttribute="bottom" secondItem="1LA-zd-YN5" secondAttribute="bottom" id="Vq6-hN-Igd"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="width" secondItem="0WI-pZ-Vvb" secondAttribute="width" multiplier="0.2" id="css-Yx-Uem"/>
                             <constraint firstItem="YzW-s1-Hza" firstAttribute="trailing" secondItem="1LA-zd-YN5" secondAttribute="trailing" id="eTV-iy-o52"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YzW-s1-Hza"/>

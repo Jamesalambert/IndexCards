@@ -63,7 +63,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         }
     }
     
-    let tapGestureRecognizer = UITapGestureRecognizer()
+    //let tapGestureRecognizer = UITapGestureRecognizer()
     
     
     //MARK:- UICollectionViewCell
@@ -106,8 +106,7 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
         self.backgroundColor =  nil
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
         
-        //tap to dismiss
-        addGestureRecognizer(tapGestureRecognizer)
+        //addGestureRecognizer(tapGestureRecognizer)
     }
     
     

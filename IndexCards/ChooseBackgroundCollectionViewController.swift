@@ -29,7 +29,7 @@ UINavigationControllerDelegate{
         didSet{
             backgroundChoicesCollectionView.delegate = self
             backgroundChoicesCollectionView.dataSource = self
-            backgroundChoicesCollectionView.collectionViewLayout = layoutObject
+            //backgroundChoicesCollectionView.collectionViewLayout = layoutObject
             
             
             backgroundChoicesCollectionView.contentSize = CGSize(
@@ -42,14 +42,13 @@ UINavigationControllerDelegate{
    
     //MARK:- helper funcs
     
-    @objc private func choiceCardTapped(sender : UITapGestureRecognizer){
-        
-        guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
+    @objc private func choiceCardTapped(indexPath: IndexPath){
+        print("tap")
+        //guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
+         guard let tappedCell = backgroundChoicesCollectionView.cellForItem(at: indexPath) as? ChooseBackgroundTypeCell else {return}
         
         //save for animation origin later
         self.tappedCell = tappedCell
-        
-        guard let indexPath = backgroundChoicesCollectionView.indexPath(for: tappedCell) else {return}
         
         switch tappedCell.sourceType {
         case .ChooseFromLibaray:
@@ -155,7 +154,7 @@ UINavigationControllerDelegate{
             cell.sourceType = sourceType
             cell.theme = theme
             
-            cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
+            //cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
                         
             return cell
         }
@@ -167,6 +166,12 @@ UINavigationControllerDelegate{
         return cell
     }
 
+    //MARK:- UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        print("select")
+        choiceCardTapped(indexPath: indexPath)
+    }
     
 
     //MARK:- UIImagePickerControllerDelegate
@@ -217,7 +222,8 @@ UINavigationControllerDelegate{
         super.viewDidLoad()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
-        view.addGestureRecognizer(tap)
+        tap.cancelsTouchesInView = false
+        backgroundChoicesCollectionView.addGestureRecognizer(tap)
         
    
     }//func
