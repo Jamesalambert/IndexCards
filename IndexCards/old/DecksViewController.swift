@@ -81,73 +81,32 @@ class DecksViewController:
         })
     }
     
-//    @objc func tappedAddCardToDeck(_ sender: UITapGestureRecognizer){
-//        presentAddCardVC(fromView: sender.view!)
-//    }
-//
-//
-//    //MARK:- actions
-//
-//    //for adding cards using the background picker.
-//    func addCard(with backgroundImage : UIImage, animatedFrom : UIView) {
-//
-//        //guard let currentDeck = lastSelectedDeck else {return}
-//
-//        //add empty index card
-//        //TODO:- redo this!!
-////        indexCardsCollectionView.performBatchUpdates({
-////            //model
-////            currentDeck.addCard()
-////
-////            //collection view
-////            let numberOfCards = currentDeck.cards.count
-////            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
-////
-////            indexCardsCollectionView.insertItems(at: [newIndexPath])
-////
-////        }, completion: { finished in
-////            //save doc
-////            self.document?.updateChangeCount(.done)
-////
-////            //present new sticker editor
-////            self.presentStickerEditor(
-////                from: animatedFrom,
-////                with: (currentDeck.cards.last)!,
-////                forCropping: backgroundImage)
-////        })
-//
-//
-//    }//func
-//
-//    func presentAddCardVC(fromView sourceView : UIView){
-//        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-//
-//        guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
-//
-//
-//        //where the Edit view springs from
-//        transitionDelegate.startingCenter = view.convert(sourceView.center, from: sourceView.superview)
-//        transitionDelegate.startingFrame = view.convert(sourceView.frame, from: sourceView.superview)
-//        transitionDelegate.endingCenter = transitionDelegate.startingCenter
-//        transitionDelegate.endingFrame = transitionDelegate.startingFrame
-//        transitionDelegate.viewToHide = sourceView //for fading out the tapped view
-//        transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
-//
-//        //set up transition
-//        addCardVC.theme = theme
-//        addCardVC.modalPresentationStyle = UIModalPresentationStyle.custom
-//        addCardVC.transitioningDelegate = transitionDelegate
-//        addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
-//
-//        //go
-//        present(addCardVC, animated: true, completion: nil)
-//    }
     
+    @IBAction func emptyTrash(_ sender: Any) {
+        if let model = model,
+            !model.deletedDecks.isEmpty{
+            
+            
+            let indexPathsOfItemsToDelete = model.deletedDecks.indices.map { index in
+                return IndexPath(item: index, section: 1)
+            }
+            
+            
+            decksCollectionView.performBatchUpdates({
+                //model
+                model.deletedDecks.removeAll()
+                
+                //collection view
+                decksCollectionView.deleteItems(at: indexPathsOfItemsToDelete)
+                
+            }, completion: nil)
+            
+        }//iflet
+    }
     
-
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        //2 sections, active and deleted
+        
         return 2
     }
 
