@@ -180,39 +180,31 @@ class CardsViewController:
             editVC.passedImageForCropping = imageToCrop
         }
         
+        
+        let enclosingView = splitViewController?.viewControllers[1].view
+        
         //origin of the animation, nil converts to the uiwindow system
-        let startCenter = sourceView.superview?.convert(sourceView.center, to: nil)
-        let startBounds = sourceView.superview?.convert(sourceView.bounds, to: nil)
+        let startCenter = sourceView.superview?.convert(sourceView.center, to: enclosingView)
+        let startBounds = sourceView.superview?.convert(sourceView.bounds, to: enclosingView)
         
         //get index card location on screen so we can animate back to it after editing
         let cardIndex = (currentDeck?.cards.firstIndex(of: indexCard))!
         guard let endCell = indexCardsCollectionView.cellForItem(at: IndexPath(item: cardIndex, section: 0)) else {return}
         
-        let endCenter = endCell.superview?.convert(endCell.center, to: nil)
-        let endFrame = endCell.superview?.convert(endCell.bounds, to: nil)
+        let endCenter = endCell.superview?.convert(endCell.center, to: enclosingView)
+        let endBounds = endCell.superview?.convert(endCell.bounds, to: enclosingView)
         
-        //set up the animation
-        transitionDelegate.startingCenter = startCenter
-        transitionDelegate.startingBounds = startBounds
-        transitionDelegate.endingCenter = endCenter
-        transitionDelegate.endingFrame = endFrame
-        transitionDelegate.viewToHide = endCell
-        transitionDelegate.viewToRemove = temporaryView ? sourceView : nil
-        transitionDelegate.duration = theme?.timeOf(.editCardZoom) ?? 2.0
-        
-        //set up transition
-        //editVC.modalPresentationStyle = UIModalPresentationStyle.custom
-        //editVC.transitioningDelegate = transitionDelegate
         
         self.editCardTransitionController = ZoomTransitionForNavigation(
-            duration: 1.0,
-            originFrame: CGRect(center: endCenter!, size: endFrame!.size),
+            duration: theme?.timeOf(.editCardZoom) ?? 2.0,
+            originFrame: CGRect(center: startCenter!, size: startBounds!.size),
+            destinationFrame: CGRect(center: endCenter!, size: endBounds!.size),
             isPresenting: true,
             viewToHide: endCell,
             viewToRemove: temporaryView ? sourceView : nil)
         
         //go
-        navigationController?.pushViewController(editVC, animated: true)  //present(editVC, animated: true, completion: nil)
+        navigationController?.pushViewController(editVC, animated: true)
     }
     
     

@@ -14,13 +14,15 @@ UIViewControllerAnimatedTransitioning {
     
     var duration : Double
     var originFrame : CGRect
+    var destinationFrame : CGRect
     var isPresenting : Bool
     var viewToHide : UIView?
     var viewToRemove : UIView?
     
-    init(duration : Double, originFrame : CGRect, isPresenting : Bool, viewToHide : UIView?, viewToRemove : UIView?) {
+    init(duration : Double, originFrame : CGRect, destinationFrame : CGRect, isPresenting : Bool, viewToHide : UIView?, viewToRemove : UIView?) {
         self.duration = duration
         self.originFrame = originFrame
+        self.destinationFrame = destinationFrame
         self.isPresenting = isPresenting
         self.viewToHide = viewToHide
         self.viewToRemove = viewToRemove
@@ -92,13 +94,13 @@ UIViewControllerAnimatedTransitioning {
     
     private func hide(_ transitionContext: UIViewControllerContextTransitioning){
         guard let editorVC = transitionContext.viewController(forKey: .from) else {return}
-        guard let cardsVC = transitionContext.viewController(forKey: .to) else {return}
+        guard let collectionVC = transitionContext.viewController(forKey: .to) else {return}
         
         let containerView = transitionContext.containerView
         
         
-        let endCenter = originFrame.center
-        let endScale = CGFloat(originFrame.width / editorVC.view.bounds.width)
+        let endCenter = destinationFrame.center
+        let endScale = CGFloat(destinationFrame.width / editorVC.view.bounds.width)
     
         
         //animate away
@@ -121,7 +123,10 @@ UIViewControllerAnimatedTransitioning {
                                 editorVC.view.center = endCenter
                                 editorVC.view.transform = CGAffineTransform.identity.scaledBy(x: endScale, y: endScale)
                                 
-                                containerView.addSubview(cardsVC.view)
+                                var viewIndex = containerView.subviews.count - 2
+                                viewIndex = viewIndex < 0 ? 0 : viewIndex
+                                
+                                containerView.insertSubview(collectionVC.view, at: viewIndex)
                                 
                                 
                 },
