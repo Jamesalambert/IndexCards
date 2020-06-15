@@ -8,8 +8,6 @@
 
 import UIKit
 
-//private let reuseIdentifier = "Cell"
-
 class DecksViewController:
     UIViewController,
     UICollectionViewDelegate,
@@ -76,9 +74,9 @@ class DecksViewController:
             if finished{
                 self.document?.updateChangeCount(.done)
                 
-                self.decksCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
+                self.decksCollectionView.selectItem(at: IndexPath(0,0), animated: true, scrollPosition: .centeredVertically)
                 
-                self.displayDeck(at: IndexPath(item: 0, section: 0))
+                self.displayDeck(at: IndexPath(0,0))
             }
         })
     }
@@ -181,7 +179,6 @@ class DecksViewController:
     func collectionView(_ collectionView: UICollectionView,
         numberOfItemsInSection section: Int) -> Int {
 
-           
             switch section{
             case 0:
                 return model.decks.count
@@ -190,8 +187,6 @@ class DecksViewController:
             default:
                 return 0
             }
-        
-        return 0
     }
 
     
@@ -237,10 +232,19 @@ class DecksViewController:
     
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let deletedHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedHeader", for: indexPath)
         
-        return deletedHeader
+        var view : UICollectionReusableView
         
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedHeader", for: indexPath)
+        case UICollectionView.elementKindSectionFooter:
+            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedFooter", for: indexPath)
+        default:
+            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedHeader", for: indexPath)
+        }
+
+        return view        
     }
     
     //MARK:- UICollectionViewDelegateFlowLayout
@@ -251,7 +255,8 @@ class DecksViewController:
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+            referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         switch section {
         case 1:
@@ -264,6 +269,20 @@ class DecksViewController:
             return CGSize.zero
         }
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+            referenceSizeForFooterInSection section: Int) -> CGSize {
+        switch section {
+        case 1:
+            if !model.deletedDecks.isEmpty{
+                return CGSize(width: collectionView.bounds.width, height: CGFloat(50))
+            } else {
+                return CGSize.zero
+            }
+        default:
+            return CGSize.zero
+        }
     }
     
     // MARK:- UICollectionViewDelegate
@@ -360,7 +379,7 @@ class DecksViewController:
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.displayDeck(at: IndexPath(item: 0, section: 0))
+            self.displayDeck(at: IndexPath(0,0))
         })
         
     }
@@ -375,11 +394,11 @@ class DecksViewController:
                 model.unDelete(at: indexPath.item)
                 
                 decksCollectionView.deleteItems(at: [indexPath])
-                decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+                decksCollectionView.insertItems(at: [IndexPath(0,0)])
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.displayDeck(at: IndexPath(item: 0, section: 0))
+            self.displayDeck(at: IndexPath(0,0))
         })
     }
 
@@ -472,7 +491,7 @@ class DecksViewController:
         case .insertAtDestinationIndexPath:
             
             //moving a deck
-            let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+            let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
             
             for item in coordinator.items {
                 
@@ -516,7 +535,7 @@ class DecksViewController:
                 
                
                     //add card to new deck
-                    let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+                    let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
                     
                     let destinationDeck = model.decks[destinationIndexPath.item]
             

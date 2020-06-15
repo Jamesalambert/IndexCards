@@ -119,9 +119,9 @@ UINavigationControllerDelegate{
                 
                 //update collection view
                 backgroundChoicesCollectionView.deleteItems(at:
-                    [IndexPath(item: 0, section: 0),
-                     IndexPath(item: 1, section: 0),
-                     IndexPath(item: 2, section: 0),
+                    [IndexPath(0,0),
+                     IndexPath(1,0),
+                     IndexPath(2,0),
                 ])
             }, completion: { finished in
                 self.presentingViewController?.dismiss(animated: true, completion: nil)

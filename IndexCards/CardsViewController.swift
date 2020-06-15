@@ -20,7 +20,8 @@ class CardsViewController:
     UICollectionViewDelegateFlowLayout,
     UICollectionViewDragDelegate,
     UICollectionViewDropDelegate,
-    StickerEditorDelegate
+    StickerEditorDelegate,
+    UINavigationControllerDelegate
 {
     
     
@@ -39,6 +40,7 @@ class CardsViewController:
     //MARK:- vars
     var indexPathOfEditedCard : IndexPath?
     var transitionDelegate = TransitioningDelegateforEditCardViewController()
+    var editCardTransitionController : ZoomTransitionForNavigation?
     var editorDidMakeChanges : Bool = false{
         didSet{
             if let indexPath = indexPathOfEditedCard{
@@ -199,11 +201,18 @@ class CardsViewController:
         transitionDelegate.duration = theme?.timeOf(.editCardZoom) ?? 2.0
         
         //set up transition
-        editVC.modalPresentationStyle = UIModalPresentationStyle.custom
-        editVC.transitioningDelegate = transitionDelegate
+        //editVC.modalPresentationStyle = UIModalPresentationStyle.custom
+        //editVC.transitioningDelegate = transitionDelegate
+        
+        self.editCardTransitionController = ZoomTransitionForNavigation(
+            duration: 1.0,
+            originFrame: CGRect(center: endCenter!, size: endFrame!.size),
+            isPresenting: true,
+            viewToHide: endCell,
+            viewToRemove: temporaryView ? sourceView : nil)
         
         //go
-        present(editVC, animated: true, completion: nil)
+        navigationController?.pushViewController(editVC, animated: true)  //present(editVC, animated: true, completion: nil)
     }
     
     
@@ -324,7 +333,7 @@ class CardsViewController:
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
         
         //batch updates
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
         
         for item in coordinator.items {
             
@@ -433,9 +442,30 @@ class CardsViewController:
     }
     
  
+    //MARK:- UINavigationControllerDelegate
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        
+        switch operation {
+        case .push:
+            self.editCardTransitionController?.isPresenting = true
+        case .pop:
+            self.editCardTransitionController?.isPresenting = false
+        case .none:
+            print("recieved navCon transition .none")
+        @unknown default:
+            fatalError("Unknown NavCon operation presenting editor")
+        }
+        
+        return self.editCardTransitionController
+    }
+    
+    
     //MARK:- UIView
     override func viewDidLoad() {
         view.backgroundColor = theme?.colorOf(.table)
+        navigationController?.delegate = self
     }
     
     

@@ -36,11 +36,14 @@ extension CGPoint {
 
 extension CGRect{
     
+    init(center : CGPoint, size : CGSize) {
+        self = CGRect(x: center.x - size.width/2, y: center.y - size.height/2, width: size.width, height: size.height)
+    }
+
     var center : CGPoint {
         return CGPoint(x: self.midX,
                        y: self.midY)
     }
-    
     
     func zoom(by factor:CGFloat) -> CGRect{
         
@@ -66,59 +69,17 @@ extension UIView{
         UIGraphicsEndImageContext()
         return image
     }
-    
-    
-    func pinToSuperviewEdges(insetMultipliers : UIEdgeInsets){
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
-        let leading = NSLayoutConstraint(
-            item: self,
-            attribute: .leading,
-            relatedBy: .equal,
-            toItem: self.superview,
-            attribute: .leading,
-            multiplier: CGFloat(1),
-            constant: CGFloat(insetMultipliers.left * bounds.width))
-        
-        let trailing = NSLayoutConstraint(
-            item: self,
-            attribute: .trailing,
-            relatedBy: .equal,
-            toItem: self.superview,
-            attribute: .trailing,
-            multiplier: CGFloat(1),
-            constant: CGFloat(-insetMultipliers.right * bounds.width))
-        
-        let top = NSLayoutConstraint(
-            item: self,
-            attribute: .top,
-            relatedBy: .equal,
-            toItem: self.superview,
-            attribute: .top,
-            multiplier: CGFloat(1),
-            constant: CGFloat(insetMultipliers.top * bounds.height))
-        
-        let bottom = NSLayoutConstraint(
-            item: self,
-            attribute: .bottom,
-            relatedBy: .equal,
-            toItem: self.superview,
-            attribute: .bottom,
-            multiplier: CGFloat(1),
-            constant: CGFloat(-insetMultipliers.bottom * bounds.height))
-        
-        if let _ = self.superview {
-            //sV.addConstraints([leading,trailing,top,bottom])
-            NSLayoutConstraint.activate([leading,trailing,top,bottom])
-        } else {
-            print("Error view \(self) doesn't have a superview. Add Constraints after adding the view to the view hierarchy")
-        }
-        
-    }
-    
+
     
 }
+
+
+extension IndexPath{
+    init(_ x : Int, _ y: Int){
+        self = IndexPath(item: x, section: y)
+    }
+}
+
 
 extension UIViewController{
     

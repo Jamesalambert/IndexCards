@@ -14,6 +14,7 @@
 		1A2012C6247AD8BB00849A97 /* sticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2012C5247AD8BB00849A97 /* sticker.xib */; };
 		1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26B98D24621DA7000732CB /* ThemeClass.swift */; };
 		1A41241D2496B3F300B3D157 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41241C2496B3F300B3D157 /* DecksViewController.swift */; };
+		1A41242124980FB700B3D157 /* ZoomTransitionForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41242024980FB700B3D157 /* ZoomTransitionForNavigation.swift */; };
 		1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */; };
 		1A768907249412F10062CF44 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A768906249412F10062CF44 /* CardsViewController.swift */; };
 		1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */; };
@@ -46,6 +47,7 @@
 		1A2012C5247AD8BB00849A97 /* sticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = sticker.xib; sourceTree = "<group>"; };
 		1A26B98D24621DA7000732CB /* ThemeClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeClass.swift; sourceTree = "<group>"; };
 		1A41241C2496B3F300B3D157 /* DecksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
+		1A41242024980FB700B3D157 /* ZoomTransitionForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransitionForNavigation.swift; sourceTree = SOURCE_ROOT; };
 		1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsCell.swift; sourceTree = "<group>"; };
 		1A768906249412F10062CF44 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
 		1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEditorViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		1A41241F2496B47B00B3D157 /* zoom transition */ = {
 			isa = PBXGroup;
 			children = (
+				1A41242024980FB700B3D157 /* ZoomTransitionForNavigation.swift */,
 				1AEDB8482460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift */,
 				1AEDB84A2460B68400C080B4 /* PresentingAnimator.swift */,
 				1AEDB84C2460B69E00C080B4 /* DismissingAnimator.swift */,
@@ -252,6 +255,7 @@
 			files = (
 				1AF357292467502C00F5D464 /* AddCardCell.swift in Sources */,
 				1A41241D2496B3F300B3D157 /* DecksViewController.swift in Sources */,
+				1A41242124980FB700B3D157 /* ZoomTransitionForNavigation.swift in Sources */,
 				1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */,
 				1A923B092472F49200B4D75B /* CropView.swift in Sources */,
 				1ABD3EEB24915BC90011299E /* QuizSticker.swift in Sources */,

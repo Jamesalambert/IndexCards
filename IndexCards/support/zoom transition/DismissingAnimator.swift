@@ -45,13 +45,14 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 },
                 completion: {finished in
                     
-                    //shrink card
+                    
                     UIView.animate(
                         withDuration: self.duration,
                         delay: 0.0,
                         options: .curveEaseInOut,
                         animations: {
                             
+                            //shrink card
                             //move card
                             source.view.center = center
                             source.view.transform = CGAffineTransform(scaleX: endScale, y: endScale)

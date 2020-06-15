@@ -96,7 +96,7 @@
                         <viewLayoutGuide key="safeArea" id="23t-Cd-ysd"/>
                     </view>
                     <navigationItem key="navigationItem" id="Czm-0O-hQV">
-                        <barButtonItem key="rightBarButtonItem" tag="1" systemItem="add" id="J7C-vg-mfU">
+                        <barButtonItem key="rightBarButtonItem" tag="1" title="new card" id="J7C-vg-mfU">
                             <connections>
                                 <action selector="tappedAddCardButton:" destination="5Wa-5o-TRT" id="11L-v7-F7R"/>
                             </connections>
@@ -140,7 +140,7 @@
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="7lV-ki-mwZ">
                                     <size key="itemSize" width="150" height="100"/>
                                     <size key="headerReferenceSize" width="50" height="50"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -192,24 +192,37 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="deleted decks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDH-Ch-843">
-                                            <rect key="frame" x="8" y="15" width="108" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="deleted decks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDH-Ch-843">
+                                            <rect key="frame" x="106" y="14.5" width="108" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AxU-hV-Rms">
-                                            <rect key="frame" x="132" y="8" width="83" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="remove all">
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="dDH-Ch-843" firstAttribute="centerY" secondItem="cd6-xi-l3A" secondAttribute="centerY" id="Nlz-AX-okt"/>
+                                        <constraint firstItem="dDH-Ch-843" firstAttribute="centerX" secondItem="cd6-xi-l3A" secondAttribute="centerX" id="aIb-3J-MlT"/>
+                                    </constraints>
+                                </collectionReusableView>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="DeletedFooter" id="pFA-5J-feL">
+                                    <rect key="frame" x="0.0" y="150" width="320" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AxU-hV-Rms">
+                                            <rect key="frame" x="111" y="8" width="98" height="34"/>
+                                            <state key="normal" title="empty trash">
                                                 <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                             </state>
                                             <connections>
                                                 <action selector="emptyTrash:" destination="GJ9-Tg-zGl" eventType="touchUpInside" id="2Hf-Tu-vrK"/>
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="AxU-hV-Rms" firstAttribute="centerX" secondItem="pFA-5J-feL" secondAttribute="centerX" id="Iro-2v-eed"/>
+                                        <constraint firstItem="AxU-hV-Rms" firstAttribute="centerY" secondItem="pFA-5J-feL" secondAttribute="centerY" id="YeE-YB-6lW"/>
+                                    </constraints>
                                 </collectionReusableView>
                             </collectionView>
                         </subviews>
@@ -223,7 +236,7 @@
                         <viewLayoutGuide key="safeArea" id="3jK-cw-TMd"/>
                     </view>
                     <navigationItem key="navigationItem" id="GbT-jb-z59">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="8Mb-qD-kPO">
+                        <barButtonItem key="rightBarButtonItem" title="add deck" id="8Mb-qD-kPO">
                             <connections>
                                 <action selector="addDeck:" destination="GJ9-Tg-zGl" id="F4B-fb-sUx"/>
                             </connections>
@@ -260,7 +273,7 @@
                                                         <subviews>
                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="O44-jH-12f">
                                                                 <rect key="frame" x="0.0" y="0.0" width="496" height="50"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Mlm-wv-ZfY">
                                                                     <size key="itemSize" width="50" height="50"/>
                                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -280,7 +293,7 @@
                                                             </collectionView>
                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FeR-GX-JhQ">
                                                                 <rect key="frame" x="596" y="0.0" width="496" height="50"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cth-GW-U5m">
                                                                     <size key="itemSize" width="50" height="50"/>
                                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
