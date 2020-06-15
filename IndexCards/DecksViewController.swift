@@ -23,13 +23,17 @@ class DecksViewController:
     
     
     //MARK:- vars
-    var model : Notes?{
-        didSet{
+    var model : Notes{
+        get{
+            return self.document.model
+        }
+        set{
+            self.document.model = newValue
             decksCollectionView.reloadData()
         }
     }
 
-    var document : IndexCardsDocument?
+    var document : IndexCardsDocument!
     
     var fileLocationURL : URL?
     var theme = Theme()
@@ -62,12 +66,11 @@ class DecksViewController:
         
         decksCollectionView.performBatchUpdates({
             
-            if let currentModel = model {
-                currentModel.addDeck()
-                
-                decksCollectionView.insertItems(
+            model.addDeck()
+            
+            decksCollectionView.insertItems(
                 at: [IndexPath(row: 0, section: 0)])
-            }
+            
             
         }, completion: { finished in
             if finished{
@@ -82,8 +85,7 @@ class DecksViewController:
     
     
     @IBAction func emptyTrash(_ sender: Any) {
-        if let model = model,
-            !model.deletedDecks.isEmpty{
+        if !model.deletedDecks.isEmpty{
             
             
             let indexPathsOfItemsToDelete = model.deletedDecks.indices.map { index in
@@ -153,7 +155,6 @@ class DecksViewController:
     //helper func
     private func deckFor(_ indexPath : IndexPath) -> Deck?{
               
-        guard let model = model else {return nil}
         
         switch indexPath.section{
             case 0:
@@ -180,17 +181,16 @@ class DecksViewController:
     func collectionView(_ collectionView: UICollectionView,
         numberOfItemsInSection section: Int) -> Int {
 
-        if let currentModel = model {
            
             switch section{
             case 0:
-                return currentModel.decks.count
+                return model.decks.count
             case 1:
-                return currentModel.deletedDecks.count
+                return model.deletedDecks.count
             default:
                 return 0
             }
-        }
+        
         return 0
     }
 
@@ -255,8 +255,7 @@ class DecksViewController:
         
         switch section {
         case 1:
-            if let model = model,
-                !model.deletedDecks.isEmpty{
+            if !model.deletedDecks.isEmpty{
                 return CGSize(width: collectionView.bounds.width, height: CGFloat(50))
             } else {
                 return CGSize.zero
@@ -346,12 +345,12 @@ class DecksViewController:
                 
                 switch indexPath.section{
                 case 0:
-                    model?.deleteDeck(at: indexPath.item)
+                    model.deleteDeck(at: indexPath.item)
                     
                     decksCollectionView.deleteItems(at: [indexPath])
                     decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 1)])
                 case 1:
-                    model?.permanentlyDelete(at: indexPath.item)
+                    model.permanentlyDelete(at: indexPath.item)
                     
                     decksCollectionView.deleteItems(at: [indexPath])
                 default:
@@ -373,7 +372,7 @@ class DecksViewController:
         decksCollectionView.performBatchUpdates({
             
             if let indexPath = actionMenuIndexPath{
-                model?.unDelete(at: indexPath.item)
+                model.unDelete(at: indexPath.item)
                 
                 decksCollectionView.deleteItems(at: [indexPath])
                 decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
@@ -483,15 +482,15 @@ class DecksViewController:
                     decksCollectionView.performBatchUpdates({
                         //model
                         if sourceIndexPath.section == 0{
-                            model?.decks.remove(at: sourceIndexPath.item)
+                            model.decks.remove(at: sourceIndexPath.item)
                         } else if sourceIndexPath.section == 1 {
-                            model?.deletedDecks.remove(at: sourceIndexPath.item)
+                            model.deletedDecks.remove(at: sourceIndexPath.item)
                         }
                        
                         if destinationIndexPath.section == 0{
-                            model?.decks.insert(droppedDeck, at: destinationIndexPath.item)
+                            model.decks.insert(droppedDeck, at: destinationIndexPath.item)
                         } else if destinationIndexPath.section == 1 {
-                            model?.deletedDecks.insert(droppedDeck, at: destinationIndexPath.item)
+                            model.deletedDecks.insert(droppedDeck, at: destinationIndexPath.item)
                         }
                         
                         //view
@@ -519,8 +518,9 @@ class DecksViewController:
                     //add card to new deck
                     let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
                     
-                    if let destinationDeck = model?.decks[destinationIndexPath.item],
-                        let droppedCard = item.dragItem.localObject as? IndexCard{
+                    let destinationDeck = model.decks[destinationIndexPath.item]
+            
+                    if let droppedCard = item.dragItem.localObject as? IndexCard{
                         
                         destinationDeck.cards.append(droppedCard)
                     }
@@ -554,6 +554,7 @@ class DecksViewController:
     //MARK:- UIView
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+                
         //TODO: move to iCloud
         if let url = fileLocationURL{
             document?.save(to: url, for: .forOverwriting, completionHandler: nil)
@@ -576,23 +577,23 @@ class DecksViewController:
     
     
     
-    var openingForTheFirstTime = true
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //if we already have a model then don't try to load one
-        document?.open(completionHandler: { (success) in
-            if success && self.openingForTheFirstTime {
-            
-                //update our model
-                self.model = self.document?.model
-                self.openingForTheFirstTime = false
-            } else {
-                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
-            }
-        })
-    }
+//    var openingForTheFirstTime = true
+//
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//        //if we already have a model then don't try to load one
+//        document?.open(completionHandler: { (success) in
+//            if success && self.openingForTheFirstTime {
+//
+//                //update our model
+//                //self.model = self.document?.model
+//                self.openingForTheFirstTime = false
+//            } else {
+//                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
+//            }
+//        })
+//    }
     
     
     
@@ -612,33 +613,38 @@ class DecksViewController:
                 FileManager.default.createFile(atPath: saveTemplateURL.path, contents: Data(), attributes: nil)
             }
             
+            //record so we can quickly save if the app is suddenly closed
             fileLocationURL = saveTemplateURL
             
+            //init Document object
+            self.document = IndexCardsDocument(fileURL: saveTemplateURL)
+            
             //open
-            if let url = fileLocationURL{
-                document = IndexCardsDocument(fileURL: url)
-            }
+            document?.open(completionHandler: { success in
+                if success{
+                    //reload data
+                    self.decksCollectionView.reloadData()
+                    
+                    //register for UIDocument notifications
+                    
+                    let _ = NotificationCenter.default.addObserver(
+                        forName: UIDocument.stateChangedNotification,
+                        object: self.document,
+                        queue: nil,
+                        using: {notification in
+                            
+                            guard self.document?.documentState == UIDocument.State.normal else {return}
+                            
+                            self.decksCollectionView.reloadItems(
+                                at:self.decksCollectionView.indexPathsForSelectedItems ?? [])
+                    })
+                    
+                    
+                }
+            })
         }//if let
         
-        
-        //register for UIDocument notifications
-        
-        let _ = NotificationCenter.default.addObserver(
-            forName: UIDocument.stateChangedNotification,
-            object: document,
-            queue: nil,
-            using: {notification in
-                
-                guard self.document?.documentState != UIDocument.State.inConflict else {return}
-                
-                self.decksCollectionView.reloadItems(
-                    at:self.decksCollectionView.indexPathsForSelectedItems ?? [])
-        })
-        
-        
-        
-        
-    }
+    }//func
     
     
     deinit {
