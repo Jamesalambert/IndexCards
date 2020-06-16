@@ -290,7 +290,7 @@ class StickerEditorViewController:
             point: stickerView.convert(view.center, from: view.superview))
         
         newSticker.unitSize = stickerView.unitSizeFrom(size: view.bounds.size)
-    
+        
         return newSticker
     }
     
@@ -532,34 +532,48 @@ class StickerEditorViewController:
                 self?.keyboardHidden()
         })
         
-        //tap to dismiss gesture recognizer
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss(_:)))
-        tap.numberOfTapsRequired = 1
-        tap.numberOfTouchesRequired = 1
-        tap.delegate = self
-        view.addGestureRecognizer(tap)
+//        //tap to dismiss gesture recognizer
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss(_:)))
+//        tap.numberOfTapsRequired = 1
+//        tap.numberOfTouchesRequired = 1
+//        tap.delegate = self
+//        view.addGestureRecognizer(tap)
     }
     
-    @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //store thumbnail snapshot
+        indexCard?.thumbnail = stickerView.snapshot
         
-        if !cropView.frame.contains(sender.location(in: cropView)){
-            
-            
-            //store thumbnail snapshot
-            indexCard?.thumbnail = stickerView.snapshot
-            
-            //update model
-            indexCard?.stickers = stickerView.stickerData
-            
-            document?.updateChangeCount(.done)
-            
-            if let presentingVC = self.presentingViewController {
-                presentingVC.dismiss(animated: true, completion: {
-                    
-                    self.delegate?.editorDidMakeChanges = true})
-            }
-        }//if
-    }//func
+        //update model
+        indexCard?.stickers = stickerView.stickerData
+        
+        document?.updateChangeCount(.done)
+        
+        delegate?.editorDidMakeChanges = true
+        
+    }
+        
+//    @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
+//
+//        if !cropView.frame.contains(sender.location(in: cropView)){
+//
+//
+//            //store thumbnail snapshot
+//            indexCard?.thumbnail = stickerView.snapshot
+//
+//            //update model
+//            indexCard?.stickers = stickerView.stickerData
+//
+//            document?.updateChangeCount(.done)
+//
+//            if let presentingVC = self.presentingViewController {
+//                presentingVC.dismiss(animated: true, completion: {
+//
+//                    self.delegate?.editorDidMakeChanges = true})
+//            }
+//        }//if
+//    }//func
 
     
     

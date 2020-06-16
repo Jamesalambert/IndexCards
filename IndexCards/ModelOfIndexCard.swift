@@ -76,16 +76,16 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
             return cards.first?.thumbnail
     }
     
-    func oldThumbnail(forSize size: CGSize) -> UIImage?{
-        
-        if let topCard = cards.first, let topImage = topCard.thumbnail?.cgImage {
-        
-            if let thumbnail = topImage.cropping(to: CGRect(origin: CGPoint.zero, size: size)){
-                return UIImage(cgImage: thumbnail)
-            }
-        }
-        return nil
-    }
+//    func oldThumbnail(forSize size: CGSize) -> UIImage?{
+//
+//        if let topCard = cards.first, let topImage = topCard.thumbnail?.cgImage {
+//
+//            if let thumbnail = topImage.cropping(to: CGRect(origin: CGPoint.zero, size: size)){
+//                return UIImage(cgImage: thumbnail)
+//            }
+//        }
+//        return nil
+//    }
     
     func addCard(){
         let newCard = IndexCard()
@@ -245,7 +245,6 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
         }
     }
     
-
     var thumbnailData : Data?
     var thumbnail : UIImage?{
         get{

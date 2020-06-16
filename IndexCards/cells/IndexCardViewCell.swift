@@ -41,7 +41,7 @@ class IndexCardViewCell: UICollectionViewCell {
         
         //background color
         self.backgroundColor = nil
-        self.layer.backgroundColor = theme?.colorOf(Item.card1).cgColor ?? UIColor.green.cgColor
+        self.layer.backgroundColor =  UIColor.clear.cgColor
   
     }
     

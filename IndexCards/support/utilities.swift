@@ -64,7 +64,7 @@ extension CGRect{
 extension UIView{
     var snapshot : UIImage?{
         UIGraphicsBeginImageContext(bounds.size)
-        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        drawHierarchy(in: bounds, afterScreenUpdates: false)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
