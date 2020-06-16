@@ -270,10 +270,10 @@ NSItemProviderReading
         self.identifier = IndexCard.getIdentifier()
     }
     
-    init(stickers : [StickerData] ){
-        self.stickers = stickers
-        self.identifier = IndexCard.getIdentifier()
-    }
+//    convenience init(stickers : [StickerData] ){
+//        self.init()
+//        self.stickers = stickers
+//    }
     
     convenience init(indexCard : IndexCard){
         self.init()
