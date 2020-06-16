@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 struct DragData {
     var collectionView : UICollectionView
@@ -465,3 +466,57 @@ class CardsViewController:
     
 }
 
+
+//MARK:- allow dragging of IndexCards
+
+extension IndexCard : NSCopying,
+NSItemProviderWriting,
+NSItemProviderReading{
+    static var writableTypeIdentifiersForItemProvider: [String]{
+        return [(kUTTypeData) as String]
+    }
+    
+    
+    func loadData(withTypeIdentifier typeIdentifier: String,
+                  forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        
+        let progress = Progress(totalUnitCount: 100)
+        
+        do{
+            //encode to JSON
+            let data = try JSONEncoder().encode(self)
+            progress.completedUnitCount = 100
+            
+            completionHandler(data,nil)
+            
+        } catch {
+            completionHandler(nil, error)
+        }
+        
+        return progress
+    }
+    
+    static var readableTypeIdentifiersForItemProvider: [String]{
+        return [(kUTTypeData) as String]
+    }
+    
+    //had to add final class Deck after changeing the return type from Self to IndexCard
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> IndexCard {
+        
+        let decoder = JSONDecoder()
+        
+        do{
+            //decode back to a deck
+            let newCard = try decoder.decode(IndexCard.self, from: data)
+            
+            return newCard
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        return IndexCard(indexCard: self)
+    }
+    
+}

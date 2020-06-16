@@ -66,7 +66,7 @@ class Notes : Codable{
 
 
 //MARK:- Deck of cards
-final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReading {
+final class Deck : NSObject, Codable{
 
     var title : String?
     var cards : [IndexCard] = [] //start with 0 cards
@@ -116,109 +116,32 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
         return title ?? ""
     }
     
-    //MARK:- Drag and Drop handling
-    static var writableTypeIdentifiersForItemProvider: [String]{
-           return [(kUTTypeData) as String]
-       }
-       
-       
-       func loadData(withTypeIdentifier typeIdentifier: String,
-           forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-           
-           let progress = Progress(totalUnitCount: 100)
-           
-           do{
-               //encode to JSON
-               let data = try JSONEncoder().encode(self)
-               progress.completedUnitCount = 100
-               
-               completionHandler(data,nil)
-               
-           } catch {
-               completionHandler(nil, error)
-           }
-           
-           return progress
-       }
-       
-       static var readableTypeIdentifiersForItemProvider: [String]{
-           return [(kUTTypeData) as String]
-       }
-       
-       //had to add final class Deck after changeing the return type from Self to Deck
-       static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Deck {
-           
-           let decoder = JSONDecoder()
-           
-           do{
-               //decode back to a deck
-               let newDeck = try decoder.decode(Deck.self, from: data)
-               
-               return newDeck
-           } catch {
-               fatalError(error.localizedDescription)
-           }
-       }
-    
-    
+
 }
 
 
 
 //MARK:- Index Card
 final class IndexCard : NSObject,
-Codable,
-NSCopying,
-NSItemProviderWriting,
-NSItemProviderReading
+Codable
 {
-    
-    static var writableTypeIdentifiersForItemProvider: [String]{
-        return [(kUTTypeData) as String]
+
+    var stickers : [StickerData]?
+
+    //holds locations and types of stickers
+    struct StickerData : Codable{
+        var typeOfShape : String
+        var center : CGPoint
+        var size : CGSize
+        var text : String
+        var rotation : Double
     }
     
     
-    func loadData(withTypeIdentifier typeIdentifier: String,
-                  forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-        
-        let progress = Progress(totalUnitCount: 100)
-        
-        do{
-            //encode to JSON
-            let data = try JSONEncoder().encode(self)
-            progress.completedUnitCount = 100
-            
-            completionHandler(data,nil)
-            
-        } catch {
-            completionHandler(nil, error)
-        }
-        
-        return progress
-    }
+    var stickerData : Data?
     
-    static var readableTypeIdentifiersForItemProvider: [String]{
-        return [(kUTTypeData) as String]
-    }
+    //var stickerProperties : [Int : ]
     
-    //had to add final class Deck after changeing the return type from Self to IndexCard
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> IndexCard {
-        
-        let decoder = JSONDecoder()
-        
-        do{
-            //decode back to a deck
-            let newCard = try decoder.decode(IndexCard.self, from: data)
-            
-            return newCard
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-    
-    func copy(with zone: NSZone? = nil) -> Any {
-        return IndexCard(indexCard: self)
-    }
     
     
     var imageData : Data?
@@ -253,27 +176,11 @@ NSItemProviderReading
         }
     }
     
-    var stickers : [StickerData]?
-    
-    //holds locations and types of stickers
-    struct StickerData : Codable{
-        var typeOfShape : String
-        var center : CGPoint
-        var size : CGSize
-        var text : String
-        var rotation : Double
-    }
-    
-    
+
     // init()
     override init(){
         self.identifier = IndexCard.getIdentifier()
     }
-    
-//    convenience init(stickers : [StickerData] ){
-//        self.init()
-//        self.stickers = stickers
-//    }
     
     convenience init(indexCard : IndexCard){
         self.init()
@@ -282,16 +189,15 @@ NSItemProviderReading
         self.thumbnailData = indexCard.thumbnailData
     }
     
+
+    //unique id
+    static func ==(lhs:IndexCard, rhs:IndexCard) -> Bool{
+        return lhs.identifier == rhs.identifier
+    }
+
+    private var identifier : String
     
     private static func getIdentifier()->String{
         return UUID().uuidString
     }
-    
-    static func ==(lhs:IndexCard, rhs:IndexCard) -> Bool{
-        return lhs.identifier == rhs.identifier
-    }
-    
-    //unique id
-    private var identifier : String
-    
 }

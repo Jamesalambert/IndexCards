@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MobileCoreServices
+
 
 class DecksViewController:
     UIViewController,
@@ -590,29 +592,13 @@ class DecksViewController:
         //set up theme
         theme.chosenTheme = 0
         view.backgroundColor = theme.colorOf(.table)
-         self.decksCollectionView.reloadData()
+        //decksCollectionView.reloadData()
     }
     
-    
-    
-    
-//    var openingForTheFirstTime = true
-//
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        //if we already have a model then don't try to load one
-//        document?.open(completionHandler: { (success) in
-//            if success && self.openingForTheFirstTime {
-//
-//                //update our model
-//                //self.model = self.document?.model
-//                self.openingForTheFirstTime = false
-//            } else {
-//                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
-//            }
-//        })
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        decksCollectionView.reloadData()
+    }
     
     
     
@@ -670,3 +656,51 @@ class DecksViewController:
     
 }//class
 
+
+//MARK:- Drag and Drop handling
+
+extension Deck : NSItemProviderWriting, NSItemProviderReading{
+    
+    static var writableTypeIdentifiersForItemProvider: [String]{
+           return [(kUTTypeData) as String]
+       }
+       
+       
+       func loadData(withTypeIdentifier typeIdentifier: String,
+           forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+           
+           let progress = Progress(totalUnitCount: 100)
+           
+           do{
+               //encode to JSON
+               let data = try JSONEncoder().encode(self)
+               progress.completedUnitCount = 100
+               
+               completionHandler(data,nil)
+               
+           } catch {
+               completionHandler(nil, error)
+           }
+           
+           return progress
+       }
+       
+       static var readableTypeIdentifiersForItemProvider: [String]{
+           return [(kUTTypeData) as String]
+       }
+       
+       //had to add final class Deck after changeing the return type from Self to Deck
+       static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Deck {
+           
+           let decoder = JSONDecoder()
+           
+           do{
+               //decode back to a deck
+               let newDeck = try decoder.decode(Deck.self, from: data)
+               
+               return newDeck
+           } catch {
+               fatalError(error.localizedDescription)
+           }
+       }
+}
