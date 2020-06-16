@@ -125,10 +125,9 @@ class DecksViewController:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let cardsView = segue.destination.contents as? CardsViewController else {return}
         
-        cardsView.model = self.model
+        cardsView.document = self.document
         cardsView.theme = self.theme
         cardsView.currentDeck = selectedDeck
-        cardsView.currentDocument = self.document
     }
     
     
@@ -642,21 +641,15 @@ class DecksViewController:
             //open
             document?.open(completionHandler: { success in
                 if success{
-                    //reload data
-                    //TODO:- on an iphone the detail view will open first by default
-                    //so this will crash
-                    //shouldn't call this in awake from nib!
-                    //self.decksCollectionView.reloadData()
-                    
+                
                     //register for UIDocument notifications
-                    
                     let _ = NotificationCenter.default.addObserver(
                         forName: UIDocument.stateChangedNotification,
                         object: self.document,
                         queue: nil,
                         using: {notification in
                             
-                            guard self.document?.documentState == UIDocument.State.normal else {return}
+                            guard self.document.documentState == UIDocument.State.normal else {return}
                             
                             self.decksCollectionView.reloadItems(
                                 at:self.decksCollectionView.indexPathsForSelectedItems ?? [])

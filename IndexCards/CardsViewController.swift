@@ -26,16 +26,19 @@ class CardsViewController:
     
     
     //model
-    var model : Notes?{
-        didSet{
-            guard let _ = indexCardsCollectionView else {return}
+    var model : Notes{
+        get {
+            return document.model
+        }
+        set{
+            document.model = newValue
             indexCardsCollectionView.reloadData()
         }
     }
     var currentDeck : Deck?
     var theme : Theme?
     var cardWidth : CGFloat = 300
-    var currentDocument : IndexCardsDocument?
+    var document : IndexCardsDocument!
     
     //MARK:- vars
     var indexPathOfEditedCard : IndexPath?
@@ -44,7 +47,7 @@ class CardsViewController:
     var editorDidMakeChanges : Bool = false{
         didSet{
             if let indexPath = indexPathOfEditedCard{
-                currentDocument?.updateChangeCount(UIDocument.ChangeKind.done)
+                document.updateChangeCount(UIDocument.ChangeKind.done)
                 indexCardsCollectionView.reloadItems(at: [indexPath])
             }
         }
@@ -120,7 +123,7 @@ class CardsViewController:
             
         }, completion: { finished in
             //save doc
-            self.currentDocument?.updateChangeCount(.done)
+            self.document.updateChangeCount(.done)
             
             //present new sticker editor
             self.presentStickerEditor(
@@ -143,7 +146,7 @@ class CardsViewController:
         
         //prevent editing of deleted decks
         if let currentDeck = currentDeck{
-            if model!.deletedDecks.contains(currentDeck){return}
+            if model.deletedDecks.contains(currentDeck){return}
         }
         
         //save for later
@@ -171,7 +174,7 @@ class CardsViewController:
         //hand data to the editor
         editVC.indexCard = indexCard
         editVC.theme = theme
-        editVC.document = currentDocument
+        editVC.document = document
         editVC.delegate = self
         
         //if we're passing a new background image that hasn't been cropped to size yet.
@@ -341,7 +344,7 @@ class CardsViewController:
                     collectionView.insertItems(at: [destinationIndexPath])
                     
                 }, completion: { finished in
-                    self.currentDocument?.updateChangeCount(.done)
+                    self.document.updateChangeCount(.done)
                 })
             }
         }
@@ -393,7 +396,7 @@ class CardsViewController:
             }
             
         }, completion: { finished in
-            if finished {self.currentDocument?.updateChangeCount(.done)}
+            if finished {self.document.updateChangeCount(.done)}
         })
     }
     
@@ -408,7 +411,7 @@ class CardsViewController:
                 actionMenuCollectionView?.deleteItems(at: [indexPath])
             }
         }, completion: { finished in
-            if finished {self.currentDocument?.updateChangeCount(.done)}
+            if finished {self.document.updateChangeCount(.done)}
         })
     }
     
