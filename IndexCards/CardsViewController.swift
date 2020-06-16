@@ -180,8 +180,7 @@ class CardsViewController:
             editVC.passedImageForCropping = imageToCrop
         }
         
-        
-        let enclosingView = splitViewController?.viewControllers[1].view
+        let enclosingView = navigationController?.visibleViewController?.view
         
         //origin of the animation, nil converts to the uiwindow system
         let startCenter = sourceView.superview?.convert(sourceView.center, to: enclosingView)
@@ -194,7 +193,6 @@ class CardsViewController:
         let endCenter = endCell.superview?.convert(endCell.center, to: enclosingView)
         let endBounds = endCell.superview?.convert(endCell.bounds, to: enclosingView)
         
-        
         self.editCardTransitionController = ZoomTransitionForNavigation(
             duration: theme?.timeOf(.editCardZoom) ?? 2.0,
             originFrame: CGRect(center: startCenter!, size: startBounds!.size),
@@ -206,6 +204,7 @@ class CardsViewController:
         //go
         navigationController?.pushViewController(editVC, animated: true)
     }
+    
     
     
     

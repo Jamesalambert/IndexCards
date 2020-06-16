@@ -116,20 +116,21 @@ class DecksViewController:
             
             //for animating the add card menu
             tappedDeckCell = tappedCell
-        
             
-            guard let navCon = cardsViewNavCon as? UINavigationController else {return}
-            guard let cardsView = navCon.visibleViewController as? CardsViewController else {return}
-            
-            //pass on data
-            cardsView.model = self.model
-            cardsView.theme = self.theme
-            cardsView.currentDeck = selectedDeck
-            cardsView.currentDocument = self.document
-            
-            showDetailViewController(navCon, sender: nil)
+            //showDetailViewController(navCon, sender: nil)
+            performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let cardsView = segue.destination.contents as? CardsViewController else {return}
+        
+        cardsView.model = self.model
+        cardsView.theme = self.theme
+        cardsView.currentDeck = selectedDeck
+        cardsView.currentDocument = self.document
+    }
+    
     
     
     var cardsCollectionView : UICollectionView? {
@@ -590,7 +591,7 @@ class DecksViewController:
         //set up theme
         theme.chosenTheme = 0
         view.backgroundColor = theme.colorOf(.table)
-        
+         self.decksCollectionView.reloadData()
     }
     
     
@@ -642,7 +643,10 @@ class DecksViewController:
             document?.open(completionHandler: { success in
                 if success{
                     //reload data
-                    self.decksCollectionView.reloadData()
+                    //TODO:- on an iphone the detail view will open first by default
+                    //so this will crash
+                    //shouldn't call this in awake from nib!
+                    //self.decksCollectionView.reloadData()
                     
                     //register for UIDocument notifications
                     

@@ -297,16 +297,12 @@ UIGestureRecognizerDelegate
         }
         
         if let sticker = gesture.view as? QuizSticker{
-            
-            
             UIView.transition(with: sticker,
                               duration: 1.0,
                               options: .curveEaseInOut,
                               animations: {
                 sticker.isConcealed = !sticker.isConcealed
             }, completion: nil)
-
-            
         }
     }
 

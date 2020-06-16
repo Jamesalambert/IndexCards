@@ -83,6 +83,13 @@ extension IndexPath{
 
 extension UIViewController{
     
+    var contents : UIViewController? {
+        guard let navCon = self as? UINavigationController else { return nil }
+        guard let contents = navCon.visibleViewController else { return nil }
+        return contents
+    }
+    
+    
     enum CameraAccessError : Error{
         case notPermitted
         case noSourceViewForPopover
