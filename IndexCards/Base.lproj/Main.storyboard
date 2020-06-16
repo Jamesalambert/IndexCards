@@ -104,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7wl-gQ-Uwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1931" y="-1815"/>
+            <point key="canvasLocation" x="1140" y="-976"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Nh6-F9-Lqn">
@@ -120,7 +120,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MVj-Oe-Ekb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="401" y="-976"/>
+            <point key="canvasLocation" x="438" y="-1815"/>
         </scene>
         <!--Decks View Controller-->
         <scene sceneID="NRR-fd-GQH">
@@ -245,7 +245,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="woj-fl-XxO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1140" y="-976"/>
+            <point key="canvasLocation" x="438" y="-976"/>
         </scene>
         <!--Sticker Editor View Controller-->
         <scene sceneID="vMt-Cy-S5A">
@@ -476,7 +476,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ylI-zF-kXH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2287.7697841726622" y="-188.30935251798562"/>
+            <point key="canvasLocation" x="1140" y="-230"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="MsA-Cr-6zv">
@@ -489,11 +489,11 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6qb-A5-Uus" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="401" y="-1815"/>
+            <point key="canvasLocation" x="788" y="-2581"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tDF-9U-Pr5"/>
+        <segue reference="y2T-07-ZOb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>

@@ -76,17 +76,6 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
             return cards.first?.thumbnail
     }
     
-//    func oldThumbnail(forSize size: CGSize) -> UIImage?{
-//
-//        if let topCard = cards.first, let topImage = topCard.thumbnail?.cgImage {
-//
-//            if let thumbnail = topImage.cropping(to: CGRect(origin: CGPoint.zero, size: size)){
-//                return UIImage(cgImage: thumbnail)
-//            }
-//        }
-//        return nil
-//    }
-    
     func addCard(){
         let newCard = IndexCard()
         cards.append(newCard)
@@ -111,18 +100,15 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
     
     
     //unique id
-    private var identifier : Int
-    override var hash : Int {return identifier}
+    private var identifier : String
+    //override var hash : Int {return identifier}
     
     static func ==(lhs:Deck, rhs:Deck)->Bool{
         return lhs.identifier == rhs.identifier
     }
     
-    //Struct vars/funcs
-    private static var identifier = 0
-    
-    private static func getIdentifier()->Int{
-        return Int.random(in: 1...10000)
+    private static func getIdentifier()->String{
+        return UUID().uuidString
     }
     
     
@@ -180,7 +166,12 @@ final class Deck : NSObject, Codable, NSItemProviderWriting, NSItemProviderReadi
 
 
 //MARK:- Index Card
-final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSItemProviderReading {
+final class IndexCard : NSObject,
+Codable,
+NSCopying,
+NSItemProviderWriting,
+NSItemProviderReading
+{
     
     static var writableTypeIdentifiersForItemProvider: [String]{
         return [(kUTTypeData) as String]
@@ -291,11 +282,9 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
         self.thumbnailData = indexCard.thumbnailData
     }
     
-    //Struct vars/funcs
-    private static var identifier = 0
     
-    private static func getIdentifier()->Int{
-        return Int.random(in: 1...10000)
+    private static func getIdentifier()->String{
+        return UUID().uuidString
     }
     
     static func ==(lhs:IndexCard, rhs:IndexCard) -> Bool{
@@ -303,8 +292,6 @@ final class IndexCard : NSObject, Codable, NSCopying, NSItemProviderWriting, NSI
     }
     
     //unique id
-    private var identifier : Int
+    private var identifier : String
     
-    //Hashable
-    override var hash : Int {return identifier}
 }
