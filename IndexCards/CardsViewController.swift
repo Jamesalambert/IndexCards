@@ -66,10 +66,18 @@ class CardsViewController:
 
 
     
-    @IBOutlet weak var undoButton: UIBarButtonItem!
+    @IBOutlet weak var undoButton: UIBarButtonItem!{
+        didSet{
+            undoButton.isEnabled = false
+        }
+    }
     
     
-    @IBOutlet weak var redoButton: UIBarButtonItem!
+    @IBOutlet weak var redoButton: UIBarButtonItem!{
+        didSet{
+            redoButton.isEnabled = false
+        }
+    }
     
     //MARK:- Actions
     @IBAction func tappedUndo(_ sender: Any) {
@@ -416,35 +424,11 @@ class CardsViewController:
         //set up undo!
        if let indexPath = actionMenuIndexPath {
            
-           //currentDeck?.cards.remove(at: indexPath.item)
            moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
                             fromDeck: self.currentDeck!,
                             toDeck: self.document.deletedCardsDeck, indexPath: indexPath)
            
-           
-           //actionMenuCollectionView?.deleteItems(at: [indexPath])
        }//if let
-        
-        
-        
-//        actionMenuCollectionView?.performBatchUpdates({
-//
-//            if let indexPath = actionMenuIndexPath {
-//
-//                //currentDeck?.cards.remove(at: indexPath.item)
-//                moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
-//                                 fromDeck: self.currentDeck!,
-//                                 toDeck: self.document.deletedCardsDeck, indexPath: indexPath)
-//
-//
-//                actionMenuCollectionView?.deleteItems(at: [indexPath])
-//            }//if let
-//        }, completion: nil)
-        
-        
-        
-        
-        
     }//func
     
     
@@ -453,15 +437,16 @@ class CardsViewController:
         let to = toDeck
         let from = fromDeck
     
+        self.document.undoManager.beginUndoGrouping()
         self.document.undoManager.registerUndo(withTarget: self,
                                                handler: { VC in
+            //call with decks reversed.
             VC.moveCardUndoably(cardToMove: card,
                                 fromDeck: to,
                                 toDeck: from, indexPath: indexPath)
         })
-        
-//        let sourceDeck = document.undoManager.isUndoing ? toDeck : fromDeck
-//        let destinationDeck = !document.undoManager.isUndoing ? toDeck : fromDeck
+        self.document.undoManager.endUndoGrouping()
+
         
         //deleting from onscreen deck
         if currentDeck == fromDeck {
@@ -490,8 +475,7 @@ class CardsViewController:
             //move card to destination Deck!
             toDeck.cards.insert(cardToMove, at: 0)
         }
-        
-        
+    
     }
     
     
@@ -539,10 +523,15 @@ class CardsViewController:
     override func viewDidLoad() {
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self
-    }
+
+    }//func
     
     
-}
+   
+    
+    
+    
+}//class
 
 
 //MARK:- allow dragging of IndexCards

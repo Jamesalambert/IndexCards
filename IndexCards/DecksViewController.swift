@@ -127,12 +127,14 @@ class DecksViewController:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let cardsView = segue.destination.contents as? CardsViewController else {return}
         
+        self.cardsView = cardsView
+        
         cardsView.document = self.document
         cardsView.theme = self.theme
         cardsView.currentDeck = selectedDeck
     }
     
-    
+    private var cardsView : CardsViewController?
     
     var cardsCollectionView : UICollectionView? {
         if let navCon = cardsViewNavCon as? UINavigationController,
@@ -581,7 +583,16 @@ class DecksViewController:
             document?.save(to: url, for: .forOverwriting, completionHandler: nil)
         }
         
-        NotificationCenter.default.removeObserver(self)
+        
+        //remove observers
+        if let docObserver = self.documentObserver{
+             NotificationCenter.default.removeObserver(docObserver)
+        }
+       
+        
+        if let undoObserver = self.undoObserver{
+            NotificationCenter.default.removeObserver(undoObserver)
+        }
         
     }
     
@@ -628,7 +639,7 @@ class DecksViewController:
                 if success{
                 
                     //register for UIDocument notifications
-                    let _ = NotificationCenter.default.addObserver(
+                    self.documentObserver = NotificationCenter.default.addObserver(
                         forName: UIDocument.stateChangedNotification,
                         object: self.document,
                         queue: nil,
@@ -641,12 +652,29 @@ class DecksViewController:
                     })
                     
                     
+                    //register for undo manager notifications
+                    let undoer = self.document.undoManager
+                    
+                    self.undoObserver = NotificationCenter.default.addObserver(
+                        forName: NSNotification.Name.NSUndoManagerCheckpoint,
+                        object: undoer, queue: nil,
+                        using: { notification in
+                            self.cardsView?.undoButton.isEnabled = undoer?.canUndo ?? false
+                            self.cardsView?.redoButton.isEnabled = undoer?.canRedo ?? false
+                    })
+                    
+                    
                 }
             })
         }//if let
         
     }//func
     
+    
+    
+    
+    var documentObserver : NSObjectProtocol?
+    var undoObserver : NSObjectProtocol?
     
     deinit {
         print("Decks deinit")
