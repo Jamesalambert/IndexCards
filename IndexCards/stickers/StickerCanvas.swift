@@ -22,9 +22,9 @@ UIGestureRecognizerDelegate
     }
     
     
-    var stickerData : [IndexCard.StickerData]?{
+    var stickerData : [StickerData]?{
         get {
-            let stickerDataArray = subviews.compactMap{$0 as? StickerObject}.compactMap{IndexCard.StickerData(sticker: $0)}
+            let stickerDataArray = subviews.compactMap{$0 as? StickerObject}.compactMap{StickerData(sticker: $0)}
             return stickerDataArray
         }
         set{
@@ -346,7 +346,7 @@ UIGestureRecognizerDelegate
 }//class
 
 
-extension IndexCard.StickerData{
+extension StickerData{
     
     init?(sticker : StickerObject){
         
@@ -371,7 +371,7 @@ extension IndexCard.StickerData{
 
 extension StickerObject{
     
-    convenience init?(data : IndexCard.StickerData ){
+    convenience init?(data : StickerData ){
         self.init()
         self.currentShape = data.typeOfShape.asShape()
         self.stickerText = data.text
@@ -402,7 +402,7 @@ extension StickerObject{
         return newSticker
     }
     
-    static func fromNib(withData data : IndexCard.StickerData) -> StickerObject {
+    static func fromNib(withData data : StickerData) -> StickerObject {
         
         let newSticker = StickerObject.fromNib(shape: data.typeOfShape.asShape())
                 

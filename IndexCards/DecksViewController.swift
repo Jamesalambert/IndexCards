@@ -589,10 +589,9 @@ class DecksViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //set up theme
+        //set up appearance
         theme.chosenTheme = 0
         view.backgroundColor = theme.colorOf(.table)
-        //decksCollectionView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {

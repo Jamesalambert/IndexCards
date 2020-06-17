@@ -122,27 +122,12 @@ final class Deck : NSObject, Codable{
 
 
 //MARK:- Index Card
-final class IndexCard : NSObject,
+final class IndexCard :
+NSObject,
 Codable
 {
 
     var stickers : [StickerData]?
-
-    //holds locations and types of stickers
-    struct StickerData : Codable{
-        var typeOfShape : String
-        var center : CGPoint
-        var size : CGSize
-        var text : String
-        var rotation : Double
-    }
-    
-    
-    var stickerData : Data?
-    
-    //var stickerProperties : [Int : ]
-    
-    
     
     var imageData : Data?
     var image : UIImage? {
@@ -200,4 +185,59 @@ Codable
     private static func getIdentifier()->String{
         return UUID().uuidString
     }
+}
+
+//holds locations and types of stickers
+struct StickerData : Codable{
+    var typeOfShape : String
+    var center : CGPoint
+    var size : CGSize
+    var text : String
+    var rotation : Double = 0
+    var tag : String = ""
+    
+    enum CodingKeys : CodingKey{
+        case typeOfShape
+        case center
+        case size
+        case text
+        case extraProperties
+    }
+    
+    enum ExtraPropertiesKeys: CodingKey{
+        case rotation
+        case tag
+    }
+    
+    init(from decoder: Decoder) throws {
+        //decode the regular vars
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        typeOfShape = try values.decode(String.self, forKey: .typeOfShape)
+        center = try values.decode(CGPoint.self, forKey: .center)
+        size = try values.decode(CGSize.self, forKey: .size)
+        text = try values.decode(String.self, forKey: .text)
+        
+        let extraProperties = try values.nestedContainer(keyedBy: ExtraPropertiesKeys.self, forKey: .extraProperties)
+        do {
+            rotation = try extraProperties.decode(Double.self, forKey: .rotation)
+        } catch {print("error decoding rotation")}
+        
+        do{
+            tag = try extraProperties.decode(String.self, forKey: .tag)
+        } catch {print("error decoding tag")}
+        
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(typeOfShape, forKey: .typeOfShape)
+        try container.encode(center, forKey: .center)
+        try container.encode(size, forKey: .size)
+        try container.encode(text, forKey: .text)
+        
+        var nestedContainer = container.nestedContainer(keyedBy: ExtraPropertiesKeys.self, forKey: .extraProperties)
+        try nestedContainer.encode(rotation, forKey: .rotation)
+        
+    }
+    
 }
