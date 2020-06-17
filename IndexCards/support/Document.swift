@@ -13,6 +13,9 @@ class IndexCardsDocument: UIDocument {
     //model storage
     var model = Notes()
 
+    var deletedCards : [DeletedCardUndoData] = []
+    var deletedCardsDeck = Deck()
+    
     override func contents(forType typeName: String) throws -> Any {
         
         return model.json ?? Data()
@@ -24,3 +27,8 @@ class IndexCardsDocument: UIDocument {
     }
 }
 
+struct DeletedCardUndoData{
+    var card : IndexCard
+    var deck : Deck
+    var originalIndexPath : IndexPath
+}

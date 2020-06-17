@@ -48,7 +48,7 @@ class CardsViewController:
     var editorDidMakeChanges : Bool = false{
         didSet{
             if let indexPath = indexPathOfEditedCard{
-                document.updateChangeCount(UIDocument.ChangeKind.done)
+                document.updateChangeCount(.done)
                 indexCardsCollectionView.reloadItems(at: [indexPath])
             }
         }
@@ -64,11 +64,21 @@ class CardsViewController:
         }
     }
 
+
+    
+    @IBOutlet weak var undoButton: UIBarButtonItem!
     
     
+    @IBOutlet weak var redoButton: UIBarButtonItem!
     
     //MARK:- Actions
-    
+    @IBAction func tappedUndo(_ sender: Any) {
+        document.undoManager.undo()
+       }
+       
+    @IBAction func tappedRedo(_ sender: Any) {
+        document.undoManager.redo()
+       }
     
     @IBAction func tappedAddCardButton(_ sender: UIBarButtonItem) {
         
@@ -403,17 +413,85 @@ class CardsViewController:
     
     
     func deleteCard(){
-        actionMenuCollectionView?.performBatchUpdates({
-            
-            if let indexPath = actionMenuIndexPath {
-                
-                currentDeck?.cards.remove(at: indexPath.item)
-                
-                actionMenuCollectionView?.deleteItems(at: [indexPath])
-            }
-        }, completion: { finished in
-            if finished {self.document.updateChangeCount(.done)}
+        //set up undo!
+       if let indexPath = actionMenuIndexPath {
+           
+           //currentDeck?.cards.remove(at: indexPath.item)
+           moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
+                            fromDeck: self.currentDeck!,
+                            toDeck: self.document.deletedCardsDeck, indexPath: indexPath)
+           
+           
+           //actionMenuCollectionView?.deleteItems(at: [indexPath])
+       }//if let
+        
+        
+        
+//        actionMenuCollectionView?.performBatchUpdates({
+//
+//            if let indexPath = actionMenuIndexPath {
+//
+//                //currentDeck?.cards.remove(at: indexPath.item)
+//                moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
+//                                 fromDeck: self.currentDeck!,
+//                                 toDeck: self.document.deletedCardsDeck, indexPath: indexPath)
+//
+//
+//                actionMenuCollectionView?.deleteItems(at: [indexPath])
+//            }//if let
+//        }, completion: nil)
+        
+        
+        
+        
+        
+    }//func
+    
+    
+    func moveCardUndoably(cardToMove : IndexCard, fromDeck: Deck, toDeck: Deck, indexPath: IndexPath){
+        let card = cardToMove
+        let to = toDeck
+        let from = fromDeck
+    
+        self.document.undoManager.registerUndo(withTarget: self,
+                                               handler: { VC in
+            VC.moveCardUndoably(cardToMove: card,
+                                fromDeck: to,
+                                toDeck: from, indexPath: indexPath)
         })
+        
+//        let sourceDeck = document.undoManager.isUndoing ? toDeck : fromDeck
+//        let destinationDeck = !document.undoManager.isUndoing ? toDeck : fromDeck
+        
+        //deleting from onscreen deck
+        if currentDeck == fromDeck {
+            indexCardsCollectionView.performBatchUpdates({
+                //delete from source
+                fromDeck.cards.removeAll(where: {$0 == cardToMove})
+                //move card to destination Deck!
+                toDeck.cards.insert(cardToMove, at: 0)
+                
+                indexCardsCollectionView.deleteItems(at: [indexPath])
+            }, completion: nil)
+            //undeleting back to onscreen deck
+        } else if currentDeck == toDeck {
+            //delete from source
+            indexCardsCollectionView.performBatchUpdates({
+                //delete from source
+                fromDeck.cards.removeAll(where: {$0 == cardToMove})
+                //move card to destination Deck!
+                toDeck.cards.insert(cardToMove, at: 0)
+                
+                indexCardsCollectionView.insertItems(at: [IndexPath(0,0)])
+            }, completion: nil)
+            //both decks off screen
+        } else {
+            fromDeck.cards.removeAll(where: {$0 == cardToMove})
+            //move card to destination Deck!
+            toDeck.cards.insert(cardToMove, at: 0)
+        }
+        
+        
     }
     
     

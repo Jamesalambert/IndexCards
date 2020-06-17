@@ -32,7 +32,7 @@
             <objects>
                 <viewController id="5Wa-5o-TRT" customClass="CardsViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jU5-Jg-P1v">
-                        <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="791" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="STl-VN-UdO">
@@ -91,15 +91,30 @@
                         <viewLayoutGuide key="safeArea" id="23t-Cd-ysd"/>
                     </view>
                     <navigationItem key="navigationItem" id="Czm-0O-hQV">
-                        <barButtonItem key="rightBarButtonItem" tag="1" title="new card" id="J7C-vg-mfU">
-                            <connections>
-                                <action selector="tappedAddCardButton:" destination="5Wa-5o-TRT" id="11L-v7-F7R"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="zaq-e1-GN1"/>
+                            <barButtonItem tag="1" title="new card" id="J7C-vg-mfU">
+                                <connections>
+                                    <action selector="tappedAddCardButton:" destination="5Wa-5o-TRT" id="11L-v7-F7R"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="arrowshape.turn.up.right" catalog="system" id="dem-XA-Is3">
+                                <connections>
+                                    <action selector="tappedRedo:" destination="5Wa-5o-TRT" id="bwu-zG-Uqi"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="arrowshape.turn.up.left" catalog="system" id="6tr-bY-dDP">
+                                <connections>
+                                    <action selector="tappedUndo:" destination="5Wa-5o-TRT" id="2di-GQ-T00"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="indexCardsCollectionView" destination="STl-VN-UdO" id="Ned-ws-xZg"/>
-                        <segue destination="dcX-ac-dIB" kind="show" id="gEO-4h-7c4"/>
+                        <outlet property="redoButton" destination="dem-XA-Is3" id="07d-N7-UVu"/>
+                        <outlet property="undoButton" destination="6tr-bY-dDP" id="QrM-a8-ghC"/>
+                        <segue destination="dcX-ac-dIB" kind="show" identifier="EditCard" id="gEO-4h-7c4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7wl-gQ-Uwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -493,7 +508,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="y2T-07-ZOb"/>
+        <segue reference="tDF-9U-Pr5"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
