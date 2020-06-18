@@ -353,18 +353,26 @@ class CardsViewController:
             if let sourceIndexPath = item.sourceIndexPath,
                 let droppedCard = item.dragItem.localObject as? IndexCard{
                 
-                collectionView.performBatchUpdates({
-                    //model
-                    currentDeck?.cards.remove(at: sourceIndexPath.item)
-                    currentDeck?.cards.insert(droppedCard, at: destinationIndexPath.item)
-                    
-                    //view
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
-                    
-                }, completion: { finished in
-                    self.document.updateChangeCount(.done)
-                })
+                moveCardUndoably(cardToMove: droppedCard,
+                                 fromDeck: currentDeck!,
+                                 toDeck: currentDeck!,
+                                 sourceIndexPath: sourceIndexPath,
+                                 destinationIndexPath: destinationIndexPath)
+                
+                
+                
+//                collectionView.performBatchUpdates({
+//                    //model
+//                    currentDeck?.cards.remove(at: sourceIndexPath.item)
+//                    currentDeck?.cards.insert(droppedCard, at: destinationIndexPath.item)
+//
+//                    //view
+//                    collectionView.deleteItems(at: [sourceIndexPath])
+//                    collectionView.insertItems(at: [destinationIndexPath])
+//
+//                }, completion: { finished in
+//                    self.document.updateChangeCount(.done)
+//                })
             }
         }
     }
@@ -426,13 +434,17 @@ class CardsViewController:
            
            moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
                             fromDeck: self.currentDeck!,
-                            toDeck: self.document.deletedCardsDeck, indexPath: indexPath)
+                            toDeck: self.document.deletedCardsDeck, sourceIndexPath: indexPath, destinationIndexPath: nil)
            
        }//if let
     }//func
     
     
-    func moveCardUndoably(cardToMove : IndexCard, fromDeck: Deck, toDeck: Deck, indexPath: IndexPath){
+    func moveCardUndoably(cardToMove : IndexCard, fromDeck: Deck,
+            toDeck: Deck, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath?){
+        
+        
+        ////////////////set up undo
         let card = cardToMove
         let to = toDeck
         let from = fromDeck
@@ -443,10 +455,12 @@ class CardsViewController:
             //call with decks reversed.
             VC.moveCardUndoably(cardToMove: card,
                                 fromDeck: to,
-                                toDeck: from, indexPath: indexPath)
+                                toDeck: from,
+                                sourceIndexPath: destinationIndexPath ?? IndexPath(0,0),
+                                destinationIndexPath: sourceIndexPath)
         })
         self.document.undoManager.endUndoGrouping()
-
+        /////////////////////////////
         
         //deleting from onscreen deck
         if currentDeck == fromDeck {
@@ -454,9 +468,13 @@ class CardsViewController:
                 //delete from source
                 fromDeck.cards.removeAll(where: {$0 == cardToMove})
                 //move card to destination Deck!
-                toDeck.cards.insert(cardToMove, at: 0)
+                toDeck.cards.insert(cardToMove, at: destinationIndexPath?.item ?? 0)
                 
-                indexCardsCollectionView.deleteItems(at: [indexPath])
+                indexCardsCollectionView.deleteItems(at: [sourceIndexPath])
+                if let destinationIndexPath = destinationIndexPath{
+                    indexCardsCollectionView.insertItems(at: [destinationIndexPath])
+                }
+                
             }, completion: nil)
             //undeleting back to onscreen deck
         } else if currentDeck == toDeck {

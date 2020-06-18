@@ -544,7 +544,8 @@ class DecksViewController:
                 cardsView?.moveCardUndoably(cardToMove: droppedCard,
                                             fromDeck: selectedDeck!,
                                             toDeck: destinationDeck,
-                                            indexPath: sourceIndexPath)
+                                            sourceIndexPath: sourceIndexPath,
+                                            destinationIndexPath: nil)
              
             }//for
             
