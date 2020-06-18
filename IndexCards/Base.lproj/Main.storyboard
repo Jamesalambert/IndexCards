@@ -32,7 +32,7 @@
             <objects>
                 <viewController id="5Wa-5o-TRT" customClass="CardsViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jU5-Jg-P1v">
-                        <rect key="frame" x="0.0" y="0.0" width="791" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="STl-VN-UdO">
@@ -92,18 +92,18 @@
                     </view>
                     <navigationItem key="navigationItem" id="Czm-0O-hQV">
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="zaq-e1-GN1"/>
-                            <barButtonItem tag="1" title="new card" id="J7C-vg-mfU">
+                            <barButtonItem systemItem="action" id="zaq-e1-GN1"/>
+                            <barButtonItem tag="1" title="Add New Card" id="J7C-vg-mfU">
                                 <connections>
                                     <action selector="tappedAddCardButton:" destination="5Wa-5o-TRT" id="11L-v7-F7R"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="arrowshape.turn.up.right" catalog="system" id="dem-XA-Is3">
+                            <barButtonItem systemItem="redo" id="dem-XA-Is3">
                                 <connections>
                                     <action selector="tappedRedo:" destination="5Wa-5o-TRT" id="bwu-zG-Uqi"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="arrowshape.turn.up.left" catalog="system" id="6tr-bY-dDP">
+                            <barButtonItem systemItem="undo" id="6tr-bY-dDP">
                                 <connections>
                                     <action selector="tappedUndo:" destination="5Wa-5o-TRT" id="2di-GQ-T00"/>
                                 </connections>
@@ -409,10 +409,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="hhd-Lk-QkG">
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="trash" catalog="system" id="Hc7-yl-5wh"/>
-                            <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="UeL-1k-LFu"/>
-                            <barButtonItem title="Item" image="arrowshape.turn.up.right" catalog="system" id="zE7-PE-Vjp"/>
-                            <barButtonItem title="Item" image="arrowshape.turn.up.left" catalog="system" id="lhK-AJ-LKO"/>
+                            <barButtonItem systemItem="trash" id="Hc7-yl-5wh"/>
+                            <barButtonItem systemItem="action" id="UeL-1k-LFu"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -510,10 +508,4 @@
     <inferredMetricsTieBreakers>
         <segue reference="tDF-9U-Pr5"/>
     </inferredMetricsTieBreakers>
-    <resources>
-        <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
-        <image name="arrowshape.turn.up.right" catalog="system" width="128" height="106"/>
-        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
-        <image name="trash" catalog="system" width="121" height="128"/>
-    </resources>
 </document>

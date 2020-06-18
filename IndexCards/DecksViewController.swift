@@ -42,6 +42,8 @@ class DecksViewController:
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?
     var selectedDeck : Deck?
+    var documentObserver : NSObjectProtocol?
+    var undoObserver : NSObjectProtocol?
     
     //MARK:- Outlets
     @IBOutlet weak var decksCollectionView: UICollectionView!{
@@ -525,45 +527,25 @@ class DecksViewController:
                     })
                 }
             }
-            
+        //moving a card to a new deck
         case .insertIntoDestinationIndexPath:
             
             for item in coordinator.items {
                 
                 guard let dragData = coordinator.session.localDragSession?.localContext as? DragData else {return}
                 
-                guard let droppedIndexCard = item.dragItem.localObject as? IndexCard else {return}
+                guard let droppedCard = item.dragItem.localObject as? IndexCard else {return}
                 
-                let collectionView = dragData.collectionView
                 let sourceIndexPath = dragData.indexPath
-                
-               
-                    //add card to new deck
-                    let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
-                    
-                    let destinationDeck = model.decks[destinationIndexPath.item]
-            
-                    if let droppedCard = item.dragItem.localObject as? IndexCard{
-                        
-                        destinationDeck.cards.append(droppedCard)
-                    }
-                    
-                    
-                    //remove from old deck
-                    //batch updates
-                    collectionView.performBatchUpdates({
-                        
-                        //model
-                        selectedDeck?.deleteCard(droppedIndexCard)
-                        
-                        //view
-                        collectionView.deleteItems(at: [sourceIndexPath])
-                        
-                    }, completion: nil)
-                    
-                    
-                    
-                
+                let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
+                let destinationDeck = model.decks[destinationIndexPath.item]
+
+                //moveCardsFromDeck....
+                cardsView?.moveCardUndoably(cardToMove: droppedCard,
+                                            fromDeck: selectedDeck!,
+                                            toDeck: destinationDeck,
+                                            indexPath: sourceIndexPath)
+             
             }//for
             
             
@@ -650,22 +632,22 @@ class DecksViewController:
                             self.decksCollectionView.reloadItems(
                                 at:self.decksCollectionView.indexPathsForSelectedItems ?? [])
                     })
-                    
-                    
+
+
                     //register for undo manager notifications
                     let undoer = self.document.undoManager
                     
                     self.undoObserver = NotificationCenter.default.addObserver(
                         forName: NSNotification.Name.NSUndoManagerCheckpoint,
-                        object: undoer, queue: nil,
+                        object: undoer,
+                        queue: nil,
                         using: { notification in
                             self.cardsView?.undoButton.isEnabled = undoer?.canUndo ?? false
                             self.cardsView?.redoButton.isEnabled = undoer?.canRedo ?? false
                     })
-                    
-                    
                 }
             })
+            
         }//if let
         
     }//func
@@ -673,8 +655,7 @@ class DecksViewController:
     
     
     
-    var documentObserver : NSObjectProtocol?
-    var undoObserver : NSObjectProtocol?
+   
     
     deinit {
         print("Decks deinit")
