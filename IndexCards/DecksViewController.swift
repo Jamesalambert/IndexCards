@@ -37,7 +37,7 @@ class DecksViewController:
     
     var fileLocationURL : URL?
     var theme = Theme()
-    var transitionDelegate = TransitioningDelegateforEditCardViewController()
+    //var transitionDelegate = TransitioningDelegateforEditCardViewController()
     
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?

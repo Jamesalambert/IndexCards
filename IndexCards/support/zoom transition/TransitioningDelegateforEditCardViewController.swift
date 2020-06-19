@@ -14,13 +14,25 @@ UIViewControllerTransitioningDelegate
 {
     
     
-    var duration : Double = 0.5
-    var startingCenter : CGPoint?
-    var startingBounds : CGRect?
-    var endingCenter : CGPoint?
-    var endingFrame : CGRect?
+    var duration : Double
+    var startingCenter : CGPoint
+    var startingBounds : CGRect
+    var endingCenter : CGPoint
+    var endingBounds : CGRect
     var viewToHide : UIView?
     var viewToRemove : UIView?
+    
+    init(duration: Double, startingCenter : CGPoint, startingBounds : CGRect, endingCenter: CGPoint,  endingBounds : CGRect, viewToHide : UIView, viewToRemove : UIView? ) {
+        
+        self.duration = duration
+        self.startingCenter = startingCenter
+        self.startingBounds = startingBounds
+        self.endingCenter = endingCenter
+        self.endingBounds = endingBounds
+        self.viewToHide = viewToHide
+        self.viewToRemove = viewToRemove
+    }
+    
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
@@ -39,7 +51,7 @@ UIViewControllerTransitioningDelegate
         let animator = DismissingAnimator()
         animator.duration = duration
         animator.endingCenter = endingCenter
-        animator.endingBounds = endingFrame
+        animator.endingBounds = endingBounds
         animator.viewToHide = viewToHide
         
         return animator
@@ -50,7 +62,6 @@ UIViewControllerTransitioningDelegate
         return nil
     }
     */
-    override init(){
-    }
+ 
     
 }

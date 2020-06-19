@@ -43,7 +43,6 @@ class CardsViewController:
     
     //MARK:- vars
     var indexPathOfEditedCard : IndexPath?
-    var transitionDelegate = TransitioningDelegateforEditCardViewController()
     var editCardTransitionController : ZoomTransitionForNavigation?
     var editorDidMakeChanges : Bool = false{
         didSet{
@@ -202,6 +201,7 @@ class CardsViewController:
         let endCenter = endCell.superview?.convert(endCell.center, to: enclosingView)
         let endBounds = endCell.superview?.convert(endCell.bounds, to: enclosingView)
         
+        //set up transition animator, we are a navigation controller delegate and return this object
         self.editCardTransitionController = ZoomTransitionForNavigation(
             duration: theme?.timeOf(.editCardZoom) ?? 2.0,
             originFrame: CGRect(center: startCenter!, size: startBounds!.size),
@@ -210,8 +210,12 @@ class CardsViewController:
             viewToHide: endCell,
             viewToRemove: temporaryView ? sourceView : nil)
         
+        
+    
+        
         //go
         navigationController!.pushViewController(editVC, animated: true)
+
     }
     
     

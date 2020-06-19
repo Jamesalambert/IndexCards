@@ -15,6 +15,8 @@ enum StickerShape{
     case Highlight
 }
 
+
+
 class StickerObject : UIView,
 UITextFieldDelegate {
 
