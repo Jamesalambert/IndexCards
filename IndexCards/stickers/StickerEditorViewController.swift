@@ -25,6 +25,7 @@ class StickerEditorViewController:
     UIPopoverPresentationControllerDelegate
 {
     
+    
     //MARK:- Vars
     var indexCard : IndexCard?
     var theme : Theme?
@@ -162,6 +163,26 @@ class StickerEditorViewController:
     @IBOutlet weak var cardBackgroundView: UIView!
 
     
+    
+    //MARK:- Actions
+    
+    @IBAction func actionButtonTapped(_ sender: Any) {
+  
+        //configure action sheet,
+        let actionVC = UIActivityViewController(activityItems: [stickerView], applicationActivities: nil)
+        actionVC.modalPresentationStyle = .popover
+        
+        present(actionVC, animated: true, completion: nil)
+        
+        if let popover = actionVC.popoverPresentationController {
+            let view = navigationController!.navigationBar
+            popover.sourceView = view
+            popover.sourceRect = view.bounds
+        }
+        
+    }
+    
+    
     @IBAction func finishedRepositioningImage() {
     
         //crop function needs the content offset and zoomScale
@@ -253,6 +274,9 @@ class StickerEditorViewController:
         
         return newSticker
     }
+    
+    
+    
     
     //MARK:- UIImagePicker
     
@@ -513,24 +537,6 @@ class StickerEditorViewController:
     
 }//class
 
-//extension StickerCanvas{
-//    
-//    convenience init?(indexCard : IndexCard){
-//        self.init()
-//        
-//        //background
-//        backgroundImage = indexCard.image
-//        
-//        //stickers
-//        indexCard.stickers?.forEach {
-//            //create a sticker from the data
-//            if let newSticker = TextSticker(data: $0){
-//
-//                self.importShape(sticker: newSticker)
-//            }
-//        }
-//    }
-//}
 
 
 

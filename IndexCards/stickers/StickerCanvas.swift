@@ -11,7 +11,8 @@ import UIKit
 class StickerCanvas:
 UIView,
 UIDropInteractionDelegate,
-UIGestureRecognizerDelegate
+UIGestureRecognizerDelegate,
+UIActivityItemSource
 {
     var currentTextField : UITextField?
 
@@ -36,6 +37,15 @@ UIGestureRecognizerDelegate
         }
     }
     
+    //MARK:- UIActivityItemSource
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return UIImage()
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return self.snapshot
+    }
     
     //MARK: - UIDropInteractionDelegate
     func dropInteraction(_ interaction: UIDropInteraction,

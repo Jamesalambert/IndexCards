@@ -413,7 +413,11 @@
                     <navigationItem key="navigationItem" id="hhd-Lk-QkG">
                         <rightBarButtonItems>
                             <barButtonItem systemItem="trash" id="Hc7-yl-5wh"/>
-                            <barButtonItem systemItem="action" id="UeL-1k-LFu"/>
+                            <barButtonItem systemItem="action" id="UeL-1k-LFu">
+                                <connections>
+                                    <action selector="actionButtonTapped:" destination="dcX-ac-dIB" id="p3W-ls-hqe"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>

@@ -629,9 +629,11 @@ class DecksViewController:
                         using: {notification in
                             
                             guard self.document.documentState == UIDocument.State.normal else {return}
+                            guard let selectedDeckIndexPath = self.decksCollectionView.indexPathsForSelectedItems?.first else {return}
                             
                             self.decksCollectionView.reloadItems(
-                                at:self.decksCollectionView.indexPathsForSelectedItems ?? [])
+                                at:[selectedDeckIndexPath])
+                            self.decksCollectionView.selectItem(at: selectedDeckIndexPath, animated: false, scrollPosition: .top)
                     })
 
 
