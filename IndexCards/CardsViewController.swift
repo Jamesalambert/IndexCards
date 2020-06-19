@@ -120,7 +120,7 @@ class CardsViewController:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
            if segue.identifier == "ChooseCardBackground"{
                guard let backgroundChooserVC = segue.destination as? ChooseBackgroundCollectionViewController else {return}
-               backgroundChooserVC.theme = theme
+               backgroundChooserVC.theme = theme!
                backgroundChooserVC.delegate = self
                
            }

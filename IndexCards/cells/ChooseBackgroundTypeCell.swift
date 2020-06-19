@@ -17,16 +17,7 @@ enum BackgroundSourceType: CaseIterable {
 class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     //MARK:- vars
-    //no guarantee the theme will be set when DidMoveToWindow() below runs so we use didset too.
-    var theme : Theme?{
-        didSet{
-            //rounded corners
-            self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? CGFloat(0.15)) * self.layer.bounds.width
-            
-            //background color
-            self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
-        }
-    }
+    var theme : Theme?
     
     var sourceType = BackgroundSourceType.ChooseFromLibaray {
         didSet{
@@ -66,17 +57,17 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
     
     //MARK:- UICollectionViewCell
     //needed for custom layout
-    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        super.apply(layoutAttributes)
-        
-        guard let layoutAttributes = layoutAttributes as? CircularCollectionViewLayoutAttributes else {return}
-        
-        //so that the cards pivot about an anchor point below them.
-        self.layer.anchorPoint = layoutAttributes.anchorPoint
-        //remember to offset the layer's position because changing the anchorpoint
-        //moves the layer's frame. Layers' position and anchorpoint always coincide onscreen.
-        self.center.x += (layoutAttributes.anchorPoint.x - 0.5) * bounds.width
-    }//func
+//    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+//        super.apply(layoutAttributes)
+//
+//        guard let layoutAttributes = layoutAttributes as? CircularCollectionViewLayoutAttributes else {return}
+//
+//        //so that the cards pivot about an anchor point below them.
+//        self.layer.anchorPoint = layoutAttributes.anchorPoint
+//        //remember to offset the layer's position because changing the anchorpoint
+//        //moves the layer's frame. Layers' position and anchorpoint always coincide onscreen.
+//        self.center.x += (layoutAttributes.anchorPoint.x - 0.5) * bounds.width
+//    }//func
         
    
    //MARK:- UIView
@@ -94,11 +85,11 @@ class ChooseBackgroundTypeCell: UICollectionViewCell {
 //        layer.shouldRasterize = true
         
         //rounded corners
-        self.layer.cornerRadius = (theme?.sizeOf(.cornerRadiusToBoundsWidthForButtons) ?? CGFloat(0.15)) * self.layer.bounds.width
+        self.layer.cornerRadius = theme!.sizeOf(.cornerRadiusToBoundsWidth) * self.layer.bounds.width
         self.layer.masksToBounds = false
         
-        self.layer.borderColor = UIColor.blue.cgColor
-        self.layer.borderWidth = CGFloat(3.0)
+        self.layer.borderColor = UIColor.systemBlue.cgColor
+        self.layer.borderWidth = CGFloat(2.0)
         
         //background color
         self.backgroundColor =  nil

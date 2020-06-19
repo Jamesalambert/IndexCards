@@ -66,7 +66,7 @@ class DeckOfCardsCell: UICollectionViewCell {
     override func draw(_ layer: CALayer, in ctx: CGContext) {
         //border
         if isSelected{
-            self.layer.borderColor = UIColor.blue.cgColor
+            self.layer.borderColor = UIColor.systemBlue.cgColor
             self.layer.borderWidth = CGFloat(3.0)
         } else {
             self.layer.borderColor = UIColor.black.cgColor

@@ -65,7 +65,7 @@ class Theme : ThemeDelegateProtocol {
             card4:  #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1),
             card5:  #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1),
             text:   #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
-            deck:   #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
+            deck:   #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0),
             table:  #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)),
         size: defaultSize,
         time: defaultTime)
@@ -80,7 +80,7 @@ class Theme : ThemeDelegateProtocol {
         indexCardAspectRatio: CGFloat(1.5))
 
     private static let defaultTime = TimeFor(
-        editCardZoom: 1.0,
+        editCardZoom: 0.3,
         tapDeckTurn: 0.2,
         showMenu: 0.2,
         addShape: 0.2)

@@ -112,14 +112,10 @@ class DecksViewController:
     
     private func displayDeck(at indexPath: IndexPath){
         
-        if let deck = deckFor(indexPath),
-            let tappedCell = decksCollectionView.cellForItem(at: indexPath){
+        if let deck = deckFor(indexPath){
             
-            //save selected path so we can show the 'add card button' in the right place
+            //save deck for segue
             selectedDeck = deck
-            
-            //for animating the add card menu
-            tappedDeckCell = tappedCell
             
             //showDetailViewController(navCon, sender: nil)
             performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
@@ -591,7 +587,11 @@ class DecksViewController:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         decksCollectionView.reloadData()
+        decksCollectionView.selectItem(at: IndexPath(0,0), animated: true, scrollPosition: .top)
+        displayDeck(at: IndexPath(0,0))
     }
+    
+
     
     
     

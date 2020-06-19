@@ -23,6 +23,7 @@ UINavigationControllerDelegate{
     private var tappedCell : UICollectionViewCell?
     private var listOfCards : [BackgroundSourceType] = []
     var delegate : CardsViewController?
+    var cardWidth : CGFloat = CGFloat(150)
     
     //MARK:- Outlets
     @IBOutlet weak var backgroundChoicesCollectionView: UICollectionView!{
@@ -33,13 +34,11 @@ UINavigationControllerDelegate{
             
             
             backgroundChoicesCollectionView.contentSize = CGSize(
-                width: CGFloat(200 * BackgroundSourceType.allCases.count),
-                height: backgroundChoicesCollectionView.bounds.height)
+                width: cardWidth,
+                height: CGFloat(100 * BackgroundSourceType.allCases.count))
         }
     }
     
-    
-   
     //MARK:- helper funcs
     
     @objc private func choiceCardTapped(indexPath: IndexPath){
@@ -153,9 +152,7 @@ UINavigationControllerDelegate{
             let sourceType = listOfCards[indexPath.item]
             cell.sourceType = sourceType
             cell.theme = theme
-            
-            //cell.tapGestureRecognizer.addTarget(self, action: #selector(choiceCardTapped(sender:)))
-                        
+                                    
             return cell
         }
         

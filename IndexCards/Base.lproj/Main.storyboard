@@ -437,13 +437,13 @@
             <objects>
                 <viewController storyboardIdentifier="ChooseCardType" id="qnM-16-G8c" customClass="ChooseBackgroundCollectionViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0WI-pZ-Vvb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="660"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
-                                <rect key="frame" x="300" y="13" width="75" height="667"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hYj-gw-KB6">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="660"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hYj-gw-KB6">
                                     <size key="itemSize" width="150" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -479,13 +479,15 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="top" secondItem="YzW-s1-Hza" secondAttribute="top" id="L7z-9L-fWR"/>
-                            <constraint firstItem="YzW-s1-Hza" firstAttribute="bottom" secondItem="1LA-zd-YN5" secondAttribute="bottom" id="Vq6-hN-Igd"/>
-                            <constraint firstItem="1LA-zd-YN5" firstAttribute="width" secondItem="0WI-pZ-Vvb" secondAttribute="width" multiplier="0.2" id="css-Yx-Uem"/>
-                            <constraint firstItem="YzW-s1-Hza" firstAttribute="trailing" secondItem="1LA-zd-YN5" secondAttribute="trailing" id="eTV-iy-o52"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="trailing" secondItem="YzW-s1-Hza" secondAttribute="trailing" id="UGO-Zk-Ibq"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="bottom" secondItem="YzW-s1-Hza" secondAttribute="bottom" id="mkl-lB-Eqb"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="top" secondItem="YzW-s1-Hza" secondAttribute="top" id="qqQ-Cv-xeR"/>
+                            <constraint firstItem="1LA-zd-YN5" firstAttribute="leading" secondItem="YzW-s1-Hza" secondAttribute="leading" id="we6-yq-NNU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YzW-s1-Hza"/>
                     </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="160" height="500"/>
+                    <size key="freeformSize" width="200" height="680"/>
                     <connections>
                         <outlet property="backgroundChoicesCollectionView" destination="1LA-zd-YN5" id="40x-AE-FWg"/>
                     </connections>
