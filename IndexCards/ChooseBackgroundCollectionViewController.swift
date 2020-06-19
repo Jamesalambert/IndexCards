@@ -200,7 +200,8 @@ UINavigationControllerDelegate{
         
         //dismiss the picker and the choose background cards
         //dismiss ImagePicker
-        picker.presentingViewController?.dismiss(animated: true, completion: {
+        picker.presentingViewController?.dismiss(animated: true,
+            completion: {
             
             //pass the image back to the presenting VC
             if let image = self.chosenImage, let cell = self.tappedCell{
@@ -210,27 +211,22 @@ UINavigationControllerDelegate{
                 tempView.bounds.size = cell.bounds.size
                 tempView.center = cell.superview!.convert(cell.center, to: self.delegate?.view)
                 
+                //show a temporary image that the editor will zoom from
                 self.delegate?.view.addSubview(tempView)
                 
-                //present sticker editor
+                //dismiss ourselves
+                self.presentingViewController!.dismiss(animated: true,
+                completion: {
+                    
+                    //present sticker editor
+                    self.delegate!.presentStickerEditor(from: tempView,
+                                                        with: nil,
+                                                        forCropping: image,
+                                                        temporaryView: true)
                 
-                self.delegate?.presentStickerEditor(from: tempView,
-                                                    with: nil,
-                                                    forCropping: image,
-                                                    temporaryView: true)
-                //add card
-                //self.delegate?.addCard(with: image, animatedFrom: tempView, temporaryView: true)
-                
-                
-                
-                
-            }
-            
-            //dismiss ourselves
-            self.delegate?.dismiss(animated: true, completion: nil)
-            
-        })
-        
+                })
+            }// if let
+            }) //dismiss picker closure
     }
     
     

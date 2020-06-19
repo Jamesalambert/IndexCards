@@ -115,6 +115,9 @@
                         <outlet property="redoButton" destination="dem-XA-Is3" id="07d-N7-UVu"/>
                         <outlet property="undoButton" destination="6tr-bY-dDP" id="QrM-a8-ghC"/>
                         <segue destination="dcX-ac-dIB" kind="show" identifier="EditCard" id="gEO-4h-7c4"/>
+                        <segue destination="qnM-16-G8c" kind="popoverPresentation" identifier="ChooseCardBackground" popoverAnchorBarButtonItem="J7C-vg-mfU" id="0y3-av-ny2">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7wl-gQ-Uwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -434,11 +437,11 @@
             <objects>
                 <viewController storyboardIdentifier="ChooseCardType" id="qnM-16-G8c" customClass="ChooseBackgroundCollectionViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0WI-pZ-Vvb">
-                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="680"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-zd-YN5">
-                                <rect key="frame" x="889.5" y="0.0" width="222.5" height="834"/>
+                                <rect key="frame" x="300" y="13" width="75" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hYj-gw-KB6">
                                     <size key="itemSize" width="150" height="100"/>

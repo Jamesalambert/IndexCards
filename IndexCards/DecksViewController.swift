@@ -545,8 +545,8 @@ class DecksViewController:
                                             fromDeck: selectedDeck!,
                                             toDeck: destinationDeck,
                                             sourceIndexPath: sourceIndexPath,
-                                            destinationIndexPath: nil)
-             
+                                            destinationIndexPath: IndexPath(0,0))
+                
             }//for
             
             
@@ -643,8 +643,8 @@ class DecksViewController:
                         object: undoer,
                         queue: nil,
                         using: { notification in
-                            self.cardsView?.undoButton.isEnabled = undoer?.canUndo ?? false
-                            self.cardsView?.redoButton.isEnabled = undoer?.canRedo ?? false
+                            self.cardsView!.undoButton.isEnabled = undoer!.canUndo
+                             self.cardsView!.redoButton.isEnabled = undoer!.canRedo
                     })
                 }
             })

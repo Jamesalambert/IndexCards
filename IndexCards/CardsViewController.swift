@@ -95,67 +95,12 @@ class CardsViewController:
         presentAddCardVC(fromView: addButton)
     }
     
-    func presentAddCardVC(fromView sourceView : UIView){
-        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-        
-        guard let addCardVC = storyBoard.instantiateViewController(withIdentifier: "ChooseCardType") as? ChooseBackgroundCollectionViewController else {return}
-        
-        
-        //where the Edit view springs from
-        transitionDelegate.startingCenter = sourceView.superview?.convert(sourceView.center, to: nil)
-        transitionDelegate.startingBounds = sourceView.superview?.convert(sourceView.frame, to: nil)
-        transitionDelegate.endingCenter = transitionDelegate.startingCenter
-        transitionDelegate.endingFrame = transitionDelegate.startingBounds
-        transitionDelegate.viewToHide = nil //for fading out the tapped view
-        transitionDelegate.duration = 0.0 //theme.timeOf(.showMenu)
-        
-        //set up transition
-        addCardVC.theme = theme
-        addCardVC.modalPresentationStyle = .custom
-        //addCardVC.popoverPresentationController?.sourceView = sourceView
-        addCardVC.transitioningDelegate = transitionDelegate
-        //addCardVC.layoutObject.originRect = sourceView.superview!.convert(sourceView.frame, to: nil)
-        addCardVC.delegate = self
-        //go
-        present(addCardVC, animated: true, completion: nil)
+    private func presentAddCardVC(fromView sourceView : UIView){
+        performSegue(withIdentifier: "ChooseCardBackground", sender: nil)
     }
 
-
     
-    
-    //for adding cards using the background picker.
-    func addCard(with backgroundImage : UIImage, animatedFrom : UIView, temporaryView : Bool ) {
-        
-        guard let currentDeck = currentDeck else {return}
-        
-        //add empty index card
-        //TODO:- redo this!!
-        indexCardsCollectionView.performBatchUpdates({
-            //model
-            currentDeck.addCard()
-            
-            //collection view
-            let numberOfCards = currentDeck.cards.count
-            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
-            
-            indexCardsCollectionView.insertItems(at: [newIndexPath])
-            
-        }, completion: { finished in
-            //save doc
-            self.document.updateChangeCount(.done)
-            
-            //present new sticker editor
-            self.presentStickerEditor(
-                from: animatedFrom,
-                with: (currentDeck.cards.last)!,
-                forCropping: backgroundImage,
-                temporaryView : temporaryView)
-        })
-        
-        
-    }//func
-    
-    func addCard(card : IndexCard){
+    private func addCard(card : IndexCard){
         guard let currentDeck = currentDeck else {return}
         
         indexCardsCollectionView.performBatchUpdates({
@@ -170,6 +115,16 @@ class CardsViewController:
         }, completion: nil)
         
     }
+    
+    //MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           if segue.identifier == "ChooseCardBackground"{
+               guard let backgroundChooserVC = segue.destination as? ChooseBackgroundCollectionViewController else {return}
+               backgroundChooserVC.theme = theme
+               backgroundChooserVC.delegate = self
+               
+           }
+       }
     
     
     //MARK:- Gesture handlers
@@ -256,7 +211,7 @@ class CardsViewController:
             viewToRemove: temporaryView ? sourceView : nil)
         
         //go
-        navigationController?.pushViewController(editVC, animated: true)
+        navigationController!.pushViewController(editVC, animated: true)
     }
     
     
@@ -461,19 +416,21 @@ class CardsViewController:
     
     
     func deleteCard(){
-        //set up undo!
        if let indexPath = actionMenuIndexPath {
            
            moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
                             fromDeck: self.currentDeck!,
-                            toDeck: self.document.deletedCardsDeck, sourceIndexPath: indexPath, destinationIndexPath: nil)
+                            toDeck: self.document.deletedCardsDeck,
+                            sourceIndexPath: indexPath,
+                            destinationIndexPath: indexPath)
            
        }//if let
     }//func
     
     
+    
     func moveCardUndoably(cardToMove : IndexCard, fromDeck: Deck,
-            toDeck: Deck, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath?){
+            toDeck: Deck, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath){
         
         
         ////////////////set up undo
@@ -488,39 +445,45 @@ class CardsViewController:
             VC.moveCardUndoably(cardToMove: card,
                                 fromDeck: to,
                                 toDeck: from,
-                                sourceIndexPath: destinationIndexPath ?? IndexPath(0,0),
+                                sourceIndexPath: destinationIndexPath,
                                 destinationIndexPath: sourceIndexPath)
         })
         self.document.undoManager.endUndoGrouping()
         /////////////////////////////
         
-        //deleting from onscreen deck
+        //deleting from onscreen deck or moving
         if currentDeck == fromDeck {
             indexCardsCollectionView.performBatchUpdates({
+                
                 //delete from source
                 fromDeck.cards.removeAll(where: {$0 == cardToMove})
-                //move card to destination Deck!
-                toDeck.cards.insert(cardToMove, at: destinationIndexPath?.item ?? 0)
-                
                 indexCardsCollectionView.deleteItems(at: [sourceIndexPath])
-                if let destinationIndexPath = destinationIndexPath{
+                
+                if fromDeck == toDeck{
+                    //move card to destination Deck!
+                    toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
                     indexCardsCollectionView.insertItems(at: [destinationIndexPath])
+                } else {
+                    //add to deleted cards deck
+                    toDeck.cards.append(cardToMove)
                 }
                 
             }, completion: nil)
+            
             //undeleting back to onscreen deck
         } else if currentDeck == toDeck {
-            //delete from source
+
             indexCardsCollectionView.performBatchUpdates({
                 //delete from source
                 fromDeck.cards.removeAll(where: {$0 == cardToMove})
                 //move card to destination Deck!
-                toDeck.cards.insert(cardToMove, at: 0)
+                toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
                 
-                indexCardsCollectionView.insertItems(at: [IndexPath(0,0)])
+                indexCardsCollectionView.insertItems(at: [destinationIndexPath])
             }, completion: nil)
             //both decks off screen
         } else {
+            //never runs?
             fromDeck.cards.removeAll(where: {$0 == cardToMove})
             //move card to destination Deck!
             toDeck.cards.insert(cardToMove, at: 0)
