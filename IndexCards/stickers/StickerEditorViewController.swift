@@ -160,47 +160,7 @@ class StickerEditorViewController:
     
     
     @IBOutlet weak var cardBackgroundView: UIView!
-    
-    //MARK:- Actions
-//    @IBAction func takeAPhoto() {
-//        if UIImagePickerController.isSourceTypeAvailable(.camera){
-//
-//            let imagePicker = UIImagePickerController()
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = .camera
-//            imagePicker.allowsEditing = true
-//            imagePicker.mediaTypes = ["public.image"]
-//
-//            if let _ = imagePicker.presentationController{
-//                present(imagePicker, animated: true, completion: nil)
-//            } else{
-//                print("Could not present imagepicker")
-//            }
-//        }
-//    }
-    
-    
-//    @IBAction func chooseAPicture() {
-//        if UIImagePickerController.isSourceTypeAvailable(.camera){
-//
-//            let imagePicker = UIImagePickerController()
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = .photoLibrary
-//            imagePicker.mediaTypes = ["public.image"]
-//            imagePicker.modalPresentationStyle = .popover
-//
-//            if let popoverController = imagePicker.popoverPresentationController {
-//                popoverController.sourceView = getImageHint
-//
-//                present(imagePicker, animated: true, completion: nil)
-//            }
-//        } else {
-//            print("camera not available")
-//        }
-//    }
-    
-   
-    
+
     
     @IBAction func finishedRepositioningImage() {
     
@@ -532,12 +492,7 @@ class StickerEditorViewController:
                 self?.keyboardHidden()
         })
         
-//        //tap to dismiss gesture recognizer
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss(_:)))
-//        tap.numberOfTapsRequired = 1
-//        tap.numberOfTouchesRequired = 1
-//        tap.delegate = self
-//        view.addGestureRecognizer(tap)
+
     }
     
     
@@ -553,50 +508,29 @@ class StickerEditorViewController:
         delegate?.editorDidMakeChanges = true
         
     }
-        
-//    @objc private func tapToDismiss(_ sender:UITapGestureRecognizer){
-//
-//        if !cropView.frame.contains(sender.location(in: cropView)){
-//
-//
-//            //store thumbnail snapshot
-//            indexCard?.thumbnail = stickerView.snapshot
-//
-//            //update model
-//            indexCard?.stickers = stickerView.stickerData
-//
-//            document?.updateChangeCount(.done)
-//
-//            if let presentingVC = self.presentingViewController {
-//                presentingVC.dismiss(animated: true, completion: {
-//
-//                    self.delegate?.editorDidMakeChanges = true})
-//            }
-//        }//if
-//    }//func
 
     
     
 }//class
 
-extension StickerCanvas{
-    
-    convenience init?(indexCard : IndexCard){
-        self.init()
-        
-        //background
-        backgroundImage = indexCard.image
-        
-        //stickers
-        indexCard.stickers?.forEach {
-            //create a sticker from the data
-            if let newSticker = TextSticker(data: $0){
-
-                self.importShape(sticker: newSticker)
-            }
-        }
-    }
-}
+//extension StickerCanvas{
+//    
+//    convenience init?(indexCard : IndexCard){
+//        self.init()
+//        
+//        //background
+//        backgroundImage = indexCard.image
+//        
+//        //stickers
+//        indexCard.stickers?.forEach {
+//            //create a sticker from the data
+//            if let newSticker = TextSticker(data: $0){
+//
+//                self.importShape(sticker: newSticker)
+//            }
+//        }
+//    }
+//}
 
 
 

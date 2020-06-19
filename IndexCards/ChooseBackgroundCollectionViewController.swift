@@ -208,11 +208,20 @@ UINavigationControllerDelegate{
                 let tempView = UIImageView()
                 tempView.image = image
                 tempView.bounds.size = cell.bounds.size
-                tempView.center = self.delegate!.view.convert(cell.center, from: cell.superview)
+                tempView.center = cell.superview!.convert(cell.center, to: self.delegate?.view)
                 
                 self.delegate?.view.addSubview(tempView)
                 
-                self.delegate?.addCard(with: image, animatedFrom: tempView, temporaryView: true)
+                //present sticker editor
+                
+                self.delegate?.presentStickerEditor(from: tempView,
+                                                    with: nil,
+                                                    forCropping: image,
+                                                    temporaryView: true)
+                //add card
+                //self.delegate?.addCard(with: image, animatedFrom: tempView, temporaryView: true)
+                
+                
                 
                 
             }

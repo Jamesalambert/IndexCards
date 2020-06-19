@@ -155,6 +155,22 @@ class CardsViewController:
         
     }//func
     
+    func addCard(card : IndexCard){
+        guard let currentDeck = currentDeck else {return}
+        
+        indexCardsCollectionView.performBatchUpdates({
+            //model
+            currentDeck.cards.append(card)
+            
+            //collection view
+            let numberOfCards = currentDeck.cards.count
+            let newIndexPath = IndexPath(item: numberOfCards - 1, section: 0)
+            
+            indexCardsCollectionView.insertItems(at: [newIndexPath])
+        }, completion: nil)
+        
+    }
+    
     
     //MARK:- Gesture handlers
     @objc private func tappedIndexCard(indexPath : IndexPath){
@@ -180,7 +196,7 @@ class CardsViewController:
     
     //MARK:- actions
     func presentStickerEditor(from sourceView : UIView,
-                              with indexCard : IndexCard,
+                              with indexCard : IndexCard?,
                               forCropping image : UIImage?,
                               temporaryView: Bool){
         
@@ -189,12 +205,32 @@ class CardsViewController:
         
         guard let editVC = storyboard.instantiateViewController(
             withIdentifier: "StickerViewController") as? StickerEditorViewController else {return}
-        
+                
         //hand data to the editor
-        editVC.indexCard = indexCard
+        
+        //create a card if need be
+        if let indexCard = indexCard{
+            editVC.indexCard = indexCard
+        } else {
+            editVC.indexCard = IndexCard()
+            addCard(card: editVC.indexCard!)
+        }
+         
         editVC.theme = theme
         editVC.document = document
         editVC.delegate = self
+        
+        
+        //now we should have everything
+        guard let indexCard = editVC.indexCard else {return}
+        guard let currentDeck = currentDeck else {return}
+        
+        //get index card location on screen so we can animate back to it after editing
+        let cardIndexPath = IndexPath(item: currentDeck.cards.firstIndex(of: indexCard)!,
+                                      section: 0)
+        guard let endCell = indexCardsCollectionView.cellForItem(at: IndexPath(item: cardIndexPath.item, section: 0)) else {return}
+        
+        self.indexPathOfEditedCard = cardIndexPath
         
         //if we're passing a new background image that hasn't been cropped to size yet.
         //this is used when creating a new card, not when opening an existing one.
@@ -207,11 +243,7 @@ class CardsViewController:
         //origin of the animation, nil converts to the uiwindow system
         let startCenter = sourceView.superview?.convert(sourceView.center, to: enclosingView)
         let startBounds = sourceView.superview?.convert(sourceView.bounds, to: enclosingView)
-        
-        //get index card location on screen so we can animate back to it after editing
-        let cardIndex = (currentDeck?.cards.firstIndex(of: indexCard))!
-        guard let endCell = indexCardsCollectionView.cellForItem(at: IndexPath(item: cardIndex, section: 0)) else {return}
-        
+    
         let endCenter = endCell.superview?.convert(endCell.center, to: enclosingView)
         let endBounds = endCell.superview?.convert(endCell.bounds, to: enclosingView)
         

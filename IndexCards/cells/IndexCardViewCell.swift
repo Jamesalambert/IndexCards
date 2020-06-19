@@ -16,6 +16,8 @@ class IndexCardViewCell: UICollectionViewCell {
     var image : UIImage?{
         didSet{
             imageView.image = image
+            self.layer.shadowOpacity = 0.7
+            self.layer.setNeedsDisplay()
         }
     }
     
@@ -36,7 +38,7 @@ class IndexCardViewCell: UICollectionViewCell {
         self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowRadius = 2.0
-        self.layer.shadowOpacity = 0.7
+        self.layer.shadowOpacity = image == nil ? 0.0 : 0.7 // will be set when there's a background image
         self.layer.shouldRasterize = true // for performance
         
         //background color
