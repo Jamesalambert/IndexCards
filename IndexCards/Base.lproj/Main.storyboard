@@ -32,11 +32,11 @@
             <objects>
                 <viewController id="5Wa-5o-TRT" customClass="CardsViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jU5-Jg-P1v">
-                        <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="712" height="794"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="STl-VN-UdO">
-                                <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="712" height="744"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="cg4-Fl-yXI">
                                     <size key="itemSize" width="502" height="288"/>
@@ -90,9 +90,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="23t-Cd-ysd"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="Czm-0O-hQV">
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="action" id="zaq-e1-GN1"/>
                             <barButtonItem tag="1" title="Add New Card" id="J7C-vg-mfU">
                                 <connections>
                                     <action selector="tappedAddCardButton:" destination="5Wa-5o-TRT" id="11L-v7-F7R"/>
@@ -110,6 +110,7 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="indexCardsCollectionView" destination="STl-VN-UdO" id="Ned-ws-xZg"/>
                         <outlet property="redoButton" destination="dem-XA-Is3" id="07d-N7-UVu"/>
@@ -270,23 +271,23 @@
             <objects>
                 <viewController storyboardIdentifier="StickerViewController" id="dcX-ac-dIB" customClass="StickerEditorViewController" customModule="IndexCards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="1PT-KB-bai">
-                        <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="712" height="794"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32h-M0-eTV">
-                                <rect key="frame" x="10" y="50" width="771.5" height="784"/>
+                                <rect key="frame" x="10" y="56" width="692" height="688"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iR3-Ke-bLl">
-                                        <rect key="frame" x="0.0" y="77" width="771.5" height="630"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="692" height="577"/>
                                         <subviews>
                                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uDz-qr-W6g">
-                                                <rect key="frame" x="0.0" y="0.0" width="771.5" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="692" height="50"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Tt-bc-LuR">
-                                                        <rect key="frame" x="0.0" y="0.0" width="771.5" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="692" height="50"/>
                                                         <subviews>
                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="O44-jH-12f">
-                                                                <rect key="frame" x="0.0" y="0.0" width="336" height="50"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="296" height="50"/>
                                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Mlm-wv-ZfY">
                                                                     <size key="itemSize" width="50" height="50"/>
@@ -306,7 +307,7 @@
                                                                 </cells>
                                                             </collectionView>
                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FeR-GX-JhQ">
-                                                                <rect key="frame" x="436" y="0.0" width="335.5" height="50"/>
+                                                                <rect key="frame" x="396" y="0.0" width="296" height="50"/>
                                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cth-GW-U5m">
                                                                     <size key="itemSize" width="50" height="50"/>
@@ -339,22 +340,22 @@
                                                 </constraints>
                                             </view>
                                             <view opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uqZ-Nz-lRX">
-                                                <rect key="frame" x="0.0" y="58" width="771.5" height="50"/>
+                                                <rect key="frame" x="0.0" y="58" width="692" height="50"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RIX-0P-emC">
-                                                        <rect key="frame" x="0.0" y="0.0" width="771.5" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="692" height="50"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xdg-e8-euh">
-                                                                <rect key="frame" x="0.0" y="0.0" width="771.5" height="50"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="692" height="50"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag and zoom to fit. When you're happy press" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="la9-fE-OB6">
-                                                                        <rect key="frame" x="87.5" y="0.0" width="596.5" height="36"/>
+                                                                        <rect key="frame" x="48" y="0.0" width="596.5" height="36"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tpf-vd-91b">
-                                                                        <rect key="frame" x="349" y="44" width="74" height="6"/>
+                                                                        <rect key="frame" x="309" y="44" width="74" height="6"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                         <state key="normal" title="done."/>
                                                                         <connections>
@@ -375,7 +376,7 @@
                                                 </constraints>
                                             </view>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RjO-wF-7th" customClass="CropView" customModule="IndexCards" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="116" width="771.5" height="514"/>
+                                                <rect key="frame" x="0.0" y="116" width="692" height="461"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="RjO-wF-7th" secondAttribute="height" multiplier="1.5:1" id="vmB-Sr-L5V"/>
                                                 </constraints>
@@ -383,7 +384,7 @@
                                         </subviews>
                                     </stackView>
                                     <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOY-yv-dz2" customClass="StickerCanvas" customModule="IndexCards" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="193" width="771.5" height="514"/>
+                                        <rect key="frame" x="0.0" y="171.5" width="692" height="461"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -410,6 +411,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yed-UR-xI2"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="hhd-Lk-QkG">
                         <rightBarButtonItems>
                             <barButtonItem systemItem="trash" id="Hc7-yl-5wh"/>
@@ -420,6 +422,7 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cardBackgroundView" destination="32h-M0-eTV" id="2ba-3u-MoF"/>
                         <outlet property="colorsCollectionView" destination="FeR-GX-JhQ" id="4wI-AC-qpB"/>

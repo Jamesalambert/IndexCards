@@ -19,7 +19,7 @@ class QuizSticker: StickerObject {
     override func draw(_ rect: CGRect) {
         let path = UIBezierPath(
         arcCenter: CGPoint(x: bounds.midX, y: bounds.midY),
-        radius: bounds.midX/2,
+        radius: bounds.midX,
         startAngle: CGFloat(0),
         endAngle: 2 * CGFloat.pi,
         clockwise: true)
