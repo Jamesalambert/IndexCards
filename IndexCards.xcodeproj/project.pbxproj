@@ -119,8 +119,8 @@
 		1ADD73C7246E10A100A9186A /* stickers */ = {
 			isa = PBXGroup;
 			children = (
-				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
+				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 				1ABD3EEC249169A20011299E /* StickerObject.swift */,
 				1ABD3EEA24915BC90011299E /* QuizSticker.swift */,
 				1ADD73C5246E0F9600A9186A /* TextSticker.swift */,

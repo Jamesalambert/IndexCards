@@ -11,10 +11,16 @@ import UIKit
 class IndexCardsDocument: UIDocument {
     
     //model storage
-    var model = Notes()
+    var model = Notes(){
+        didSet{
+            guard let firstDeck = model.decks.first else {return}
+            currentDeck = firstDeck
+        }
+    }
 
-    //var deletedCards : [DeletedCardUndoData] = []
+    //temp data that isn't saved
     var deletedCardsDeck = Deck()
+    var currentDeck = Deck()
     
     override func contents(forType typeName: String) throws -> Any {
         

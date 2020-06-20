@@ -36,12 +36,21 @@ class CardsViewController:
             indexCardsCollectionView.reloadData()
         }
     }
-    var currentDeck : Deck?
+    var currentDeck : Deck {
+        get{
+        return document.currentDeck
+        }
+        set{
+            document.currentDeck = newValue
+            indexCardsCollectionView.reloadData()
+        }
+    }
     var theme : Theme?
     var cardWidth : CGFloat = 300
     var document : IndexCardsDocument!
-    
+   
     //MARK:- vars
+    var undoObserver : NSObjectProtocol?
     var indexPathOfEditedCard : IndexPath?
     var editCardTransitionController : ZoomTransitionForNavigation?
     var editorDidMakeChanges : Bool = false{
@@ -52,7 +61,8 @@ class CardsViewController:
             }
         }
     }
-    
+    var decksView : DecksViewController?
+
     //MARK:- Outlets
     @IBOutlet weak var indexCardsCollectionView: UICollectionView!{
         didSet{
@@ -60,10 +70,9 @@ class CardsViewController:
             indexCardsCollectionView.dataSource = self
             indexCardsCollectionView.dragDelegate = self
             indexCardsCollectionView.dropDelegate = self
+            registerForUndoNotification()
         }
     }
-
-
     
     @IBOutlet weak var undoButton: UIBarButtonItem!{
         didSet{
@@ -94,13 +103,27 @@ class CardsViewController:
         presentAddCardVC(fromView: addButton)
     }
     
+    private func registerForUndoNotification(){
+           //register for undo manager notifications
+           let undoer = self.document!.undoManager
+           
+           self.undoObserver = NotificationCenter.default.addObserver(
+               forName: NSNotification.Name.NSUndoManagerCheckpoint,
+               object: undoer,
+               queue: nil,
+               using: { notification in
+                   self.undoButton.isEnabled = undoer!.canUndo
+                   self.redoButton.isEnabled = undoer!.canRedo
+           })
+       }
+    
+    
     private func presentAddCardVC(fromView sourceView : UIView){
         performSegue(withIdentifier: "ChooseCardBackground", sender: nil)
     }
 
     
     private func addCard(card : IndexCard){
-        guard let currentDeck = currentDeck else {return}
         
         indexCardsCollectionView.performBatchUpdates({
             //model
@@ -131,12 +154,11 @@ class CardsViewController:
         //get tapped cell
         
         guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}
-        guard let chosenCard = currentDeck?.cards[indexPath.item] else {return}
+         let chosenCard = currentDeck.cards[indexPath.item]
         
         //prevent editing of deleted decks
-        if let currentDeck = currentDeck{
             if model.deletedDecks.contains(currentDeck){return}
-        }
+        
         
         //save for later
         indexPathOfEditedCard = indexPath
@@ -177,7 +199,6 @@ class CardsViewController:
         
         //now we should have everything
         guard let indexCard = editVC.indexCard else {return}
-        guard let currentDeck = currentDeck else {return}
         
         //get index card location on screen so we can animate back to it after editing
         let cardIndexPath = IndexPath(item: currentDeck.cards.firstIndex(of: indexCard)!,
@@ -230,7 +251,7 @@ class CardsViewController:
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return currentDeck?.cards.count ?? 0
+        return currentDeck.cards.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -241,11 +262,11 @@ class CardsViewController:
             cell.theme = theme
             cell.delegate = self
             
-            if let currentIndexCard = currentDeck?.cards[indexPath.item]{
+            let currentIndexCard = currentDeck.cards[indexPath.item]
                 
-                cell.image = currentIndexCard.thumbnail
-                return cell
-            }
+            cell.image = currentIndexCard.thumbnail
+            return cell
+            
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath)
@@ -287,7 +308,7 @@ class CardsViewController:
     func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
         
         //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-        if let draggedData = currentDeck?.cards[indexPath.item]{
+         let draggedData = currentDeck.cards[indexPath.item]
             
             let dragItem = UIDragItem(
                 itemProvider: NSItemProvider(object: draggedData))
@@ -296,9 +317,7 @@ class CardsViewController:
             dragItem.localObject = draggedData
             
             return [dragItem]
-        } else {
-            return []
-        }
+        
     }
     
     
@@ -345,25 +364,11 @@ class CardsViewController:
                 let droppedCard = item.dragItem.localObject as? IndexCard{
                 
                 moveCardUndoably(cardToMove: droppedCard,
-                                 fromDeck: currentDeck!,
-                                 toDeck: currentDeck!,
+                                 fromDeck: currentDeck,
+                                 toDeck: currentDeck,
                                  sourceIndexPath: sourceIndexPath,
                                  destinationIndexPath: destinationIndexPath)
                 
-                
-                
-//                collectionView.performBatchUpdates({
-//                    //model
-//                    currentDeck?.cards.remove(at: sourceIndexPath.item)
-//                    currentDeck?.cards.insert(droppedCard, at: destinationIndexPath.item)
-//
-//                    //view
-//                    collectionView.deleteItems(at: [sourceIndexPath])
-//                    collectionView.insertItems(at: [destinationIndexPath])
-//
-//                }, completion: { finished in
-//                    self.document.updateChangeCount(.done)
-//                })
             }
         }
     }
@@ -408,7 +413,7 @@ class CardsViewController:
         actionMenuCollectionView?.performBatchUpdates({
             
             if let indexPath = actionMenuIndexPath{
-                currentDeck?.duplicateCard(atIndex: indexPath.item)
+                currentDeck.duplicateCard(atIndex: indexPath.item)
                 
                 actionMenuCollectionView?.insertItems(at: [indexPath])
             }
@@ -422,8 +427,8 @@ class CardsViewController:
     func deleteCard(){
        if let indexPath = actionMenuIndexPath {
            
-           moveCardUndoably(cardToMove: (currentDeck?.cards[indexPath.item])!,
-                            fromDeck: self.currentDeck!,
+           moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
+                            fromDeck: self.currentDeck,
                             toDeck: self.document.deletedCardsDeck,
                             sourceIndexPath: indexPath,
                             destinationIndexPath: indexPath)
@@ -538,15 +543,12 @@ class CardsViewController:
     
     //MARK:- UIView
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self
-
+    
     }//func
-    
-    
-   
-    
-    
+
     
 }//class
 

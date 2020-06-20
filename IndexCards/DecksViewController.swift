@@ -37,13 +37,37 @@ class DecksViewController:
     
     var fileLocationURL : URL?
     var theme = Theme()
-    //var transitionDelegate = TransitioningDelegateforEditCardViewController()
     
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?
-    var selectedDeck : Deck?
+    var selectedDeck : Deck {
+        get{
+        return document.currentDeck
+        }
+        set{
+            document.currentDeck = newValue
+            decksCollectionView.reloadData()
+        }
+    }
     var documentObserver : NSObjectProtocol?
     var undoObserver : NSObjectProtocol?
+    var cardsView : CardsViewController?
+    
+    var cardsCollectionView : UICollectionView? {
+        if let navCon = cardsViewNavCon as? UINavigationController,
+            let cardsView = navCon.visibleViewController as? CardsViewController{
+            
+            return cardsView.indexCardsCollectionView
+        }
+        return nil
+    }
+    
+    var cardsViewNavCon : UIViewController? {
+        if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
+            return navController
+        }
+        return nil
+    }
     
     //MARK:- Outlets
     @IBOutlet weak var decksCollectionView: UICollectionView!{
@@ -52,6 +76,7 @@ class DecksViewController:
             decksCollectionView.dataSource = self
             decksCollectionView.dragDelegate = self
             decksCollectionView.dropDelegate = self
+            registerForNotifications()
         }
     }
     
@@ -110,6 +135,24 @@ class DecksViewController:
     
     //MARK:- Actions
     
+    private func registerForNotifications(){
+           //register for UIDocument notifications
+               self.documentObserver = NotificationCenter.default.addObserver(
+               forName: UIDocument.stateChangedNotification,
+               object: self.document,
+               queue: nil,
+               using: {notification in
+               
+                   guard self.document!.documentState == UIDocument.State.normal else {return}
+                   
+                   guard let selectedDeckIndexPath = self.decksCollectionView.indexPathsForSelectedItems?.first else {return}
+               
+                   self.decksCollectionView.reloadItems(
+               at:[selectedDeckIndexPath])
+                   self.decksCollectionView.selectItem(at: selectedDeckIndexPath, animated: false, scrollPosition: .top)
+               })
+       }
+    
     private func displayDeck(at indexPath: IndexPath){
         
         if let deck = deckFor(indexPath){
@@ -129,26 +172,11 @@ class DecksViewController:
         
         cardsView.document = self.document
         cardsView.theme = self.theme
-        cardsView.currentDeck = selectedDeck
     }
     
-    private var cardsView : CardsViewController?
     
-    var cardsCollectionView : UICollectionView? {
-        if let navCon = cardsViewNavCon as? UINavigationController,
-            let cardsView = navCon.visibleViewController as? CardsViewController{
-            
-            return cardsView.indexCardsCollectionView
-        }
-        return nil
-    }
     
-    var cardsViewNavCon : UIViewController? {
-        if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
-            return navController
-        }
-        return nil
-    }
+    
     
     
     
@@ -538,7 +566,7 @@ class DecksViewController:
 
                 //moveCardsFromDeck....
                 cardsView?.moveCardUndoably(cardToMove: droppedCard,
-                                            fromDeck: selectedDeck!,
+                                            fromDeck: selectedDeck,
                                             toDeck: destinationDeck,
                                             sourceIndexPath: sourceIndexPath,
                                             destinationIndexPath: IndexPath(0,0))
@@ -584,78 +612,21 @@ class DecksViewController:
         view.backgroundColor = theme.colorOf(.table)
     }
     
+    
+    var appearingForTheFirstTime = true
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        decksCollectionView.reloadData()
-        decksCollectionView.selectItem(at: IndexPath(0,0), animated: true, scrollPosition: .top)
-        displayDeck(at: IndexPath(0,0))
+
+        if appearingForTheFirstTime{
+            decksCollectionView.reloadData()
+            appearingForTheFirstTime = false
+        }
+
     }
     
 
-    
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        //choose a location and filename
-        if let saveTemplateURL = try? FileManager.default.url(
-            for: .documentDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true).appendingPathComponent("IndexCardsDB.ic") {
-            
-            //check it exists and create if not
-            if !FileManager.default.fileExists(atPath: saveTemplateURL.path){
-                //create
-                FileManager.default.createFile(atPath: saveTemplateURL.path, contents: Data(), attributes: nil)
-            }
-            
-            //record so we can quickly save if the app is suddenly closed
-            fileLocationURL = saveTemplateURL
-            
-            //init Document object
-            self.document = IndexCardsDocument(fileURL: saveTemplateURL)
-            
-            //open
-            document?.open(completionHandler: { success in
-                if success{
-                
-                    //register for UIDocument notifications
-                    self.documentObserver = NotificationCenter.default.addObserver(
-                        forName: UIDocument.stateChangedNotification,
-                        object: self.document,
-                        queue: nil,
-                        using: {notification in
-                            
-                            guard self.document.documentState == UIDocument.State.normal else {return}
-                            guard let selectedDeckIndexPath = self.decksCollectionView.indexPathsForSelectedItems?.first else {return}
-                            
-                            self.decksCollectionView.reloadItems(
-                                at:[selectedDeckIndexPath])
-                            self.decksCollectionView.selectItem(at: selectedDeckIndexPath, animated: false, scrollPosition: .top)
-                    })
 
-
-                    //register for undo manager notifications
-                    let undoer = self.document.undoManager
-                    
-                    self.undoObserver = NotificationCenter.default.addObserver(
-                        forName: NSNotification.Name.NSUndoManagerCheckpoint,
-                        object: undoer,
-                        queue: nil,
-                        using: { notification in
-                            self.cardsView!.undoButton.isEnabled = undoer!.canUndo
-                             self.cardsView!.redoButton.isEnabled = undoer!.canRedo
-                    })
-                }
-            })
-            
-        }//if let
-        
-    }//func
-    
-    
     
     
    
