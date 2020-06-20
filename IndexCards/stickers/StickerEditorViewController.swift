@@ -125,7 +125,6 @@ class StickerEditorViewController:
         }
     }
     
-    @IBOutlet weak var toolBarStackView: UIStackView!
     
     @IBOutlet weak var cropView: CropView! {
         didSet{

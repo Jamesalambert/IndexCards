@@ -25,7 +25,6 @@ class CardsViewController:
     UINavigationControllerDelegate
 {
     
-    
     //model
     var model : Notes{
         get {
@@ -86,6 +85,7 @@ class CardsViewController:
             redoButton.isEnabled = false
         }
     }
+    
     
     //MARK:- Actions
     @IBAction func tappedUndo(_ sender: Any) {
@@ -240,6 +240,21 @@ class CardsViewController:
     }
     
     
+    //MARK:- DroppedItemReciever
+    func userDropped(image: UIImage, at point: CGPoint){
+        let tempView = UIView(frame: CGRect(center: point,
+                              size: CGSize(width: cardWidth,
+                                           height: cardWidth/1.5)))
+        
+        view.addSubview(tempView)
+        
+        presentStickerEditor(from: tempView, with: nil, forCropping: image, temporaryView: true)
+    }
+    
+    func userDropped(text: NSAttributedString) {
+        //do nothing!
+    }
+    
     
     
     // MARK:- UICollectionViewDataSource
@@ -330,7 +345,11 @@ class CardsViewController:
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
-        return session.canLoadObjects(ofClass: IndexCard.self)
+                
+        let response =  (session.canLoadObjects(ofClass: IndexCard.self) || session.canLoadObjects(ofClass: UIImage.self))
+        
+        return response
+        
     }
     
     
@@ -338,14 +357,23 @@ class CardsViewController:
     func collectionView(_ collectionView: UICollectionView,
                         dropSessionDidUpdate session: UIDropSession,
                         withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-        
-        
-        if session.canLoadObjects(ofClass: IndexCard.self){
+                
+        if session.canLoadObjects(ofClass: UIImage.self){
+            print("image")
+            return UICollectionViewDropProposal(
+                operation: .copy,
+                intent: .insertAtDestinationIndexPath)
+            
+        } else if session.canLoadObjects(ofClass: IndexCard.self){
+            print("card")
             return UICollectionViewDropProposal(
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)
+            
         } else {
+            print("cancel")
             return UICollectionViewDropProposal(operation: .cancel)
+            
         }
     }
     
@@ -353,24 +381,40 @@ class CardsViewController:
     
     
     func collectionView(_ collectionView: UICollectionView,
-                        performDropWith coordinator: UICollectionViewDropCoordinator) {
+                    performDropWith coordinator: UICollectionViewDropCoordinator) {
         
-        //batch updates
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
         
         for item in coordinator.items {
             
-            if let sourceIndexPath = item.sourceIndexPath,
-                let droppedCard = item.dragItem.localObject as? IndexCard{
-                
+            //IndexCard being moved
+            if let droppedCard = item.dragItem.localObject as? IndexCard,
+                let sourceIndexPath = item.sourceIndexPath{
+
                 moveCardUndoably(cardToMove: droppedCard,
                                  fromDeck: currentDeck,
                                  toDeck: currentDeck,
                                  sourceIndexPath: sourceIndexPath,
                                  destinationIndexPath: destinationIndexPath)
+                return
+            }//if let
+            
+            
+            //dropped images from another app
+            let location = coordinator.session.location(in: view)
+            let _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
+                 
+                if let image = (object as? UIImage) {
+                    
+                    DispatchQueue.main.async {
+                        self.userDropped(image: image, at: location)
+                    }
+  
+                } //if let
                 
-            }
-        }
+            })//loadObject completion
+
+        }//for
     }
     
     
