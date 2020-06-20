@@ -105,7 +105,6 @@ class DecksViewController:
                 
                 self.decksCollectionView.selectItem(at: IndexPath(0,0), animated: true, scrollPosition: .centeredVertically)
                 
-                self.displayDeck(at: IndexPath(0,0))
             }
         })
     }
@@ -237,6 +236,10 @@ class DecksViewController:
                     if let deck = deckFor(indexPath){
                         cell.image = deck.thumbnail
                     }
+                    
+                    //highlight selected deck
+                    cell.isSelected = model.decks[indexPath.item] == selectedDeck
+                
                     return cell
                 }
             
@@ -570,7 +573,6 @@ class DecksViewController:
                                             toDeck: destinationDeck,
                                             sourceIndexPath: sourceIndexPath,
                                             destinationIndexPath: IndexPath(0,0))
-                
             }//for
             
             

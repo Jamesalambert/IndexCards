@@ -391,11 +391,15 @@ class CardsViewController:
             if let droppedCard = item.dragItem.localObject as? IndexCard,
                 let sourceIndexPath = item.sourceIndexPath{
 
+                
                 moveCardUndoably(cardToMove: droppedCard,
-                                 fromDeck: currentDeck,
-                                 toDeck: currentDeck,
-                                 sourceIndexPath: sourceIndexPath,
-                                 destinationIndexPath: destinationIndexPath)
+                                fromDeck: currentDeck,
+                                toDeck: currentDeck,
+                                sourceIndexPath: sourceIndexPath,
+                                destinationIndexPath: destinationIndexPath)
+           
+                
+                
                 return
             }//if let
             

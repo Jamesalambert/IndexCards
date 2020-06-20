@@ -246,7 +246,7 @@
                         <viewLayoutGuide key="safeArea" id="3jK-cw-TMd"/>
                     </view>
                     <navigationItem key="navigationItem" id="GbT-jb-z59">
-                        <barButtonItem key="rightBarButtonItem" title="add deck" id="8Mb-qD-kPO">
+                        <barButtonItem key="rightBarButtonItem" title="add deck" springLoaded="YES" id="8Mb-qD-kPO">
                             <connections>
                                 <action selector="addDeck:" destination="GJ9-Tg-zGl" id="F4B-fb-sUx"/>
                             </connections>
