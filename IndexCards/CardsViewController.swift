@@ -335,9 +335,9 @@ class CardsViewController:
         
     }
     
-    
-    
-    
+    func collectionView(_ collectionView: UICollectionView, dragSessionAllowsMoveOperation session: UIDragSession) -> Bool {
+        return true
+    }
     
     
     //MARK:- UIColllectionViewDropDelegate
@@ -345,7 +345,6 @@ class CardsViewController:
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
-                
         let response =  (session.canLoadObjects(ofClass: IndexCard.self) || session.canLoadObjects(ofClass: UIImage.self))
         
         return response
@@ -606,6 +605,7 @@ class CardsViewController:
 extension IndexCard : NSCopying,
 NSItemProviderWriting,
 NSItemProviderReading{
+    
     static var writableTypeIdentifiersForItemProvider: [String]{
         return [(kUTTypeData) as String]
     }
@@ -634,7 +634,7 @@ NSItemProviderReading{
         return [(kUTTypeData) as String]
     }
     
-    //had to add final class Deck after changeing the return type from Self to IndexCard
+    //had to add final class Deck after changing the return type from Self to IndexCard
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> IndexCard {
         
         let decoder = JSONDecoder()

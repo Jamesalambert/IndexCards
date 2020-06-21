@@ -8,11 +8,11 @@
 
 import UIKit
 
-enum StickerShape{    
-    case Circle
-    case Quiz
-    case RoundRect
-    case Highlight
+enum StickerKind : Int{
+    case Circle = 1
+    case Quiz = 2
+    case RoundRect = 3
+    case Highlight = 4
 }
 
 
@@ -21,7 +21,7 @@ class StickerObject : UIView,
 UITextFieldDelegate {
 
     //MARK:- public
-    var currentShape : StickerShape = .RoundRect {didSet{setNeedsDisplay()}}
+    var currentShape : StickerKind = .RoundRect {didSet{setNeedsDisplay()}}
     
     var isAboutToBeDeleted = false {
         willSet{

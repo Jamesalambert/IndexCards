@@ -81,6 +81,9 @@ class DecksViewController:
     }
     
 
+    @IBOutlet weak var addDeckButton: UIBarButtonItem!
+    
+    
     //MARK:- IBActions
     
     @IBAction func addDeck(_ sender: Any) {
@@ -169,6 +172,7 @@ class DecksViewController:
         
         self.cardsView = cardsView
         
+        cardsView.decksView = self
         cardsView.document = self.document
         cardsView.theme = self.theme
     }

@@ -10,7 +10,7 @@ import UIKit
 
 class ShapeCell: UICollectionViewCell {
     
-    var currentShape = StickerShape.RoundRect
+    var currentShape = StickerKind.RoundRect
     var scale = CGFloat(0.8)
     
     var stickerColor : UIColor {

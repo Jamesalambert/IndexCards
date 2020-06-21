@@ -257,7 +257,7 @@ class StickerEditorViewController:
         }//if lets
     }//func
     
-    private func addSticker(ofShape shape : StickerShape, from view : UIView) -> StickerObject{
+    private func addSticker(ofShape shape : StickerKind, from view : UIView) -> StickerObject{
         
         let newSticker = StickerObject.fromNib(shape: shape)
 
@@ -345,7 +345,7 @@ class StickerEditorViewController:
                         itemsForBeginning session: UIDragSession,
                         at indexPath: IndexPath) -> [UIDragItem] {
         
-        //lets dragged items know/report that they were dragged from the emoji collection view
+        //lets dragged items know/report that they were dragged from the collection view
         session.localContext = collectionView
         
         return dragItemsAtIndexPath(at: indexPath)
@@ -364,25 +364,12 @@ class StickerEditorViewController:
     //my own helper func
     func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
         
-        var dragString = ""
-        
         //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-        if let draggedData = (shapeCollectionView.cellForItem(at: indexPath) as? ShapeCell)?.currentShape{
-            
-            switch draggedData {
-            case .Circle:
-                dragString = "Circle"
-            case .RoundRect:
-                dragString = "RoundRect"
-            case .Highlight:
-                dragString = "Highlight"
-            case .Quiz:
-                dragString = "Quiz"
-            }
-            
-            let dragItem = UIDragItem(itemProvider: NSItemProvider(object: dragString.attributedText()))
+        if let draggedShape = (shapeCollectionView.cellForItem(at: indexPath) as? ShapeCell)?.currentShape{
+                      
             //useful shortcut we can use when dragging inside our app
-            dragItem.localObject = draggedData
+            let dragItem = UIDragItem(itemProvider: NSItemProvider())
+            dragItem.localObject = draggedShape
             
             return [dragItem]
         } else {

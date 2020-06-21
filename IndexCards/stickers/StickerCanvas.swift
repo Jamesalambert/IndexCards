@@ -39,7 +39,7 @@ UIActivityItemSource
     
     //MARK:- UIActivityItemSource
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
-        return UIImage()
+        return self.snapshot!
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController,
@@ -51,7 +51,12 @@ UIActivityItemSource
     func dropInteraction(_ interaction: UIDropInteraction,
                          canHandle session: UIDropSession) -> Bool {
         
-        return session.canLoadObjects(ofClass: NSAttributedString.self)
+        //if it contains a local StickerKind
+        let draggedStickers = session.items.compactMap({ item in
+            item.localObject as? StickerKind
+        })
+        
+        return !draggedStickers.isEmpty || session.canLoadObjects(ofClass: NSAttributedString.self)
     }
     
     
@@ -67,28 +72,30 @@ UIActivityItemSource
     func dropInteraction(_ interaction: UIDropInteraction,
                          performDrop session: UIDropSession) {
         
+        let dropPoint = session.location(in: self)
         
-        //creates new instances of the dragged items
-        session.loadObjects(ofClass: NSAttributedString.self) { providers in
-            
-            let dropPoint = session.location(in: self)
-            
-            for attributedString in providers as? [NSAttributedString] ?? []{
-                
-                let shape : StickerShape
-                
-                shape = attributedString.string.asShape()
-                
-                let _ = self.addDroppedShape(shape: shape,
-                                  atLocation: dropPoint)
-                
-            }//for
-        } //completion
+        //dropping stickers locally
+        for item in session.items{
+            if let stickerKind = item.localObject as? StickerKind{
+                let _ = self.addDroppedShape(shape: stickerKind,
+                atLocation: dropPoint)
+            }
+        } //for
         
-    }
+        //dropped text from another app
+        session.loadObjects(ofClass: NSAttributedString.self, completion: {
+            providers in
+            
+            for draggedString in providers as? [NSAttributedString] ?? [] {
+                let newSticker = self.addDroppedShape(shape: .RoundRect, atLocation: dropPoint)
+                newSticker.stickerText = draggedString.string
+            }
+        })
+        
+    } // func
     
     //MARK:- shape handling
-    func addDroppedShape(shape: StickerShape, atLocation dropPoint : CGPoint) -> StickerObject {
+    func addDroppedShape(shape: StickerKind, atLocation dropPoint : CGPoint) -> StickerObject {
         
         let newSticker : StickerObject
         
@@ -392,7 +399,7 @@ extension StickerObject{
     }
     
     
-    static func fromNib(shape : StickerShape) -> StickerObject{
+    static func fromNib(shape : StickerKind) -> StickerObject{
         
         let newSticker : StickerObject
         
@@ -427,8 +434,11 @@ extension StickerObject{
     
 }
 
+
+
+
 extension String{
-    func asShape() -> StickerShape {
+    func asShape() -> StickerKind {
         switch self {
         case "Circle":
             return .Circle
