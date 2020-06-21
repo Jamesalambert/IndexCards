@@ -321,8 +321,11 @@ UIActivityItemSource
                 sticker.isConcealed = !sticker.isConcealed
             }, completion: nil)
         }
+        
+        
     }
-
+    
+    
     
     //MARK:- init()
     
@@ -339,16 +342,95 @@ UIActivityItemSource
     
     private func setup(){
         self.addInteraction(UIDropInteraction(delegate: self))
+        
+        //TODO: paste support for images and text
+        let pasteConfig = UIPasteConfiguration(forAccepting: NSAttributedString.self)
+        pasteConfig.addTypeIdentifiers(forAccepting: UIImage.self)
+
+        self.pasteConfiguration = pasteConfig
+        
         self.contentMode = .redraw
     }
     
     
+    //MARK:- Paste handling
+    
+    override var canBecomeFirstResponder: Bool{
+        return true
+    }
+
+    @objc override func paste(itemProviders: [NSItemProvider]) {
+
+        //handle pasted text
+        for pastedItem in itemProviders {
+            pastedItem.loadObject(ofClass: NSString.self, completionHandler: { (provider, error) in
+
+                if let pastedString = provider as? String{
+                    
+                    DispatchQueue.main.async {
+                        let newSticker = self.addDroppedShape(shape: .RoundRect,
+                        atLocation: self.bounds.center)
+                        newSticker.stickerText = pastedString
+                    }
+
+                }//if
+                
+                
+                //TODO: image sticker
+                
+                
+                
+            })
+        }//for
+    }//func
+    
     
     //MARK:- UIView
+    
+    @objc func tapToPaste(sender : UITapGestureRecognizer){
+    
+        let menu = UIMenuController.shared
+        
+        switch sender.state {
+        case .began:
+            
+            menu.setMenuVisible(false, animated: true)
+            
+            becomeFirstResponder()
+            menu.setTargetRect(bounds.zoom(by: CGFloat(0.1)), in: self)
+            if #available(iOS 13.0, *) {
+                menu.showMenu(from: self, rect: bounds.zoom(by: CGFloat(0.1)))
+            } else {
+                menu.setMenuVisible(true, animated: true)
+            }
+            
+        case .cancelled:
+            menu.setMenuVisible(false, animated: true)
+        default:
+            return
+        }
+
+    }
+    
+    @objc func tapToDismissMenu(sender : UITapGestureRecognizer){
+        UIMenuController.shared.setMenuVisible(false, animated: true)
+    }
+    
+    override func didMoveToSuperview() {
+        let press = UILongPressGestureRecognizer(target: self, action: #selector(tapToPaste(sender:)))
+        press.delegate = self
+        self.addGestureRecognizer(press)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismissMenu(sender:)))
+        self.addGestureRecognizer(tap)
+    }
+    
+    
     override func draw(_ rect: CGRect) {
         backgroundImage?.draw(in: self.bounds)
     }
     
+    //place stickers correctly
     override func layoutSubviews() {
         subviews.compactMap{$0 as? StickerObject}.forEach{
             let size = $0.unitSize
