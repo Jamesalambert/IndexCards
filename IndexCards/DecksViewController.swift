@@ -16,8 +16,7 @@ class DecksViewController:
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
     UICollectionViewDragDelegate,
-    UICollectionViewDropDelegate,
-    UIGestureRecognizerDelegate
+    UICollectionViewDropDelegate
 {
    
     

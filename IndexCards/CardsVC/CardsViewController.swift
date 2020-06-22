@@ -19,8 +19,6 @@ class CardsViewController:
     UICollectionViewDataSource,
     UICollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
-    UICollectionViewDragDelegate,
-    UICollectionViewDropDelegate,
     StickerEditorDelegate,
     UINavigationControllerDelegate
 {
@@ -61,6 +59,9 @@ class CardsViewController:
         }
     }
     var decksView : DecksViewController?
+    
+    var actionMenuIndexPath : IndexPath?
+    var actionMenuCollectionView : UICollectionView?
 
     //MARK:- Outlets
     @IBOutlet weak var indexCardsCollectionView: UICollectionView!{
@@ -240,21 +241,6 @@ class CardsViewController:
     }
     
     
-    //MARK:- DroppedItemReciever
-    func userDropped(image: UIImage, at point: CGPoint){
-        let tempView = UIView(frame: CGRect(center: point,
-                              size: CGSize(width: cardWidth,
-                                           height: cardWidth/1.5)))
-        
-        view.addSubview(tempView)
-        
-        presentStickerEditor(from: tempView, with: nil, forCropping: image, temporaryView: true)
-    }
-    
-    func userDropped(text: NSAttributedString) {
-        //do nothing!
-    }
-    
     
     
     // MARK:- UICollectionViewDataSource
@@ -294,260 +280,7 @@ class CardsViewController:
         tappedIndexCard(indexPath: indexPath)
     }
     
-    
-    //MARK: - UICollectionViewDragDelegate
-    //for dragging from a collection view
-    
-    //items for beginning means 'this is what we're dragging'
-    func collectionView(_ collectionView: UICollectionView,
-                        itemsForBeginning session: UIDragSession,
-                        at indexPath: IndexPath) -> [UIDragItem] {
         
-       //so if we drag the card to the deck collection we can call batch updates on this collection view from there.
-        session.localContext = DragData(collectionView: collectionView, indexPath: indexPath)
-        
-        return dragItemsAtIndexPath(at: indexPath)
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        itemsForAddingTo session: UIDragSession,
-                        at indexPath: IndexPath,
-                        point: CGPoint) -> [UIDragItem] {
-        
-        return dragItemsAtIndexPath(at: indexPath)
-    }
-    
-    
-    //my own helper func
-    func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
-        
-        //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-         let draggedData = currentDeck.cards[indexPath.item]
-            
-            let dragItem = UIDragItem(
-                itemProvider: NSItemProvider(object: draggedData))
-            
-            //useful shortcut we can use when dragging inside our app
-            dragItem.localObject = draggedData
-            
-            return [dragItem]
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dragSessionAllowsMoveOperation session: UIDragSession) -> Bool {
-        return true
-    }
-    
-    
-    //MARK:- UIColllectionViewDropDelegate
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        canHandle session: UIDropSession) -> Bool {
-        
-        let response =  (session.canLoadObjects(ofClass: IndexCard.self) || session.canLoadObjects(ofClass: UIImage.self))
-        
-        return response
-        
-    }
-    
-    
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        dropSessionDidUpdate session: UIDropSession,
-                        withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-                
-        if session.canLoadObjects(ofClass: UIImage.self){
-            print("image")
-            return UICollectionViewDropProposal(
-                operation: .copy,
-                intent: .insertAtDestinationIndexPath)
-            
-        } else if session.canLoadObjects(ofClass: IndexCard.self){
-            print("card")
-            return UICollectionViewDropProposal(
-                operation: .move,
-                intent: .insertAtDestinationIndexPath)
-            
-        } else {
-            print("cancel")
-            return UICollectionViewDropProposal(operation: .cancel)
-            
-        }
-    }
-    
-    
-    
-    
-    func collectionView(_ collectionView: UICollectionView,
-                    performDropWith coordinator: UICollectionViewDropCoordinator) {
-        
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
-        
-        for item in coordinator.items {
-            
-            //IndexCard being moved
-            if let droppedCard = item.dragItem.localObject as? IndexCard,
-                let sourceIndexPath = item.sourceIndexPath{
-
-                
-                moveCardUndoably(cardToMove: droppedCard,
-                                fromDeck: currentDeck,
-                                toDeck: currentDeck,
-                                sourceIndexPath: sourceIndexPath,
-                                destinationIndexPath: destinationIndexPath)
-           
-                
-                
-                return
-            }//if let
-            
-            
-            //dropped images from another app
-            let location = coordinator.session.location(in: view)
-            let _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
-                 
-                if let image = (object as? UIImage) {
-                    
-                    DispatchQueue.main.async {
-                        self.userDropped(image: image, at: location)
-                    }
-  
-                } //if let
-                
-            })//loadObject completion
-
-        }//for
-    }
-    
-    
-    
-    
-    //MARK:- Action Menu
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    var actionMenuIndexPath : IndexPath?
-    var actionMenuCollectionView : UICollectionView?
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        
-        return true
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        
-        let delete = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
-        
-        let duplicate = UIMenuItem(title: "Duplicate", action: #selector(IndexCardViewCell.duplicateCard))
-        
-        let cardActions = [delete, duplicate]
-        
-        UIMenuController.shared.menuItems = cardActions
-        
-        actionMenuIndexPath = indexPath
-        actionMenuCollectionView = collectionView
-        
-        return cardActions.compactMap{$0.action}.contains(action)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-        
-    }
-    
-    
-    func duplicateCard(){
-        actionMenuCollectionView?.performBatchUpdates({
-            
-            if let indexPath = actionMenuIndexPath{
-                currentDeck.duplicateCard(atIndex: indexPath.item)
-                
-                actionMenuCollectionView?.insertItems(at: [indexPath])
-            }
-            
-        }, completion: { finished in
-            if finished {self.document.updateChangeCount(.done)}
-        })
-    }
-    
-    
-    func deleteCard(){
-       if let indexPath = actionMenuIndexPath {
-           
-           moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
-                            fromDeck: self.currentDeck,
-                            toDeck: self.document.deletedCardsDeck,
-                            sourceIndexPath: indexPath,
-                            destinationIndexPath: indexPath)
-           
-       }//if let
-    }//func
-    
-    
-    
-    func moveCardUndoably(cardToMove : IndexCard, fromDeck: Deck,
-            toDeck: Deck, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath){
-        
-        
-        ////////////////set up undo
-        let card = cardToMove
-        let to = toDeck
-        let from = fromDeck
-    
-        self.document.undoManager.beginUndoGrouping()
-        self.document.undoManager.registerUndo(withTarget: self,
-                                               handler: { VC in
-            //call with decks reversed.
-            VC.moveCardUndoably(cardToMove: card,
-                                fromDeck: to,
-                                toDeck: from,
-                                sourceIndexPath: destinationIndexPath,
-                                destinationIndexPath: sourceIndexPath)
-        })
-        self.document.undoManager.endUndoGrouping()
-        /////////////////////////////
-        
-        //deleting from onscreen deck or moving
-        if currentDeck == fromDeck {
-            indexCardsCollectionView.performBatchUpdates({
-                
-                //delete from source
-                fromDeck.cards.removeAll(where: {$0 == cardToMove})
-                indexCardsCollectionView.deleteItems(at: [sourceIndexPath])
-                
-                if fromDeck == toDeck{
-                    //move card to destination Deck!
-                    toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
-                    indexCardsCollectionView.insertItems(at: [destinationIndexPath])
-                } else {
-                    //add to deleted cards deck
-                    toDeck.cards.append(cardToMove)
-                }
-                
-            }, completion: nil)
-            
-            //undeleting back to onscreen deck
-        } else if currentDeck == toDeck {
-
-            indexCardsCollectionView.performBatchUpdates({
-                //delete from source
-                fromDeck.cards.removeAll(where: {$0 == cardToMove})
-                //move card to destination Deck!
-                toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
-                
-                indexCardsCollectionView.insertItems(at: [destinationIndexPath])
-            }, completion: nil)
-            //both decks off screen
-        } else {
-            //never runs?
-            fromDeck.cards.removeAll(where: {$0 == cardToMove})
-            //move card to destination Deck!
-            toDeck.cards.insert(cardToMove, at: 0)
-        }
-    
-    }
-    
-    
     //MARK:- UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
