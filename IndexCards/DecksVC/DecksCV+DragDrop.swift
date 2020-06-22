@@ -12,8 +12,10 @@ import MobileCoreServices
 
 extension DecksViewController:
 UICollectionViewDragDelegate,
-UICollectionViewDropDelegate
+UICollectionViewDropDelegate,
+UIDropInteractionDelegate
 {
+    
     //MARK: - UICollectionViewDragDelegate
     
     //for dragging from a collection view
@@ -62,13 +64,12 @@ UICollectionViewDropDelegate
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
+        
         if session.canLoadObjects(ofClass: Deck.self) || session .canLoadObjects(ofClass: IndexCard.self){
             return true
         }
         return false
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView,
                         dropSessionDidUpdate session: UIDropSession,
@@ -90,9 +91,6 @@ UICollectionViewDropDelegate
             return UICollectionViewDropProposal(operation: .forbidden)
         }
     }
-    
-    
-    
     
     func collectionView(_ collectionView: UICollectionView,
         performDropWith coordinator: UICollectionViewDropCoordinator) {
@@ -151,14 +149,17 @@ UICollectionViewDropDelegate
                                             sourceIndexPath: sourceIndexPath,
                                             destinationIndexPath: IndexPath(0,0))
             }//for
-            
-            
         default:
             return
         }
         
     }
-}
+    
+   
+    
+    
+    
+}//class
 
 
 //MARK:- Drag and Drop handling
