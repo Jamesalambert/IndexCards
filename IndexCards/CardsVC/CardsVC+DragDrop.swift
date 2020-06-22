@@ -12,7 +12,8 @@ import MobileCoreServices
 
 extension CardsViewController :
     UICollectionViewDragDelegate,
-    UICollectionViewDropDelegate
+    UICollectionViewDropDelegate,
+    UIDropInteractionDelegate
 {
     
     //MARK: - UICollectionViewDragDelegate
@@ -50,14 +51,6 @@ extension CardsViewController :
         
         //useful shortcut we can use when dragging inside our app
         dragItem.localObject = draggedData
-        
-        
-        self.cardDragPreview = UIImageView(image: self.indexCardsCollectionView.cellForItem(at: indexPath)?.snapshot)
-
-        
-        dragItem.previewProvider = {
-            return UIDragPreview(view: self.cardDragPreview!)
-        }
         
         return [dragItem]
         
@@ -114,7 +107,7 @@ extension CardsViewController :
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
         
         for item in coordinator.items {
-            
+        
             //IndexCard being moved
             if let droppedCard = item.dragItem.localObject as? IndexCard,
                 let sourceIndexPath = item.sourceIndexPath{
@@ -126,7 +119,8 @@ extension CardsViewController :
                                  sourceIndexPath: sourceIndexPath,
                                  destinationIndexPath: destinationIndexPath)
                 
-                
+                //animate nicely!
+                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
                 
                 return
             }//if let
@@ -134,7 +128,10 @@ extension CardsViewController :
             
             //dropped images from another app
             let location = coordinator.session.location(in: view)
-            let _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
+            let _ = item
+                .dragItem
+                .itemProvider
+                .loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
                 
                 if let image = (object as? UIImage) {
                     
@@ -158,13 +155,18 @@ extension CardsViewController :
         
         presentStickerEditor(from: tempView, with: nil, forCropping: image, temporaryView: true)
     }
+    
+    
+    
 }
 
 //MARK:- allow dragging of IndexCards
 
-extension IndexCard : NSCopying,
-    NSItemProviderWriting,
-NSItemProviderReading{
+extension IndexCard :
+NSCopying,
+NSItemProviderWriting,
+NSItemProviderReading
+{
     
     static var writableTypeIdentifiersForItemProvider: [String]{
         return [(kUTTypeData) as String]

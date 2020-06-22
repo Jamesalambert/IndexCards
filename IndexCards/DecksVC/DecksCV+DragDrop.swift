@@ -72,34 +72,40 @@ UIDropInteractionDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        dropSessionDidUpdate session: UIDropSession,
-                        withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+            dropSessionDidUpdate session: UIDropSession,
+                    withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         
-        //check to see if it came from the DecksCollectionVC
-        let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
-        
-        if isFromSelf{
+        //if it's from the DecksCV
+        if session.localDragSession != nil{
             return UICollectionViewDropProposal(
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)
+            
         } else {
             if session.canLoadObjects(ofClass: IndexCard.self),
                 destinationIndexPath?.section == 0{
-                return UICollectionViewDropProposal(operation: .move, intent: .insertIntoDestinationIndexPath)
+    
+                return UICollectionViewDropProposal(
+                    operation: .move,
+                    intent: .insertIntoDestinationIndexPath)
             }
             //can't drag cards into deleted decks
             return UICollectionViewDropProposal(operation: .forbidden)
         }
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView,
         performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+        guard let destinationIndexPath = coordinator.destinationIndexPath else {return}
         
         switch coordinator.proposal.intent{
         case .insertAtDestinationIndexPath:
             
             //moving a deck
-            let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
+            
             
             for item in coordinator.items {
                 
@@ -127,6 +133,9 @@ UIDropInteractionDelegate
                     }, completion: { finished in
                         self.document?.updateChangeCount(.done)
                     })
+                    
+                    coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                    
                 }
             }
         //moving a card to a new deck
@@ -139,7 +148,6 @@ UIDropInteractionDelegate
                 guard let droppedCard = item.dragItem.localObject as? IndexCard else {return}
                 
                 let sourceIndexPath = dragData.indexPath
-                let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
                 let destinationDeck = model.decks[destinationIndexPath.item]
 
                 //moveCardsFromDeck....
@@ -148,14 +156,15 @@ UIDropInteractionDelegate
                                             toDeck: destinationDeck,
                                             sourceIndexPath: sourceIndexPath,
                                             destinationIndexPath: IndexPath(0,0))
+                
+                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                
             }//for
         default:
             return
         }
         
     }
-    
-   
     
     
     
