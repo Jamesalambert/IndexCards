@@ -41,7 +41,8 @@ UINavigationControllerDelegate{
     
     //MARK:- helper funcs
     
-    @objc private func choiceCardTapped(indexPath: IndexPath){
+    @objc
+    private func choiceCardTapped(indexPath: IndexPath){
         print("tap")
         //guard let tappedCell = sender.view as? ChooseBackgroundTypeCell else {return}
          guard let tappedCell = backgroundChoicesCollectionView.cellForItem(at: indexPath) as? ChooseBackgroundTypeCell else {return}
@@ -100,7 +101,8 @@ UINavigationControllerDelegate{
     }
     
     
-    @objc private func tapToDismiss(_ sender : UITapGestureRecognizer){
+    @objc
+    private func tapToDismiss(_ sender : UITapGestureRecognizer){
         
         //see if any cells were tapped
         let tappedCells = backgroundChoicesCollectionView.visibleCells.map { cell -> Bool in

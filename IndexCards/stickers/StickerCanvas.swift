@@ -170,7 +170,8 @@ UIActivityItemSource
     
     
     
-    @objc func panning(_ gesture : UIPanGestureRecognizer){
+    @objc
+    func panning(_ gesture : UIPanGestureRecognizer){
         switch gesture.state {
         case .changed:
             
@@ -240,7 +241,8 @@ UIActivityItemSource
 }
     
     
-    @objc func zooming(_ gesture: UIPinchGestureRecognizer){
+    @objc
+    func zooming(_ gesture: UIPinchGestureRecognizer){
         switch gesture.state {
         case .changed:
             
@@ -306,7 +308,8 @@ UIActivityItemSource
         }
     }
     
-    @objc func tap(_ gesture : UITapGestureRecognizer){
+    @objc
+    func tap(_ gesture : UITapGestureRecognizer){
         
         if let sticker = gesture.view as? TextSticker{
             currentTextField = sticker.textField
@@ -359,7 +362,8 @@ UIActivityItemSource
         return true
     }
 
-    @objc override func paste(itemProviders: [NSItemProvider]) {
+    @objc
+    override func paste(itemProviders: [NSItemProvider]) {
 
         //handle pasted text
         for pastedItem in itemProviders {
@@ -387,7 +391,8 @@ UIActivityItemSource
     
     //MARK:- UIView
     
-    @objc func tapToPaste(sender : UITapGestureRecognizer){
+    @objc
+    func tapToPaste(sender : UITapGestureRecognizer){
     
         let menu = UIMenuController.shared
         
@@ -412,7 +417,8 @@ UIActivityItemSource
 
     }
     
-    @objc func tapToDismissMenu(sender : UITapGestureRecognizer){
+    @objc
+    func tapToDismissMenu(sender : UITapGestureRecognizer){
         UIMenuController.shared.setMenuVisible(false, animated: true)
     }
     

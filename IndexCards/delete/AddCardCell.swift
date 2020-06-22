@@ -39,7 +39,8 @@ class AddCardCell: UICollectionViewCell {
     }
     
     
-    @objc func deleteDeck(_ sender : UIMenuController){
+    @objc
+    func deleteDeck(_ sender : UIMenuController){
         delegate?.deleteTappedDeck(sender)
     }
 }

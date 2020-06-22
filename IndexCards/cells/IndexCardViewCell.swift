@@ -47,11 +47,13 @@ class IndexCardViewCell: UICollectionViewCell {
   
     }
     
-    @objc func deleteCard(){
+    @objc
+    func deleteCard(){
         delegate?.deleteCard()
     }
     
-    @objc func duplicateCard(){
+    @objc
+    func duplicateCard(){
         delegate?.duplicateCard()
     }
     

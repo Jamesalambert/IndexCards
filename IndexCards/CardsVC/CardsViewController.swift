@@ -216,7 +216,8 @@ class CardsViewController:
 //       }
     
     //MARK:- Gesture handlers
-    @objc private func tappedIndexCard(indexPath : IndexPath){
+    @objc
+    private func tappedIndexCard(indexPath : IndexPath){
         //get tapped cell
         
         guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}

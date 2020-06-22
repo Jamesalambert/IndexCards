@@ -154,7 +154,8 @@ class StickerEditorViewController:
         }
     }
     
-    @objc func dismissKeyboard(){
+    @objc
+    func dismissKeyboard(){
         stickerView.currentTextField?.resignFirstResponder()
     }
     
@@ -219,7 +220,8 @@ class StickerEditorViewController:
     }//func
     
     
-    @objc private func tappedStickerMenu(_ gesture : UITapGestureRecognizer){
+    @objc
+    private func tappedStickerMenu(_ gesture : UITapGestureRecognizer){
         
         if let tappedIndexPath = shapeCollectionView.indexPathForItem(
             at: gesture.location(in: shapeCollectionView)),
