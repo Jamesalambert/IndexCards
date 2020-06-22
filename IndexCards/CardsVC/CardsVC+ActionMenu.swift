@@ -28,7 +28,6 @@ extension CardsViewController {
         UIMenuController.shared.menuItems = cardActions
         
         actionMenuIndexPath = indexPath
-        actionMenuCollectionView = collectionView
         
         return cardActions.compactMap{$0.action}.contains(action)
     }
@@ -39,12 +38,12 @@ extension CardsViewController {
     
     
     func duplicateCard(){
-        actionMenuCollectionView?.performBatchUpdates({
+        indexCardsCollectionView?.performBatchUpdates({
             
             if let indexPath = actionMenuIndexPath{
                 currentDeck.duplicateCard(atIndex: indexPath.item)
                 
-                actionMenuCollectionView?.insertItems(at: [indexPath])
+                indexCardsCollectionView?.insertItems(at: [indexPath])
             }
             
         }, completion: { finished in

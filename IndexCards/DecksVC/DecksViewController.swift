@@ -33,7 +33,6 @@ class DecksViewController:
     
     var fileLocationURL : URL?
     var theme = Theme()
-    
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?
     var selectedDeck : Deck {
@@ -48,22 +47,6 @@ class DecksViewController:
     var documentObserver : NSObjectProtocol?
     var undoObserver : NSObjectProtocol?
     var cardsView : CardsViewController?
-    
-    var cardsCollectionView : UICollectionView? {
-        if let navCon = cardsViewNavCon as? UINavigationController,
-            let cardsView = navCon.visibleViewController as? CardsViewController{
-            
-            return cardsView.indexCardsCollectionView
-        }
-        return nil
-    }
-    
-    var cardsViewNavCon : UIViewController? {
-        if let navController = splitViewController?.viewControllers[1] as? UINavigationController{
-            return navController
-        }
-        return nil
-    }
     
     //MARK:- Outlets
     @IBOutlet weak var decksCollectionView: UICollectionView!{

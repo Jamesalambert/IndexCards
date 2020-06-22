@@ -58,9 +58,7 @@ class CardsViewController:
         }
     }
     var decksView : DecksViewController?
-    
     var actionMenuIndexPath : IndexPath?
-    var actionMenuCollectionView : UICollectionView?
 
     //MARK:- Outlets
     @IBOutlet weak var indexCardsCollectionView: UICollectionView!{
