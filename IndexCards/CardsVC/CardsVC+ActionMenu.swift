@@ -9,13 +9,10 @@
 import UIKit
 
 extension CardsViewController {
-    //MARK:- Action Menu
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
    
     
     func collectionView(_ collectionView: UICollectionView,
-                        shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        
+                    shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
         return true
     }
     

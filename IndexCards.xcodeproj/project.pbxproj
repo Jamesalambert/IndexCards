@@ -33,6 +33,9 @@
 		1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEDB84C2460B69E00C080B4 /* DismissingAnimator.swift */; };
 		1AEEC97724A11EE0003AE94F /* CardsVC+DragDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEEC97624A11EE0003AE94F /* CardsVC+DragDrop.swift */; };
 		1AEEC97924A11F52003AE94F /* CardsVC+ActionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEEC97824A11F52003AE94F /* CardsVC+ActionMenu.swift */; };
+		1AEEC97C24A1225C003AE94F /* CardsVC+Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEEC97B24A1225C003AE94F /* CardsVC+Nav.swift */; };
+		1AEEC97E24A12581003AE94F /* DecksCV+DragDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEEC97D24A12581003AE94F /* DecksCV+DragDrop.swift */; };
+		1AEEC98024A1266D003AE94F /* DecksCV+ActionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEEC97F24A1266D003AE94F /* DecksCV+ActionMenu.swift */; };
 		1AF357292467502C00F5D464 /* AddCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF357282467502C00F5D464 /* AddCardCell.swift */; };
 		1AF9E12C245F7E9500DDD4C0 /* IndexCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */; };
 		1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD95FE245CDE630092CF99 /* AppDelegate.swift */; };
@@ -69,6 +72,9 @@
 		1AEDB84C2460B69E00C080B4 /* DismissingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingAnimator.swift; sourceTree = "<group>"; };
 		1AEEC97624A11EE0003AE94F /* CardsVC+DragDrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardsVC+DragDrop.swift"; sourceTree = "<group>"; };
 		1AEEC97824A11F52003AE94F /* CardsVC+ActionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardsVC+ActionMenu.swift"; sourceTree = "<group>"; };
+		1AEEC97B24A1225C003AE94F /* CardsVC+Nav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardsVC+Nav.swift"; sourceTree = "<group>"; };
+		1AEEC97D24A12581003AE94F /* DecksCV+DragDrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecksCV+DragDrop.swift"; sourceTree = "<group>"; };
+		1AEEC97F24A1266D003AE94F /* DecksCV+ActionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecksCV+ActionMenu.swift"; sourceTree = "<group>"; };
 		1AF357282467502C00F5D464 /* AddCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardCell.swift; sourceTree = "<group>"; };
 		1AF9E12B245F7E9500DDD4C0 /* IndexCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexCardViewCell.swift; sourceTree = "<group>"; };
 		1AFD95FB245CDE630092CF99 /* IndexCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndexCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,8 +148,19 @@
 				1A768906249412F10062CF44 /* CardsViewController.swift */,
 				1AEEC97624A11EE0003AE94F /* CardsVC+DragDrop.swift */,
 				1AEEC97824A11F52003AE94F /* CardsVC+ActionMenu.swift */,
+				1AEEC97B24A1225C003AE94F /* CardsVC+Nav.swift */,
 			);
 			path = CardsVC;
+			sourceTree = "<group>";
+		};
+		1AEEC98124A1280C003AE94F /* DecksVC */ = {
+			isa = PBXGroup;
+			children = (
+				1A41241C2496B3F300B3D157 /* DecksViewController.swift */,
+				1AEEC97F24A1266D003AE94F /* DecksCV+ActionMenu.swift */,
+				1AEEC97D24A12581003AE94F /* DecksCV+DragDrop.swift */,
+			);
+			path = DecksVC;
 			sourceTree = "<group>";
 		};
 		1AFD95F2245CDE630092CF99 = {
@@ -167,7 +184,7 @@
 			children = (
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1AFD9602245CDE630092CF99 /* Main.storyboard */,
-				1A41241C2496B3F300B3D157 /* DecksViewController.swift */,
+				1AEEC98124A1280C003AE94F /* DecksVC */,
 				1AEEC97A24A120B9003AE94F /* CardsVC */,
 				1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
@@ -290,9 +307,12 @@
 				1A1B9961245E0ECD0016E050 /* utilities.swift in Sources */,
 				1A135966246B511A001AE343 /* addDeckButtonView.swift in Sources */,
 				1AFD9612245CE9C90092CF99 /* ModelOfIndexCard.swift in Sources */,
+				1AEEC97E24A12581003AE94F /* DecksCV+DragDrop.swift in Sources */,
 				1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */,
 				1A768907249412F10062CF44 /* CardsViewController.swift in Sources */,
+				1AEEC97C24A1225C003AE94F /* CardsVC+Nav.swift in Sources */,
 				1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */,
+				1AEEC98024A1266D003AE94F /* DecksCV+ActionMenu.swift in Sources */,
 				1ADD73C6246E0F9600A9186A /* TextSticker.swift in Sources */,
 				1AF9E12C245F7E9500DDD4C0 /* IndexCardViewCell.swift in Sources */,
 				1AEDB84B2460B68400C080B4 /* PresentingAnimator.swift in Sources */,
