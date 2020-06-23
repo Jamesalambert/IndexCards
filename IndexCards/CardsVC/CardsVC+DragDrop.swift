@@ -67,10 +67,13 @@ extension CardsViewController :
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
-        let response =  (session.canLoadObjects(ofClass: IndexCard.self) || session.canLoadObjects(ofClass: UIImage.self))
         
-        return response
-        
+        if session.canLoadObjects(ofClass: Deck.self){
+            return false
+        } else {
+            return (session.canLoadObjects(ofClass: IndexCard.self) ||
+                    session.canLoadObjects(ofClass: UIImage.self))
+        }
     }
     
     
@@ -104,9 +107,7 @@ extension CardsViewController :
     func collectionView(_ collectionView: UICollectionView,
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
         
-        //TODO: handle cards dropped from other deck via spring loading!
-        
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(currentDeck.cards.count ,0)
         
         for item in coordinator.items {
         
