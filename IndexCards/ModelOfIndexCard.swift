@@ -13,7 +13,7 @@ import MobileCoreServices
 //MARK:- Notes
 class Notes : Codable{
     
-    var decks : [Deck]       //starts with 1 deck
+    var decks : [Deck]
     
     var deletedDecks : [Deck]
     
@@ -23,19 +23,29 @@ class Notes : Codable{
     }
     
     func deleteDeck(at index : Int){
-        assert(index >= 0 && index < decks.count, "deck at index \(index) does not exist so can't be deleted")
+        assert(index >= 0 && index < decks.count,
+               "deck at index \(index) does not exist so can't be deleted")
             deletedDecks.insert(decks.remove(at: index), at: 0)
     }
     
     func unDelete(at index : Int){
-        assert(index >= 0 && index < deletedDecks.count, "deleted deck at index \(index) does not exist so can't be restored")
+        assert(index >= 0 && index < deletedDecks.count,
+               "deleted deck at index \(index) does not exist so can't be restored")
         decks.insert(deletedDecks.remove(at: index), at: 0)
     }
     
     func permanentlyDelete(at index : Int){
-        assert(index >= 0 && index < deletedDecks.count, "deleted deck at index \(index) does not exist so can't be deleted")
+        assert(index >= 0 && index < deletedDecks.count,
+               "deleted deck at index \(index) does not exist so can't be deleted")
         deletedDecks.remove(at: index)
     }
+    
+    func deckContaining(card : IndexCard)->Deck?{
+        return decks.first(where: { deck in
+            deck.cards.contains(card)
+        })
+    }
+    
     
     //encode as a json string for saving
     var json : Data? {
@@ -76,20 +86,17 @@ final class Deck : NSObject, Codable{
             return cards.first?.thumbnail
     }
     
-    func addCard(){
-        let newCard = IndexCard()
-        cards.append(newCard)
-    }
-    
     func deleteCard(_ card: IndexCard){
         cards.removeAll(where: {$0 == card})
     }
     
     func duplicateCard(atIndex index: Int){
-        if index < cards.count, index >= 0{
-            let cardToCopy = cards[index]
-            cards.insert(cardToCopy.copy() as! IndexCard, at: index)
-        }
+        assert(index < cards.count && index >= 0,
+               "There is no card to duplicate at index \(index)")
+        
+            let cardToDuplicate = cards[index]
+            cards.insert(cardToDuplicate.copy() as! IndexCard, at: index)
+        
     }
     
     
@@ -101,7 +108,6 @@ final class Deck : NSObject, Codable{
     
     //unique id
     private var identifier : String
-    //override var hash : Int {return identifier}
     
     static func ==(lhs:Deck, rhs:Deck)->Bool{
         return lhs.identifier == rhs.identifier
@@ -109,11 +115,6 @@ final class Deck : NSObject, Codable{
     
     private static func getIdentifier()->String{
         return UUID().uuidString
-    }
-    
-    
-    override var description: String {
-        return title ?? ""
     }
     
 

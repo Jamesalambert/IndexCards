@@ -55,6 +55,8 @@ class DecksViewController:
             decksCollectionView.dataSource = self
             decksCollectionView.dragDelegate = self
             decksCollectionView.dropDelegate = self
+            
+            decksCollectionView.isSpringLoaded = true
             registerForNotifications()
         }
     }

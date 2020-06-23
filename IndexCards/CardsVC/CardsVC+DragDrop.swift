@@ -104,26 +104,28 @@ extension CardsViewController :
     func collectionView(_ collectionView: UICollectionView,
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
         
+        //TODO: handle cards dropped from other deck via spring loading!
+        
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(0,0)
         
         for item in coordinator.items {
         
             //IndexCard being moved
-            if let droppedCard = item.dragItem.localObject as? IndexCard,
-                let sourceIndexPath = item.sourceIndexPath{
-                
-                
-                moveCardUndoably(cardToMove: droppedCard,
-                                 fromDeck: currentDeck,
-                                 toDeck: currentDeck,
-                                 sourceIndexPath: sourceIndexPath,
-                                 destinationIndexPath: destinationIndexPath)
-                
-                //animate nicely!
-                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
-                
-                return
-            }//if let
+            if let droppedCard = item.dragItem.localObject as? IndexCard {
+                if let sourceIndexPath = (coordinator.session.localDragSession?.localContext as? DragData)?.indexPath{
+                    
+                    
+                    moveCardUndoably(cardToMove: droppedCard,
+                                     toDeck: currentDeck,
+                                     sourceIndexPath: sourceIndexPath,
+                                     destinationIndexPath: destinationIndexPath)
+                    
+                    //animate nicely!
+                    coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                    
+                    return
+                }//if let
+            }
             
             
             //dropped images from another app
@@ -140,8 +142,8 @@ extension CardsViewController :
                     }
                     
                 } //if let
-                
             })//loadObject completion
+        
             
         }//for
     }

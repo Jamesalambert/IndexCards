@@ -56,7 +56,6 @@ extension CardsViewController {
        if let indexPath = actionMenuIndexPath {
            
            moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
-                            fromDeck: self.currentDeck,
                             toDeck: self.document.deletedCardsDeck,
                             sourceIndexPath: indexPath,
                             destinationIndexPath: indexPath)
@@ -66,13 +65,14 @@ extension CardsViewController {
     
     
     
-    func moveCardUndoably(cardToMove : IndexCard, fromDeck: Deck,
+    func moveCardUndoably(cardToMove : IndexCard,
             toDeck: Deck, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath){
         
+        guard let fromDeck = model.deckContaining(card: cardToMove) else {return}
         
         ////////////////set up undo
         let card = cardToMove
-        let to = toDeck
+        //let to = toDeck
         let from = fromDeck
     
         self.document.undoManager.beginUndoGrouping()
@@ -80,7 +80,6 @@ extension CardsViewController {
                                                handler: { VC in
             //call with decks reversed.
             VC.moveCardUndoably(cardToMove: card,
-                                fromDeck: to,
                                 toDeck: from,
                                 sourceIndexPath: destinationIndexPath,
                                 destinationIndexPath: sourceIndexPath)

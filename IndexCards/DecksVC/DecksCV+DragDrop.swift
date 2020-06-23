@@ -72,11 +72,13 @@ UIDropInteractionDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView,
-            dropSessionDidUpdate session: UIDropSession,
-                    withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+                        dropSessionDidUpdate session: UIDropSession,
+                        withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         
-        //if it's from the DecksCV
-        if session.localDragSession != nil{
+        //check to see if it came from the DecksCollectionVC
+        let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
+        
+        if isFromSelf{
             return UICollectionViewDropProposal(
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)
@@ -105,8 +107,6 @@ UIDropInteractionDelegate
         case .insertAtDestinationIndexPath:
             
             //moving a deck
-            
-            
             for item in coordinator.items {
                 
                 if let sourceIndexPath = item.sourceIndexPath,
@@ -152,7 +152,6 @@ UIDropInteractionDelegate
 
                 //moveCardsFromDeck....
                 cardsView?.moveCardUndoably(cardToMove: droppedCard,
-                                            fromDeck: selectedDeck,
                                             toDeck: destinationDeck,
                                             sourceIndexPath: sourceIndexPath,
                                             destinationIndexPath: IndexPath(0,0))
@@ -171,7 +170,7 @@ UIDropInteractionDelegate
 }//class
 
 
-//MARK:- Drag and Drop handling
+//MARK:- Drag and Drop to external apps handling
 
 extension Deck :
 NSItemProviderWriting,
