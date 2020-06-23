@@ -25,7 +25,7 @@ UIDropInteractionDelegate
                         at indexPath: IndexPath) -> [UIDragItem] {
         
         //lets dragged items know/report that they were dragged from the emoji collection view
-        session.localContext = collectionView
+        session.localContext = self
         return dragItemsAtIndexPath(at: indexPath)
         
     }
@@ -76,7 +76,7 @@ UIDropInteractionDelegate
                         withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         
         //check to see if it came from the DecksCollectionVC
-        let isFromSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
+        let isFromSelf = (session.localDragSession?.localContext as? DecksViewController) == self
         
         if isFromSelf{
             return UICollectionViewDropProposal(

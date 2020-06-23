@@ -127,7 +127,6 @@ class CardsViewController:
         //prevent editing of deleted decks
             if model.deletedDecks.contains(currentDeck){return}
         
-        
         //save for later
         indexPathOfEditedCard = indexPath
         
@@ -221,7 +220,6 @@ class CardsViewController:
         super.viewDidLoad()
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self
-    
     }//func
 
     

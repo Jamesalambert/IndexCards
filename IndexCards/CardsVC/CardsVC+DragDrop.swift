@@ -67,13 +67,16 @@ extension CardsViewController :
     func collectionView(_ collectionView: UICollectionView,
                         canHandle session: UIDropSession) -> Bool {
         
+        let response : Bool
         
-        if session.canLoadObjects(ofClass: Deck.self){
-            return false
+        if let _ = session.localDragSession?.localContext as? DecksViewController{
+            response =  false
         } else {
-            return (session.canLoadObjects(ofClass: IndexCard.self) ||
+            response =  (session.canLoadObjects(ofClass: IndexCard.self) ||
                     session.canLoadObjects(ofClass: UIImage.self))
         }
+        print(response)
+        return response
     }
     
     
