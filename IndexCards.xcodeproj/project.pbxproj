@@ -144,7 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				1AFAB2AA24A40C420015B522 /* EditorVC */,
-				1AFAB2AB24A40C780015B522 /* Sticker */,
+				1AFAB2AB24A40C780015B522 /* StickerObject */,
 			);
 			path = stickers;
 			sourceTree = "<group>";
@@ -185,7 +185,7 @@
 			path = EditorVC;
 			sourceTree = "<group>";
 		};
-		1AFAB2AB24A40C780015B522 /* Sticker */ = {
+		1AFAB2AB24A40C780015B522 /* StickerObject */ = {
 			isa = PBXGroup;
 			children = (
 				1ABD3EEC249169A20011299E /* StickerObject.swift */,
@@ -194,7 +194,7 @@
 				1ABD3EE824915BB30011299E /* quizSticker.xib */,
 				1A2012C5247AD8BB00849A97 /* sticker.xib */,
 			);
-			path = Sticker;
+			path = StickerObject;
 			sourceTree = "<group>";
 		};
 		1AFD95F2245CDE630092CF99 = {
