@@ -18,11 +18,7 @@ class StickerEditorViewController:
     UIViewController,
     UICollectionViewDataSource,
     UICollectionViewDelegate,
-    UICollectionViewDragDelegate,
-    UIImagePickerControllerDelegate,
-    UINavigationControllerDelegate,
-    UIGestureRecognizerDelegate,
-    UIPopoverPresentationControllerDelegate
+    UIGestureRecognizerDelegate
 {
     
     
@@ -63,12 +59,12 @@ class StickerEditorViewController:
                 },
                     completion: nil)
                 
-            } else {
-                //getImageHint.alpha = 1
-            }
+            } //if let
         }
     }
 
+    var distanceToShiftStickerWhenKeyboardShown : CGFloat?
+    
     //accessed by the presenting animator
     lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView]}()
     
@@ -164,12 +160,12 @@ class StickerEditorViewController:
 
     
     
-    //MARK:- Actions
+    //MARK:- Share Actions
     
     @IBAction func actionButtonTapped(_ sender: Any) {
   
         //configure action sheet,
-        let actionVC = UIActivityViewController(activityItems: [stickerView], applicationActivities: nil)
+        let actionVC = UIActivityViewController(activityItems: [stickerView!], applicationActivities: nil)
         actionVC.modalPresentationStyle = .popover
         
         present(actionVC, animated: true, completion: nil)
@@ -279,31 +275,7 @@ class StickerEditorViewController:
     
     
     
-    //MARK:- UIImagePicker
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.presentingViewController?.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        switch picker.sourceType {
-        case .camera:
-            
-            if let photo = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
-                backgroundImage = photo
-            }
-        case .photoLibrary:
-            if let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage {
-                backgroundImage = chosenImage
-            }
-        default: print("unknown sourceType: \(picker.sourceType)")
-        }
-        
-        picker.presentingViewController?.dismiss(animated: true, completion: nil)
-    }
+   
 
     
     
@@ -338,99 +310,8 @@ class StickerEditorViewController:
         }
         return cell
     }
-    
-    //MARK:- UICollectionViewDragDelegate
-    //for dragging from a collection view
-    
-    //items for beginning means 'this is what we're dragging'
-    func collectionView(_ collectionView: UICollectionView,
-                        itemsForBeginning session: UIDragSession,
-                        at indexPath: IndexPath) -> [UIDragItem] {
-        
-        //lets dragged items know/report that they were dragged from the collection view
-        session.localContext = collectionView
-        
-        return dragItemsAtIndexPath(at: indexPath)
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        itemsForAddingTo session: UIDragSession,
-                        at indexPath: IndexPath,
-                        point: CGPoint) -> [UIDragItem] {
-        
-        return dragItemsAtIndexPath(at: indexPath)
-    }
-    
-    
-    //my own helper func
-    func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
-        
-        //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-        if let draggedShape = (shapeCollectionView.cellForItem(at: indexPath) as? ShapeCell)?.currentShape{
-                      
-            //useful shortcut we can use when dragging inside our app
-            let dragItem = UIDragItem(itemProvider: NSItemProvider())
-            dragItem.localObject = draggedShape
-            
-            return [dragItem]
-        } else {
-            return []
-        }
-    }
-    
-    
 
-    //MARK:- keyboard handling
-    private var currentSticker : TextSticker? {
-        if let sticker = stickerView.currentTextField?.superview as? TextSticker {
-            return sticker
-        }
-        return nil
-    }
-    
-    private var cursorPosition : CGFloat? {
-        if let textField = currentSticker?.textField{
-            let position = textField.caretRect(for: textField.endOfDocument).midY
-            let capHeight = textField.font?.capHeight ?? CGFloat(5.0)
-            let absolutePosition = view.convert(CGPoint(
-                                    x: CGFloat(0),
-                                    y: position + capHeight),
-                                    from: currentSticker)
-            return absolutePosition.y
-        }
-        return nil
-    }
-    
-    private func keyboardShown(_ keyboardOrigin: CGFloat){
-        //see if the textField is covered
-        if let cursor = cursorPosition {
-            let overlap = cursor - keyboardOrigin
-            distanceToShift = overlap > 0 ? overlap : 0
-        }
-        
-        if let sticker = currentSticker, let shift = distanceToShift {
-            
-            sticker.unitLocation = stickerView.unitLocationFrom(
-                point:
-                sticker.center.offsetBy(
-                dx: CGFloat(0),
-                dy: CGFloat(-1 * shift)))
-        }
-    }
-    
-    private var distanceToShift : CGFloat?
-    
-    private func keyboardHidden(){
-        if let sticker = currentSticker,
-            let shift = distanceToShift {
-            sticker.unitLocation = stickerView.unitLocationFrom(
-                point:
-                sticker.center.offsetBy(
-                    dx: CGFloat(0),
-                    dy: CGFloat(shift)))
-        }
-    }
+
     
     
     //MARK:- UIView
@@ -468,42 +349,9 @@ class StickerEditorViewController:
             cropLayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * cropLayer.bounds.width
             cropLayer.masksToBounds = true
             
-            //shadow
-//            let path = UIBezierPath(roundedRect: scrollLayer.bounds, cornerRadius: scrollLayer.cornerRadius)
-//
-//            scrollLayer.shadowPath = path.cgPath
-//            scrollLayer.shadowColor = UIColor.black.cgColor
-//            scrollLayer.shadowOffset = CGSize(width: 3, height: 3)
-//            scrollLayer.shadowOpacity = 0.8
-//            scrollLayer.shadowRadius = CGFloat(2.0)
         }
-        
-        
-        
-        
-        //register for keyboard notifications
-        let _ =  NotificationCenter.default.addObserver(
-            forName: UIResponder.keyboardWillShowNotification,
-            object: nil,
-            queue: nil,
-            using: { [weak self] notification in
-
-                if let userInfo = notification.userInfo{
-                    if let frame = userInfo[NSString(string: "UIKeyboardFrameEndUserInfoKey")] as? CGRect {
-
-                        self?.keyboardShown(frame.origin.y)
-                    }
-                }
-        })
-
-        let _ =  NotificationCenter.default.addObserver(
-            forName: UIResponder.keyboardWillHideNotification,
-            object: nil,
-            queue: nil,
-            using: { [weak self] notification in
-                self?.keyboardHidden()
-        })
-        
+ 
+        self.registerForKeyboardNotifications()
 
     }
     

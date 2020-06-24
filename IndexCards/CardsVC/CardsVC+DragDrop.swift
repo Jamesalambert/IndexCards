@@ -110,7 +110,7 @@ extension CardsViewController :
     func collectionView(_ collectionView: UICollectionView,
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
         
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(currentDeck.cards.count ,0)
+         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(currentDeck.cards.count ,0)
         
         for item in coordinator.items {
         

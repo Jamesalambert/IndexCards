@@ -34,14 +34,10 @@ extension CardsViewController {
     
 
     
-    
+    //this function does nothing but is needed for the action menu
     func collectionView(_ collectionView: UICollectionView,
-            performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-        
-    }
-    
-    
-    
+            performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {}
+
     
     func duplicateCard(){
         indexCardsCollectionView?.performBatchUpdates({

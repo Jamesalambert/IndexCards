@@ -14,10 +14,42 @@
             filePath = "IndexCards/stickers/StickerCanvas.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "paste(itemProviders:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CDBAFEEF-0FDA-47CB-95F0-FBB7DB86A07F - b31e79773c4159b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IndexCards.StickerCanvas.paste(itemProviders: Swift.Array&lt;__C.NSItemProvider&gt;) -&gt; ()"
+                  moduleName = "IndexCards"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/StickerCanvas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "370"
+                  endingLineNumber = "370"
+                  offsetFromSymbolStart = "320">
+               </Location>
+               <Location
+                  uuid = "CDBAFEEF-0FDA-47CB-95F0-FBB7DB86A07F - 5fb5bd0b920b203a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.NSItemProviderReading&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in IndexCards.StickerCanvas.paste(itemProviders: Swift.Array&lt;__C.NSItemProvider&gt;) -&gt; ()"
+                  moduleName = "IndexCards"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/StickerCanvas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "372"
+                  endingLineNumber = "372"
+                  offsetFromSymbolStart = "184">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,8 +62,8 @@
             filePath = "IndexCards/stickers/StickerCanvas.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "canBecomeFirstResponder"
             landmarkType = "24">
          </BreakpointContent>
@@ -46,8 +78,8 @@
             filePath = "IndexCards/stickers/StickerCanvas.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "426"
-            endingLineNumber = "426"
+            startingLineNumber = "427"
+            endingLineNumber = "427"
             landmarkName = "didMoveToSuperview()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +94,8 @@
             filePath = "IndexCards/stickers/StickerCanvas.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
             landmarkName = "tapToDismissMenu(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -97,6 +129,22 @@
             startingLineNumber = "113"
             endingLineNumber = "113"
             landmarkName = "collectionView(_:performDropWith:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B456C481-F4DE-439D-A368-EF67ED171C44"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/CardsVC/CardsVC+DragDrop.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "collectionView(_:dropSessionDidUpdate:withDestinationIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
