@@ -11,6 +11,16 @@ import UIKit
 extension StickerEditorViewController{
 
     
+    
+    private var currentSticker : TextSticker? {
+           if let sticker = currentTextField?.superview as? TextSticker {
+               return sticker
+           }
+           return nil
+       }
+    
+    
+
     func registerForKeyboardNotifications(){
         //register for keyboard notifications
                let _ =  NotificationCenter.default.addObserver(
@@ -36,14 +46,6 @@ extension StickerEditorViewController{
                })
     }
     
-    
-    
-    private var currentSticker : TextSticker? {
-        if let sticker = stickerView.currentTextField?.superview as? TextSticker {
-            return sticker
-        }
-        return nil
-    }
     
     private var cursorPosition : CGFloat? {
         if let textField = currentSticker?.textField{
@@ -87,6 +89,12 @@ extension StickerEditorViewController{
                     dx: CGFloat(0),
                     dy: CGFloat(shift)))
         }
+    }
+    
+    
+    @objc
+    func dismissKeyboard(){
+        currentTextField?.resignFirstResponder()
     }
     
 }

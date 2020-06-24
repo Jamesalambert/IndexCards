@@ -11,7 +11,9 @@ import UIKit
 extension StickerEditorViewController:
 UIGestureRecognizerDelegate
 {
-    //MARK:- Gestures
+    //MARK:- Gestures for stickers
+    
+    
         //helper func
         func addStickerGestureRecognizers(to sticker : StickerObject){
             
@@ -37,18 +39,7 @@ UIGestureRecognizerDelegate
             
         }
         
-        //helper funcs
-        func unitLocationFrom(point : CGPoint) -> CGPoint{
-            return CGPoint(
-                x: point.x / stickerView.bounds.width,
-                y: point.y / stickerView.bounds.height)
-        }
         
-        func unitSizeFrom(size : CGSize) -> CGSize{
-            return CGSize(
-                width: size.width / stickerView.bounds.width,
-                height: size.height / stickerView.bounds.width)
-        }
         
         
         
@@ -90,38 +81,7 @@ UIGestureRecognizerDelegate
             }
         }
         
-        //returns 1,-1 or 0 for  V, H or both, 2=error
-        private func pinchOrientation(pinch : UIPinchGestureRecognizer) -> Int{
-            
-            //get 2 touches
-            if pinch.numberOfTouches == 2{
-                
-                let first = pinch.location(ofTouch: 0, in: pinch.view)
-                let second = pinch.location(ofTouch: 1, in: pinch.view)
-                
-                let dy = second.y - first.y
-                let dx = second.x - first.x
-                
-                let angle = atan2(dy,dx)
-                
-                var orientation = abs(abs(angle) - CGFloat.pi/2)
-                
-                //normalise to 0..1
-                orientation /= CGFloat.pi/2
-                
-                if orientation < 0.1 {
-                    //vertical
-                    return 1
-                } else if orientation < 0.8 {
-                    //in between
-                    return 0
-                } else {
-                    //horizontal
-                    return -1
-                }
-            }
-            return 2
-    }
+        
         
         
         @objc
@@ -195,8 +155,8 @@ UIGestureRecognizerDelegate
         func tap(_ gesture : UITapGestureRecognizer){
             
             if let sticker = gesture.view as? TextSticker{
-                stickerView.currentTextField = sticker.textField
-                stickerView.currentTextField?.becomeFirstResponder()
+                currentTextField = sticker.textField
+                currentTextField?.becomeFirstResponder()
             }
             
             if let sticker = gesture.view as? QuizSticker{
@@ -212,4 +172,38 @@ UIGestureRecognizerDelegate
         }
         
         
+    //returns 1,-1 or 0 for  V, H or both, 2=error
+        private func pinchOrientation(pinch : UIPinchGestureRecognizer) -> Int{
+            
+            //get 2 touches
+            if pinch.numberOfTouches == 2{
+                
+                let first = pinch.location(ofTouch: 0, in: pinch.view)
+                let second = pinch.location(ofTouch: 1, in: pinch.view)
+                
+                let dy = second.y - first.y
+                let dx = second.x - first.x
+                
+                let angle = atan2(dy,dx)
+                
+                var orientation = abs(abs(angle) - CGFloat.pi/2)
+                
+                //normalise to 0..1
+                orientation /= CGFloat.pi/2
+                
+                if orientation < 0.1 {
+                    //vertical
+                    return 1
+                } else if orientation < 0.8 {
+                    //in between
+                    return 0
+                } else {
+                    //horizontal
+                    return -1
+                }
+            }
+            return 2
+    }
+    
+    
 }

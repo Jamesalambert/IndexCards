@@ -17,19 +17,17 @@ protocol StickerEditorDelegate {
 class StickerEditorViewController:
     UIViewController,
     UICollectionViewDataSource,
-    UICollectionViewDelegate,
-    UIGestureRecognizerDelegate
+    UICollectionViewDelegate
 {
     
     
     //MARK:- Vars
     var indexCard : IndexCard?
     var theme : Theme?
-    //TODO: - undo redo etc
     var document : IndexCardsDocument?
     var delegate : StickerEditorDelegate?
     var passedImageForCropping : UIImage?
-    
+    var currentTextField : UITextField?
     var backgroundImage : UIImage?{
         didSet{
             if let image = backgroundImage {
@@ -37,11 +35,6 @@ class StickerEditorViewController:
                 //set image
                 cropView.imageForCropping = image
   
-                //Menus!
-                //hide first menu
-                //getImageHint.isHidden = true
-                
-                //show next menu
                 //set-up
                 repositionImageHint.alpha = 0.0
                 repositionImageHint.isHidden = true
@@ -75,6 +68,7 @@ class StickerEditorViewController:
         }
     }
 
+    //for saving data to the model and opening docs
     var stickerData : [StickerData]?{
         get {
             
@@ -167,7 +161,7 @@ class StickerEditorViewController:
             //TODO: paste support for images and text
             let pasteConfig = UIPasteConfiguration(forAccepting: NSAttributedString.self)
             pasteConfig.addTypeIdentifiers(forAccepting: UIImage.self)
-
+            
             self.pasteConfiguration = pasteConfig
             
             stickerView.contentMode = .redraw
@@ -176,13 +170,8 @@ class StickerEditorViewController:
             let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
             tap.numberOfTapsRequired = 1
             tap.delegate = self
-        stickerView.addGestureRecognizer(tap)
+            stickerView.addGestureRecognizer(tap)
         }
-    }
-    
-    @objc
-    func dismissKeyboard(){
-        stickerView.currentTextField?.resignFirstResponder()
     }
     
     
@@ -304,7 +293,18 @@ class StickerEditorViewController:
     
     
     
+    //helper funcs
+    func unitLocationFrom(point : CGPoint) -> CGPoint{
+        return CGPoint(
+            x: point.x / stickerView.bounds.width,
+            y: point.y / stickerView.bounds.height)
+    }
     
+    func unitSizeFrom(size : CGSize) -> CGSize{
+        return CGSize(
+            width: size.width / stickerView.bounds.width,
+            height: size.height / stickerView.bounds.width)
+    }
    
 
     

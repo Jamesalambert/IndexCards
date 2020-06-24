@@ -37,7 +37,7 @@ extension StickerEditorViewController{
         //check if the new sticker has a text field
         //this is for making it first responder
         if let newSticker = sticker as? TextSticker {
-            stickerView.currentTextField = newSticker.textField
+            currentTextField = newSticker.textField
         }
         
         stickerView.addSubview(sticker)

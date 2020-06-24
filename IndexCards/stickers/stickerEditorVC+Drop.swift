@@ -20,6 +20,7 @@ UIDropInteractionDelegate
             item.localObject as? StickerKind
         })
         
+        
         return !draggedStickers.isEmpty || session.canLoadObjects(ofClass: NSAttributedString.self)
     }
     
@@ -52,7 +53,8 @@ UIDropInteractionDelegate
             providers in
             
             for draggedString in providers as? [NSAttributedString] ?? [] {
-                let newSticker = self.addDroppedShape(shape: .RoundRect, atLocation: dropPoint)
+                let newSticker = self.addDroppedShape(shape: .RoundRect,
+                                                      atLocation: dropPoint)
                 newSticker.stickerText = draggedString.string
             }
         })

@@ -52,5 +52,69 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B089FB39-1B34-444A-9C54-C809598BC617"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/stickers/StickerEditorVC+Paste.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "paste(itemProviders:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "71AA4BED-078B-451C-AD8F-F91A34D0C6BA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/stickers/StickerEditorVC+Paste.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "paste(itemProviders:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "71AA4BED-078B-451C-AD8F-F91A34D0C6BA - ce9b53e220725a51"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.NSItemProviderReading&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in IndexCards.StickerEditorViewController.paste(itemProviders: Swift.Array&lt;__C.NSItemProvider&gt;) -&gt; ()"
+                  moduleName = "IndexCards"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/StickerEditorVC+Paste.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "532">
+               </Location>
+               <Location
+                  uuid = "71AA4BED-078B-451C-AD8F-F91A34D0C6BA - 2029bd30fd2cf53a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 (Swift.Optional&lt;__C.NSItemProviderReading&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in IndexCards.StickerEditorViewController.paste(itemProviders: Swift.Array&lt;__C.NSItemProvider&gt;) -&gt; ()"
+                  moduleName = "IndexCards"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/StickerEditorVC+Paste.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "124">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

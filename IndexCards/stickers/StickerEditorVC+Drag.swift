@@ -12,8 +12,7 @@ extension StickerEditorViewController :
 UICollectionViewDragDelegate
 {
     //MARK:- UICollectionViewDragDelegate
-    
-    //items for beginning means 'this is what we're dragging'
+
     func collectionView(_ collectionView: UICollectionView,
                         itemsForBeginning session: UIDragSession,
                         at indexPath: IndexPath) -> [UIDragItem] {

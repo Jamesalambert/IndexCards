@@ -43,7 +43,7 @@
 		1AFAB2A124A3FE950015B522 /* StickerEditorVC+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A024A3FE950015B522 /* StickerEditorVC+Gestures.swift */; };
 		1AFAB2A324A3FF7D0015B522 /* stickerEditorVC+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */; };
 		1AFAB2A524A400100015B522 /* stickerEditorVC+Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */; };
-		1AFAB2A724A402520015B522 /* StickerEditor+paste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A624A402520015B522 /* StickerEditor+paste.swift */; };
+		1AFAB2A924A408B40015B522 /* StickerEditorVC+Paste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */; };
 		1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD95FE245CDE630092CF99 /* AppDelegate.swift */; };
 		1AFD9604245CDE630092CF99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9602245CDE630092CF99 /* Main.storyboard */; };
 		1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9605245CDE650092CF99 /* Assets.xcassets */; };
@@ -88,7 +88,7 @@
 		1AFAB2A024A3FE950015B522 /* StickerEditorVC+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickerEditorVC+Gestures.swift"; sourceTree = "<group>"; };
 		1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stickerEditorVC+Shapes.swift"; sourceTree = "<group>"; };
 		1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stickerEditorVC+Drop.swift"; sourceTree = "<group>"; };
-		1AFAB2A624A402520015B522 /* StickerEditor+paste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickerEditor+paste.swift"; sourceTree = "<group>"; };
+		1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickerEditorVC+Paste.swift"; sourceTree = "<group>"; };
 		1AFD95FB245CDE630092CF99 /* IndexCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndexCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AFD95FE245CDE630092CF99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AFD9603245CDE630092CF99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,14 +143,14 @@
 		1ADD73C7246E10A100A9186A /* stickers */ = {
 			isa = PBXGroup;
 			children = (
-				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
 				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
-				1AFAB2A624A402520015B522 /* StickerEditor+paste.swift */,
+				1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */,
 				1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */,
 				1AFAB2A024A3FE950015B522 /* StickerEditorVC+Gestures.swift */,
 				1AFAB29E24A3FA7C0015B522 /* StickerEditorVC+Drag.swift */,
 				1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */,
 				1AFAB29C24A3F9790015B522 /* StickerEditorVC+Keyboard.swift */,
+				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
 				1ABD3EEC249169A20011299E /* StickerObject.swift */,
 				1ABD3EEA24915BC90011299E /* QuizSticker.swift */,
 				1ADD73C5246E0F9600A9186A /* TextSticker.swift */,
@@ -316,7 +316,6 @@
 				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
 				1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */,
 				1AFAB29D24A3F9790015B522 /* StickerEditorVC+Keyboard.swift in Sources */,
-				1AFAB2A724A402520015B522 /* StickerEditor+paste.swift in Sources */,
 				1AEDB8492460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift in Sources */,
 				1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */,
 				1AA8352324689928009D82E9 /* Document.swift in Sources */,
@@ -336,6 +335,7 @@
 				1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */,
 				1AEEC98024A1266D003AE94F /* DecksCV+ActionMenu.swift in Sources */,
 				1AFAB29F24A3FA7C0015B522 /* StickerEditorVC+Drag.swift in Sources */,
+				1AFAB2A924A408B40015B522 /* StickerEditorVC+Paste.swift in Sources */,
 				1ADD73C6246E0F9600A9186A /* TextSticker.swift in Sources */,
 				1AF9E12C245F7E9500DDD4C0 /* IndexCardViewCell.swift in Sources */,
 				1AFAB2A324A3FF7D0015B522 /* stickerEditorVC+Shapes.swift in Sources */,

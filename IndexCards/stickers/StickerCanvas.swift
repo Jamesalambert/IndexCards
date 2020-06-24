@@ -12,7 +12,7 @@ class StickerCanvas:
 UIView,
 UIActivityItemSource
 {
-    var currentTextField : UITextField?
+    
 
     var backgroundImage : UIImage?{
         didSet{
@@ -34,22 +34,8 @@ UIActivityItemSource
 
     
 
-    //MARK:- init()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-        
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
-    
-    private func setup(){
-        
-    }
 
     
     //MARK:- UIView
@@ -68,6 +54,18 @@ UIActivityItemSource
             $0.unitLocation = location
         }
     }
+    
+    
+    //MARK:- init()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     
     
 }//class
