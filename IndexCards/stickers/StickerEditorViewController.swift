@@ -63,6 +63,7 @@ class StickerEditorViewController:
         }
     }
 
+    
     var distanceToShiftStickerWhenKeyboardShown : CGFloat?
     
     //accessed by the presenting animator
@@ -74,6 +75,23 @@ class StickerEditorViewController:
         }
     }
 
+    var stickerData : [StickerData]?{
+        get {
+            
+            guard let stickerView = stickerView else {return nil}
+            
+            let stickerDataArray = stickerView.subviews.compactMap{$0 as? StickerObject}.compactMap{StickerData(sticker: $0)}
+            return stickerDataArray
+        }
+        set{
+            //array of sticker data structs
+            newValue?.forEach { stickerData in
+                let newSticker = StickerObject.fromNib(withData: stickerData)
+                importShape(sticker: newSticker)
+            }
+        }
+    }
+    
     
     //MARK:- Outlets
     @IBOutlet weak var colorsCollectionView: UICollectionView!{
@@ -139,13 +157,25 @@ class StickerEditorViewController:
             }
             
             if let indexCard = indexCard{
-                stickerView.stickerData = indexCard.stickers
+                stickerData = indexCard.stickers
                 stickerView.backgroundImage = indexCard.image
             }
             
+            
+            stickerView.addInteraction(UIDropInteraction(delegate: self))
+            
+            //TODO: paste support for images and text
+            let pasteConfig = UIPasteConfiguration(forAccepting: NSAttributedString.self)
+            pasteConfig.addTypeIdentifiers(forAccepting: UIImage.self)
+
+            self.pasteConfiguration = pasteConfig
+            
+            stickerView.contentMode = .redraw
+            
+            
             let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
             tap.numberOfTapsRequired = 1
-            tap.delegate = stickerView
+            tap.delegate = self
         stickerView.addGestureRecognizer(tap)
         }
     }
@@ -234,9 +264,9 @@ class StickerEditorViewController:
                 options: .curveEaseInOut,
                 animations: {
                     
-                    let newLocation = self.stickerView.unitLocationFrom(
+                    let newLocation = self.unitLocationFrom(
                         point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
-                    let newSize = self.stickerView.unitSizeFrom(size: CGSize(
+                    let newSize = self.unitSizeFrom(size: CGSize(
                         width: 150,
                         height: 150))
                     
@@ -262,12 +292,12 @@ class StickerEditorViewController:
         newSticker.currentShape = shape
         
         //add shape to canvas
-        stickerView.importShape(sticker: newSticker)
+        importShape(sticker: newSticker)
         
-        newSticker.unitLocation = stickerView.unitLocationFrom(
+        newSticker.unitLocation = unitLocationFrom(
             point: stickerView.convert(view.center, from: view.superview))
         
-        newSticker.unitSize = stickerView.unitSizeFrom(size: view.bounds.size)
+        newSticker.unitSize = unitSizeFrom(size: view.bounds.size)
         
         return newSticker
     }
@@ -352,7 +382,7 @@ class StickerEditorViewController:
         }
  
         self.registerForKeyboardNotifications()
-
+        self.setupPasteGestures()
     }
     
     
@@ -361,7 +391,7 @@ class StickerEditorViewController:
         indexCard?.thumbnail = stickerView.snapshot
         
         //update model
-        indexCard?.stickers = stickerView.stickerData
+        indexCard?.stickers = stickerData
         
         document?.updateChangeCount(.done)
         

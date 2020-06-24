@@ -69,7 +69,7 @@ extension StickerEditorViewController{
         
         if let sticker = currentSticker, let shift = distanceToShiftStickerWhenKeyboardShown {
             
-            sticker.unitLocation = stickerView.unitLocationFrom(
+            sticker.unitLocation = unitLocationFrom(
                 point:
                 sticker.center.offsetBy(
                 dx: CGFloat(0),
@@ -81,7 +81,7 @@ extension StickerEditorViewController{
     private func keyboardHidden(){
         if let sticker = currentSticker,
             let shift = distanceToShiftStickerWhenKeyboardShown {
-            sticker.unitLocation = stickerView.unitLocationFrom(
+            sticker.unitLocation = unitLocationFrom(
                 point:
                 sticker.center.offsetBy(
                     dx: CGFloat(0),
