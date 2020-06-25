@@ -43,10 +43,12 @@ UIGestureRecognizerDelegate
         
         
         
-        
         @objc
         func panning(_ gesture : UIPanGestureRecognizer){
             switch gesture.state {
+            case .began:
+                //store in case we need to undelete
+                originalPositionOfDraggedSticker = gesture.view?.center
             case .changed:
                 
                 if let sticker = gesture.view as? StickerObject{
@@ -72,7 +74,7 @@ UIGestureRecognizerDelegate
             case .ended:
                 if let sticker = gesture.view as? StickerObject{
                     if sticker.isAboutToBeDeleted {
-                        sticker.removeFromSuperview()
+                        undoablyDelete(sticker: sticker, from: sticker.center)
                     }
                 }
 

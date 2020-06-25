@@ -42,4 +42,48 @@ extension StickerEditorViewController{
         
         stickerView.addSubview(sticker)
     }
+    
+    //undoable
+    func undoablyDelete(sticker : StickerObject, from position: CGPoint){
+        
+        ///register for undo operation
+        document?.undoManager.beginUndoGrouping()
+        document?.undoManager.registerUndo(withTarget: self, handler: { VC in
+            VC.undoablyDelete(sticker: sticker, from: position)
+        })
+        
+        document?.undoManager.endUndoGrouping()
+        
+        if stickerView.subviews.contains(sticker){
+            sticker.removeFromSuperview()
+            document?.deletedStickers.append(sticker)
+        } else if document!.deletedStickers.contains(sticker) {
+            stickerView.addSubview(sticker)
+            //set location!
+            sticker.unitLocation = unitLocationFrom(point: position)
+            document!.deletedStickers.removeAll(where: {deletedSticker in
+                deletedSticker == sticker
+            })
+        }
+    }//func
+    
+    func registerForUndoNotifications(){
+        
+        let undoRedo = NotificationCenter
+                .default
+                .addObserver(forName:   NSNotification
+                                        .Name
+                                        .NSUndoManagerCheckpoint,
+                             object: self.document?.undoManager,
+                                        queue: nil,
+                                        using:
+        { [weak self] notification in
+            //show/hide undo redo buttons
+            self?.updateUndoButtons()
+        })
+        
+        self.notificationObservers += [undoRedo]
+    }
+    
+    
 }

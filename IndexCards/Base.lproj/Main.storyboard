@@ -409,11 +409,23 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hhd-Lk-QkG">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="UeL-1k-LFu">
-                            <connections>
-                                <action selector="actionButtonTapped:" destination="dcX-ac-dIB" id="p3W-ls-hqe"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="action" id="UeL-1k-LFu">
+                                <connections>
+                                    <action selector="actionButtonTapped:" destination="dcX-ac-dIB" id="p3W-ls-hqe"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="redo" id="zHp-AF-UCg">
+                                <connections>
+                                    <action selector="tappedRedo:" destination="dcX-ac-dIB" id="iZN-X5-ONO"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="undo" id="pvH-on-VJd">
+                                <connections>
+                                    <action selector="tappedUndo:" destination="dcX-ac-dIB" id="ZYV-HA-fN4"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -421,10 +433,12 @@
                         <outlet property="colorsCollectionView" destination="FeR-GX-JhQ" id="4wI-AC-qpB"/>
                         <outlet property="cropView" destination="RjO-wF-7th" id="NRd-dy-xAK"/>
                         <outlet property="hintBarBackgroundView" destination="uqZ-Nz-lRX" id="0Pi-KQ-0F1"/>
+                        <outlet property="redoButton" destination="zHp-AF-UCg" id="hmj-LS-6KA"/>
                         <outlet property="repositionImageHint" destination="xdg-e8-euh" id="m1q-Nk-kQL"/>
                         <outlet property="shapeCollectionView" destination="O44-jH-12f" id="BVX-fM-Upe"/>
                         <outlet property="stickerView" destination="aOY-yv-dz2" id="z9O-Qd-yR8"/>
                         <outlet property="toolBarView" destination="uDz-qr-W6g" id="EX2-kW-jQi"/>
+                        <outlet property="undoButton" destination="pvH-on-VJd" id="6mz-uy-Cus"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYV-4j-I6C" userLabel="First Responder" sceneMemberID="firstResponder"/>

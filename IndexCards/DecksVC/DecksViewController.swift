@@ -325,16 +325,18 @@ class DecksViewController:
         
         
         //remove observers
-        if let docObserver = self.documentObserver{
-             NotificationCenter.default.removeObserver(docObserver)
-        }
-       
-        
-        if let undoObserver = self.undoObserver{
-            NotificationCenter.default.removeObserver(undoObserver)
-        }
+//        if let docObserver = self.documentObserver{
+//             NotificationCenter.default.removeObserver(docObserver)
+//        }
+//       
+//        
+//        if let undoObserver = self.undoObserver{
+//            NotificationCenter.default.removeObserver(undoObserver)
+//        }
         
     }
+    
+    
     
     
     override func viewDidLoad() {

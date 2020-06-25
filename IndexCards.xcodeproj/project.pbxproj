@@ -21,8 +21,6 @@
 		1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */; };
 		1A923B092472F49200B4D75B /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A923B082472F49200B4D75B /* CropView.swift */; };
 		1AA8352324689928009D82E9 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8352224689928009D82E9 /* Document.swift */; };
-		1ABD3EE924915BB30011299E /* quizSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ABD3EE824915BB30011299E /* quizSticker.xib */; };
-		1ABD3EEB24915BC90011299E /* QuizSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD3EEA24915BC90011299E /* QuizSticker.swift */; };
 		1ABD3EED249169A20011299E /* StickerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD3EEC249169A20011299E /* StickerObject.swift */; };
 		1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */; };
 		1ADD73C2246E041D00A9186A /* StickerCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C1246E041D00A9186A /* StickerCanvas.swift */; };
@@ -44,6 +42,8 @@
 		1AFAB2A324A3FF7D0015B522 /* stickerEditorVC+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */; };
 		1AFAB2A524A400100015B522 /* stickerEditorVC+Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */; };
 		1AFAB2A924A408B40015B522 /* StickerEditorVC+Paste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */; };
+		1AFBD42824A40D6000D61811 /* quizSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFBD42724A40D6000D61811 /* quizSticker.xib */; };
+		1AFBD42A24A40D6900D61811 /* QuizSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFBD42924A40D6900D61811 /* QuizSticker.swift */; };
 		1AFD95FF245CDE630092CF99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD95FE245CDE630092CF99 /* AppDelegate.swift */; };
 		1AFD9604245CDE630092CF99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9602245CDE630092CF99 /* Main.storyboard */; };
 		1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AFD9605245CDE650092CF99 /* Assets.xcassets */; };
@@ -66,8 +66,6 @@
 		1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEditorViewController.swift; sourceTree = "<group>"; };
 		1A923B082472F49200B4D75B /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		1AA8352224689928009D82E9 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		1ABD3EE824915BB30011299E /* quizSticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = quizSticker.xib; path = "IndexCards/stickers/New Group/quizSticker.xib"; sourceTree = SOURCE_ROOT; };
-		1ABD3EEA24915BC90011299E /* QuizSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QuizSticker.swift; path = "IndexCards/stickers/New Group/QuizSticker.swift"; sourceTree = SOURCE_ROOT; };
 		1ABD3EEC249169A20011299E /* StickerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerObject.swift; sourceTree = "<group>"; };
 		1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
 		1ADD73C1246E041D00A9186A /* StickerCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvas.swift; sourceTree = "<group>"; };
@@ -89,6 +87,8 @@
 		1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stickerEditorVC+Shapes.swift"; sourceTree = "<group>"; };
 		1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "stickerEditorVC+Drop.swift"; sourceTree = "<group>"; };
 		1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickerEditorVC+Paste.swift"; sourceTree = "<group>"; };
+		1AFBD42724A40D6000D61811 /* quizSticker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = quizSticker.xib; sourceTree = "<group>"; };
+		1AFBD42924A40D6900D61811 /* QuizSticker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuizSticker.swift; sourceTree = "<group>"; };
 		1AFD95FB245CDE630092CF99 /* IndexCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndexCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AFD95FE245CDE630092CF99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AFD9603245CDE630092CF99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -189,9 +189,9 @@
 			isa = PBXGroup;
 			children = (
 				1ABD3EEC249169A20011299E /* StickerObject.swift */,
-				1ABD3EEA24915BC90011299E /* QuizSticker.swift */,
+				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
 				1ADD73C5246E0F9600A9186A /* TextSticker.swift */,
-				1ABD3EE824915BB30011299E /* quizSticker.xib */,
+				1AFBD42724A40D6000D61811 /* quizSticker.xib */,
 				1A2012C5247AD8BB00849A97 /* sticker.xib */,
 			);
 			path = StickerObject;
@@ -310,7 +310,7 @@
 				1A2012C6247AD8BB00849A97 /* sticker.xib in Resources */,
 				1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */,
 				1AFD9604245CDE630092CF99 /* Main.storyboard in Resources */,
-				1ABD3EE924915BB30011299E /* quizSticker.xib in Resources */,
+				1AFBD42824A40D6000D61811 /* quizSticker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,7 +327,6 @@
 				1A41242124980FB700B3D157 /* ZoomTransitionForNavigation.swift in Sources */,
 				1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */,
 				1A923B092472F49200B4D75B /* CropView.swift in Sources */,
-				1ABD3EEB24915BC90011299E /* QuizSticker.swift in Sources */,
 				1AEEC97924A11F52003AE94F /* CardsVC+ActionMenu.swift in Sources */,
 				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
 				1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */,
@@ -335,6 +334,7 @@
 				1AEDB8492460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift in Sources */,
 				1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */,
 				1AA8352324689928009D82E9 /* Document.swift in Sources */,
+				1AFBD42A24A40D6900D61811 /* QuizSticker.swift in Sources */,
 				1ABD3EED249169A20011299E /* StickerObject.swift in Sources */,
 				1A06969E248858AB005AB3FC /* ChooseBackgroundTypeCell.swift in Sources */,
 				1AE9429A248997C700D6A300 /* CircularCollectionViewLayout.swift in Sources */,

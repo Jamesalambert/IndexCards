@@ -109,12 +109,18 @@ class CardsViewController:
                forName: NSNotification.Name.NSUndoManagerCheckpoint,
                object: undoer,
                queue: nil,
-               using: { notification in
-                   self.undoButton.isEnabled = undoer!.canUndo
-                   self.redoButton.isEnabled = undoer!.canRedo
+               using: { [weak self] notification in
+                self?.updateUndoButtons()
            })
        }
     
+    func updateUndoButtons(){
+        guard let canUndo = document?.undoManager.canUndo else {return}
+        guard let canRedo = document?.undoManager.canRedo else {return}
+        
+        undoButton.isEnabled = canUndo
+        redoButton.isEnabled = canRedo
+    }
     
     //MARK:- Gesture handlers
     @objc
@@ -190,9 +196,7 @@ class CardsViewController:
     }
     
     
-    deinit {
-        print("Cards controller removed!")
-    }
+    
     
  
     //MARK:- UINavigationControllerDelegate
@@ -221,6 +225,11 @@ class CardsViewController:
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self
     }//func
-
+    
+    
+    deinit {
+        print("Cards controller removed!")
+        document.undoManager.removeAllActions(withTarget: self)
+    }
     
 }//class

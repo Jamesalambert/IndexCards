@@ -23,7 +23,7 @@ extension StickerEditorViewController{
 
     func registerForKeyboardNotifications(){
         //register for keyboard notifications
-               let _ =  NotificationCenter.default.addObserver(
+        let show =  NotificationCenter.default.addObserver(
                    forName: UIResponder.keyboardWillShowNotification,
                    object: nil,
                    queue: nil,
@@ -36,15 +36,20 @@ extension StickerEditorViewController{
                            }
                        }
                })
+        
+        self.notificationObservers += [show]
 
-               let _ =  NotificationCenter.default.addObserver(
+               let hide =  NotificationCenter.default.addObserver(
                    forName: UIResponder.keyboardWillHideNotification,
                    object: nil,
                    queue: nil,
                    using: { [weak self] notification in
                        self?.keyboardHidden()
                })
+        self.notificationObservers += [hide]
     }
+    
+    
     
     
     private var cursorPosition : CGFloat? {

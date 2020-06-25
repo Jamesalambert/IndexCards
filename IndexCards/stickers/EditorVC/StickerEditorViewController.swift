@@ -56,8 +56,10 @@ class StickerEditorViewController:
         }
     }
 
-    
+    var originalPositionOfDraggedSticker : CGPoint?
     var distanceToShiftStickerWhenKeyboardShown : CGFloat?
+    var notificationObservers : [NSObjectProtocol] = []
+    
     
     //accessed by the presenting animator
     lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView]}()
@@ -178,8 +180,28 @@ class StickerEditorViewController:
     @IBOutlet weak var cardBackgroundView: UIView!
 
     
+    @IBOutlet weak var undoButton: UIBarButtonItem!{
+        didSet{
+        undoButton.isEnabled = false
+        }
+    }
     
-    //MARK:- Share Actions
+    @IBOutlet weak var redoButton: UIBarButtonItem!{
+        didSet{
+            redoButton.isEnabled = false
+        }
+    }
+    
+    //MARK:- IB Actions
+    
+    @IBAction func tappedUndo(_ sender: Any) {
+        document!.undoManager.undo()
+    }
+    
+    @IBAction func tappedRedo(_ sender: Any) {
+        document!.undoManager.redo()
+    }
+    
     
     @IBAction func actionButtonTapped(_ sender: Any) {
   
@@ -306,7 +328,13 @@ class StickerEditorViewController:
             height: size.height / stickerView.bounds.width)
     }
    
-
+    func updateUndoButtons(){
+        guard let canUndo = document?.undoManager.canUndo else {return}
+        guard let canRedo = document?.undoManager.canRedo else {return}
+        
+        undoButton.isEnabled = canUndo
+        redoButton.isEnabled = canRedo
+    }
     
     
     //MARK:- UICollectionViewDataSource
@@ -346,7 +374,7 @@ class StickerEditorViewController:
     
     //MARK:- UIView
     override func viewDidLoad() {
-        //view
+        super.viewDidLoad()
         
         //all toolbars/hints are hidden in ther didSets.
         //hide or show depending on whether a background image is set
@@ -382,11 +410,14 @@ class StickerEditorViewController:
         }
  
         self.registerForKeyboardNotifications()
+        self.registerForUndoNotifications()
         self.setupPasteGestures()
     }
     
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         //store thumbnail snapshot
         indexCard?.thumbnail = stickerView.snapshot
         
@@ -396,9 +427,15 @@ class StickerEditorViewController:
         document?.updateChangeCount(.done)
         
         delegate?.editorDidMakeChanges = true
+    
         
     }
 
+    
+    deinit {
+        //remove any undo/redo actions that refer to this VC
+        document?.undoManager.removeAllActions(withTarget: self)
+    }
     
     
 }//class

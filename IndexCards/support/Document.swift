@@ -20,6 +20,7 @@ class IndexCardsDocument: UIDocument {
 
     //temp data that isn't saved
     var deletedCardsDeck = Deck()
+    var deletedStickers : [StickerObject] = []
     var currentDeck = Deck()
     
     override func contents(forType typeName: String) throws -> Any {
