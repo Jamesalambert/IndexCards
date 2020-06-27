@@ -31,6 +31,7 @@ class ShapeCell: UICollectionViewCell {
     override func draw(_ rect: CGRect) {
         
         stickerColor.setFill()
+        UIColor.white.setStroke()
         
         switch currentShape {
         case .Quiz:
@@ -48,9 +49,16 @@ class ShapeCell: UICollectionViewCell {
             
             let rect = self.bounds.zoom(by: scale)
             let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
-            
-            
             path.fill()
+            
+            let t = UIBezierPath()
+            t.move(to: CGPoint(x: 0.3*bounds.width, y: 0.4*bounds.height))
+            t.addLine(to: CGPoint(x: 0.7*bounds.width, y: 0.4*bounds.height))
+            t.move(to: CGPoint(x: 0.5*bounds.width, y: 0.4*bounds.height))
+            t.addLine(to: CGPoint(x: 0.5*bounds.width, y: 0.75*bounds.height))
+            
+            t.stroke()
+            
             
         case .Highlight:
             let path = UIBezierPath()

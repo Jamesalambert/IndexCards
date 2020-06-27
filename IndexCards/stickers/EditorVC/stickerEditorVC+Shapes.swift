@@ -17,10 +17,8 @@ extension StickerEditorViewController{
         switch shape {
         case .Quiz:
             newSticker = StickerObject.fromNib(shape: .Quiz)
-            //newSticker = Bundle.main.loadNibNamed("quizSticker", owner: nil, options: nil)?.first as! QuizSticker
         default:
             newSticker = StickerObject.fromNib(shape: .RoundRect)
-            //newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! TextSticker
         }
         
         newSticker.currentShape = shape
@@ -32,17 +30,34 @@ extension StickerEditorViewController{
         return newSticker
     }
     
+    
+    
+    func addSticker(ofShape shape : StickerKind, from view : UIView) -> StickerObject{
+        
+        let newSticker = StickerObject.fromNib(shape: shape)
+
+        newSticker.currentShape = shape
+        newSticker.unitLocation = unitLocationFrom(
+            point: stickerView.convert(view.center, from: view.superview))
+        newSticker.unitSize = unitSizeFrom(size: view.bounds.size)
+        
+        //add shape to canvas
+        importShape(sticker: newSticker)
+        
+        return newSticker
+    }
+    
+    
     //importing a shape
     func importShape(sticker : StickerObject){
+        
         addStickerGestureRecognizers(to: sticker)
         
-        //check if the new sticker has a text field
-        //this is for making it first responder
-        if let newSticker = sticker as? TextSticker {
-            currentTextField = newSticker.textField
-        }
+        currentTextView = sticker.responder
         
         stickerView.addSubview(sticker)
+        
+        currentTextView?.becomeFirstResponder()
     }
     
     //undoable

@@ -13,7 +13,7 @@ extension StickerEditorViewController{
     
     
     private var currentSticker : TextSticker? {
-           if let sticker = currentTextField?.superview as? TextSticker {
+           if let sticker = currentTextView?.superview as? TextSticker {
                return sticker
            }
            return nil
@@ -99,7 +99,7 @@ extension StickerEditorViewController{
     
     @objc
     func dismissKeyboard(){
-        currentTextField?.resignFirstResponder()
+        currentTextView?.resignFirstResponder()
     }
     
 }

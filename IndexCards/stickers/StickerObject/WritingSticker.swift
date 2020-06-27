@@ -23,6 +23,7 @@ UITextViewDelegate
     
     @IBOutlet weak var textView: UITextView!{
         didSet{
+            responder = textView
         textView.delegate = self
             textView.font = UIFontMetrics
                             .default
@@ -40,6 +41,7 @@ UITextViewDelegate
     func textViewDidEndEditing(_ textView: UITextView) {
         stickerText = textView.text
     }
+    
     
     
     

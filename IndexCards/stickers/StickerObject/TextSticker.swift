@@ -23,6 +23,7 @@ class TextSticker: StickerObject {
     //MARK:- IBOutlets
     @IBOutlet weak var textField: UITextField!{
         didSet{
+        responder = textField
         textField.alpha = 0.0
         textField.delegate = self
         textField.textColor = UIColor.white

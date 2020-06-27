@@ -53,6 +53,7 @@ UITextFieldDelegate {
     }
     
     var stickerText = ""
+    var responder : UIView?
     
     //scale factor determining the sticker's bounds
     //this is to deal with switching from portrait to landscape,

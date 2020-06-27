@@ -27,7 +27,7 @@ class StickerEditorViewController:
     var document : IndexCardsDocument?
     var delegate : StickerEditorDelegate?
     var passedImageForCropping : UIImage?
-    var currentTextField : UITextField?
+    var currentTextView : UIView?
     var backgroundImage : UIImage?{
         didSet{
             if let image = backgroundImage {
@@ -287,31 +287,16 @@ class StickerEditorViewController:
             },
                 completion: { finished in
                     
-                    if let stickerTextField = (newSticker as? TextSticker)?.textField {
-                        stickerTextField.becomeFirstResponder()
-                    }
+//                    if let stickerTextField = (newSticker as? TextSticker)?.textField {
+//                        stickerTextField.becomeFirstResponder()
+//                    }
                     
             })
             
         }//if lets
     }//func
     
-    private func addSticker(ofShape shape : StickerKind, from view : UIView) -> StickerObject{
-        
-        let newSticker = StickerObject.fromNib(shape: shape)
-
-        newSticker.currentShape = shape
-        
-        //add shape to canvas
-        importShape(sticker: newSticker)
-        
-        newSticker.unitLocation = unitLocationFrom(
-            point: stickerView.convert(view.center, from: view.superview))
-        
-        newSticker.unitSize = unitSizeFrom(size: view.bounds.size)
-        
-        return newSticker
-    }
+    
     
     
     

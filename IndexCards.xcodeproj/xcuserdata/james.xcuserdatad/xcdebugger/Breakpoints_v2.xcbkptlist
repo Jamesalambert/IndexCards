@@ -30,8 +30,8 @@
             filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "undoablyDelete(sticker:from:)"
             landmarkType = "7">
          </BreakpointContent>

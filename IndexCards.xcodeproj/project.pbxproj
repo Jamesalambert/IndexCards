@@ -195,8 +195,8 @@
 				1ABD3EEC249169A20011299E /* StickerObject.swift */,
 				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
 				1ADD73C5246E0F9600A9186A /* TextSticker.swift */,
-				1AB049CA24A7DAEB005A7829 /* TextSticker.xib */,
 				1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */,
+				1AB049CA24A7DAEB005A7829 /* TextSticker.xib */,
 				1AFBD42724A40D6000D61811 /* quizSticker.xib */,
 				1A2012C5247AD8BB00849A97 /* sticker.xib */,
 			);
