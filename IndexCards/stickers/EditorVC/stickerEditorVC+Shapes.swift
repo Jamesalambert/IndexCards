@@ -16,9 +16,11 @@ extension StickerEditorViewController{
         
         switch shape {
         case .Quiz:
-            newSticker = Bundle.main.loadNibNamed("quizSticker", owner: nil, options: nil)?.first as! QuizSticker
+            newSticker = StickerObject.fromNib(shape: .Quiz)
+            //newSticker = Bundle.main.loadNibNamed("quizSticker", owner: nil, options: nil)?.first as! QuizSticker
         default:
-            newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! TextSticker
+            newSticker = StickerObject.fromNib(shape: .RoundRect)
+            //newSticker = Bundle.main.loadNibNamed("sticker", owner: nil, options: nil)?.first as! TextSticker
         }
         
         newSticker.currentShape = shape
@@ -86,4 +88,77 @@ extension StickerEditorViewController{
     }
     
     
+}
+
+extension StickerObject{
+    
+    convenience init?(data : StickerData ){
+        self.init()
+        self.currentShape = data.typeOfShape.asShape()
+        self.stickerText = data.text
+        self.unitLocation = data.center
+        self.unitSize = data.size
+        self.backgroundColor = UIColor.clear
+        self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+    }
+    
+    
+    static func fromNib(shape : StickerKind) -> StickerObject{
+        
+        let newSticker : StickerObject
+        
+        switch shape {
+        case .Quiz:
+            newSticker = Bundle.main.loadNibNamed("quizSticker",
+                                                  owner: nil,
+                                                  options: nil)?.first as! QuizSticker
+        case .Highlight:
+            newSticker = Bundle.main.loadNibNamed("sticker",
+                                                  owner: nil,
+                                                  options: nil)?.first as! TextSticker
+        default:
+            newSticker = Bundle.main.loadNibNamed("TextSticker",
+                                                  owner: nil,
+                                                  options: nil)?.first as! WritingSticker
+        }
+
+        
+        
+        return newSticker
+    }
+    
+    static func fromNib(withData data : StickerData) -> StickerObject {
+        
+        let newSticker = StickerObject.fromNib(shape: data.typeOfShape.asShape())
+        
+        newSticker.currentShape = data.typeOfShape.asShape()
+        newSticker.stickerText = data.text
+        newSticker.unitLocation = data.center
+        newSticker.unitSize = data.size
+        newSticker.backgroundColor = UIColor.clear
+        newSticker.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+        
+        return newSticker
+    }
+    
+}
+
+
+
+
+extension String{
+    func asShape() -> StickerKind {
+        switch self {
+        case "Circle":
+            return .Circle
+        case "RoundRect":
+            return .RoundRect
+        case "Highlight":
+            return .Highlight
+        case "Quiz":
+            return .Quiz
+        default:
+            return.Circle
+        }
+    }
 }

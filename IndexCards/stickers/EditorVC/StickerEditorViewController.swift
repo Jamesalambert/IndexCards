@@ -442,5 +442,24 @@ class StickerEditorViewController:
 
 
 
-
-
+extension StickerData{
+    
+    init?(sticker : StickerObject){
+        
+        switch sticker.currentShape {
+        case .Circle:
+            typeOfShape = "Circle"
+        case .RoundRect:
+            typeOfShape = "RoundRect"
+        case .Highlight:
+            typeOfShape = "Highlight"
+        case .Quiz:
+            typeOfShape = "Quiz"
+        }
+        
+        center = sticker.unitLocation
+        size = sticker.unitSize
+        text = sticker.stickerText
+        rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
+    }
+}
