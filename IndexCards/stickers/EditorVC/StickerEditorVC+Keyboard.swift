@@ -10,10 +10,8 @@ import UIKit
 
 extension StickerEditorViewController{
 
-    
-    
-    private var currentSticker : TextSticker? {
-           if let sticker = currentTextView?.superview as? TextSticker {
+    private var currentSticker : StickerObject? {
+           if let sticker = currentTextView?.superview as? StickerObject {
                return sticker
            }
            return nil
@@ -53,7 +51,9 @@ extension StickerEditorViewController{
     
     
     private var cursorPosition : CGFloat? {
-        if let textField = currentSticker?.textField{
+        
+        if let textField = currentSticker?.responder as? UITextField {
+            
             let position = textField.caretRect(for: textField.endOfDocument).midY
             let capHeight = textField.font?.capHeight ?? CGFloat(5.0)
             let absolutePosition = view.convert(CGPoint(
@@ -61,7 +61,18 @@ extension StickerEditorViewController{
                                     y: position + capHeight),
                                     from: currentSticker)
             return absolutePosition.y
+            
+        } else if let textView = currentSticker?.responder as? UITextView {
+            
+            let position = textView.caretRect(for: textView.endOfDocument).midY
+            let capHeight = textView.font?.capHeight ?? CGFloat(5.0)
+            let absolutePosition = view.convert(CGPoint(
+                                    x: CGFloat(0),
+                                    y: position + capHeight),
+                                    from: currentSticker)
+            return absolutePosition.y
         }
+        
         return nil
     }
     

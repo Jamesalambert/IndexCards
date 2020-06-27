@@ -260,40 +260,41 @@ class StickerEditorViewController:
     @objc
     private func tappedStickerMenu(_ gesture : UITapGestureRecognizer){
         
-        if let tappedIndexPath = shapeCollectionView.indexPathForItem(
-            at: gesture.location(in: shapeCollectionView)),
-            let tappedCell = (shapeCollectionView.cellForItem(
-                at: tappedIndexPath) as? ShapeCell){
+        guard let tappedIndexPath = shapeCollectionView
+                                    .indexPathForItem(at: gesture
+                                    .location(in: shapeCollectionView))
+        else {return}
+        
+        guard let tappedCell = (shapeCollectionView
+                                .cellForItem(at: tappedIndexPath) as? ShapeCell)
+        else {return}
             
+        //this places the new sticker at the location of the tapped cell
+        let newSticker = addSticker(ofShape: tappedCell.currentShape, from: tappedCell)
+
+        
+        //animate to center
+        UIView.transition(
+            with: newSticker,
+            duration: theme?.timeOf(.addShape) ?? 2.0,
+            options: .curveEaseInOut,
+            animations: {
+                
+                let newLocation = self.unitLocationFrom(
+                    point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
+                let newSize = self.unitSizeFrom(size: CGSize(
+                    width: 150,
+                    height: 150))
+                
+                newSticker.unitLocation = newLocation
+                newSticker.unitSize = newSize
+                
+        },
+            completion: { finished in
+                self.currentTextView?.becomeFirstResponder()
+        })
             
-            let newSticker = addSticker(ofShape: tappedCell.currentShape, from: tappedCell)
-            
-            //animate to center
-            UIView.transition(
-                with: newSticker,
-                duration: theme?.timeOf(.addShape) ?? 2.0,
-                options: .curveEaseInOut,
-                animations: {
-                    
-                    let newLocation = self.unitLocationFrom(
-                        point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
-                    let newSize = self.unitSizeFrom(size: CGSize(
-                        width: 150,
-                        height: 150))
-                    
-                    newSticker.unitLocation = newLocation
-                    newSticker.unitSize = newSize
-                    
-            },
-                completion: { finished in
-                    
-//                    if let stickerTextField = (newSticker as? TextSticker)?.textField {
-//                        stickerTextField.becomeFirstResponder()
-//                    }
-                    
-            })
-            
-        }//if lets
+        
     }//func
     
     

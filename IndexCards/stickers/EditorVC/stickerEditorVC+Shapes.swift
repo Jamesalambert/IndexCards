@@ -12,20 +12,15 @@ extension StickerEditorViewController{
 
     func addDroppedShape(shape: StickerKind, atLocation dropPoint : CGPoint) -> StickerObject {
         
-        let newSticker : StickerObject
-        
-        switch shape {
-        case .Quiz:
-            newSticker = StickerObject.fromNib(shape: .Quiz)
-        default:
-            newSticker = StickerObject.fromNib(shape: .RoundRect)
-        }
+        let newSticker = StickerObject.fromNib(shape: shape)
         
         newSticker.currentShape = shape
         newSticker.unitLocation = unitLocationFrom(point: dropPoint)
         newSticker.unitSize = CGSize(width: 0.2, height: 0.2)
         
         importShape(sticker: newSticker)
+        
+        currentTextView?.becomeFirstResponder()
         
         return newSticker
     }
@@ -56,8 +51,6 @@ extension StickerEditorViewController{
         currentTextView = sticker.responder
         
         stickerView.addSubview(sticker)
-        
-        currentTextView?.becomeFirstResponder()
     }
     
     //undoable
