@@ -117,15 +117,15 @@ extension StickerObject{
         
         switch shape {
         case .Quiz:
-            newSticker = Bundle.main.loadNibNamed("quizSticker",
+            newSticker = Bundle.main.loadNibNamed("QuizSticker",
                                                   owner: nil,
                                                   options: nil)?.first as! QuizSticker
         case .Highlight:
-            newSticker = Bundle.main.loadNibNamed("sticker",
+            newSticker = Bundle.main.loadNibNamed("TextSticker",
                                                   owner: nil,
                                                   options: nil)?.first as! TextSticker
         default:
-            newSticker = Bundle.main.loadNibNamed("TextSticker",
+            newSticker = Bundle.main.loadNibNamed("WritingSticker",
                                                   owner: nil,
                                                   options: nil)?.first as! WritingSticker
         }
