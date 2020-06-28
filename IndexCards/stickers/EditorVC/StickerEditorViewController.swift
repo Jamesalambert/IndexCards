@@ -272,7 +272,7 @@ class StickerEditorViewController:
         //this places the new sticker at the location of the tapped cell
         let newSticker = addSticker(ofShape: tappedCell.currentShape, from: tappedCell)
 
-        
+    
         //animate to center
         UIView.transition(
             with: newSticker,
@@ -281,16 +281,19 @@ class StickerEditorViewController:
             animations: {
                 
                 let newLocation = self.unitLocationFrom(
-                    point: self.stickerView.convert(self.stickerView.center, from: self.stickerView.superview))
+                    point: self.stickerView.convert(self.stickerView.center,
+                                                    from: self.stickerView.superview))
                 let newSize = self.unitSizeFrom(size: CGSize(
-                    width: 150,
-                    height: 150))
+                                                width: 150,
+                                                height: 150))
                 
                 newSticker.unitLocation = newLocation
                 newSticker.unitSize = newSize
                 
         },
             completion: { finished in
+                
+                //this will fail quitetly for a sticker that doesn't take keyboard input
                 self.currentTextView?.becomeFirstResponder()
         })
             

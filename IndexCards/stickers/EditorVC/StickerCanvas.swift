@@ -46,12 +46,14 @@ UIActivityItemSource
     
     //place stickers correctly
     override func layoutSubviews() {
-        subviews.compactMap{$0 as? StickerObject}.forEach{
-            let size = $0.unitSize
-            let location = $0.unitLocation
+        subviews.compactMap{$0 as? StickerObject}.forEach{ sticker in
+            let size = sticker.unitSize
+            let location = sticker.unitLocation
             
-            $0.unitSize = size
-            $0.unitLocation = location
+            //force reposition of each sticker
+            sticker.unitSize = size
+            sticker.unitLocation = location
+   
         }
     }
     

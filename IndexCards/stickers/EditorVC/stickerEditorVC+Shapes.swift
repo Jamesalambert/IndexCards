@@ -14,11 +14,11 @@ extension StickerEditorViewController{
         
         let newSticker = StickerObject.fromNib(shape: shape)
         
+        importShape(sticker: newSticker)
+        
         newSticker.currentShape = shape
         newSticker.unitLocation = unitLocationFrom(point: dropPoint)
         newSticker.unitSize = CGSize(width: 0.2, height: 0.2)
-        
-        importShape(sticker: newSticker)
         
         currentTextView?.becomeFirstResponder()
         
@@ -31,13 +31,14 @@ extension StickerEditorViewController{
         
         let newSticker = StickerObject.fromNib(shape: shape)
 
+        //add sticker to canvas
+        importShape(sticker: newSticker)
+        
+        //arrange sticker
         newSticker.currentShape = shape
         newSticker.unitLocation = unitLocationFrom(
             point: stickerView.convert(view.center, from: view.superview))
         newSticker.unitSize = unitSizeFrom(size: view.bounds.size)
-        
-        //add shape to canvas
-        importShape(sticker: newSticker)
         
         return newSticker
     }

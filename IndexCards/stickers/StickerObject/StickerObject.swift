@@ -61,6 +61,7 @@ UITextFieldDelegate {
     //This represnets the sticker's size as a fracion of the bounds width.
     var unitSize = CGSize(width: CGFloat(0.5), height: CGFloat(0.5)){
         didSet{
+            
             if let canvas = superview as? StickerCanvas{
                 bounds.size = CGSize(
                     width: unitSize.width * canvas.bounds.width,
@@ -71,6 +72,7 @@ UITextFieldDelegate {
     
     var unitLocation = CGPoint(x: 0.5, y: 0.5){
         didSet{
+
             if let canvas = superview as? StickerCanvas{
                 center = CGPoint(
                     x: unitLocation.x * canvas.bounds.width,
