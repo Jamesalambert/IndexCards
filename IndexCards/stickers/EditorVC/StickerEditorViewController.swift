@@ -292,8 +292,7 @@ class StickerEditorViewController:
                 
         },
             completion: { finished in
-                
-                //this will fail quitetly for a sticker that doesn't take keyboard input
+                //this will fail quietly for a sticker that doesn't take keyboard input
                 self.currentTextView?.becomeFirstResponder()
         })
             

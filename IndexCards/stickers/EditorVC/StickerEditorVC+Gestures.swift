@@ -156,11 +156,11 @@ UIGestureRecognizerDelegate
         @objc
         func tap(_ gesture : UITapGestureRecognizer){
             
-            if let sticker = gesture.view as? TextSticker{
-                currentTextView = sticker.textField
+            if let sticker = gesture.view as? StickerObject{
+                currentTextView = sticker.responder
                 currentTextView?.becomeFirstResponder()
             }
-            
+
             if let sticker = gesture.view as? QuizSticker{
                 UIView.transition(with: sticker,
                                   duration: 1.0,

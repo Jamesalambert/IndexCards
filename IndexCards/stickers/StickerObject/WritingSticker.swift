@@ -24,11 +24,11 @@ UITextViewDelegate
     @IBOutlet weak var textView: UITextView!{
         didSet{
             responder = textView
-        textView.delegate = self
+            textView.delegate = self
             textView.font = UIFontMetrics
-                            .default
-                            .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
-                            .withSize(CGFloat(50)))
+                .default
+                .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
+                    .withSize(CGFloat(50)))
         }
     }
     

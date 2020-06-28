@@ -53,6 +53,9 @@ UITextFieldDelegate {
     }
     
     var stickerText = ""
+    
+    //this is assigned to any textview or field or keyboard responding object in the sticker
+    //this way the sticker can be temporarily animated up out of the way of the keyboard
     var responder : UIView?
     
     //scale factor determining the sticker's bounds
