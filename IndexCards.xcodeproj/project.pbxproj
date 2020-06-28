@@ -227,7 +227,6 @@
 				1AEEC98124A1280C003AE94F /* DecksVC */,
 				1AEEC97A24A120B9003AE94F /* CardsVC */,
 				1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */,
-				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1ADD73C7246E10A100A9186A /* stickers */,
 				1A135967246B59C7001AE343 /* cells */,
 				1AFD9610245CDEB60092CF99 /* support */,
@@ -241,6 +240,7 @@
 			children = (
 				1A41241F2496B47B00B3D157 /* zoom transition */,
 				1AE94299248997C700D6A300 /* CircularCollectionViewLayout.swift */,
+				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1A660578249EAC830000EE50 /* DropView.swift */,
 				1A923B082472F49200B4D75B /* CropView.swift */,
 				1AA8352224689928009D82E9 /* Document.swift */,
