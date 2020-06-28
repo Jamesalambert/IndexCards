@@ -33,7 +33,7 @@
             <connections>
                 <outlet property="textView" destination="K7f-6b-FAm" id="cfL-J3-uXI"/>
             </connections>
-            <point key="canvasLocation" x="139" y="137"/>
+            <point key="canvasLocation" x="137.68115942028987" y="136.60714285714286"/>
         </view>
     </objects>
 </document>

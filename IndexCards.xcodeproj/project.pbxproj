@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1A06576A24A91588002C78C9 /* QuizSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFBD42724A40D6000D61811 /* QuizSticker.xib */; };
+		1A06576C24A94D59002C78C9 /* textSizeSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A06576B24A94D59002C78C9 /* textSizeSlider.xib */; };
+		1A06576E24A94E5D002C78C9 /* TextSizeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */; };
 		1A06969E248858AB005AB3FC /* ChooseBackgroundTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */; };
 		1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */; };
 		1A135966246B511A001AE343 /* addDeckButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A135965246B511A001AE343 /* addDeckButtonView.swift */; };
@@ -54,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A06576B24A94D59002C78C9 /* textSizeSlider.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = textSizeSlider.xib; sourceTree = SOURCE_ROOT; };
+		1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSizeSlider.swift; sourceTree = "<group>"; };
 		1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundTypeCell.swift; sourceTree = "<group>"; };
 		1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundCollectionViewController.swift; sourceTree = "<group>"; };
 		1A135965246B511A001AE343 /* addDeckButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addDeckButtonView.swift; sourceTree = "<group>"; };
@@ -192,6 +196,8 @@
 		1AFAB2AB24A40C780015B522 /* StickerObject */ = {
 			isa = PBXGroup;
 			children = (
+				1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */,
+				1A06576B24A94D59002C78C9 /* textSizeSlider.xib */,
 				1ABD3EEC249169A20011299E /* StickerObject.swift */,
 				1AFBD42724A40D6000D61811 /* QuizSticker.xib */,
 				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
@@ -312,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A06576C24A94D59002C78C9 /* textSizeSlider.xib in Resources */,
 				1A06576A24A91588002C78C9 /* QuizSticker.xib in Resources */,
 				1AB049CB24A7DAEB005A7829 /* WritingSticker.xib in Resources */,
 				1AFD9609245CDE650092CF99 /* LaunchScreen.storyboard in Resources */,
@@ -338,6 +345,7 @@
 				1A26B98E24621DA7000732CB /* ThemeClass.swift in Sources */,
 				1AB1215024A7DCA9002F26AB /* WritingSticker.swift in Sources */,
 				1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */,
+				1A06576E24A94E5D002C78C9 /* TextSizeSlider.swift in Sources */,
 				1AFAB29D24A3F9790015B522 /* StickerEditorVC+Keyboard.swift in Sources */,
 				1AEDB8492460B14F00C080B4 /* TransitioningDelegateforEditCardViewController.swift in Sources */,
 				1AEDB84D2460B69E00C080B4 /* DismissingAnimator.swift in Sources */,

@@ -28,13 +28,13 @@ class TextSticker: StickerObject {
         textField.delegate = self
         textField.textColor = UIColor.white
         textField.text = stickerText
-        textField.font = font
+        textField.font = font.withSize(CGFloat(200))
         }
     }
     
     @IBOutlet weak var textLabel: UILabel!{
         didSet{
-            textLabel.font = font
+            textLabel.font = font.withSize(CGFloat(200))
             textLabel.text = stickerText
             
             textLabel.textAlignment = .center

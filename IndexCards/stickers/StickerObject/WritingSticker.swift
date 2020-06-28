@@ -8,10 +8,14 @@
 
 import UIKit
 
-class WritingSticker:
-StickerObject,
+class WritingSticker: StickerObject,
+SliderDelegate,
 UITextViewDelegate
 {
+    func sliderValueChanged(value: Double) {
+        fontSizeMultiplier = value
+    }
+    
     
     override var stickerText: String {
         didSet{
@@ -20,19 +24,47 @@ UITextViewDelegate
         }
     }
     
+    private var fontSizeMultiplier : Double = 1{
+        didSet{
+            //update the font
+            textView.font = UIFontMetrics
+            .default
+            .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
+                .withSize(fontSize))
+        }
+    }
+    
+    private var fontSize : CGFloat {
+        return 40.0 * CGFloat(fontSizeMultiplier)
+    }
+
+    private var sliderView : TextSizeSlider = {
+        let slider = Bundle.main.loadNibNamed("textSizeSlider",
+                                              owner: nil,
+                                              options: nil)?.first as! TextSizeSlider
+        slider.bounds.size = CGSize(width: 300, height: 50)
+        return slider
+    }()
+    
+    //MARK:- Outlets
     
     @IBOutlet weak var textView: UITextView!{
         didSet{
             responder = textView
+            
             textView.delegate = self
+            textView.inputAccessoryView = sliderView
+            sliderView.delegate = self
+            
             textView.font = UIFontMetrics
                 .default
                 .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
-                    .withSize(CGFloat(50)))
+                    .withSize(fontSize))
         }
     }
     
     //MARK:- UITextViewDelegate
+    
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true
@@ -41,8 +73,6 @@ UITextViewDelegate
     func textViewDidEndEditing(_ textView: UITextView) {
         stickerText = textView.text
     }
-    
-    
     
     
 }
