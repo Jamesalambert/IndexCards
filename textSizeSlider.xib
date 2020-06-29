@@ -21,7 +21,7 @@
                     </connections>
                 </slider>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="fPJ-0P-b17" secondAttribute="bottom" id="5T2-Kz-SI2"/>
                 <constraint firstItem="fPJ-0P-b17" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="9U3-Je-U1U"/>

@@ -62,7 +62,7 @@ class StickerEditorViewController:
     
     
     //accessed by the presenting animator
-    lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView, hintBarBackgroundView]}()
+    lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView]}()
     
     var viewsToReveal : [UIView] = []{
         didSet{
