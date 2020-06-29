@@ -10,6 +10,12 @@ import UIKit
 
 extension CardsViewController {
     
+    /// Present the index card editor view controller
+    /// - Parameters:
+    ///   - sourceView:    The view which appears to zoom to fill the screen
+    ///   - indexCard:     The index card to be displayed and edited
+    ///   - image:         If a new background image has just been chosen for a new card
+    ///   - temporaryView: True if the card is springing from a view which should be deleted after the animation
     func presentStickerEditor(from sourceView : UIView,
                               with indexCard : IndexCard?,
                               forCropping image : UIImage?,
@@ -19,7 +25,8 @@ extension CardsViewController {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
         guard let editVC = storyboard.instantiateViewController(
-            withIdentifier: "StickerViewController") as? StickerEditorViewController else {return}
+            withIdentifier: "StickerViewController") as? StickerEditorViewController
+            else {return}
                 
         //hand data to the editor
         
@@ -52,20 +59,11 @@ extension CardsViewController {
             editVC.passedImageForCropping = imageToCrop
         }
         
-        let enclosingView = navigationController?.visibleViewController?.view
-        
-        //origin of the animation, nil converts to the uiwindow system
-        let startCenter = sourceView.superview?.convert(sourceView.center, to: enclosingView)
-        let startBounds = sourceView.superview?.convert(sourceView.bounds, to: enclosingView)
-    
-        let endCenter = endCell.superview?.convert(endCell.center, to: enclosingView)
-        let endBounds = endCell.superview?.convert(endCell.bounds, to: enclosingView)
-        
         //set up transition animator, we are a navigation controller delegate and return this object
         self.editCardTransitionController = ZoomTransitionForNavigation(
             duration: theme?.timeOf(.editCardZoom) ?? 2.0,
-            originFrame: CGRect(center: startCenter!, size: startBounds!.size),
-            destinationFrame: CGRect(center: endCenter!, size: endBounds!.size),
+            originView: temporaryView ? sourceView : endCell,
+            destinationView: endCell,
             isPresenting: true,
             viewToHide: endCell,
             viewToRemove: temporaryView ? sourceView : nil)

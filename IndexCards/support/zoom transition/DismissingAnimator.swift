@@ -38,7 +38,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 animations: {
                     //hide toolbars
                     if let editorVC = destination as? StickerEditorViewController{
-                        editorVC.toolsAndMenus.forEach { (view) in
+                        editorVC.stickerMenus.forEach { (view) in
                             view.isHidden = true
                         }
                     }

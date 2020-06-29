@@ -62,7 +62,7 @@ class StickerEditorViewController:
     
     
     //accessed by the presenting animator
-    lazy var toolsAndMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView]}()
+    lazy var stickerMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView]}()
     
     var viewsToReveal : [UIView] = []{
         didSet{
@@ -369,12 +369,12 @@ class StickerEditorViewController:
         //if the card is previously set up
         if let _ = stickerView.backgroundImage {
             //should fade in
-            viewsToReveal += toolsAndMenus
+            viewsToReveal += stickerMenus
             cropView.alpha = 0
         }else{
             //should fade in
             viewsToReveal += [hintBarBackgroundView]
-            viewsToReveal += toolsAndMenus
+            viewsToReveal += stickerMenus
         }
         
         //pass the inherited image to the cropping view

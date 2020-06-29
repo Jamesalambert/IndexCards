@@ -127,18 +127,21 @@ class CardsViewController:
     private func tappedIndexCard(indexPath : IndexPath){
         //get tapped cell
         
-        guard let cell = indexCardsCollectionView.cellForItem(at: indexPath) else {return}
+        guard let cell = indexCardsCollectionView.cellForItem(at: indexPath)
+            else {return}
+        
          let chosenCard = currentDeck.cards[indexPath.item]
         
         //prevent editing of deleted decks
-            if model.deletedDecks.contains(currentDeck){return}
+        if model.deletedDecks.contains(currentDeck){return}
         
         //save for later
         indexPathOfEditedCard = indexPath
         
         //show the editor
         presentStickerEditor(from: cell,
-                             with: chosenCard, forCropping: nil,
+                             with: chosenCard,
+                             forCropping: nil,
                              temporaryView: false)
     }
 
@@ -201,7 +204,10 @@ class CardsViewController:
  
     //MARK:- UINavigationControllerDelegate
     
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController,
+            animationControllerFor operation: UINavigationController.Operation,
+            from fromVC: UIViewController,
+            to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         
         switch operation {

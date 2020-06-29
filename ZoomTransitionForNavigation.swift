@@ -13,16 +13,23 @@ NSObject,
 UIViewControllerAnimatedTransitioning {
     
     var duration : Double
-    var originFrame : CGRect
-    var destinationFrame : CGRect
+    var originView : UIView
+    var destinationView : UIView
     var isPresenting : Bool
     var viewToHide : UIView?
     var viewToRemove : UIView?
     
-    init(duration : Double, originFrame : CGRect, destinationFrame : CGRect, isPresenting : Bool, viewToHide : UIView?, viewToRemove : UIView?) {
+    private var startCenter : CGPoint?
+    private var startScale : CGFloat?
+    private var endCenter : CGPoint?
+    private var endScale : CGFloat?
+    
+    
+    
+    init(duration : Double, originView : UIView, destinationView : UIView, isPresenting : Bool, viewToHide : UIView?, viewToRemove : UIView?) {
         self.duration = duration
-        self.originFrame = originFrame
-        self.destinationFrame = destinationFrame
+        self.originView = originView
+        self.destinationView = destinationView
         self.isPresenting = isPresenting
         self.viewToHide = viewToHide
         self.viewToRemove = viewToRemove
@@ -44,36 +51,47 @@ UIViewControllerAnimatedTransitioning {
     
     
     private func show(_ transitionContext: UIViewControllerContextTransitioning){
-        guard let collectionVC = transitionContext.viewController(forKey: .from) else {return}
-        guard let editorVC = transitionContext.viewController(forKey: .to) else {return}
+        
+        guard let collectionVC = transitionContext.viewController(forKey: .from)
+            else {return}
+        
+        guard let editorVC = transitionContext.viewController(forKey: .to)
+            else {return}
         
         let containerView = transitionContext.containerView
         
-        let startCenter = originFrame.center
-        let startScale = CGFloat(originFrame.width / editorVC.view.bounds.width)
+        
+        startCenter = collectionVC.view.convert(originView.center,
+                                                from: originView.superview)
+        startScale = CGFloat(originView.bounds.width / editorVC.view.bounds.width)
+        
+        //save for later
+        if originView == destinationView {
+            self.endCenter = startCenter
+            self.endScale = startScale
+        }
         
         
         
         //move into position
-        editorVC.view.center = startCenter
-        editorVC.view.transform = CGAffineTransform.identity.scaledBy(x: startScale, y: startScale)
+        editorVC.view.center = startCenter!
+        editorVC.view.transform = CGAffineTransform.identity.scaledBy(x: startScale!,
+                                                                      y: startScale!)
         
         containerView.addSubview(editorVC.view)
         
         //hide tapped card
         self.viewToHide?.isHidden = true
+        
+        //remove temporary view
         self.viewToRemove?.removeFromSuperview()
         
         //animate to full size
-        
         UIView.animate(
             withDuration: self.duration,
             animations: {
-                
                 editorVC.view.transform = CGAffineTransform.identity
                 editorVC.view.center = collectionVC.view.center
-                
-                   
         },
             completion: { finished in
                 
@@ -93,15 +111,23 @@ UIViewControllerAnimatedTransitioning {
     
     
     private func hide(_ transitionContext: UIViewControllerContextTransitioning){
-        guard let editorVC = transitionContext.viewController(forKey: .from) else {return}
-        guard let collectionVC = transitionContext.viewController(forKey: .to) else {return}
+        
+        guard let editorVC = transitionContext.viewController(forKey: .from)
+            else {return}
+        
+        guard let collectionVC = transitionContext.viewController(forKey: .to)
+            else {return}
         
         let containerView = transitionContext.containerView
         
         
-        let endCenter = destinationFrame.center
-        let endScale = CGFloat(destinationFrame.width / editorVC.view.bounds.width)
-    
+        if destinationView != originView {
+            endCenter = collectionVC.view.convert(destinationView.center,
+                                              from: destinationView.superview)
+            endScale = CGFloat(destinationView.bounds.width / editorVC.view.bounds.width)
+        }
+        
+        
         
         //animate away
         
@@ -110,7 +136,7 @@ UIViewControllerAnimatedTransitioning {
             animations: {
                 //hide menus
                 if let editorVC = editorVC as? StickerEditorViewController{
-                    editorVC.toolsAndMenus.forEach {tool in tool.isHidden = true}
+                    editorVC.stickerMenus.forEach {tool in tool.isHidden = true}
                     editorVC.viewsToReveal.forEach {view in view.isHidden = true}
                 }
       
@@ -121,19 +147,17 @@ UIViewControllerAnimatedTransitioning {
                                animations: {
                                 //zoom away the card
                                 
-                                editorVC.view.center = endCenter
-                                editorVC.view.transform = CGAffineTransform.identity.scaledBy(x: endScale, y: endScale)
+                                editorVC.view.center = self.endCenter!
+                                editorVC.view.transform = CGAffineTransform.identity.scaledBy(x: self.endScale!,
+                                                                        y: self.endScale!)
                                 
                                 var viewIndex = containerView.subviews.count - 2
                                 viewIndex = viewIndex < 0 ? 0 : viewIndex
                                 
                                 containerView.insertSubview(collectionVC.view, at: viewIndex)
                                 
-                                
                 },
                                completion: { finished in
-                                
-                                
                                 
                                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                                 
@@ -142,8 +166,6 @@ UIViewControllerAnimatedTransitioning {
                                 self.viewToHide?.isHidden = false
                                 
                                 editorVC.view.removeFromSuperview()
-                                
-                                
                 })
       
         })
