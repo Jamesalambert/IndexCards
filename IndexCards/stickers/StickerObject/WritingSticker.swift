@@ -52,6 +52,8 @@ UITextViewDelegate
         didSet{
             responder = textView
             
+            textView.isUserInteractionEnabled = false
+            
             textView.delegate = self
             textView.inputAccessoryView = sliderView
             sliderView.delegate = self
@@ -65,6 +67,10 @@ UITextViewDelegate
     
     //MARK:- UITextViewDelegate
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.isUserInteractionEnabled = true
+    }
+    
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true
@@ -72,6 +78,7 @@ UITextViewDelegate
     
     func textViewDidEndEditing(_ textView: UITextView) {
         stickerText = textView.text
+        textView.isUserInteractionEnabled = false
     }
     
     

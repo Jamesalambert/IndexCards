@@ -63,6 +63,8 @@ extension StickerEditorViewController{
             return absolutePosition.y
             
         } else if let textView = currentSticker?.responder as? UITextView {
+                        
+            textView.scrollRectToVisible(textView.caretRect(for: textView.endOfDocument), animated: true)
             
             let position = textView.caretRect(for: textView.endOfDocument).midY
             let capHeight = textView.font?.capHeight ?? CGFloat(5.0)
@@ -85,7 +87,8 @@ extension StickerEditorViewController{
             distanceToShiftStickerWhenKeyboardShown = overlap > 0 ? overlap : 0
         }
         
-        if let sticker = currentSticker, let shift = distanceToShiftStickerWhenKeyboardShown {
+        if let sticker = currentSticker,
+            let shift = distanceToShiftStickerWhenKeyboardShown {
             
             sticker.unitLocation = unitLocationFrom(
                 point:
