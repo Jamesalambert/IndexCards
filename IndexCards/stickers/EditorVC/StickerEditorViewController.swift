@@ -223,7 +223,6 @@ class StickerEditorViewController:
     @IBAction func finishedRepositioningImage() {
     
         //crop function needs the content offset and zoomScale
-        //let chosenCrop = crop(image: backgroundImage!, with: scrollView)
         
         //move to sticker view
         let chosenCrop = cropView.croppedImage
@@ -366,25 +365,22 @@ class StickerEditorViewController:
         
         //all toolbars/hints are hidden in ther didSets.
         //hide or show depending on whether a background image is set
-        
-        //if we got inited with data then prevent scrolling
-        
+                
         //if the card is previously set up
         if let _ = stickerView.backgroundImage {
             //should fade in
-            viewsToReveal += [toolBarView, shapeCollectionView, colorsCollectionView]
+            viewsToReveal += toolsAndMenus
             cropView.alpha = 0
         }else{
             //should fade in
             viewsToReveal += [hintBarBackgroundView]
-            
-            //pass the inherited image to the cropping view
-            if let _ = passedImageForCropping{
-                backgroundImage = passedImageForCropping
-            }
-            
+            viewsToReveal += toolsAndMenus
         }
         
+        //pass the inherited image to the cropping view
+        if let _ = passedImageForCropping{
+            backgroundImage = passedImageForCropping
+        }
         
         if let currentTheme = theme{
             

@@ -81,7 +81,7 @@ UIViewControllerAnimatedTransitioning {
                                animations: {
                     //show menus
                     if let editor = editorVC as? StickerEditorViewController{
-                        editor.toolsAndMenus.forEach {tool in tool.isHidden = false}
+                        editor.viewsToReveal.forEach {tool in tool.isHidden = false}
                     }
                 })
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
@@ -111,6 +111,7 @@ UIViewControllerAnimatedTransitioning {
                 //hide menus
                 if let editorVC = editorVC as? StickerEditorViewController{
                     editorVC.toolsAndMenus.forEach {tool in tool.isHidden = true}
+                    editorVC.viewsToReveal.forEach {view in view.isHidden = true}
                 }
       
         },
