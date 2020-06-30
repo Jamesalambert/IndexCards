@@ -12,20 +12,19 @@ class WritingSticker: StickerObject,
 UITextViewDelegate
 {
     func sliderValueChanged(value: Double) {
+        
+        //store the value
         fontSizeMultiplier = value
+        
+        //update the font
+        textView.font = UIFontMetrics
+            .default
+            .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
+                .withSize(fontSize))
     }
     
-    
-    override var stickerText: String {
+    override var fontSizeMultiplier: Double{
         didSet{
-            guard textView != nil else {return}
-            textView.text = stickerText
-        }
-    }
-    
-    private var fontSizeMultiplier : Double = 1{
-        didSet{
-            //update the font
             textView.font = UIFontMetrics
             .default
             .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
@@ -33,17 +32,16 @@ UITextViewDelegate
         }
     }
     
+    override var stickerText: String {
+        didSet{
+            guard textView != nil else {return}
+            textView.text = stickerText
+        }
+    }
+        
     private var fontSize : CGFloat {
         return 40.0 * CGFloat(fontSizeMultiplier)
     }
-
-    private var sliderView : TextSizeSlider = {
-        let slider = Bundle.main.loadNibNamed("textSizeSlider",
-                                              owner: nil,
-                                              options: nil)?.first as! TextSizeSlider
-        slider.bounds.size = CGSize(width: 300, height: 50)
-        return slider
-    }()
     
     //MARK:- Outlets
     

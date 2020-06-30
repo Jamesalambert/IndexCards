@@ -93,6 +93,8 @@ UITextFieldDelegate {
     
     var scale = CGFloat(1.0)
     
+    var fontSizeMultiplier : Double = 1
+    
     var font : UIFont = {
         return UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .body))
     }()

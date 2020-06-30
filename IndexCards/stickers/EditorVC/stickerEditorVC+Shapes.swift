@@ -99,17 +99,18 @@ extension StickerEditorViewController{
     
 }
 
+
 extension StickerObject{
     
-    convenience init?(data : StickerData ){
-        self.init()
-        self.currentShape = data.typeOfShape.asShape()
-        self.stickerText = data.text
-        self.unitLocation = data.center
-        self.unitSize = data.size
-        self.backgroundColor = UIColor.clear
-        self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
-    }
+//    convenience init?(data : StickerData ){
+//        self.init()
+//        self.currentShape = data.typeOfShape.asShape()
+//        self.stickerText = data.text
+//        self.unitLocation = data.center
+//        self.unitSize = data.size
+//        self.backgroundColor = UIColor.clear
+//        self.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+//    }
     
     
     static func fromNib(shape : StickerKind) -> StickerObject{
@@ -146,6 +147,7 @@ extension StickerObject{
         newSticker.unitSize = data.size
         newSticker.backgroundColor = UIColor.clear
         newSticker.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
+        newSticker.fontSizeMultiplier = data.fontSizeMultiplier
         
         return newSticker
     }

@@ -17,7 +17,12 @@ class TextSizeSlider: UIView {
     var delegate : SliderDelegate?
     
     var value : CGFloat {
-        return CGFloat(textSizeSlider.value)
+        get{
+            return CGFloat(textSizeSlider.value)
+        }
+        set{
+            textSizeSlider.value = Float(newValue)
+        }
     }
     
     @IBOutlet weak var textSizeSlider: UISlider!

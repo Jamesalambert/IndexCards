@@ -195,7 +195,7 @@ struct StickerData : Codable{
     var size : CGSize
     var text : String
     var rotation : Double = 0
-    var tag : String = ""
+    var fontSizeMultiplier : Double = 1
     
     enum CodingKeys : CodingKey{
         case typeOfShape
@@ -207,7 +207,7 @@ struct StickerData : Codable{
     
     enum ExtraPropertiesKeys: CodingKey{
         case rotation
-        case tag
+        case fontSizeMultiplier
     }
     
     init(from decoder: Decoder) throws {
@@ -224,8 +224,9 @@ struct StickerData : Codable{
         } catch {print("error decoding rotation")}
         
         do{
-            tag = try extraProperties.decode(String.self, forKey: .tag)
-        } catch {print("error decoding tag")}
+            fontSizeMultiplier = try extraProperties.decode(Double.self,
+                                                            forKey: .fontSizeMultiplier)
+        } catch {print("error decoding fontSizeMultiplier")}
         
     }
     
@@ -238,6 +239,7 @@ struct StickerData : Codable{
         
         var nestedContainer = container.nestedContainer(keyedBy: ExtraPropertiesKeys.self, forKey: .extraProperties)
         try nestedContainer.encode(rotation, forKey: .rotation)
+        try nestedContainer.encode(fontSizeMultiplier, forKey: .fontSizeMultiplier)
         
     }
     

@@ -23,6 +23,9 @@ extension StickerEditorViewController :
                                         owner: nil,
                                         options: nil)?
                             .first as! TextSizeSlider
+            
+            control.value = CGFloat(sticker.fontSizeMultiplier)
+            
             control.delegate = self
             return control
         default:
