@@ -157,8 +157,7 @@ UIGestureRecognizerDelegate
         func tap(_ gesture : UITapGestureRecognizer){
             
             if let sticker = gesture.view as? StickerObject{
-                currentTextView = sticker.responder
-                currentTextView?.becomeFirstResponder()
+                self.selectSticker(sticker)
             }
 
             if let sticker = gesture.view as? QuizSticker{
@@ -173,6 +172,13 @@ UIGestureRecognizerDelegate
             
         }
         
+
+    func selectSticker(_ sticker : StickerObject){
+        currentTextView = sticker.responder
+        setupContextMenu(for: sticker)
+        sticker.responder?.becomeFirstResponder()
+    }
+    
         
     //returns 1,-1 or 0 for  V, H or both, 2=error
         private func pinchOrientation(pinch : UIPinchGestureRecognizer) -> Int{

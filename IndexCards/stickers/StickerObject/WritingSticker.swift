@@ -9,7 +9,6 @@
 import UIKit
 
 class WritingSticker: StickerObject,
-SliderDelegate,
 UITextViewDelegate
 {
     func sliderValueChanged(value: Double) {
@@ -55,8 +54,6 @@ UITextViewDelegate
             textView.isUserInteractionEnabled = false
             
             textView.delegate = self
-            textView.inputAccessoryView = sliderView
-            sliderView.delegate = self
             
             textView.font = UIFontMetrics
                 .default

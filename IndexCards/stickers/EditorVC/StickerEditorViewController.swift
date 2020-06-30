@@ -28,6 +28,8 @@ class StickerEditorViewController:
     var delegate : StickerEditorDelegate?
     var passedImageForCropping : UIImage?
     var currentTextView : UIView?
+    
+    
     var backgroundImage : UIImage?{
         didSet{
             if let image = backgroundImage {
@@ -62,7 +64,7 @@ class StickerEditorViewController:
     
     
     //accessed by the presenting animator
-    lazy var stickerMenus : [UIView] = {return [toolBarView, shapeCollectionView, colorsCollectionView]}()
+    lazy var stickerMenus : [UIView] = {return [toolBarView, shapeCollectionView, contextMenuBar]}()
     
     var viewsToReveal : [UIView] = []{
         didSet{
@@ -90,11 +92,6 @@ class StickerEditorViewController:
     
     
     //MARK:- Outlets
-    @IBOutlet weak var colorsCollectionView: UICollectionView!{
-        didSet{
-            colorsCollectionView.isHidden = true
-        }
-    }
     @IBOutlet weak var shapeCollectionView: UICollectionView!{
         didSet{
             shapeCollectionView.isHidden = true
@@ -109,6 +106,12 @@ class StickerEditorViewController:
         }
     }
 
+    
+    @IBOutlet weak var contextMenuBar: UIView!{
+        didSet{
+            contextMenuBar.isHidden = true
+        }
+    }
     
     
     @IBOutlet weak var hintBarBackgroundView: UIView!{
@@ -244,9 +247,8 @@ class StickerEditorViewController:
             options: .curveEaseInOut,
             animations: {
                 self.repositionImageHint.isHidden = true
-                
+                self.contextMenuBar.isHidden = false
                 self.shapeCollectionView.isHidden = false
-                self.colorsCollectionView.isHidden = false
                 self.toolBarView.isHidden = false
                 
                 self.view.layoutIfNeeded()
@@ -291,11 +293,8 @@ class StickerEditorViewController:
                 
         },
             completion: { finished in
-                //this will fail quietly for a sticker that doesn't take keyboard input
-                self.currentTextView?.becomeFirstResponder()
+                self.selectSticker(newSticker)
         })
-            
-        
     }//func
     
     

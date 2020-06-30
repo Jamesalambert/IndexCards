@@ -7,208 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "00A87740-A012-4E52-96B7-485597850623"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/CardsVC/CardsVC+DragDrop.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
-            landmarkName = "moveCardUndoably(cardToMove:toDeck:sourceIndexPath:destinationIndexPath:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E99C108C-AAFA-411B-A219-44094C51AD2C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "undoablyDelete(sticker:from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4E0DDEE6-2453-4809-956D-DB8992C3DFB9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/CardsVC/CardsVC+DragDrop.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "moveCardUndoably(cardToMove:toDeck:sourceIndexPath:destinationIndexPath:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "4E0DDEE6-2453-4809-956D-DB8992C3DFB9 - 440928919b530ef5"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IndexCards.CardsViewController.moveCardUndoably(cardToMove: IndexCards.IndexCard, toDeck: IndexCards.Deck, sourceIndexPath: Foundation.IndexPath, destinationIndexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/CardsVC/CardsVC+DragDrop.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "2224">
-               </Location>
-               <Location
-                  uuid = "4E0DDEE6-2453-4809-956D-DB8992C3DFB9 - 60d4d8a834c0ec84"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in IndexCards.CardsViewController.moveCardUndoably(cardToMove: IndexCards.IndexCard, toDeck: IndexCards.Deck, sourceIndexPath: Foundation.IndexPath, destinationIndexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/CardsVC/CardsVC+DragDrop.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "193"
-                  endingLineNumber = "193"
-                  offsetFromSymbolStart = "280">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D90C0691-512D-4039-966B-1122B905C5FD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/CardsVC/CardsVC+DragDrop.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "moveCardUndoably(cardToMove:toDeck:sourceIndexPath:destinationIndexPath:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D90C0691-512D-4039-966B-1122B905C5FD - 440928919b530ef5"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IndexCards.CardsViewController.moveCardUndoably(cardToMove: IndexCards.IndexCard, toDeck: IndexCards.Deck, sourceIndexPath: Foundation.IndexPath, destinationIndexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/CardsVC/CardsVC+DragDrop.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "210"
-                  endingLineNumber = "210"
-                  offsetFromSymbolStart = "3196">
-               </Location>
-               <Location
-                  uuid = "D90C0691-512D-4039-966B-1122B905C5FD - 293b2f55ed1986fb"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 () -&gt; () in IndexCards.CardsViewController.moveCardUndoably(cardToMove: IndexCards.IndexCard, toDeck: IndexCards.Deck, sourceIndexPath: Foundation.IndexPath, destinationIndexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/CardsVC/CardsVC+DragDrop.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "212">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D5E992E7-6AC0-4105-850B-FDB011263965"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/CardsVC/CardsVC+DragDrop.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "moveCardUndoably(cardToMove:toDeck:sourceIndexPath:destinationIndexPath:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D5E992E7-6AC0-4105-850B-FDB011263965 - 440928919b530ef5"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IndexCards.CardsViewController.moveCardUndoably(cardToMove: IndexCards.IndexCard, toDeck: IndexCards.Deck, sourceIndexPath: Foundation.IndexPath, destinationIndexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/CardsVC/CardsVC+DragDrop.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "221"
-                  endingLineNumber = "221"
-                  offsetFromSymbolStart = "4056">
-               </Location>
-               <Location
-                  uuid = "D5E992E7-6AC0-4105-850B-FDB011263965 - 4ad36d496dd80126"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 (IndexCards.IndexCard) -&gt; Swift.Bool in IndexCards.CardsViewController.moveCardUndoably(cardToMove: IndexCards.IndexCard, toDeck: IndexCards.Deck, sourceIndexPath: Foundation.IndexPath, destinationIndexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "IndexCards"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/CardsVC/CardsVC+DragDrop.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "221"
-                  endingLineNumber = "221"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6A59BFF7-C712-48A9-8532-DC24C57A0149"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/EditorVC/StickerEditorVC+Keyboard.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "cursorPosition"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7CD724CB-24DE-4F96-9832-3B892F77EF37"
+            uuid = "96875C00-92C8-4101-A824-91B73E79FC84"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IndexCards/stickers/EditorVC/StickerEditorVC+Gestures.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "tap(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C0743DBF-DF9F-4413-A2C8-C9FB408FD9BD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/stickers/EditorVC/StickerEditorViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
+            landmarkName = "tappedStickerMenu(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

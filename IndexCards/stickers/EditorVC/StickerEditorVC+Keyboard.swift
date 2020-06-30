@@ -10,7 +10,7 @@ import UIKit
 
 extension StickerEditorViewController{
 
-    private var currentSticker : StickerObject? {
+    var currentSticker : StickerObject? {
            if let sticker = currentTextView?.superview as? StickerObject {
                return sticker
            }
