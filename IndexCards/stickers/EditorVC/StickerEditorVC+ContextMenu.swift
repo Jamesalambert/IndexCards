@@ -37,34 +37,51 @@ extension StickerEditorViewController :
     
     func setupContextMenu(for sticker : StickerObject){
        
-        //remove any existing control views
-        contextMenuBar.subviews.forEach {view in view.removeFromSuperview()}
+        //for hiding the menu below the card
+        let downTransform = CGAffineTransform
+        .identity
+        .translatedBy( x: CGFloat.zero,
+                       y: 1.5 * contextMenuBar.bounds.height)
         
-        if let controlView = controls(for: sticker) {
-            self.contextMenuBar.alpha = 0.0
-            controlView.alpha = 0.0
+        var menuBarTransform : CGAffineTransform
             
+        //appearing
+        if contextMenuBar.subviews.isEmpty{
+            menuBarTransform = downTransform
+        } else {
+            menuBarTransform = CGAffineTransform.identity
+            
+            //remove any existing control views
+            contextMenuBar.subviews.forEach {view in view.removeFromSuperview()}
+        }
+        
+        //if we have a control to disply for the current sticker...
+        if let controlView = controls(for: sticker) {
+            
+            //set up animation
+            contextMenuBar.transform = menuBarTransform
+            contextMenuBar.alpha = 1.0              //menu bar starts with 0
             contextMenuBar.addSubview(controlView)
             controlView.bounds = contextMenuBar.bounds
             controlView.center = CGPoint(x: contextMenuBar.bounds.midX,
                                          y: contextMenuBar.bounds.midY)
             
-            UIView.animate(withDuration: 1.0,
+            UIView.animate(withDuration: theme!.timeOf(.showMenu),
                            animations: {
-                            self.contextMenuBar.alpha = 1.0
-                            controlView.alpha = 1.0
+                            
+            self.contextMenuBar.transform = CGAffineTransform.identity
+                            
             })
             
-
+            //if there's no control to display
         } else {
             //animate menubar away
-            
-            UIView.animate(withDuration: 0.0,
+            UIView.animate(withDuration: theme!.timeOf(.showMenu),
                            animations: {
-                            self.contextMenuBar.alpha = 0
-    
-            })
-    
+                            
+            self.contextMenuBar.transform = downTransform
+                            
+            }, completion: nil)
         }
     }
     
