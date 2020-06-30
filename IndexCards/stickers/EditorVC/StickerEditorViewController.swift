@@ -110,6 +110,7 @@ class StickerEditorViewController:
     @IBOutlet weak var contextMenuBar: UIView!{
         didSet{
             contextMenuBar.isHidden = true
+            contextMenuBar.alpha = 0.0
         }
     }
     

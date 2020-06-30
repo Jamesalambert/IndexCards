@@ -40,13 +40,32 @@ extension StickerEditorViewController :
         //remove any existing control views
         contextMenuBar.subviews.forEach {view in view.removeFromSuperview()}
         
-        guard let controlView = controls(for: sticker) else {return}
-        
-        contextMenuBar.addSubview(controlView)
-        
-        controlView.bounds = contextMenuBar.bounds
-        controlView.center = CGPoint(x: contextMenuBar.bounds.midX,
-                                y: contextMenuBar.bounds.midY)
+        if let controlView = controls(for: sticker) {
+            self.contextMenuBar.alpha = 0.0
+            controlView.alpha = 0.0
+            
+            contextMenuBar.addSubview(controlView)
+            controlView.bounds = contextMenuBar.bounds
+            controlView.center = CGPoint(x: contextMenuBar.bounds.midX,
+                                         y: contextMenuBar.bounds.midY)
+            
+            UIView.animate(withDuration: 1.0,
+                           animations: {
+                            self.contextMenuBar.alpha = 1.0
+                            controlView.alpha = 1.0
+            })
+            
+
+        } else {
+            //animate menubar away
+            
+            UIView.animate(withDuration: 0.0,
+                           animations: {
+                            self.contextMenuBar.alpha = 0
+    
+            })
+    
+        }
     }
     
     //MARK:- SliderDelegate
