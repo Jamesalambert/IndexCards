@@ -153,7 +153,6 @@ UIDropInteractionDelegate
                 //moveCardsFromDeck....
                 cardsView?.moveCardUndoably(cardToMove: droppedCard,
                                             toDeck: destinationDeck,
-                                            sourceIndexPath: sourceIndexPath,
                                             destinationIndexPath: IndexPath(0,0))
                 
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)

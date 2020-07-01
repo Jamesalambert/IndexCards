@@ -121,7 +121,6 @@ extension CardsViewController :
                     
                     moveCardUndoably(cardToMove: droppedCard,
                                      toDeck: currentDeck,
-                                     sourceIndexPath: sourceIndexPath,
                                      destinationIndexPath: destinationIndexPath)
                     
                     //animate nicely!
@@ -165,65 +164,70 @@ extension CardsViewController :
     
     
     func moveCardUndoably(cardToMove : IndexCard,
-               toDeck: Deck, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath){
-           
-           guard let fromDeck = model.deckContaining(card: cardToMove) else {return}
-           
-           ////////////////set up undo
-           let card = cardToMove
-           let from = fromDeck
-       
-           self.document.undoManager.beginUndoGrouping()
-           self.document.undoManager.registerUndo(withTarget: self,
-                                                  handler: { VC in
-               //call with decks reversed.
-               VC.moveCardUndoably(cardToMove: card,
-                                   toDeck: from,
-                                   sourceIndexPath: destinationIndexPath,
-                                   destinationIndexPath: sourceIndexPath)
-           })
-           self.document.undoManager.endUndoGrouping()
-           /////////////////////////////
-           
-           //deleting from onscreen deck or moving
-           if currentDeck == fromDeck {
-               indexCardsCollectionView.performBatchUpdates({
-                   
-                   //delete from source
-                   fromDeck.cards.removeAll(where: {$0 == cardToMove})
-                   indexCardsCollectionView.deleteItems(at: [sourceIndexPath])
-                   
-                   if fromDeck == toDeck{
-                       //move card to destination Deck!
-                       toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
-                       indexCardsCollectionView.insertItems(at: [destinationIndexPath])
-                   } else {
-                       //add to deleted cards deck
-                       toDeck.cards.append(cardToMove)
-                   }
-                   
-               }, completion: nil)
-               
-               //undeleting back to onscreen deck
-           } else if currentDeck == toDeck {
-
-               indexCardsCollectionView.performBatchUpdates({
-                   //delete from source
-                   fromDeck.cards.removeAll(where: {$0 == cardToMove})
-                   //move card to destination Deck!
-                   toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
-                   
-                   indexCardsCollectionView.insertItems(at: [destinationIndexPath])
-               }, completion: nil)
-               //both decks off screen
-           } else {
-               //never runs?
-               fromDeck.cards.removeAll(where: {$0 == cardToMove})
-               //move card to destination Deck!
-               toDeck.cards.insert(cardToMove, at: 0)
-           }
-       
-       }//func
+                          toDeck: Deck, destinationIndexPath: IndexPath){
+        
+        guard let fromDeck = model.deckContaining(card: cardToMove) else {return}
+        
+        let originIndexPath = IndexPath(item: model.deckContaining(card: cardToMove)!
+                                                    .cards
+                                                    .firstIndex(of: cardToMove)!,
+                                        section: 0)
+        
+        
+        ////////////////set up undo
+        let card = cardToMove
+        let from = fromDeck
+        
+        self.document.undoManager.beginUndoGrouping()
+        self.document.undoManager.registerUndo(withTarget: self,
+                                               handler: { VC in
+                                    //call with decks reversed.
+                                    VC.moveCardUndoably(cardToMove: card,
+                                                        toDeck: from,
+                                                        destinationIndexPath: originIndexPath)
+        })
+        self.document.undoManager.endUndoGrouping()
+        /////////////////////////////
+        
+        //deleting from onscreen deck or moving
+        if currentDeck == fromDeck {
+            indexCardsCollectionView.performBatchUpdates({
+                
+                //delete from source
+                fromDeck.cards.removeAll(where: {$0 == cardToMove})
+                indexCardsCollectionView.deleteItems(at: [originIndexPath])
+                
+                if fromDeck == toDeck{
+                    //move card to destination Deck!
+                    toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
+                    indexCardsCollectionView.insertItems(at: [destinationIndexPath])
+                } else {
+                    //add to deleted cards deck
+                    toDeck.cards.append(cardToMove)
+                }
+                
+            }, completion: nil)
+            
+            //undeleting back to onscreen deck
+        } else if currentDeck == toDeck {
+            
+            indexCardsCollectionView.performBatchUpdates({
+                //delete from source
+                fromDeck.cards.removeAll(where: {$0 == cardToMove})
+                //move card to destination Deck!
+                toDeck.cards.insert(cardToMove, at: destinationIndexPath.item)
+                
+                indexCardsCollectionView.insertItems(at: [destinationIndexPath])
+            }, completion: nil)
+            //both decks off screen
+        } else {
+            //never runs?
+            fromDeck.cards.removeAll(where: {$0 == cardToMove})
+            //move card to destination Deck!
+            toDeck.cards.insert(cardToMove, at: 0)
+        }
+        
+    }//func
     
     
 }
