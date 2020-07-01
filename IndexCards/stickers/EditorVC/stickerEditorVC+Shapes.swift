@@ -57,6 +57,8 @@ extension StickerEditorViewController{
     //undoable
     func undoablyDelete(sticker : StickerObject, from position: CGPoint){
         
+        sticker.isAboutToBeDeleted = false
+        
         ///register for undo operation
         document?.undoManager.beginUndoGrouping()
         document?.undoManager.registerUndo(withTarget: self, handler: { VC in

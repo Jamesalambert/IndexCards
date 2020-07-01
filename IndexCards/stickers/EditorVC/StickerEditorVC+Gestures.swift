@@ -74,7 +74,8 @@ UIGestureRecognizerDelegate
             case .ended:
                 if let sticker = gesture.view as? StickerObject{
                     if sticker.isAboutToBeDeleted {
-                        undoablyDelete(sticker: sticker, from: sticker.center)
+                        undoablyDelete(sticker: sticker,
+                                       from: self.originalPositionOfDraggedSticker!)
                     }
                 }
 

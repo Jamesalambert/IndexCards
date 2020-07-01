@@ -99,6 +99,9 @@ class StickerEditorViewController:
             shapeCollectionView.dataSource = self
             shapeCollectionView.dragDelegate = self
             
+            shapeCollectionView.roundedCorners(
+                ratio: theme!.sizeOf(.cornerRadiusToBoundsWidth))
+            
             let tap = UITapGestureRecognizer(target: self, action: #selector(tappedStickerMenu(_:)))
         
             tap.delegate = self
@@ -111,6 +114,10 @@ class StickerEditorViewController:
         didSet{
             contextMenuBar.isHidden = true
             contextMenuBar.alpha = 0.0
+            
+            contextMenuBar.roundedCorners(
+            ratio: theme!.sizeOf(.cornerRadiusToBoundsWidth))
+            
         }
     }
     

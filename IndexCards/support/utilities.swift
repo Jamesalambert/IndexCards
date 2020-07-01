@@ -70,6 +70,9 @@ extension UIView{
         return image
     }
 
+    func roundedCorners(ratio : CGFloat){
+        self.layer.cornerRadius = ratio * self.bounds.width
+    }
     
 }
 
