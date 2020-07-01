@@ -24,12 +24,12 @@
 		1A82AEFF246C9716000CF14A /* StickerEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */; };
 		1A923B092472F49200B4D75B /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A923B082472F49200B4D75B /* CropView.swift */; };
 		1A96602E24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A96602D24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift */; };
-		1A96603024ACDD840050F4CA /* ColourChooser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A96602F24ACDD840050F4CA /* ColourChooser.xib */; };
 		1A96603224ACDD970050F4CA /* ColourChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A96603124ACDD970050F4CA /* ColourChooser.swift */; };
 		1AA8352324689928009D82E9 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8352224689928009D82E9 /* Document.swift */; };
 		1AB049CB24A7DAEB005A7829 /* WritingSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AB049CA24A7DAEB005A7829 /* WritingSticker.xib */; };
 		1AB1215024A7DCA9002F26AB /* WritingSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */; };
 		1ABD3EED249169A20011299E /* StickerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD3EEC249169A20011299E /* StickerObject.swift */; };
+		1AD30D5924AD4A5A00B93643 /* ColourChooser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */; };
 		1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */; };
 		1ADD73C2246E041D00A9186A /* StickerCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C1246E041D00A9186A /* StickerCanvas.swift */; };
 		1ADD73C6246E0F9600A9186A /* TextSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C5246E0F9600A9186A /* TextSticker.swift */; };
@@ -59,7 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A06576B24A94D59002C78C9 /* textSizeSlider.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = textSizeSlider.xib; sourceTree = SOURCE_ROOT; };
+		1A06576B24A94D59002C78C9 /* textSizeSlider.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = textSizeSlider.xib; path = "IndexCards/stickers/StickerObject/New Group/textSizeSlider.xib"; sourceTree = SOURCE_ROOT; };
 		1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSizeSlider.swift; sourceTree = "<group>"; };
 		1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundTypeCell.swift; sourceTree = "<group>"; };
 		1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundCollectionViewController.swift; sourceTree = "<group>"; };
@@ -75,12 +75,12 @@
 		1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEditorViewController.swift; sourceTree = "<group>"; };
 		1A923B082472F49200B4D75B /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		1A96602D24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickerEditorVC+ContextMenu.swift"; sourceTree = "<group>"; };
-		1A96602F24ACDD840050F4CA /* ColourChooser.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ColourChooser.xib; path = IndexCards/CardsVC/ColourChooser.xib; sourceTree = SOURCE_ROOT; };
 		1A96603124ACDD970050F4CA /* ColourChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourChooser.swift; sourceTree = "<group>"; };
 		1AA8352224689928009D82E9 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		1AB049CA24A7DAEB005A7829 /* WritingSticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritingSticker.xib; sourceTree = "<group>"; };
 		1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingSticker.swift; sourceTree = "<group>"; };
 		1ABD3EEC249169A20011299E /* StickerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerObject.swift; sourceTree = "<group>"; };
+		1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColourChooser.xib; sourceTree = "<group>"; };
 		1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
 		1ADD73C1246E041D00A9186A /* StickerCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvas.swift; sourceTree = "<group>"; };
 		1ADD73C5246E0F9600A9186A /* TextSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSticker.swift; sourceTree = "<group>"; };
@@ -154,6 +154,17 @@
 			path = "zoom transition";
 			sourceTree = "<group>";
 		};
+		1A96603324AD49FE0050F4CA /* menu controls */ = {
+			isa = PBXGroup;
+			children = (
+				1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */,
+				1A96603124ACDD970050F4CA /* ColourChooser.swift */,
+				1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */,
+				1A06576B24A94D59002C78C9 /* textSizeSlider.xib */,
+			);
+			path = "menu controls";
+			sourceTree = "<group>";
+		};
 		1ADD73C7246E10A100A9186A /* stickers */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,10 +214,7 @@
 		1AFAB2AB24A40C780015B522 /* StickerObject */ = {
 			isa = PBXGroup;
 			children = (
-				1A96602F24ACDD840050F4CA /* ColourChooser.xib */,
-				1A96603124ACDD970050F4CA /* ColourChooser.swift */,
-				1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */,
-				1A06576B24A94D59002C78C9 /* textSizeSlider.xib */,
+				1A96603324AD49FE0050F4CA /* menu controls */,
 				1AFBD42724A40D6000D61811 /* QuizSticker.xib */,
 				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
 				1A2012C5247AD8BB00849A97 /* TextSticker.xib */,
@@ -328,7 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A06576C24A94D59002C78C9 /* textSizeSlider.xib in Resources */,
-				1A96603024ACDD840050F4CA /* ColourChooser.xib in Resources */,
+				1AD30D5924AD4A5A00B93643 /* ColourChooser.xib in Resources */,
 				1A06576A24A91588002C78C9 /* QuizSticker.xib in Resources */,
 				1AB049CB24A7DAEB005A7829 /* WritingSticker.xib in Resources */,
 				1AFD9609245CDE650092CF99 /* LaunchScreen.storyboard in Resources */,
