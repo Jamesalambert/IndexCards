@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1A06576A24A91588002C78C9 /* QuizSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFBD42724A40D6000D61811 /* QuizSticker.xib */; };
-		1A06576C24A94D59002C78C9 /* textSizeSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A06576B24A94D59002C78C9 /* textSizeSlider.xib */; };
 		1A06576E24A94E5D002C78C9 /* TextSizeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */; };
 		1A06969E248858AB005AB3FC /* ChooseBackgroundTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */; };
 		1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */; };
@@ -30,6 +29,7 @@
 		1AB1215024A7DCA9002F26AB /* WritingSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */; };
 		1ABD3EED249169A20011299E /* StickerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD3EEC249169A20011299E /* StickerObject.swift */; };
 		1AD30D5924AD4A5A00B93643 /* ColourChooser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */; };
+		1AD30D5B24AD4A8300B93643 /* textSizeSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */; };
 		1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */; };
 		1ADD73C2246E041D00A9186A /* StickerCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C1246E041D00A9186A /* StickerCanvas.swift */; };
 		1ADD73C6246E0F9600A9186A /* TextSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73C5246E0F9600A9186A /* TextSticker.swift */; };
@@ -59,7 +59,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A06576B24A94D59002C78C9 /* textSizeSlider.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = textSizeSlider.xib; path = "IndexCards/stickers/StickerObject/New Group/textSizeSlider.xib"; sourceTree = SOURCE_ROOT; };
 		1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSizeSlider.swift; sourceTree = "<group>"; };
 		1A06969D248858AA005AB3FC /* ChooseBackgroundTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundTypeCell.swift; sourceTree = "<group>"; };
 		1A06969F248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBackgroundCollectionViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingSticker.swift; sourceTree = "<group>"; };
 		1ABD3EEC249169A20011299E /* StickerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerObject.swift; sourceTree = "<group>"; };
 		1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColourChooser.xib; sourceTree = "<group>"; };
+		1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = textSizeSlider.xib; sourceTree = "<group>"; };
 		1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
 		1ADD73C1246E041D00A9186A /* StickerCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvas.swift; sourceTree = "<group>"; };
 		1ADD73C5246E0F9600A9186A /* TextSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSticker.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 				1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */,
 				1A96603124ACDD970050F4CA /* ColourChooser.swift */,
 				1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */,
-				1A06576B24A94D59002C78C9 /* textSizeSlider.xib */,
+				1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */,
 			);
 			path = "menu controls";
 			sourceTree = "<group>";
@@ -207,6 +207,7 @@
 				1AFAB29C24A3F9790015B522 /* StickerEditorVC+Keyboard.swift */,
 				1A96602D24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift */,
 				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
+				1A96603324AD49FE0050F4CA /* menu controls */,
 			);
 			path = EditorVC;
 			sourceTree = "<group>";
@@ -214,7 +215,6 @@
 		1AFAB2AB24A40C780015B522 /* StickerObject */ = {
 			isa = PBXGroup;
 			children = (
-				1A96603324AD49FE0050F4CA /* menu controls */,
 				1AFBD42724A40D6000D61811 /* QuizSticker.xib */,
 				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
 				1A2012C5247AD8BB00849A97 /* TextSticker.xib */,
@@ -335,10 +335,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A06576C24A94D59002C78C9 /* textSizeSlider.xib in Resources */,
 				1AD30D5924AD4A5A00B93643 /* ColourChooser.xib in Resources */,
 				1A06576A24A91588002C78C9 /* QuizSticker.xib in Resources */,
 				1AB049CB24A7DAEB005A7829 /* WritingSticker.xib in Resources */,
+				1AD30D5B24AD4A8300B93643 /* textSizeSlider.xib in Resources */,
 				1AFD9609245CDE650092CF99 /* LaunchScreen.storyboard in Resources */,
 				1A2012C6247AD8BB00849A97 /* TextSticker.xib in Resources */,
 				1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */,
