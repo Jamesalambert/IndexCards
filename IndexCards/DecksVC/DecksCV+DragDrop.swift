@@ -143,11 +143,8 @@ UIDropInteractionDelegate
             
             for item in coordinator.items {
                 
-                guard let dragData = coordinator.session.localDragSession?.localContext as? DragData else {return}
-                
                 guard let droppedCard = item.dragItem.localObject as? IndexCard else {return}
                 
-                let sourceIndexPath = dragData.indexPath
                 let destinationDeck = model.decks[destinationIndexPath.item]
 
                 //moveCardsFromDeck....

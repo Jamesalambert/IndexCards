@@ -8,10 +8,6 @@
 
 import UIKit
 
-struct DragData {
-    var collectionView : UICollectionView
-    var indexPath : IndexPath
-}
 
 class CardsViewController:
     UIViewController,

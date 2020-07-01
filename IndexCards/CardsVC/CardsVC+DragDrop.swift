@@ -22,11 +22,7 @@ extension CardsViewController :
     func collectionView(_ collectionView: UICollectionView,
         itemsForBeginning session: UIDragSession,
                         at indexPath: IndexPath) -> [UIDragItem] {
-        
-        //so if we drag the card to the deck collection we can call batch updates on this collection view from there.
-        session.localContext = DragData(collectionView: collectionView,
-                                        indexPath: indexPath)
-        
+
         return dragItemsAtIndexPath(at: indexPath)
     }
     
@@ -116,7 +112,6 @@ extension CardsViewController :
         
             //IndexCard being moved
             if let droppedCard = item.dragItem.localObject as? IndexCard {
-                if let sourceIndexPath = (coordinator.session.localDragSession?.localContext as? DragData)?.indexPath{
                     
                     
                     moveCardUndoably(cardToMove: droppedCard,
@@ -127,7 +122,7 @@ extension CardsViewController :
                     coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
                     
                     return
-                }//if let
+                
             }
             
             
