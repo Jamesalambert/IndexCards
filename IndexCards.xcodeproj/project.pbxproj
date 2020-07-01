@@ -207,13 +207,13 @@
 				1A96603124ACDD970050F4CA /* ColourChooser.swift */,
 				1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */,
 				1A06576B24A94D59002C78C9 /* textSizeSlider.xib */,
-				1ABD3EEC249169A20011299E /* StickerObject.swift */,
 				1AFBD42724A40D6000D61811 /* QuizSticker.xib */,
 				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
 				1A2012C5247AD8BB00849A97 /* TextSticker.xib */,
 				1ADD73C5246E0F9600A9186A /* TextSticker.swift */,
 				1AB049CA24A7DAEB005A7829 /* WritingSticker.xib */,
 				1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */,
+				1ABD3EEC249169A20011299E /* StickerObject.swift */,
 			);
 			path = StickerObject;
 			sourceTree = "<group>";

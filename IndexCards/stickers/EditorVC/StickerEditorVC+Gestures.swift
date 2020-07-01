@@ -13,14 +13,14 @@ UIGestureRecognizerDelegate
 {
     //MARK:- Gestures for stickers
     
-    
         //helper func
         func addStickerGestureRecognizers(to sticker : StickerObject){
             
             sticker.isUserInteractionEnabled = true
             
             let pan = UIPanGestureRecognizer(
-                target: self, action: #selector(panning(_:)))
+                target: self,
+                action: #selector(panning(_:)))
             pan.maximumNumberOfTouches = 1
             pan.delegate = self
             sticker.addGestureRecognizer(pan)
@@ -31,69 +31,64 @@ UIGestureRecognizerDelegate
             zoom.delegate = self
             sticker.addGestureRecognizer(zoom)
             
-            let tap = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
+            let tap = UITapGestureRecognizer(
+                target: self,
+                action: #selector(tap(_:)))
             tap.numberOfTapsRequired = 1
             tap.numberOfTouchesRequired = 1
             tap.delegate = self
             sticker.addGestureRecognizer(tap)
+
+        }
+        
+        
+        
+        
+        
+    @objc
+    func panning(_ gesture : UIPanGestureRecognizer){
+        
+        guard let sticker = gesture.view as? StickerObject else {return}
+        
+        switch gesture.state {
+        case .began:
+            //store in case we need to undelete
+            originalPositionOfDraggedSticker = gesture.view?.center
             
-        }
-        
-        
-        
-        
-        
-        @objc
-        func panning(_ gesture : UIPanGestureRecognizer){
-            switch gesture.state {
-            case .began:
-                //store in case we need to undelete
-                originalPositionOfDraggedSticker = gesture.view?.center
-            case .changed:
-                
-                if let sticker = gesture.view as? StickerObject{
-                    
-                    let oldLocation = sticker.unitLocation
-                    let newLocation = oldLocation.offsetBy(
-                        dx: gesture.translation(in: sticker).x / stickerView.bounds.width,
-                        dy: gesture.translation(in: sticker).y / stickerView.bounds.height)
-                    
-                    sticker.unitLocation = newLocation
-                    gesture.setTranslation(CGPoint.zero, in: gesture.view)
-                    
-                    
-                    if sticker.isInsideCanvas{
-                        sticker.isAboutToBeDeleted = false
-                    } else {
-                        sticker.isAboutToBeDeleted = true
-                    }
+        case .changed:
+            let oldLocation = sticker.unitLocation
+            let newLocation = oldLocation.offsetBy(
+                dx: gesture.translation(in: sticker).x / stickerView.bounds.width,
+                dy: gesture.translation(in: sticker).y / stickerView.bounds.height)
+            
+            sticker.unitLocation = newLocation
+            gesture.setTranslation(CGPoint.zero, in: gesture.view)
+            
+            sticker.isAboutToBeDeleted = !sticker.isInsideCanvas
 
-                    
-                }
-                
-            case .ended:
-                if let sticker = gesture.view as? StickerObject{
-                    if sticker.isAboutToBeDeleted {
-                        undoablyDelete(sticker: sticker,
-                                       from: self.originalPositionOfDraggedSticker!)
-                    }
-                }
-
-            default:
-                return
+        case .ended:
+            if sticker.isAboutToBeDeleted {
+                undoablyDelete(sticker: sticker,
+                               from: self.originalPositionOfDraggedSticker!)
             }
+
+        default:
+            return
         }
+        
+    }
         
         
         
         
         @objc
         func zooming(_ gesture: UIPinchGestureRecognizer){
+            
+            guard let sticker = gesture.view as? StickerObject else {return}
+
             switch gesture.state {
             case .changed:
                 
-                if let sticker = gesture.view as? StickerObject{
-                    
                     switch sticker.currentShape {
                     case .Quiz:
                         
@@ -124,12 +119,11 @@ UIGestureRecognizerDelegate
                     }
                     
                     gesture.scale = CGFloat(1)
-                }
+                
             case .ended:
                 
                 //check to see if the sticker is too small.
-                if let sticker = gesture.view as? StickerObject,
-                    min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
+                if min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
                     
                     let width = sticker.unitSize.width
                     let height = sticker.unitSize.height
@@ -157,15 +151,17 @@ UIGestureRecognizerDelegate
         @objc
         func tap(_ gesture : UITapGestureRecognizer){
             
-            if let sticker = gesture.view as? StickerObject{
-                self.selectSticker(sticker)
-            }
+            guard let sticker = gesture.view as? StickerObject else {return}
 
+            self.selectSticker(sticker)
+            
+            
             if let sticker = gesture.view as? QuizSticker{
                 UIView.transition(with: sticker,
                                   duration: 1.0,
                                   options: .curveEaseInOut,
                                   animations: {
+                                    
                     sticker.isConcealed = !sticker.isConcealed
                 }, completion: nil)
             }

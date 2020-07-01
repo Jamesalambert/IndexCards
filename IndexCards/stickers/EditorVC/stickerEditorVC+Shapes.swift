@@ -151,6 +151,7 @@ extension StickerObject{
         newSticker.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
         newSticker.fontSizeMultiplier = data.fontSizeMultiplier
         
+        
         return newSticker
     }
     
