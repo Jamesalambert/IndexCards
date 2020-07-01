@@ -105,8 +105,10 @@ extension CardsViewController :
     
     func collectionView(_ collectionView: UICollectionView,
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
-        
+        //all items use this index path with the result that
+        //they're all inserted one after the other from the drop point.
          let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(currentDeck.cards.count ,0)
+        
         
         for item in coordinator.items {
         
@@ -121,9 +123,7 @@ extension CardsViewController :
                     //animate nicely!
                     coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
                     
-                    return
-                
-            }
+            } else {
             
             
             //dropped images from another app
@@ -142,7 +142,7 @@ extension CardsViewController :
                 } //if let
             })//loadObject completion
         
-            
+            }//else
         }//for
     }
     
@@ -163,26 +163,27 @@ extension CardsViewController :
         
         guard let fromDeck = model.deckContaining(card: cardToMove) else {return}
         
-        let originIndexPath = IndexPath(item: model.deckContaining(card: cardToMove)!
-                                                    .cards
-                                                    .firstIndex(of: cardToMove)!,
+        let originIndexPath = IndexPath(item: model
+                                            .deckContaining(card: cardToMove)!
+                                            .cards
+                                            .firstIndex(of: cardToMove)!,
                                         section: 0)
         
         
-        ////////////////set up undo
+        ///set up undo
         let card = cardToMove
         let from = fromDeck
         
         self.document.undoManager.beginUndoGrouping()
         self.document.undoManager.registerUndo(withTarget: self,
                                                handler: { VC in
-                                    //call with decks reversed.
-                                    VC.moveCardUndoably(cardToMove: card,
-                                                        toDeck: from,
-                                                        destinationIndexPath: originIndexPath)
+                        //call with decks reversed.
+                        VC.moveCardUndoably(cardToMove: card,
+                                            toDeck: from,
+                                            destinationIndexPath: originIndexPath)
         })
         self.document.undoManager.endUndoGrouping()
-        /////////////////////////////
+        ///
         
         //deleting from onscreen deck or moving
         if currentDeck == fromDeck {
