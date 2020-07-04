@@ -28,6 +28,12 @@ extension StickerEditorViewController :
             
             control.delegate = self
             return control
+        case _ as QuizSticker:
+            let control = Bundle
+                .main
+                .loadNibNamed("ColourChooser", owner: nil, options: nil)?
+                .first as! ColourChooser
+            return control.view
         default:
             return nil
         }
