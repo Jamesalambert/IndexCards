@@ -45,6 +45,7 @@ UITextFieldDelegate {
             return customColor
         }
         
+        //defaults
         var color : UIColor
         
         if isAboutToBeDeleted{

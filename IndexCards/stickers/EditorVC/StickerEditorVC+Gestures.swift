@@ -171,7 +171,6 @@ UIGestureRecognizerDelegate
         
 
     func selectSticker(_ sticker : StickerObject){
-        currentTextView = sticker.responder
         currentSticker = sticker
         setupContextMenu(for: sticker)
         sticker.responder?.becomeFirstResponder()

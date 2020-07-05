@@ -20,7 +20,7 @@ extension StickerEditorViewController{
         newSticker.unitLocation = unitLocationFrom(point: dropPoint)
         newSticker.unitSize = CGSize(width: 0.2, height: 0.2)
         
-        currentTextView?.becomeFirstResponder()
+        currentSticker?.responder?.becomeFirstResponder()
         
         return newSticker
     }
@@ -49,7 +49,7 @@ extension StickerEditorViewController{
         
         addStickerGestureRecognizers(to: sticker)
         
-        currentTextView = sticker.responder
+        currentSticker = sticker
         
         stickerView.addSubview(sticker)
     }

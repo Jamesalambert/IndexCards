@@ -27,7 +27,6 @@ class StickerEditorViewController:
     var document : IndexCardsDocument?
     var delegate : StickerEditorDelegate?
     var passedImageForCropping : UIImage?
-    var currentTextView : UIView?
     var currentSticker : StickerObject?
     
     var backgroundImage : UIImage?{
