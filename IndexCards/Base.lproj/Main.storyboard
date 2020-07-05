@@ -400,11 +400,6 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hhd-Lk-QkG">
-                        <barButtonItem key="leftBarButtonItem" title="tweak" id="ImP-jx-nSC">
-                            <connections>
-                                <action selector="tweakButtonTapped:" destination="dcX-ac-dIB" id="Soy-i3-sE6"/>
-                            </connections>
-                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="action" id="UeL-1k-LFu">
                                 <connections>

@@ -196,6 +196,7 @@ struct StickerData : Codable{
     var text : String
     var rotation : Double = 0
     var fontSizeMultiplier : Double = 1
+    var customColour : String = ""
     
     enum CodingKeys : CodingKey{
         case typeOfShape
@@ -208,7 +209,9 @@ struct StickerData : Codable{
     enum ExtraPropertiesKeys: CodingKey{
         case rotation
         case fontSizeMultiplier
+        case customColour
     }
+
     
     init(from decoder: Decoder) throws {
         //decode the regular vars
@@ -219,6 +222,7 @@ struct StickerData : Codable{
         text = try values.decode(String.self, forKey: .text)
         
         let extraProperties = try values.nestedContainer(keyedBy: ExtraPropertiesKeys.self, forKey: .extraProperties)
+        
         do {
             rotation = try extraProperties.decode(Double.self, forKey: .rotation)
         } catch {print("error decoding rotation")}
@@ -228,6 +232,11 @@ struct StickerData : Codable{
                                                             forKey: .fontSizeMultiplier)
         } catch {print("error decoding fontSizeMultiplier")}
         
+        do{
+            customColour = try extraProperties.decode(String.self,
+                                                      forKey: .customColour)
+        } catch {print("error decoding customColour")}
+       
     }
     
     func encode(to encoder: Encoder) throws {
@@ -238,9 +247,12 @@ struct StickerData : Codable{
         try container.encode(text, forKey: .text)
         
         var nestedContainer = container.nestedContainer(keyedBy: ExtraPropertiesKeys.self, forKey: .extraProperties)
+        
         try nestedContainer.encode(rotation, forKey: .rotation)
         try nestedContainer.encode(fontSizeMultiplier, forKey: .fontSizeMultiplier)
-        
+        try nestedContainer.encode(customColour, forKey: .customColour)
     }
     
 }
+
+

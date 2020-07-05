@@ -466,6 +466,7 @@ extension StickerData{
         text = sticker.stickerText
         rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
         fontSizeMultiplier = sticker.fontSizeMultiplier
+        customColour = sticker.customColor?.description ?? ""
     }
     
     

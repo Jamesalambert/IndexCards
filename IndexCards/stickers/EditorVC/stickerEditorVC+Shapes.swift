@@ -144,12 +144,31 @@ extension StickerObject{
         newSticker.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
         newSticker.fontSizeMultiplier = data.fontSizeMultiplier
         
+        newSticker.customColor = colourFromDescription(data.customColour)
         
         return newSticker
     }
     
+    static func colourFromDescription(_ description : String) -> UIColor?{
+        
+        let values : [Double] = description.split(separator: " ").compactMap {Double($0)}
+    
+        let colourComponents = values.compactMap {CGFloat($0)}
+        
+        guard colourComponents.count == 4 else {return nil}
+        
+        let colour = UIColor(red: colourComponents[0],
+                            green: colourComponents[1],
+                            blue: colourComponents[2],
+                            alpha: colourComponents[3])
+        return colour
+      }
+    
 }
 
+
+    
+  
 
 
 
