@@ -31,7 +31,17 @@ UITextFieldDelegate {
         }
     }
     
+    var customColor : UIColor?{
+        didSet{
+            self.setNeedsDisplay()
+        }
+    }
+    
     var stickerColor : UIColor {
+        
+        if let customColor = customColor{
+            return customColor
+        }
         
         var color : UIColor
         

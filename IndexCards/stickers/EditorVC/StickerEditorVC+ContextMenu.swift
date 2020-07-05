@@ -9,7 +9,8 @@
 import UIKit
 
 extension StickerEditorViewController :
-    SliderDelegate
+    SliderDelegate,
+    ColourChooserDelegate
 {
 
     
@@ -33,6 +34,13 @@ extension StickerEditorViewController :
                 .main
                 .loadNibNamed("ColourChooser", owner: nil, options: nil)?
                 .first as! ColourChooser
+            
+            control.delegate = self
+            
+            //This is how to add views with their own VC!
+            //The view is added by the function that calls this one
+            self.addChild(control)
+            control.didMove(toParent: self)
             return control.view
         default:
             return nil
@@ -98,4 +106,8 @@ extension StickerEditorViewController :
         sticker.sliderValueChanged(value: value)
     }
     
+    //MARK:- ColourChooserDelegate
+    func userDidSelectColour(colour: UIColor) {
+        currentSticker?.customColor = colour
+    }
 }

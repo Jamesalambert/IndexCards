@@ -8,13 +8,23 @@
 
 import UIKit
 
+protocol ColourChooserDelegate {
+    func userDidSelectColour(colour : UIColor) -> Void
+}
+
+
 class ColourChooser: UIViewController,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout
 {
    
-    var emojiColours = "⛑🥼👗🩲".map {String($0)}
+    var emojiArray = "⛑🥼👗🩲".map {String($0)}
+    var colourArray = [#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1),#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0),#colorLiteral(red: 0.2733574585, green: 0.9135431676, blue: 1, alpha: 1),#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)]
+    var colourForEmoji : [String : UIColor] = [:]
+    
+    
+    var delegate : ColourChooserDelegate?
     
     @IBOutlet weak var colourCollectionView: UICollectionView!{
         didSet{
@@ -26,22 +36,44 @@ class ColourChooser: UIViewController,
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return emojiColours.count
+        return emojiArray.count
        }
        
        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColourCell", for: indexPath) as! ColourCell
         
-        cell.cellText = emojiColours[indexPath.item]
+        cell.cellText = emojiArray[indexPath.item]
         
         return cell
         
        }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let chosenEmoji = emojiArray[indexPath.item]
+        
+        delegate?.userDidSelectColour(colour: colourForEmoji[chosenEmoji]!)
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 30, height: 30)
     }
     
-   
+    override func awakeFromNib() {
+        
+        self.emojiArray.forEach{ emoji in
+            
+            self.colourArray.forEach { colour in
+                
+                self.colourForEmoji[emoji] = colour
+                
+            }
+            
+            
+        }
+        
+        
+    }//func
 
 }
