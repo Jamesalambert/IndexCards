@@ -14,7 +14,7 @@ extension StickerEditorViewController :
 {
 
     
-    private func controls(for sticker : StickerObject)->UIView?{
+    private func controls(for sticker : StickerObject?)->UIView?{
         
         switch sticker {
         case _ as WritingSticker:
@@ -25,10 +25,11 @@ extension StickerEditorViewController :
                                         options: nil)?
                             .first as! TextSizeSlider
             
-            control.value = CGFloat(sticker.fontSizeMultiplier)
+            control.value = CGFloat(sticker!.fontSizeMultiplier)
             
             control.delegate = self
             return control
+            
         case _ as QuizSticker:
             let control = Bundle
                 .main
@@ -36,12 +37,13 @@ extension StickerEditorViewController :
                 .first as! ColourChooser
             
             control.delegate = self
-            
+            control.theme = theme
             //This is how to add views with their own VC!
             //The view is added by the function that calls this one
             self.addChild(control)
             control.didMove(toParent: self)
             return control.view
+            
         default:
             return nil
         }
@@ -49,8 +51,8 @@ extension StickerEditorViewController :
     
     
     
-    func setupContextMenu(for sticker : StickerObject){
-       
+    func showContextMenu(for sticker : StickerObject?){
+        
         //for hiding the menu below the card
         let downTransform = CGAffineTransform
         .identity
@@ -74,8 +76,10 @@ extension StickerEditorViewController :
             
             //set up animation
             contextMenuBar.transform = menuBarTransform
-            contextMenuBar.alpha = 1.0              //menu bar starts with 0
+            contextMenuBar.alpha = 1.0         //menu bar starts with 0
+            
             contextMenuBar.addSubview(controlView)
+            
             controlView.bounds = contextMenuBar.bounds
             controlView.center = CGPoint(x: contextMenuBar.bounds.midX,
                                          y: contextMenuBar.bounds.midY)

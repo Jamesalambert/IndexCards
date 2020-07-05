@@ -64,14 +64,17 @@ extension StickerEditorViewController{
         document?.undoManager.registerUndo(withTarget: self, handler: { VC in
             VC.undoablyDelete(sticker: sticker, from: position)
         })
-        
         document?.undoManager.endUndoGrouping()
+        ///end of undo grouping
+        
         
         if stickerView.subviews.contains(sticker){
             sticker.removeFromSuperview()
             document?.deletedStickers.append(sticker)
+            currentSticker = nil
         } else if document!.deletedStickers.contains(sticker) {
             stickerView.addSubview(sticker)
+            currentSticker = sticker
             //set location!
             sticker.unitLocation = unitLocationFrom(point: position)
             document!.deletedStickers.removeAll(where: {deletedSticker in

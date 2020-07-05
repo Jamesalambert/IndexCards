@@ -25,6 +25,7 @@ class ColourChooser: UIViewController,
     
     
     var delegate : ColourChooserDelegate?
+    var theme : Theme?
     
     @IBOutlet weak var colourCollectionView: UICollectionView!{
         didSet{
@@ -57,7 +58,10 @@ class ColourChooser: UIViewController,
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 30, height: 30)
+       
+        let sideLength = theme!.sizeOf(.menuItemHeightToBoundsHeightRatio) * collectionView.bounds.height
+        
+        return CGSize(width: sideLength, height: sideLength)
     }
     
     override func awakeFromNib() {

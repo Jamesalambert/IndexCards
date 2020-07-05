@@ -19,6 +19,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="834" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9u0-hm-3t3">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="5Wa-5o-TRT" kind="relationship" relationship="rootViewController" id="M9a-nz-Yjj"/>
                     </connections>
@@ -397,6 +400,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hhd-Lk-QkG">
+                        <barButtonItem key="leftBarButtonItem" title="tweak" id="ImP-jx-nSC">
+                            <connections>
+                                <action selector="tweakButtonTapped:" destination="dcX-ac-dIB" id="Soy-i3-sE6"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="action" id="UeL-1k-LFu">
                                 <connections>

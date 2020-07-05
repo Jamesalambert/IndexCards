@@ -27,7 +27,14 @@ class StickerEditorViewController:
     var document : IndexCardsDocument?
     var delegate : StickerEditorDelegate?
     var passedImageForCropping : UIImage?
-    var currentSticker : StickerObject?
+    var currentSticker : StickerObject?{
+        willSet{
+            if currentSticker != newValue{
+                showContextMenu(for: newValue)
+                newValue?.responder?.becomeFirstResponder()
+            }
+        }
+    }
     
     var backgroundImage : UIImage?{
         didSet{
@@ -202,7 +209,14 @@ class StickerEditorViewController:
         }
     }
     
+    
+    
     //MARK:- IB Actions
+    
+    @IBAction func tweakButtonTapped(_ sender: UIBarButtonItem) {
+
+    }
+    
     
     @IBAction func tappedUndo(_ sender: Any) {
         document!.undoManager.undo()
