@@ -14,40 +14,30 @@ extension StickerEditorViewController :
 {
 
     
-    private func controls(for sticker : StickerObject?)->UIView?{
+    private func loadControls(for sticker : StickerObject?)->UIView?{
         
         switch sticker {
         case _ as WritingSticker:
-            let control = Bundle
-                            .main
-                            .loadNibNamed("textSizeSlider",
-                                        owner: nil,
-                                        options: nil)?
-                            .first as! TextSizeSlider
             
-            control.value = CGFloat(sticker!.fontSizeMultiplier)
+            let view = setupTextSizeChooser(withValue: sticker!.fontSizeMultiplier)
+            return view
+
+        case _ as TextSticker:
             
-            control.delegate = self
-            return control
-            
+            let view = setupColourChooser().view
+            return view
+        
         case _ as QuizSticker:
-            let control = Bundle
-                .main
-                .loadNibNamed("ColourChooser", owner: nil, options: nil)?
-                .first as! ColourChooser
             
-            control.delegate = self
-            control.theme = theme
-            //This is how to add views with their own VC!
-            //The view is added by the function that calls this one
-            self.addChild(control)
-            control.didMove(toParent: self)
-            return control.view
+            let view = setupColourChooser().view
+            return view
             
         default:
             return nil
         }
     }
+    
+    
     
     
     
@@ -72,7 +62,7 @@ extension StickerEditorViewController :
         }
         
         //if we have a control to disply for the current sticker...
-        if let controlView = controls(for: sticker) {
+        if let controlView = loadControls(for: sticker) {
             
             //set up animation
             contextMenuBar.transform = menuBarTransform
@@ -114,4 +104,38 @@ extension StickerEditorViewController :
     func userDidSelectColour(colour: UIColor) {
         currentSticker?.customColor = colour
     }
+    
+    
+    //MARK:- Unpack views from XIBs
+    
+    private func setupColourChooser() -> ColourChooser{
+        let coloursVC = Bundle
+            .main
+            .loadNibNamed("ColourChooser", owner: nil, options: nil)?
+            .first as! ColourChooser
+        
+        coloursVC.delegate = self
+        coloursVC.theme = theme
+        //This is how to add views with their own VC!
+        //The view is added by the function that calls this one
+        self.addChild(coloursVC)
+        coloursVC.didMove(toParent: self)
+        return coloursVC
+    }
+    
+    private func setupTextSizeChooser(withValue value : Double) -> UIView{
+        let control = Bundle
+                        .main
+                        .loadNibNamed("textSizeSlider",
+                                    owner: nil,
+                                    options: nil)?
+                        .first as! TextSizeSlider
+        
+        control.value = CGFloat(value)
+        
+        control.delegate = self
+        return control
+    }
+    
+    
 }

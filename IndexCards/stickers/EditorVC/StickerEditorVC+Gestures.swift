@@ -171,9 +171,8 @@ UIGestureRecognizerDelegate
         
 
     func selectSticker(_ sticker : StickerObject){
+        //contex menu and first responder are handles in didSet
         currentSticker = sticker
-//        showContextMenu(for: sticker)
-//        sticker.responder?.becomeFirstResponder()
     }
     
         

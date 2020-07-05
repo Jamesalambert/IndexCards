@@ -18,6 +18,7 @@ class TextSticker: StickerObject {
             textLabel.text = stickerText
         }
     }
+
     
     
     //MARK:- IBOutlets
@@ -80,7 +81,7 @@ class TextSticker: StickerObject {
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
 
-        stickerColor.setFill()
+        stickerColor.withAlphaComponent(0.2).setFill()
         
         switch currentShape {
         case .Circle:

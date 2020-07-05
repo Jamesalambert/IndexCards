@@ -158,8 +158,8 @@
             filePath = "IndexCards/stickers/EditorVC/StickerEditorVC+ContextMenu.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "userDidSelectColour(colour:)"
             landmarkType = "7">
          </BreakpointContent>

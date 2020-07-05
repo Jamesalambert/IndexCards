@@ -31,8 +31,8 @@ class StickerEditorViewController:
         willSet{
             if currentSticker != newValue{
                 showContextMenu(for: newValue)
-                newValue?.responder?.becomeFirstResponder()
             }
+            newValue?.responder?.becomeFirstResponder()
         }
     }
     
