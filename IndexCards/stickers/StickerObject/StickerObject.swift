@@ -39,7 +39,9 @@ UITextFieldDelegate {
     
     var stickerColor : UIColor {
         
-        if let customColor = customColor{
+        if isAboutToBeDeleted{
+            return UIColor.gray
+        } else if let customColor = customColor{
             return customColor
         }
         

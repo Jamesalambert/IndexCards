@@ -62,15 +62,8 @@ class ColourChooser: UIViewController,
     
     override func awakeFromNib() {
         
-        self.emojiArray.forEach{ emoji in
-            
-            self.colourArray.forEach { colour in
-                
-                self.colourForEmoji[emoji] = colour
-                
-            }
-            
-            
+        self.emojiArray.indices.forEach{ index in
+            colourForEmoji[emojiArray[index]] = colourArray[index]
         }
         
         
