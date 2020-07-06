@@ -22,6 +22,12 @@ UITextFieldDelegate {
 
     //MARK:- public
     var currentShape : StickerKind = .RoundRect {didSet{setNeedsDisplay()}}
+
+    var isSelected : Bool = false{
+        didSet{
+            self.setNeedsDisplay()
+        }
+    }
     
     var isAboutToBeDeleted = false {
         willSet{
@@ -130,42 +136,51 @@ UITextFieldDelegate {
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
         
+        
+        
         stickerColor.setFill()
+        
+        var path = UIBezierPath()
         
         switch currentShape {
         case .Circle:
             
-            let path = UIBezierPath(
+             path = UIBezierPath(
                 arcCenter: CGPoint(x: self.bounds.midX, y: self.bounds.midY),
                 radius: self.bounds.midX * scale,
                 startAngle: CGFloat(0),
                 endAngle: 2 * CGFloat.pi,
                 clockwise: true)
             
-           path.fill()
             
         case .RoundRect:
             
             let rect = self.bounds.zoom(by: scale)
-            let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
             
-            path.fill()
         
         case .Highlight:
-            let path = UIBezierPath()
+            path = UIBezierPath()
             path.move(to: CGPoint(x: 0.1 * bounds.width, y: 0))
             path.addLine(to: CGPoint(x: bounds.width, y: 0))
             path.addLine(to: CGPoint(x: 0.9 * bounds.width, y: bounds.height))
             path.addLine(to: CGPoint(x: 0, y: bounds.height))
             path.close()
             
-            path.fill()
         default:
             let rect = self.bounds.zoom(by: scale)
-            let path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
             
-            path.fill()
         }//switch
+        
+        path.fill()
+        
+        if isSelected{
+            UIColor.systemBlue.setStroke()
+            path.lineWidth = CGFloat(5)
+            path.stroke()
+        }
+
         
     }//func
     

@@ -30,8 +30,10 @@ class StickerEditorViewController:
     var currentSticker : StickerObject?{
         willSet{
             if currentSticker != newValue{
+                currentSticker?.isSelected = false
                 showContextMenu(for: newValue)
             }
+            newValue?.isSelected = true
             newValue?.responder?.becomeFirstResponder()
         }
     }

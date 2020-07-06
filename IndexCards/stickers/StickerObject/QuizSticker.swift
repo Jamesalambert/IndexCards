@@ -26,16 +26,22 @@ class QuizSticker: StickerObject {
         
         
         if isConcealed{
-            //draw question mark or something
             stickerColor.setFill()
-            path.fill()
-            
         } else {
-            //draw hollow circle
-            stickerColor.setStroke()
-            path.lineWidth = CGFloat(4.0)
+            //draw transparent circle
+            stickerColor.withAlphaComponent(CGFloat(0.2)).setFill()
+        }
+        
+        path.fill()
+
+        
+        if isSelected{
+            UIColor.systemBlue.setStroke()
+            path.lineWidth = CGFloat(5)
             path.stroke()
         }
+        
+        
     }//func
 
     
