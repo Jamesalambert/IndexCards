@@ -20,8 +20,6 @@ UIActivityItemSource
         }
     }
     
-    
-
     //MARK:- UIActivityItemSource
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return self.snapshot!
@@ -31,11 +29,6 @@ UIActivityItemSource
                                 itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         return self.snapshot
     }
-
-    
-
-    
-    
 
     
     //MARK:- UIView

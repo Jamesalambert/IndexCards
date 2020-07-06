@@ -29,12 +29,27 @@ class StickerEditorViewController:
     var passedImageForCropping : UIImage?
     var currentSticker : StickerObject?{
         willSet{
-            if currentSticker != newValue{
-                currentSticker?.isSelected = false
-                showContextMenu(for: newValue)
+
+            //is a new sticker
+            if let newSticker = newValue{
+                
+                if currentSticker != newValue{
+                    //deselect old one
+                    currentSticker?.isSelected = false
+                    //select new one
+                    newSticker.isSelected = true
+                    newSticker.responder?.becomeFirstResponder()
+                }
+                
+                
+            } else {
+                currentSticker?.resignFirstResponder()
             }
-            newValue?.isSelected = true
-            newValue?.responder?.becomeFirstResponder()
+            
+            //manage the menu
+            showContextMenu(for: newValue)
+
+            
         }
     }
     
@@ -188,7 +203,7 @@ class StickerEditorViewController:
             stickerView.contentMode = .redraw
             
             
-            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(deselectSticker))
             tap.numberOfTapsRequired = 1
             tap.delegate = self
             stickerView.addGestureRecognizer(tap)

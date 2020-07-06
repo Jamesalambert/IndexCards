@@ -14,8 +14,8 @@
             filePath = "IndexCards/stickers/EditorVC/StickerEditorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
             landmarkName = "tappedStickerMenu(_:)"
             landmarkType = "7">
          </BreakpointContent>

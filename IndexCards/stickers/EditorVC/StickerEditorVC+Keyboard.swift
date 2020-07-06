@@ -107,8 +107,9 @@ extension StickerEditorViewController{
     
     
     @objc
-    func dismissKeyboard(){
-        currentSticker?.responder?.resignFirstResponder()
+    func deselectSticker(){
+        currentSticker = nil
+        //currentSticker?.responder?.resignFirstResponder()
     }
     
 }
