@@ -162,10 +162,10 @@
 			isa = PBXGroup;
 			children = (
 				1A677D8624B14243007C8078 /* ColourCell.swift */,
-				1A677D8724B14244007C8078 /* ColourCell.xib */,
-				1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */,
 				1A96603124ACDD970050F4CA /* ColourChooser.swift */,
 				1A06576D24A94E5D002C78C9 /* TextSizeSlider.swift */,
+				1A677D8724B14244007C8078 /* ColourCell.xib */,
+				1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */,
 				1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */,
 			);
 			path = "menu controls";
@@ -204,16 +204,16 @@
 		1AFAB2AA24A40C420015B522 /* EditorVC */ = {
 			isa = PBXGroup;
 			children = (
-				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
-				1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */,
-				1AFAB2A024A3FE950015B522 /* StickerEditorVC+Gestures.swift */,
-				1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */,
+				1A96603324AD49FE0050F4CA /* menu controls */,
+				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
+				1A96602D24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift */,
 				1AFAB29E24A3FA7C0015B522 /* StickerEditorVC+Drag.swift */,
 				1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */,
+				1AFAB2A024A3FE950015B522 /* StickerEditorVC+Gestures.swift */,
 				1AFAB29C24A3F9790015B522 /* StickerEditorVC+Keyboard.swift */,
-				1A96602D24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift */,
-				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
-				1A96603324AD49FE0050F4CA /* menu controls */,
+				1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */,
+				1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */,
+				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 			);
 			path = EditorVC;
 			sourceTree = "<group>";

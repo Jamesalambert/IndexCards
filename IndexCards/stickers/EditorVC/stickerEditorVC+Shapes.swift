@@ -126,9 +126,6 @@ extension StickerObject{
                                                   owner: nil,
                                                   options: nil)?.first as! WritingSticker
         }
-
-        
-        
         return newSticker
     }
     
@@ -140,12 +137,13 @@ extension StickerObject{
         newSticker.stickerText = data.text
         newSticker.unitLocation = data.center
         newSticker.unitSize = data.size
-        newSticker.backgroundColor = UIColor.clear
-        newSticker.transform = CGAffineTransform.identity.rotated(by: CGFloat(data.rotation))
         newSticker.fontSizeMultiplier = data.fontSizeMultiplier
-        
         newSticker.customColor = colourFromDescription(data.customColour)
         
+        newSticker.backgroundColor = UIColor.clear
+        newSticker.transform = CGAffineTransform
+                                .identity
+                                .rotated(by: CGFloat(data.rotation))
         return newSticker
     }
     
@@ -157,10 +155,10 @@ extension StickerObject{
         
         guard colourComponents.count == 4 else {return nil}
         
-        let colour = UIColor(red: colourComponents[0],
-                            green: colourComponents[1],
-                            blue: colourComponents[2],
-                            alpha: colourComponents[3])
+        let colour = UIColor(   red:   colourComponents[0],
+                                green: colourComponents[1],
+                                blue:  colourComponents[2],
+                                alpha: colourComponents[3])
         return colour
       }
     

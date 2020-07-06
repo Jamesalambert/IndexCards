@@ -29,27 +29,13 @@ class StickerEditorViewController:
     var passedImageForCropping : UIImage?
     var currentSticker : StickerObject?{
         willSet{
-
-            //is a new sticker
-            if let newSticker = newValue{
-                
-                if currentSticker != newValue{
-                    //deselect old one
-                    currentSticker?.isSelected = false
-                    //select new one
-                    newSticker.isSelected = true
-                    newSticker.responder?.becomeFirstResponder()
-                }
-                
-                
-            } else {
-                currentSticker?.resignFirstResponder()
-            }
-            
-            //manage the menu
-            showContextMenu(for: newValue)
-
-            
+            currentSticker?.isSelected = false
+            currentSticker?.responder?.resignFirstResponder()
+        }
+        didSet{
+            currentSticker?.isSelected = true
+            currentSticker?.responder?.becomeFirstResponder()
+            showContextMenu(for: currentSticker)
         }
     }
     
