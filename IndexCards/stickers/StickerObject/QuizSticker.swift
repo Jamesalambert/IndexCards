@@ -37,8 +37,9 @@ class QuizSticker: StickerObject {
         
         if isSelected{
             UIColor.systemBlue.setStroke()
-            path.lineWidth = CGFloat(5)
-            path.stroke()
+            let selectionRect = UIBezierPath(rect: bounds)
+            selectionRect.lineWidth = 3
+            selectionRect.stroke()
         }
         
         

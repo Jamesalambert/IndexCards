@@ -99,7 +99,7 @@ class TextSticker: StickerObject {
         case .RoundRect:
             
             let rect = self.bounds.zoom(by: scale)
-            path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            path = UIBezierPath(roundedRect: rect, cornerRadius: 0.15 * bounds.width)
             
         
         case .Highlight:
@@ -120,8 +120,9 @@ class TextSticker: StickerObject {
         
         if isSelected{
             UIColor.systemBlue.setStroke()
-            path.lineWidth = CGFloat(5)
-            path.stroke()
+            let selectionRect = UIBezierPath(rect: bounds)
+            selectionRect.lineWidth = 3
+            selectionRect.stroke()
         }
         
     }//func

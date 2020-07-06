@@ -83,18 +83,17 @@ UITextFieldDelegate {
     //This represnets the sticker's size as a fracion of the bounds width.
     var unitSize = CGSize(width: CGFloat(0.5), height: CGFloat(0.5)){
         didSet{
-            
             if let canvas = superview as? StickerCanvas{
                 bounds.size = CGSize(
                     width: unitSize.width * canvas.bounds.width,
                     height: unitSize.height * canvas.bounds.width)
+                self.setNeedsDisplay()
             }
         }
     }
     
     var unitLocation = CGPoint(x: 0.5, y: 0.5){
         didSet{
-
             if let canvas = superview as? StickerCanvas{
                 center = CGPoint(
                     x: unitLocation.x * canvas.bounds.width,
@@ -135,9 +134,7 @@ UITextFieldDelegate {
     
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
-        
-        
-        
+
         stickerColor.setFill()
         
         var path = UIBezierPath()
@@ -152,11 +149,10 @@ UITextFieldDelegate {
                 endAngle: 2 * CGFloat.pi,
                 clockwise: true)
             
-            
         case .RoundRect:
             
             let rect = self.bounds.zoom(by: scale)
-            path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+            path = UIBezierPath(roundedRect: rect, cornerRadius: 0.15 * bounds.width)
             
         
         case .Highlight:
@@ -177,8 +173,9 @@ UITextFieldDelegate {
         
         if isSelected{
             UIColor.systemBlue.setStroke()
-            path.lineWidth = CGFloat(5)
-            path.stroke()
+            let selectionRect = UIBezierPath(rect: bounds)
+            selectionRect.lineWidth = 3
+            selectionRect.stroke()
         }
 
         

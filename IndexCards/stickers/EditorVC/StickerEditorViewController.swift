@@ -142,13 +142,11 @@ class StickerEditorViewController: UIViewController,
         }
     }
     
-    
     @IBOutlet weak var toolBarView: UIView!{
         didSet{
             toolBarView.isHidden = true
         }
     }
-    
     
     @IBOutlet weak var cropView: CropView! {
         didSet{
@@ -189,7 +187,6 @@ class StickerEditorViewController: UIViewController,
     
     @IBOutlet weak var cardBackgroundView: UIView!
 
-    
     @IBOutlet weak var undoButton: UIBarButtonItem!{
         didSet{
         undoButton.isEnabled = false
@@ -254,10 +251,10 @@ class StickerEditorViewController: UIViewController,
             duration: theme?.timeOf(.showMenu) ?? 2.0,
             options: .curveEaseInOut,
             animations: {
-                self.repositionImageHint.isHidden = true
-                self.contextMenuBar.isHidden = false
-                self.shapeCollectionView.isHidden = false
-                self.toolBarView.isHidden = false
+                self.repositionImageHint.isHidden   = true
+                self.contextMenuBar.isHidden        = false
+                self.shapeCollectionView.isHidden   = false
+                self.toolBarView.isHidden           = false
                 
                 self.view.layoutIfNeeded()
             },
