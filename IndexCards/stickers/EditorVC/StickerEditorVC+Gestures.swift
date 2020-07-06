@@ -170,12 +170,25 @@ UIGestureRecognizerDelegate
         }
         
 
-    func selectSticker(_ sticker : StickerObject){
-        //contex menu and first responder are handles in didSet
-        currentSticker = sticker
+    func setupPasteGestures() {
+        let press = UILongPressGestureRecognizer(target: self, action: #selector(tapToPaste(sender:)))
+        press.delegate = self
+        stickerView.addGestureRecognizer(press)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismissMenu(sender:)))
+        tap.delegate = self
+        stickerView.addGestureRecognizer(tap)
     }
     
         
+    
+    //MARK:- UIGestureRecognizerDelegate
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    
     //returns 1,-1 or 0 for  V, H or both, 2=error
         private func pinchOrientation(pinch : UIPinchGestureRecognizer) -> Int{
             

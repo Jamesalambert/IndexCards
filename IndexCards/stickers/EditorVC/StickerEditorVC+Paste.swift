@@ -76,13 +76,6 @@ extension StickerEditorViewController {
     
 
     
-     func setupPasteGestures() {
-        let press = UILongPressGestureRecognizer(target: self, action: #selector(tapToPaste(sender:)))
-        press.delegate = self
-        stickerView.addGestureRecognizer(press)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismissMenu(sender:)))
-        stickerView.addGestureRecognizer(tap)
-    }
+    
     
 }

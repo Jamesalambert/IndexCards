@@ -105,11 +105,6 @@ extension StickerEditorViewController{
         }
     }
     
-    
-    @objc
-    func deselectSticker(){
-        currentSticker = nil
-        //currentSticker?.responder?.resignFirstResponder()
-    }
+
     
 }

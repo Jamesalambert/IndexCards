@@ -14,8 +14,7 @@ protocol StickerEditorDelegate {
 
 
 
-class StickerEditorViewController:
-    UIViewController,
+class StickerEditorViewController: UIViewController,
     UICollectionViewDataSource,
     UICollectionViewDelegate
 {
@@ -180,7 +179,7 @@ class StickerEditorViewController:
             
             stickerView.addInteraction(UIDropInteraction(delegate: self))
             
-            //TODO: paste support for images and text
+            //TODO: paste support for images
             let pasteConfig = UIPasteConfiguration(forAccepting: NSAttributedString.self)
             pasteConfig.addTypeIdentifiers(forAccepting: UIImage.self)
             
@@ -188,9 +187,8 @@ class StickerEditorViewController:
             
             stickerView.contentMode = .redraw
             
-            
-            let tap = UITapGestureRecognizer(target: self, action: #selector(deselectSticker))
-            tap.numberOfTapsRequired = 1
+            let tap = UITapGestureRecognizer(target: self,
+                                             action: #selector(deselectSticker(sender:)))
             tap.delegate = self
             stickerView.addGestureRecognizer(tap)
         }
@@ -215,12 +213,6 @@ class StickerEditorViewController:
     
     
     //MARK:- IB Actions
-    
-    @IBAction func tweakButtonTapped(_ sender: UIBarButtonItem) {
-
-    }
-    
-    
     @IBAction func tappedUndo(_ sender: Any) {
         document!.undoManager.undo()
     }
@@ -324,6 +316,16 @@ class StickerEditorViewController:
     
     
     
+    @objc
+    func deselectSticker(sender : UITapGestureRecognizer){
+        currentSticker = nil
+    }
+    
+    func selectSticker(_ sticker : StickerObject){
+        //contex menu and first responder are handles in didSet
+        currentSticker = sticker
+    }
+    
     
     //helper funcs
     func unitLocationFrom(point : CGPoint) -> CGPoint{
@@ -410,10 +412,9 @@ class StickerEditorViewController:
             let cropLayer = cropView.layer
             
             //background and corners
-            cropLayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
+            //cropLayer.backgroundColor = currentTheme.colorOf(.card1).cgColor
             cropLayer.cornerRadius = currentTheme.sizeOf(.cornerRadiusToBoundsWidth) * cropLayer.bounds.width
             cropLayer.masksToBounds = true
-            
         }
  
         self.registerForKeyboardNotifications()
