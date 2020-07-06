@@ -180,6 +180,12 @@ UIGestureRecognizerDelegate
         stickerView.addGestureRecognizer(tap)
     }
     
+    func setUpDeselectGesture(){
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(deselectSticker(sender:)))
+        tap.delegate = self
+        stickerView.addGestureRecognizer(tap)
+    }
         
     
     //MARK:- UIGestureRecognizerDelegate

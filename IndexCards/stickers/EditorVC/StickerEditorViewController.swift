@@ -109,11 +109,6 @@ class StickerEditorViewController: UIViewController,
             
             shapeCollectionView.roundedCorners(
                 ratio: theme!.sizeOf(.cornerRadiusToBoundsWidth))
-            
-            let tap = UITapGestureRecognizer(target: self, action: #selector(tappedStickerMenu(_:)))
-        
-            tap.delegate = self
-            shapeCollectionView.addGestureRecognizer(tap)
         }
     }
 
@@ -187,10 +182,7 @@ class StickerEditorViewController: UIViewController,
             
             stickerView.contentMode = .redraw
             
-            let tap = UITapGestureRecognizer(target: self,
-                                             action: #selector(deselectSticker(sender:)))
-            tap.delegate = self
-            stickerView.addGestureRecognizer(tap)
+            setUpDeselectGesture()
         }
     }
     
@@ -272,24 +264,18 @@ class StickerEditorViewController: UIViewController,
             completion: nil)
         
     }//func
+
     
-    
-    @objc
-    private func tappedStickerMenu(_ gesture : UITapGestureRecognizer){
-        
-        guard let tappedIndexPath = shapeCollectionView
-                                    .indexPathForItem(at: gesture
-                                    .location(in: shapeCollectionView))
-        else {return}
+    private func tappedStickerMenu(_ indexPath : IndexPath){
         
         guard let tappedCell = (shapeCollectionView
-                                .cellForItem(at: tappedIndexPath) as? ShapeCell)
+                                .cellForItem(at: indexPath) as? ShapeCell)
         else {return}
             
         //this places the new sticker at the location of the tapped cell
-        let newSticker = addSticker(ofShape: tappedCell.currentShape, from: tappedCell)
+        let newSticker = addSticker(ofShape: tappedCell.currentShape,
+                                    from: tappedCell)
 
-    
         //animate to center
         UIView.transition(
             with: newSticker,
@@ -300,6 +286,7 @@ class StickerEditorViewController: UIViewController,
                 let newLocation = self.unitLocationFrom(
                     point: self.stickerView.convert(self.stickerView.center,
                                                     from: self.stickerView.superview))
+                
                 let newSize = self.unitSizeFrom(size: CGSize(
                                                 width: 150,
                                                 height: 150))
@@ -381,7 +368,12 @@ class StickerEditorViewController: UIViewController,
         return cell
     }
 
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        tappedStickerMenu(indexPath)
+        
+    }
+    
     
     
     //MARK:- UIView
