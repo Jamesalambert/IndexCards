@@ -76,5 +76,4 @@ UITextViewDelegate
         textView.isUserInteractionEnabled = false
     }
     
-    
 }

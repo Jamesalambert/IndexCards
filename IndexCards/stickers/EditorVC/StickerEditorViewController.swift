@@ -33,7 +33,6 @@ class StickerEditorViewController: UIViewController,
         }
         didSet{
             currentSticker?.isSelected = true
-            //currentSticker?.responder?.becomeFirstResponder()
             showContextMenu(for: currentSticker)
         }
     }
@@ -296,7 +295,6 @@ class StickerEditorViewController: UIViewController,
                 self.selectSticker(newSticker)
         })
     }//func
-    
     
     
     

@@ -17,9 +17,16 @@ extension StickerEditorViewController :
     private func loadControls(for sticker : StickerObject?)->UIView?{
         
         switch sticker {
-        case _ as WritingSticker:
+        case let s as WritingSticker:
             
-            let view = setupTextSizeChooser(withValue: sticker!.fontSizeMultiplier)
+            var view : UIView
+            
+            if s.responder!.isFirstResponder{
+                 view = setupTextSizeChooser(withValue: s.fontSizeMultiplier)
+            } else {
+                view = setupColourChooser().view
+            }
+        
             return view
 
         case _ as TextSticker:

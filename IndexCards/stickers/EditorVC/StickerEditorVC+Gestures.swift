@@ -13,46 +13,41 @@ UIGestureRecognizerDelegate
 {
     //MARK:- Gestures for stickers
     
-        //helper func
-        func addStickerGestureRecognizers(to sticker : StickerObject){
-            
-            sticker.isUserInteractionEnabled = true
-            
-            let pan = UIPanGestureRecognizer(
-                target: self,
-                action: #selector(panning(_:)))
-            pan.maximumNumberOfTouches = 1
-            pan.delegate = self
-            sticker.addGestureRecognizer(pan)
-            
-            let zoom = UIPinchGestureRecognizer(
-                target: self,
-                action: #selector(zooming(_:)))
-            zoom.delegate = self
-            sticker.addGestureRecognizer(zoom)
-            
-            let tap = UITapGestureRecognizer(
-                target: self,
-                action: #selector(tap(_:)))
-            tap.numberOfTapsRequired = 1
-            tap.numberOfTouchesRequired = 1
-            tap.delegate = self
-            sticker.addGestureRecognizer(tap)
-            
-            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTap(_:)))
-            doubleTap.numberOfTapsRequired = 2
-            doubleTap.delegate = self
-            sticker.addGestureRecognizer(doubleTap)
-        }
+    //helper func
+    func addStickerGestureRecognizers(to sticker : StickerObject){
         
+        sticker.isUserInteractionEnabled = true
         
-    @objc
-    func doubleTap(_ gesture : UITapGestureRecognizer){
+        let pan = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(panning(_:)))
+        pan.maximumNumberOfTouches = 1
+        pan.delegate = self
+        sticker.addGestureRecognizer(pan)
         
-        guard let sticker = gesture.view as? StickerObject else {return}
-        self.selectSticker(sticker)
-        sticker.responder?.becomeFirstResponder()
+        let zoom = UIPinchGestureRecognizer(
+            target: self,
+            action: #selector(zooming(_:)))
+        zoom.delegate = self
+        sticker.addGestureRecognizer(zoom)
+        
+        let doubleTap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(doubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        doubleTap.delegate = self
+        sticker.addGestureRecognizer(doubleTap)
+        
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(tap(_:)))
+        tap.delegate = self
+        tap.require(toFail: doubleTap)
+        sticker.addGestureRecognizer(tap)
+    
     }
+        
+    
         
         
     @objc
@@ -90,94 +85,103 @@ UIGestureRecognizerDelegate
         
         
         
+    
+    @objc
+    func zooming(_ gesture: UIPinchGestureRecognizer){
         
-        @objc
-        func zooming(_ gesture: UIPinchGestureRecognizer){
-            
-            guard let sticker = gesture.view as? StickerObject else {return}
+        guard let sticker = gesture.view as? StickerObject else {return}
 
-            switch gesture.state {
-            case .changed:
-                
-                    switch sticker.currentShape {
-                    case .Quiz:
-                        
+        switch gesture.state {
+        case .changed:
+            
+                switch sticker.currentShape {
+                case .Quiz:
+                    
+                    sticker.unitSize = CGSize(
+                    width: sticker.unitSize.width * gesture.scale,
+                    height: sticker.unitSize.height * gesture.scale)
+                    
+                default:
+                    let orientation = pinchOrientation(pinch: gesture)
+                    
+                    switch orientation{
+                    case 1:
                         sticker.unitSize = CGSize(
-                        width: sticker.unitSize.width * gesture.scale,
-                        height: sticker.unitSize.height * gesture.scale)
-                        
+                            width: sticker.unitSize.width,
+                            height: sticker.unitSize.height * gesture.scale)
+                    case -1:
+                        sticker.unitSize = CGSize(
+                            width: sticker.unitSize.width * gesture.scale,
+                            height: sticker.unitSize.height)
+                    case 0:
+                        sticker.unitSize = CGSize(
+                            width: sticker.unitSize.width * gesture.scale,
+                            height: sticker.unitSize.height * gesture.scale)
                     default:
-                        let orientation = pinchOrientation(pinch: gesture)
-                        
-                        switch orientation{
-                        case 1:
-                            sticker.unitSize = CGSize(
-                                width: sticker.unitSize.width,
-                                height: sticker.unitSize.height * gesture.scale)
-                        case -1:
-                            sticker.unitSize = CGSize(
-                                width: sticker.unitSize.width * gesture.scale,
-                                height: sticker.unitSize.height)
-                        case 0:
-                            sticker.unitSize = CGSize(
-                                width: sticker.unitSize.width * gesture.scale,
-                                height: sticker.unitSize.height * gesture.scale)
-                        default:
-                            print("Error while pinching")
-                        }
-                        
+                        print("Error while pinching")
                     }
                     
-                    gesture.scale = CGFloat(1)
-                
-            case .ended:
-                
-                //check to see if the sticker is too small.
-                if min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
-                    
-                    let width = sticker.unitSize.width
-                    let height = sticker.unitSize.height
-                    
-                    var newUnitSize = CGSize.zero
-                    
-                    newUnitSize.width = width <= height ? CGFloat(0.15) : width
-                    newUnitSize.height = height <= width ? CGFloat(0.15) : height
-                    
-                    //animate it back to a pinchable size
-                    UIView.transition(
-                        with: sticker,
-                        duration: 0.2,
-                        options: .curveEaseInOut,
-                        animations: {
-                            sticker.unitSize = newUnitSize
-                    },
-                        completion: nil)
                 }
-            default:
-                return
+                
+                gesture.scale = CGFloat(1)
+            
+        case .ended:
+            
+            //check to see if the sticker is too small.
+            if min(sticker.unitSize.width, sticker.unitSize.height)  < 0.15{
+                
+                let width = sticker.unitSize.width
+                let height = sticker.unitSize.height
+                
+                var newUnitSize = CGSize.zero
+                
+                newUnitSize.width = width <= height ? CGFloat(0.15) : width
+                newUnitSize.height = height <= width ? CGFloat(0.15) : height
+                
+                //animate it back to a pinchable size
+                UIView.transition(
+                    with: sticker,
+                    duration: 0.2,
+                    options: .curveEaseInOut,
+                    animations: {
+                        sticker.unitSize = newUnitSize
+                },
+                    completion: nil)
             }
+        default:
+            return
         }
+    }
         
-        @objc
-        func tap(_ gesture : UITapGestureRecognizer){
-            
-            guard let sticker = gesture.view as? StickerObject else {return}
-
-            self.selectSticker(sticker)
-            
-            
-            if let sticker = gesture.view as? QuizSticker{
-                UIView.transition(with: sticker,
-                                  duration: 1.0,
-                                  options: .curveEaseInOut,
-                                  animations: {
-                                    
-                    sticker.isConcealed = !sticker.isConcealed
-                }, completion: nil)
-            }
-            
-            
+    
+    
+    @objc
+    func doubleTap(_ gesture : UITapGestureRecognizer){
+        
+        guard let sticker = gesture.view as? StickerObject else {return}
+        sticker.responder?.becomeFirstResponder()
+        self.selectSticker(sticker)
+    }
+    
+    
+    
+    @objc
+    func tap(_ gesture : UITapGestureRecognizer){
+        
+        guard let sticker = gesture.view as? StickerObject else {return}
+        
+        self.selectSticker(sticker)
+        
+        if let sticker = gesture.view as? QuizSticker{
+            UIView.transition(with: sticker,
+                              duration: 1.0,
+                              options: .curveEaseInOut,
+                              animations: {
+                                
+                                sticker.isConcealed = !sticker.isConcealed
+            }, completion: nil)
         }
+    }
         
 
     func setupPasteGestures() {
@@ -204,6 +208,9 @@ UIGestureRecognizerDelegate
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
+
+    
     
     
     //returns 1,-1 or 0 for  V, H or both, 2=error
