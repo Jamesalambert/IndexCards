@@ -164,8 +164,8 @@ UITextFieldDelegate {
             path.close()
             
         default:
-            let rect = self.bounds.zoom(by: scale)
-            path = UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(12))
+             let rect = self.bounds.zoom(by: scale)
+            path = UIBezierPath(roundedRect: rect, cornerRadius: 0.15 * bounds.width)
             
         }//switch
         

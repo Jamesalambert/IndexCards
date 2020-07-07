@@ -301,7 +301,7 @@ class StickerEditorViewController: UIViewController,
     
     
     @objc
-    func deselectSticker(sender : UITapGestureRecognizer){
+    func deselectSticker(){
         currentSticker = nil
     }
     
@@ -415,6 +415,9 @@ class StickerEditorViewController: UIViewController,
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        //make sure nothing is selected/highlighted
+        deselectSticker()
+        
         //store thumbnail snapshot
         indexCard?.thumbnail = stickerView.snapshot
         
@@ -424,8 +427,6 @@ class StickerEditorViewController: UIViewController,
         document?.updateChangeCount(.done)
         
         delegate?.editorDidMakeChanges = true
-    
-        
     }
 
     

@@ -49,8 +49,6 @@ extension StickerEditorViewController{
         
         addStickerGestureRecognizers(to: sticker)
         
-        currentSticker = sticker
-        
         stickerView.addSubview(sticker)
     }
     
