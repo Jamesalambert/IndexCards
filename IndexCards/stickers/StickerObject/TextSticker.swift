@@ -121,7 +121,7 @@ class TextSticker: StickerObject {
         if isSelected{
             UIColor.systemBlue.setStroke()
             let selectionRect = UIBezierPath(rect: bounds)
-            selectionRect.lineWidth = 3
+            selectionRect.lineWidth = 1
             selectionRect.stroke()
         }
         

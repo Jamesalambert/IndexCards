@@ -38,11 +38,21 @@ UIGestureRecognizerDelegate
             tap.numberOfTouchesRequired = 1
             tap.delegate = self
             sticker.addGestureRecognizer(tap)
-
+            
+            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTap(_:)))
+            doubleTap.numberOfTapsRequired = 2
+            doubleTap.delegate = self
+            sticker.addGestureRecognizer(doubleTap)
         }
         
         
+    @objc
+    func doubleTap(_ gesture : UITapGestureRecognizer){
         
+        guard let sticker = gesture.view as? StickerObject else {return}
+        self.selectSticker(sticker)
+        sticker.responder?.becomeFirstResponder()
+    }
         
         
     @objc
@@ -187,6 +197,7 @@ UIGestureRecognizerDelegate
         stickerView.addGestureRecognizer(tap)
     }
         
+
     
     //MARK:- UIGestureRecognizerDelegate
     
