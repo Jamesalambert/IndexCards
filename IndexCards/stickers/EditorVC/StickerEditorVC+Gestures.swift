@@ -13,42 +13,52 @@ UIGestureRecognizerDelegate
 {
     //MARK:- Gestures for stickers
     
-    //helper func
     func addStickerGestureRecognizers(to sticker : StickerObject){
         
         sticker.isUserInteractionEnabled = true
         
-        let pan = UIPanGestureRecognizer(
-            target: self,
-            action: #selector(panning(_:)))
-        pan.maximumNumberOfTouches = 1
-        pan.delegate = self
-        sticker.addGestureRecognizer(pan)
+        let _ = addPanGesture(to: sticker)
+        let _ = addZoomGesture(to: sticker)
         
-        let zoom = UIPinchGestureRecognizer(
-            target: self,
-            action: #selector(zooming(_:)))
-        zoom.delegate = self
-        sticker.addGestureRecognizer(zoom)
-        
-        let doubleTap = UITapGestureRecognizer(
-            target: self,
-            action: #selector(doubleTap(_:)))
-        doubleTap.numberOfTapsRequired = 2
-        doubleTap.delegate = self
-        sticker.addGestureRecognizer(doubleTap)
-        
-        let tap = UITapGestureRecognizer(
-            target: self,
-            action: #selector(tap(_:)))
-        tap.delegate = self
-        tap.require(toFail: doubleTap)
-        sticker.addGestureRecognizer(tap)
-    
+        switch sticker {
+        case is QuizSticker:
+            let _ = addTapGesture(to: sticker)
+            let _ = addPressGesture(to: sticker)
+        default:
+            let tap = addTapGesture(to: sticker)
+            let doubleTap = addDoubleTapGesture(to: sticker)
+            tap.require(toFail: doubleTap)
+        }
     }
+
+    //MARK:- gesture funcs
+    @objc
+    func press(_ gesture : UILongPressGestureRecognizer){
+
+        guard let sticker = gesture.view as? QuizSticker
+            else {return}
         
-    
+        if gesture.state == .began{
+            
+            UIView.transition(with: sticker,
+                              duration: 0.2,
+                              options: .curveEaseInOut,
+                              animations: {
+                sticker.isConcealed = !sticker.isConcealed
+            }, completion: nil)
+            
+        } else if gesture.state == .ended{
+            
+            UIView.transition(with: sticker,
+                              duration: 0.2,
+                              options: .curveEaseInOut,
+                              animations: {
+                sticker.isConcealed = !sticker.isConcealed
+            }, completion: nil)
+            
+        } //else
         
+    }
         
     @objc
     func panning(_ gesture : UIPanGestureRecognizer){
@@ -157,33 +167,21 @@ UIGestureRecognizerDelegate
     
     @objc
     func doubleTap(_ gesture : UITapGestureRecognizer){
-        
         guard let sticker = gesture.view as? StickerObject else {return}
         sticker.responder?.becomeFirstResponder()
         self.selectSticker(sticker)
     }
     
-    
-    
     @objc
     func tap(_ gesture : UITapGestureRecognizer){
-        
         guard let sticker = gesture.view as? StickerObject else {return}
-        
         self.selectSticker(sticker)
-        
-        if let sticker = gesture.view as? QuizSticker{
-            UIView.transition(with: sticker,
-                              duration: 1.0,
-                              options: .curveEaseInOut,
-                              animations: {
-                                
-                                sticker.isConcealed = !sticker.isConcealed
-            }, completion: nil)
-        }
     }
-        
+    
+    
 
+    //MARK:- stickerView gestures
+    
     func setupPasteGestures() {
         let press = UILongPressGestureRecognizer(target: self, action: #selector(tapToPaste(sender:)))
         press.delegate = self
@@ -209,8 +207,55 @@ UIGestureRecognizerDelegate
         return true
     }
     
-
+    //MARK:- helper funcs
     
+    private func addTapGesture(to view : StickerObject)-> UITapGestureRecognizer{
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(tap(_:)))
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
+        return tap
+    }
+    
+    private func addDoubleTapGesture(to view : StickerObject)-> UITapGestureRecognizer{
+        let doubleTap = UITapGestureRecognizer(
+                   target: self,
+                   action: #selector(doubleTap(_:)))
+               doubleTap.numberOfTapsRequired = 2
+               doubleTap.delegate = self
+        view.addGestureRecognizer(doubleTap)
+        return doubleTap
+    }
+    
+    private func addPanGesture(to view : StickerObject)-> UIPanGestureRecognizer{
+        let pan = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(panning(_:)))
+        pan.maximumNumberOfTouches = 1
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+        return pan
+    }
+    
+    private func addZoomGesture(to view : StickerObject) -> UIPinchGestureRecognizer{
+        let zoom = UIPinchGestureRecognizer(
+            target: self,
+            action: #selector(zooming(_:)))
+        zoom.delegate = self
+        view.addGestureRecognizer(zoom)
+        return zoom
+    }
+    
+    private func addPressGesture(to view : StickerObject) -> UILongPressGestureRecognizer{
+        let press = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(press(_:)))
+        press.minimumPressDuration = 0.07
+        press.delegate = self
+        view.addGestureRecognizer(press)
+        return press
+    }
     
     
     //returns 1,-1 or 0 for  V, H or both, 2=error
