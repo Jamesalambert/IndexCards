@@ -20,7 +20,7 @@ class ColourChooser: UIViewController,
 {
    
     var emojiArray = "🌹🍊🐤🍏🦋🍆🎱🔩🦢".map {String($0)}
-    var colourArray = [#colorLiteral(red: 0.7760443091, green: 0.001710086945, blue: 0.06154844165, alpha: 1),#colorLiteral(red: 0.9758219123, green: 0.5064042211, blue: 0.1509529054, alpha: 1),#colorLiteral(red: 0.987359941, green: 0.8829041123, blue: 0.3628973961, alpha: 1),#colorLiteral(red: 0, green: 0.8597064427, blue: 0, alpha: 1),#colorLiteral(red: 0.1709708571, green: 0.7681959867, blue: 0.9995267987, alpha: 1),#colorLiteral(red: 0.4628398418, green: 0.2742709816, blue: 0.4401984215, alpha: 1),#colorLiteral(red: 0.0862628296, green: 0.08628197759, blue: 0.08625862747, alpha: 1),#colorLiteral(red: 0.6901904941, green: 0.713743031, blue: 0.725859344, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]
+    var colourArray = [#colorLiteral(red: 0.7760443091, green: 0.001710086945, blue: 0.06154844165, alpha: 1),#colorLiteral(red: 0.9758219123, green: 0.5064042211, blue: 0.1509529054, alpha: 1),#colorLiteral(red: 0.987359941, green: 0.8829041123, blue: 0.3628973961, alpha: 1),#colorLiteral(red: 0, green: 0.8597064427, blue: 0, alpha: 1),#colorLiteral(red: 0.1709708571, green: 0.7681959867, blue: 0.9995267987, alpha: 1),#colorLiteral(red: 0.4628398418, green: 0.2742709816, blue: 0.4401984215, alpha: 1),#colorLiteral(red: 0.0862628296, green: 0.08628197759, blue: 0.08625862747, alpha: 1),#colorLiteral(red: 0.6901904941, green: 0.713743031, blue: 0.725859344, alpha: 1),UIColor.white]
     var colourForEmoji : [String : UIColor] = [:]
     
     

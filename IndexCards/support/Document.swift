@@ -24,12 +24,10 @@ class IndexCardsDocument: UIDocument {
     var currentDeck = Deck()
     
     override func contents(forType typeName: String) throws -> Any {
-        
         return model.json ?? Data()
     }
     
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        
         model = Notes(json: contents as! Data)
     }
 }

@@ -232,7 +232,6 @@ UIGestureRecognizerDelegate
         let pan = UIPanGestureRecognizer(
             target: self,
             action: #selector(panning(_:)))
-        pan.maximumNumberOfTouches = 1
         pan.delegate = self
         view.addGestureRecognizer(pan)
         return pan

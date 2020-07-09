@@ -161,15 +161,14 @@ extension CardsViewController :
     func moveCardUndoably(cardToMove : IndexCard,
                           toDeck: Deck, destinationIndexPath: IndexPath){
         
-        let fromDeck = model.deckContaining(card: cardToMove) ?? document.deletedCardsDeck
-    
+        let fromDeck =  model.deckContaining(card: cardToMove)
+                                    ??
+                        document.deletedCardsDeck
         
-        let originIndexPath = IndexPath(item: fromDeck
-                                            .cards
-                                            .firstIndex(of: cardToMove)!,
+        let originIndexPath = IndexPath(item:fromDeck.cards
+                                            .firstIndex(of:
+                                                cardToMove)!,
                                         section: 0)
-        
-        
         ///set up undo
         let card = cardToMove
         let from = fromDeck
@@ -184,7 +183,6 @@ extension CardsViewController :
         })
         self.document.undoManager.endUndoGrouping()
         ///
-        
         //deleting from onscreen deck or moving
         if currentDeck == fromDeck {
             indexCardsCollectionView.performBatchUpdates({

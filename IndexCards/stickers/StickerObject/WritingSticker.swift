@@ -43,8 +43,23 @@ UITextViewDelegate
         return 40.0 * CGFloat(fontSizeMultiplier)
     }
     
-    //MARK:- Outlets
+    override var customColor: UIColor?{
+        didSet{
+            guard let textView = textView else {return}
+            textView.textColor = self.fontColour
+        }
+    }
     
+    private var fontColour : UIColor {
+        if customColor == UIColor.white{
+            return UIColor.black
+        } else {
+            return UIColor.white
+        }
+    }
+
+    
+    //MARK:- Outlets
     @IBOutlet weak var textView: UITextView!{
         didSet{
             responder = textView
@@ -57,6 +72,7 @@ UITextViewDelegate
                 .default
                 .scaledFont(for: UIFont.preferredFont(forTextStyle: .body)
                     .withSize(fontSize))
+            textView.textColor = self.fontColour
         }
     }
     
