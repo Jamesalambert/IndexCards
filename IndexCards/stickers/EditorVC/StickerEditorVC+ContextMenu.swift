@@ -139,7 +139,7 @@ extension StickerEditorViewController :
                         .first as! TextSizeSlider
         
         control.value = CGFloat(value)
-        
+        control.theme = theme
         control.delegate = self
         return control
     }

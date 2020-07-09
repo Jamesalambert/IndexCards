@@ -16,6 +16,13 @@ class TextSizeSlider: UIView {
 
     var delegate : SliderDelegate?
     
+    var theme : Theme?{
+        didSet{
+            guard let theme = theme else {return}
+            controlBackground.roundedCorners(ratio: theme.sizeOf(.cornerRadiusToBoundsWidth))
+        }
+    }
+    
     var value : CGFloat {
         get{
             return CGFloat(textSizeSlider.value)
@@ -27,6 +34,7 @@ class TextSizeSlider: UIView {
     
     @IBOutlet weak var textSizeSlider: UISlider!
     
+    @IBOutlet weak var controlBackground: UIView!
     @IBAction func sliderDragged(_ sender: Any) {
         delegate?.sliderValueChanged(value: Double(textSizeSlider.value))
     }

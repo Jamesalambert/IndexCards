@@ -25,13 +25,24 @@ class ColourChooser: UIViewController,
     
     
     var delegate : ColourChooserDelegate?
-    var theme : Theme?
+    var theme : Theme?{
+        didSet{
+            guard
+                let colourCollectionView = colourCollectionView,
+            let theme = theme
+            else {return}
+            
+            colourCollectionView.roundedCorners(ratio: theme.sizeOf(.cornerRadiusToBoundsWidth))
+        }
+    }
     
     @IBOutlet weak var colourCollectionView: UICollectionView!{
         didSet{
             colourCollectionView.delegate = self
             colourCollectionView.dataSource = self
             colourCollectionView.register(UINib(nibName: "ColourCell", bundle: nil), forCellWithReuseIdentifier: "ColourCell")
+            
+            colourCollectionView.roundedCorners(ratio: theme?.sizeOf(.cornerRadiusToBoundsWidth) ?? 0.07)
             
         }
     }
