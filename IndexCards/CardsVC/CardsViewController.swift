@@ -198,28 +198,7 @@ class CardsViewController:
     
     
  
-    //MARK:- UINavigationControllerDelegate
-    
-    func navigationController(_ navigationController: UINavigationController,
-            animationControllerFor operation: UINavigationController.Operation,
-            from fromVC: UIViewController,
-            to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        
-        switch operation {
-        case .push:
-            self.editCardTransitionController?.isPresenting = true
-        case .pop:
-            self.editCardTransitionController?.isPresenting = false
-        case .none:
-            print("recieved navCon transition .none")
-        @unknown default:
-            fatalError("Unknown NavCon operation presenting editor")
-        }
-        
-        return self.editCardTransitionController
-    }
-    
+   
     
     //MARK:- UIView
     override func viewDidLoad() {

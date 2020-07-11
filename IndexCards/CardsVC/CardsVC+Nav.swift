@@ -49,7 +49,10 @@ extension CardsViewController {
         //get index card location on screen so we can animate back to it after editing
         let cardIndexPath = IndexPath(item: currentDeck.cards.firstIndex(of: indexCard)!,
                                       section: 0)
-        guard let endCell = indexCardsCollectionView.cellForItem(at: IndexPath(item: cardIndexPath.item, section: 0)) else {return}
+        guard let endCell = indexCardsCollectionView.cellForItem(at:
+                                                                IndexPath(
+                                                                    item: cardIndexPath.item,        section: 0))
+        else {return}
         
         self.indexPathOfEditedCard = cardIndexPath
         
@@ -100,4 +103,24 @@ extension CardsViewController {
     func presentAddCardVC(fromView sourceView : UIView){
            performSegue(withIdentifier: "ChooseCardBackground", sender: nil)
        }
+    
+    //MARK:- UINavigationControllerDelegate
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .push:
+            self.editCardTransitionController?.isPresenting = true
+        case .pop:
+            self.editCardTransitionController?.isPresenting = false
+        case .none:
+            print("recieved navCon transition .none")
+        @unknown default:
+            fatalError("Unknown NavCon operation presenting editor")
+        }
+        return self.editCardTransitionController
+    }
+       
+    
 }
