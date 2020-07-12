@@ -50,6 +50,13 @@ class CardsViewController:
             if let indexPath = indexPathOfEditedCard{
                 document.updateChangeCount(.done)
                 indexCardsCollectionView.reloadItems(at: [indexPath])
+                
+                guard let selectedDeck = decksView?.selectedIndexPath
+                else {return}
+                
+                decksView?
+                        .decksCollectionView
+                        .reloadItems(at: [selectedDeck])
             }
         }
     }

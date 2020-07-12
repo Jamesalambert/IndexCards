@@ -41,7 +41,6 @@ class DecksViewController:
         }
         set{
             document.currentDeck = newValue
-            decksCollectionView.reloadData()
         }
     }
     var documentObserver : NSObjectProtocol?
@@ -136,19 +135,25 @@ class DecksViewController:
                })
        }
     
-    func displayDeck(at indexPath: IndexPath){
+    func displayDeck(){
         
-        if let deck = deckFor(indexPath){
-            
-            //save deck for segue
-            selectedDeck = deck
-            
-            //showDetailViewController(navCon, sender: nil)
-            performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
-        }
+        guard
+            let deck = deckFor(selectedIndexPath)
+        else {return}
+        
+        //save deck for segue
+        selectedDeck = deck
+        
+        //reload cells
+        decksCollectionView.reloadItems(
+            at: [selectedIndexPath, lastSelectedIndexPath])
+        
+        performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         guard let cardsView = segue.destination.contents as? CardsViewController else {return}
         
         self.cardsView = cardsView
@@ -162,7 +167,6 @@ class DecksViewController:
     //helper func
     func deckFor(_ indexPath : IndexPath) -> Deck?{
               
-        
         switch indexPath.section{
             case 0:
                 if model.decks.indices.contains(indexPath.item){
@@ -180,7 +184,6 @@ class DecksViewController:
     
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
         return 2
     }
 
@@ -304,12 +307,23 @@ class DecksViewController:
         return true
     }
     
+    var lastSelectedIndexPath = IndexPath(0,0)
     
+    var selectedIndexPath = IndexPath(0,0) {
+        willSet{
+            if selectedIndexPath != newValue{
+                lastSelectedIndexPath = selectedIndexPath
+            }
+        }
+        didSet{
+             displayDeck()
+        }
+    }
   
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
-        displayDeck(at: indexPath)
+        selectedIndexPath = indexPath
     }
 
     

@@ -72,7 +72,7 @@ extension DecksViewController {
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.displayDeck(at: IndexPath(0,0))
+            self.selectedIndexPath =  IndexPath(0,0)
         })
         
     }
@@ -92,7 +92,7 @@ extension DecksViewController {
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.displayDeck(at: IndexPath(0,0))
+            self.selectedIndexPath =  IndexPath(0,0)
         })
     }
 
