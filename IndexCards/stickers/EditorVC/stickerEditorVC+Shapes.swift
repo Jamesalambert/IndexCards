@@ -94,6 +94,10 @@ extension StickerEditorViewController{
         { [weak self] notification in
             //show/hide undo redo buttons
             self?.updateUndoButtons()
+            
+            //store thumbnail snapshot
+            self?.indexCard?.thumbnail = self?.stickerView.snapshot
+            self?.delegate?.editorDidMakeChanges = true
         })
         
         self.notificationObservers += [undoRedo]

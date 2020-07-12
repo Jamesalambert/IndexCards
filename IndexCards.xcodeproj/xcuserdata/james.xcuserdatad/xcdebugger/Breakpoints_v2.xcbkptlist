@@ -71,22 +71,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5E058E19-3965-468A-BD40-D21D5ABDC8CB"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "undoablyDelete(sticker:from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "BF1FAF17-2D34-4F96-8468-091B09298569"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -113,6 +97,22 @@
             startingLineNumber = "140"
             endingLineNumber = "140"
             landmarkName = "displayDeck()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C454AF6F-A557-439A-B5F8-110F9CC148E9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "registerForUndoNotifications()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
