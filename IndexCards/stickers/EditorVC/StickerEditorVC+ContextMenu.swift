@@ -64,8 +64,19 @@ extension StickerEditorViewController :
         } else {
             menuBarTransform = CGAffineTransform.identity
             
-            //remove any existing control views
-            contextMenuBar.subviews.forEach {view in view.removeFromSuperview()}
+            //remove any existing view controllers
+            self.children.forEach{ VC in
+                guard let VC = VC as? ColourChooser else {return}
+                
+                VC.view.removeFromSuperview()
+                VC.removeFromParent()
+            }
+            
+            //remove any remaining subviews
+            contextMenuBar.subviews.forEach{view in
+                view.removeFromSuperview()
+            }
+            
         }
         
         //if we have a control to disply for the current sticker...

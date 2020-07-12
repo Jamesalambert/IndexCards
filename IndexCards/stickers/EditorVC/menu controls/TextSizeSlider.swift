@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol SliderDelegate {
+protocol SliderDelegate : UIViewController {
     func sliderValueChanged(value : Double) -> Void
 }
 
 class TextSizeSlider: UIView {
 
-    var delegate : SliderDelegate?
+    weak var delegate : SliderDelegate!
     
     var theme : Theme?{
         didSet{

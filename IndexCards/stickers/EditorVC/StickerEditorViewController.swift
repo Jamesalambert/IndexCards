@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol StickerEditorDelegate {
+protocol StickerEditorDelegate: UIViewController {
     var editorDidMakeChanges : Bool {get set}
 }
 
@@ -24,7 +24,7 @@ class StickerEditorViewController: UIViewController,
     var indexCard : IndexCard?
     var theme : Theme?
     var document : IndexCardsDocument?
-    var delegate : StickerEditorDelegate?
+    weak var delegate : StickerEditorDelegate!
     var passedImageForCropping : UIImage?
     var currentSticker : StickerObject?{
         willSet{

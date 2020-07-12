@@ -148,7 +148,7 @@ class DecksViewController:
         decksCollectionView.reloadItems(
             at: [selectedIndexPath, lastSelectedIndexPath])
         
-        performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
+        performSegue(withIdentifier: "ShowCardsFromDeck", sender: self)
         
     }
     
