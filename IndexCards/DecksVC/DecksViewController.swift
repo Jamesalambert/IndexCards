@@ -37,7 +37,7 @@ class DecksViewController:
     var actionMenuIndexPath : IndexPath?
     var selectedDeck : Deck {
         get{
-        return document.currentDeck
+            return document.currentDeck
         }
         set{
             document.currentDeck = newValue

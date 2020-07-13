@@ -15,21 +15,20 @@ class CropView: UIScrollView, UIScrollViewDelegate {
             
             if let image = imageForCropping {
                 
-                let size = image.size
                 viewForCropping.image = image
-                viewForCropping.frame.size = size
+                viewForCropping.sizeToFit()
+                
+                let size = image.size
+                
                 contentSize = size
                 
-                
                 //zoom to fit or fill?
-                let fillScale = max(frame.size.width / size.width, frame.size.height / size.height)
+                let fitScale = min(bounds.width / size.width,
+                                   bounds.height / size.height)
                 
-                minimumZoomScale = fillScale
-                maximumZoomScale = 2 * fillScale
-                setZoomScale(fillScale, animated: true)
-                
-                
-                //max min zoom...
+                minimumZoomScale = 0.5 * fitScale
+                maximumZoomScale = 2 * fitScale
+                setZoomScale(fitScale, animated: true)
                 
                 if viewForCropping.superview != self{
                     self.addSubview(viewForCropping)
@@ -60,13 +59,13 @@ class CropView: UIScrollView, UIScrollViewDelegate {
             origin: cropOrigin,
             size: cropSize)
         
+            
+            
         guard let output = imageForCropping?.cgImage?.cropping(to: cropRect)
-            else {
-                return nil
-        }
+        else {return nil}
         
-        return UIImage(cgImage: output)
-    }
+            return UIImage(cgImage: output)
+        }
     }
     
     //MARK:- UISCrollViewDelegate

@@ -34,7 +34,19 @@ UIActivityItemSource
     //MARK:- UIView
     
     override func draw(_ rect: CGRect) {
-        backgroundImage?.draw(in: self.bounds)
+        
+        guard let imageWidth = backgroundImage?.size.width,
+            let imageHeight = backgroundImage?.size.height
+            else {return}
+        
+        let scaleToFit = min(bounds.width / imageWidth,
+                             bounds.height / imageHeight)
+        
+        let imageRect = CGRect(center: bounds.center,
+                            size: CGSize(width: imageWidth * scaleToFit,
+                                         height: imageHeight * scaleToFit))
+        
+        backgroundImage?.draw(in: imageRect)
     }
     
     //place stickers correctly
@@ -43,7 +55,7 @@ UIActivityItemSource
             let size = sticker.unitSize
             let location = sticker.unitLocation
             
-            //force reposition of each sticker
+            //force reposition of each sticker when the bounds change
             sticker.unitSize = size
             sticker.unitLocation = location
    
