@@ -84,10 +84,12 @@ UITextViewDelegate
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
+        textView.isEditable = false
         return true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        textView.isEditable = true
         stickerText = textView.text
         textView.isUserInteractionEnabled = false
     }

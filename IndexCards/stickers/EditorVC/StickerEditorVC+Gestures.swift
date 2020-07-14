@@ -204,7 +204,11 @@ UIGestureRecognizerDelegate
     //MARK:- UIGestureRecognizerDelegate
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        if let currentSticker = currentSticker as? WritingSticker, currentSticker.responder!.isFirstResponder{
+            return false
+        } else {
+            return true
+        }
     }
     
     //MARK:- helper funcs
