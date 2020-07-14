@@ -30,9 +30,19 @@ class StickerEditorViewController: UIViewController,
         willSet{
             currentSticker?.isSelected = false
             currentSticker?.responder?.resignFirstResponder()
+            
+            if currentSticker is WritingSticker{
+                currentSticker?.responder?.isUserInteractionEnabled = false
+            }
+            
         }
         didSet{
             currentSticker?.isSelected = true
+            
+            if currentSticker is WritingSticker{
+                currentSticker?.responder?.isUserInteractionEnabled = true
+            }
+            
             showContextMenu(for: currentSticker)
         }
     }

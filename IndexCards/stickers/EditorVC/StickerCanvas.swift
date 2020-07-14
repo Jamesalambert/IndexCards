@@ -43,8 +43,8 @@ UIActivityItemSource
                              bounds.height / imageHeight)
         
         let imageRect = CGRect(center: bounds.center,
-                            size: CGSize(width: imageWidth * scaleToFit,
-                                         height: imageHeight * scaleToFit))
+                               size: CGSize(width: imageWidth * scaleToFit,
+                                            height: imageHeight * scaleToFit))
         
         backgroundImage?.draw(in: imageRect)
     }
