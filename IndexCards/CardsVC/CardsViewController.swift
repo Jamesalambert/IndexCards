@@ -15,7 +15,8 @@ class CardsViewController:
     UICollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
     StickerEditorDelegate,
-    UINavigationControllerDelegate
+    UINavigationControllerDelegate,
+    UIGestureRecognizerDelegate
 {
     
     //model
@@ -39,7 +40,11 @@ class CardsViewController:
     }
     var theme : Theme?
     var cardWidth : CGFloat = 300
-    var document : IndexCardsDocument!
+    var document : IndexCardsDocument!{
+        didSet{
+            registerForUndoNotification()
+        }
+    }
    
     //MARK:- vars
     private var undoObserver : NSObjectProtocol?
@@ -63,6 +68,18 @@ class CardsViewController:
     var decksView : DecksViewController?
     var actionMenuIndexPath : IndexPath?
     var cardDragPreview : UIView?
+    var cardScaleFactor = CGFloat(1.0){
+        didSet{
+            if cardScaleFactor > 3.0 {
+                cardScaleFactor = 3.0
+            }
+            cardLayout.invalidateLayout()
+            updateCardGeometry() //if let
+        } //didset
+    }
+    var cardLayout : UICollectionViewFlowLayout {
+        return indexCardsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+    }
     //MARK:- Outlets
     @IBOutlet weak var indexCardsCollectionView: UICollectionView!{
         didSet{
@@ -70,9 +87,14 @@ class CardsViewController:
             indexCardsCollectionView.dataSource = self
             indexCardsCollectionView.dragDelegate = self
             indexCardsCollectionView.dropDelegate = self
-            registerForUndoNotification()
+            
+            let pinch = UIPinchGestureRecognizer(target: self, action: #selector(pinch(_:)))
+            pinch.delegate = self
+            indexCardsCollectionView.addGestureRecognizer(pinch)
         }
     }
+    
+    
     
     @IBOutlet weak var undoButton: UIBarButtonItem!{
         didSet{
@@ -125,6 +147,31 @@ class CardsViewController:
         redoButton.isEnabled = canRedo
     }
     
+    fileprivate func updateCardGeometry() {
+        //update card geometry
+        guard let theme = theme else {return}
+            
+            for card in indexCardsCollectionView.visibleCells {
+                
+                //rounded corners
+                card.layer.cornerRadius = theme.sizeOf(.cornerRadiusToBoundsWidth)
+                                                        * cardScaleFactor
+                                                        * card.bounds.width
+        
+                //drop shadow
+                let shadowPath = UIBezierPath(
+                    roundedRect: card.layer.bounds,
+                    cornerRadius: card.layer.cornerRadius)
+                
+                card.layer.shadowPath = shadowPath.cgPath
+                card.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+                card.layer.shadowColor = UIColor.black.cgColor
+                card.layer.shadowRadius = 2.0
+                card.layer.shadowOpacity = 0.7
+                card.layer.shouldRasterize = true // for performance
+            } //for
+    }
+    
     //MARK:- Gesture handlers
     @objc
     private func tappedIndexCard(indexPath : IndexPath){
@@ -148,6 +195,17 @@ class CardsViewController:
                              temporaryView: false)
     }
 
+    @objc
+    func pinch(_ gesture : UIPinchGestureRecognizer){
+        switch gesture.state {
+        case .changed:
+            cardScaleFactor *= gesture.scale
+            gesture.scale = CGFloat(1)
+        default:
+            return
+        }
+    }
+    
     
     // MARK:- UICollectionViewDataSource
     
@@ -188,13 +246,14 @@ class CardsViewController:
     
         
     //MARK:- UICollectionViewDelegateFlowLayout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if let aspectRatio = theme?.sizeOf(.indexCardAspectRatio) {
             
             let height = cardWidth / aspectRatio
             
-            return CGSize(width: cardWidth, height: height)
+            return CGSize(width: cardWidth, height: height).scaled(by: cardScaleFactor)
         }
         
         //default value

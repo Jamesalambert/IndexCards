@@ -22,6 +22,14 @@ extension String {
     }
 }
 
+extension CGSize {
+    func scaled(by scale : CGFloat) -> CGSize{
+        return CGSize(width: self.width * scale,
+                      height: self.height * scale)
+    }
+}
+
+
 extension CGPoint {
     func offsetBy(dx : CGFloat, dy : CGFloat) -> CGPoint{
         return CGPoint(x: self.x + dx,

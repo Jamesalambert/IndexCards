@@ -23,6 +23,8 @@ class IndexCardViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
+    
+    
     override func didMoveToWindow() {
         super.didMoveToWindow()
         
@@ -42,11 +44,13 @@ class IndexCardViewCell: UICollectionViewCell {
         self.layer.shouldRasterize = true // for performance
         
         //background color
-        self.backgroundColor = nil
-        self.layer.backgroundColor =  UIColor.clear.cgColor
+//        self.backgroundColor = nil
+//        self.layer.backgroundColor =  UIColor.clear.cgColor
   
     }
     
+    
+    //MARK:- Action menu handlers
     @objc
     func deleteCard(){
         delegate?.deleteCard()
