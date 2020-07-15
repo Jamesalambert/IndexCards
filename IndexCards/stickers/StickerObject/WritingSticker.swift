@@ -58,13 +58,18 @@ UITextViewDelegate
         }
     }
 
+    override var isSelected: Bool{
+        didSet{
+            guard let textView = self.textView else {return}
+            textView.isScrollEnabled = isSelected
+        }
+    }
     
     //MARK:- Outlets
     @IBOutlet weak var textView: UITextView!{
         didSet{
             responder = textView
             
-            textView.isUserInteractionEnabled = false
             
             textView.delegate = self
             
@@ -79,19 +84,19 @@ UITextViewDelegate
     //MARK:- UITextViewDelegate
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.isUserInteractionEnabled = true
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
-        textView.isEditable = false
+        //textView.isEditable = false
         return true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.isEditable = true
+        //textView.isEditable = true
         stickerText = textView.text
-        textView.isUserInteractionEnabled = false
     }
+
+    
     
 }

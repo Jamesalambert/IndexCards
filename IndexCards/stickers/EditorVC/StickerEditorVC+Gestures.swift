@@ -175,6 +175,7 @@ UIGestureRecognizerDelegate
     @objc
     func tap(_ gesture : UITapGestureRecognizer){
         guard let sticker = gesture.view as? StickerObject else {return}
+        
         self.selectSticker(sticker)
     }
     
@@ -186,10 +187,6 @@ UIGestureRecognizerDelegate
         let press = UILongPressGestureRecognizer(target: self, action: #selector(tapToPaste(sender:)))
         press.delegate = self
         stickerView.addGestureRecognizer(press)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToDismissMenu(sender:)))
-        tap.delegate = self
-        stickerView.addGestureRecognizer(tap)
     }
     
     func setUpDeselectGesture(){
@@ -204,12 +201,6 @@ UIGestureRecognizerDelegate
     //MARK:- UIGestureRecognizerDelegate
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        
-    if currentSticker is WritingSticker,
-        gestureRecognizer.numberOfTouches == 1 {
-        return false
-        }
-        
         return true
     }
     
@@ -239,6 +230,12 @@ UIGestureRecognizerDelegate
             target: self,
             action: #selector(panning(_:)))
         pan.delegate = self
+        
+        //to prevent panning and scrolling happenning simultaneously
+        if let textView = view.responder as? UITextView{
+            pan.require(toFail: textView.panGestureRecognizer)
+        }
+        
         view.addGestureRecognizer(pan)
         return pan
     }

@@ -68,8 +68,7 @@ extension StickerEditorViewController {
 
     }
     
-    @objc
-    func tapToDismissMenu(sender : UITapGestureRecognizer){
+    func dismissActionMenu(){
         UIMenuController.shared.setMenuVisible(false, animated: true)
     }
     

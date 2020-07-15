@@ -28,22 +28,16 @@ class StickerEditorViewController: UIViewController,
     var passedImageForCropping : UIImage?
     var currentSticker : StickerObject?{
         willSet{
-            currentSticker?.isSelected = false
-            currentSticker?.responder?.resignFirstResponder()
-            
-            if currentSticker is WritingSticker{
-                currentSticker?.responder?.isUserInteractionEnabled = false
+            print(currentSticker.hashValue,newValue.hashValue)
+            if currentSticker != newValue{
+                currentSticker?.isSelected = false
+                currentSticker?.responder?.resignFirstResponder()
+                
+                showContextMenu(for: newValue)
             }
-            
         }
         didSet{
             currentSticker?.isSelected = true
-            
-            if currentSticker is WritingSticker{
-                currentSticker?.responder?.isUserInteractionEnabled = true
-            }
-            
-            showContextMenu(for: currentSticker)
         }
     }
     
@@ -311,10 +305,13 @@ class StickerEditorViewController: UIViewController,
     @objc
     func deselectSticker(){
         currentSticker = nil
+        
+        //if there's a action menu displayed then hide it
+        dismissActionMenu()
     }
     
     func selectSticker(_ sticker : StickerObject){
-        //contex menu and first responder are handles in didSet
+        //context menu and first responder are handles in didSet
         currentSticker = sticker
     }
     
