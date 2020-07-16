@@ -28,7 +28,7 @@ class StickerEditorViewController: UIViewController,
     var passedImageForCropping : UIImage?
     var currentSticker : StickerObject?{
         willSet{
-            print(currentSticker.hashValue,newValue.hashValue)
+            //print(currentSticker.hashValue,newValue.hashValue)
             if currentSticker != newValue{
                 currentSticker?.isSelected = false
                 currentSticker?.responder?.resignFirstResponder()
@@ -429,17 +429,11 @@ class StickerEditorViewController: UIViewController,
         //update model
         indexCard?.stickers = stickerData
         
+        document?.undoManager.removeAllActions(withTarget: self)
         document?.updateChangeCount(.done)
         
         delegate?.editorDidMakeChanges = true
     }
-
-    
-    deinit {
-        //remove any undo/redo actions that refer to this VC
-        document?.undoManager.removeAllActions(withTarget: self)
-    }
-    
     
 }//class
 
@@ -471,34 +465,5 @@ extension StickerData{
     
 }
 
-extension UIColor{
-    
-    func alpha() -> CGFloat {
-        return self.rgbaValues()[3]
-    }
-    
-    func rgbaDescription()->String{
 
-        var colorDescription = ""
-            
-        rgbaValues().forEach { component in
-            colorDescription +=  String(Double(component)) + " "
-        }
-        
-        return colorDescription
-    }
-    
-    func rgbaValues() -> [CGFloat]{
-        var r,g,b,a : CGFloat
-        let z = CGFloat.zero
-        (r,g,b,a) = (z,z,z,z)
-        self.getRed(&r,
-                    green:  &g,
-                    blue:   &b,
-                    alpha:  &a)
-        
-        return [r,g,b,a]
-    }
-    
-}
 

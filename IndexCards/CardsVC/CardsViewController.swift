@@ -273,6 +273,10 @@ class CardsViewController:
         navigationController?.delegate = self
     }//func
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateUndoButtons()
+    }
     
     deinit {
         print("Cards controller removed!")
