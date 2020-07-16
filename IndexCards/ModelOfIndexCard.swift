@@ -11,11 +11,15 @@ import UIKit
 import MobileCoreServices
 
 //MARK:- Notes
-class Notes : Codable{
+final class Notes : Codable{
     
     var decks : [Deck]
     
     var deletedDecks : [Deck]
+    
+    var deletedCards : Deck
+    
+    //MARK:- CRUD
     
     func addDeck(){
         let newDeck = Deck()
@@ -46,12 +50,38 @@ class Notes : Codable{
         })
     }
     
+    //MARK:- Coding
     
-    //encode as a json string for saving
-    var json : Data? {
-        return try? JSONEncoder().encode(self)
+    enum CodingKeys : CodingKey {
+        case decks, deletedDecks, deletedCards
     }
     
+    convenience init(from decoder: Decoder) throws{
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        do{
+        decks = try values.decode(Array<Deck>.self, forKey: .decks)
+        } catch {print("couldn't init decks")}
+        
+        do {
+        deletedDecks = try values.decode(Array<Deck>.self, forKey: .deletedDecks)
+        } catch {print("couldn't init deletedDecks")}
+        
+        do{
+        deletedCards = try values.decode(Deck.self, forKey: .deletedCards)
+        } catch {print("couldn't init deleted Cards")}
+        
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(decks, forKey: .decks)
+        try container.encode(deletedDecks, forKey: .deletedDecks)
+        try container.encode(deletedCards, forKey: .deletedCards)
+    }
+    
+
     //failable initialiser from json data
     convenience init(json: Data){
         if json.isEmpty {
@@ -60,8 +90,10 @@ class Notes : Codable{
             
             self.init()
             if let newValue = try? JSONDecoder().decode(Notes.self, from: json){
+                
                 self.decks = newValue.decks
                 self.deletedDecks = newValue.deletedDecks
+                self.deletedCards = newValue.deletedCards
             }
         }
     }
@@ -69,6 +101,7 @@ class Notes : Codable{
     init(){
         self.decks = [Deck()]
         self.deletedDecks = []
+        self.deletedCards = Deck()
     }
     
 }

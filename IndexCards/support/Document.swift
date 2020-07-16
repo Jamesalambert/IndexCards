@@ -19,12 +19,13 @@ class IndexCardsDocument: UIDocument {
     }
 
     //temp data that isn't saved
-    var deletedCardsDeck = Deck()
+    //var deletedCardsDeck = Deck()
     var deletedStickers : [StickerObject] = []
     var currentDeck = Deck()
     
     override func contents(forType typeName: String) throws -> Any {
-        return model.json ?? Data()
+        //return model.json ?? Data()
+        return try JSONEncoder().encode(model)
     }
     
     override func load(fromContents contents: Any, ofType typeName: String?) throws {

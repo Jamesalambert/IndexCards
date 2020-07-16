@@ -58,7 +58,7 @@ extension CardsViewController {
        if let indexPath = actionMenuIndexPath {
            
            moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
-                            toDeck: self.document.deletedCardsDeck,
+                            toDeck: model.deletedCards,
                             destinationIndexPath: indexPath)
            
        }//if let

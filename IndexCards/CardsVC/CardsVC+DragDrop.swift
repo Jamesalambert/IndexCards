@@ -163,7 +163,7 @@ extension CardsViewController :
         
         let fromDeck =  model.deckContaining(card: cardToMove)
                                     ??
-                        document.deletedCardsDeck
+                        model.deletedCards
         
         let originIndexPath = IndexPath(item:fromDeck.cards
                                             .firstIndex(of:
