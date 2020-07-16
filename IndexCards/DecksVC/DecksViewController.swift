@@ -137,8 +137,7 @@ class DecksViewController:
     
     func displayDeck(){
         
-        guard
-            let deck = deckFor(selectedIndexPath)
+        guard let deck = deckFor(selectedIndexPath)
         else {return}
         
         //save deck for segue
@@ -176,6 +175,8 @@ class DecksViewController:
                 if model.deletedDecks.indices.contains(indexPath.item){
                     return model.deletedDecks[indexPath.item]
                 }
+            case 2:
+                return model.deletedCards
             default:
                 return nil
             }
@@ -184,7 +185,7 @@ class DecksViewController:
     
     // MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
 
 
@@ -196,6 +197,8 @@ class DecksViewController:
                 return model.decks.count
             case 1:
                 return model.deletedDecks.count
+            case 2:
+                return 1 //deleted cards
             default:
                 return 0
             }
@@ -219,7 +222,7 @@ class DecksViewController:
                     }
                     
                     //highlight selected deck
-                    cell.isSelected = model.decks[indexPath.item] == selectedDeck
+                    cell.isSelected = deckFor(indexPath) == selectedDeck
                 
                     return cell
                 }
@@ -235,6 +238,10 @@ class DecksViewController:
                 if let deck = deckFor(indexPath){
                     cell.image = deck.thumbnail
                 }
+                
+                //highlight selected deck
+                cell.isSelected = deckFor(indexPath) == selectedDeck
+            
                 return cell
             }
         }
@@ -245,7 +252,7 @@ class DecksViewController:
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         var view : UICollectionReusableView
         

@@ -44,10 +44,26 @@ final class Notes : Codable{
         deletedDecks.remove(at: index)
     }
     
+    
+    func delete(card : IndexCard){
+        assert(deckContaining(card: card) != nil, "Couldn't delete. Card couldn't be found")
+        guard let deck = deckContaining(card: card) else {return}
+        deletedCards.cards.insert(card, at: 0)
+        deck.deleteCard(card)
+    }
+    
+    func permanentlyDelete(card : IndexCard){
+        assert(deletedCards.cards.contains(card), "Card doesn't exist in deleted Deck")
+        deletedCards.deleteCard(card)
+    }
+    
     func deckContaining(card : IndexCard)->Deck?{
-        return decks.first(where: { deck in
+        
+        let allTheDecks = decks + deletedDecks + [deletedCards]
+        
+         return allTheDecks.first(where: { deck in
             deck.cards.contains(card)
-        })
+         })
     }
     
     //MARK:- Coding

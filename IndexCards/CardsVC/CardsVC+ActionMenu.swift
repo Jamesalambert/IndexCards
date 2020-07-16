@@ -55,13 +55,19 @@ extension CardsViewController {
     
     
     func deleteCard(){
-       if let indexPath = actionMenuIndexPath {
-           
-           moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
+        guard let indexPath = actionMenuIndexPath  else {return}
+        
+        if currentDeck == model.deletedCards{
+            model.permanentlyDelete(card: currentDeck.cards[indexPath.item])
+        } else{
+            moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
                             toDeck: model.deletedCards,
                             destinationIndexPath: indexPath)
-           
-       }//if let
+        }
+        
+       
+        
+        
     }//func
     
     

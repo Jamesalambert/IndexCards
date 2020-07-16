@@ -161,9 +161,8 @@ extension CardsViewController :
     func moveCardUndoably(cardToMove : IndexCard,
                           toDeck: Deck, destinationIndexPath: IndexPath){
         
-        let fromDeck =  model.deckContaining(card: cardToMove)
-                                    ??
-                        model.deletedCards
+        guard let fromDeck =  model.deckContaining(card: cardToMove)
+            else {return}
         
         let originIndexPath = IndexPath(item:fromDeck.cards
                                             .firstIndex(of:
