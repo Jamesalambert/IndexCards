@@ -8,9 +8,6 @@
 
 import UIKit
 
-
-
-
 class TextSticker: StickerObject {
 
     override var stickerText: String{
@@ -18,7 +15,6 @@ class TextSticker: StickerObject {
             textLabel.text = stickerText
         }
     }
-
     
     
     //MARK:- IBOutlets
@@ -81,7 +77,14 @@ class TextSticker: StickerObject {
     //MARK:- UIView
     override func draw(_ rect: CGRect) {
 
-        stickerColor.withAlphaComponent(0.2).setFill()
+        //don't use the fill if it's clear
+        if customColor?.alpha() != 0{
+            stickerColor.withAlphaComponent(CGFloat(0.2)).setFill()
+        } else {
+            stickerColor.setFill()
+        }
+        
+        
         
         var path = UIBezierPath()
         

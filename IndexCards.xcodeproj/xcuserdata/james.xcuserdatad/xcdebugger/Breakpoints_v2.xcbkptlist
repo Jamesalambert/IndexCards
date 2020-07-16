@@ -80,5 +80,69 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3EEC751C-8D77-458F-9909-9292C886643B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "colourFromDescription(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3EEC751C-8D77-458F-9909-9292C886643B - b70401ff6762adb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IndexCards.StickerObject.colourFromDescription(Swift.String) -&gt; Swift.Optional&lt;__C.UIColor&gt;"
+                  moduleName = "IndexCards"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "154"
+                  endingLineNumber = "154"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "3EEC751C-8D77-458F-9909-9292C886643B - 4f329bfa8147d72a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Substring) -&gt; Swift.Optional&lt;Swift.Double&gt; in static IndexCards.StickerObject.colourFromDescription(Swift.String) -&gt; Swift.Optional&lt;__C.UIColor&gt;"
+                  moduleName = "IndexCards"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "154"
+                  endingLineNumber = "154"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FAA0E346-5898-414B-835A-E7A33F81035F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IndexCards/stickers/EditorVC/StickerEditorViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
+            landmarkName = "rgbaDescription()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

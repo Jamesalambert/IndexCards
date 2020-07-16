@@ -167,10 +167,6 @@ extension StickerObject{
 }
 
 
-    
-  
-
-
 
 extension String{
     func asShape() -> StickerKind {
