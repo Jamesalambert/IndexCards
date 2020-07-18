@@ -226,14 +226,14 @@ UIGestureRecognizerDelegate
     
     @objc
     func swipeLeft(_ gesture : UISwipeGestureRecognizer){
-        
+        saveCard()
         let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
         indexCard = document!.model.deckContaining(card: indexCard!)!.cards[currentCardIndex! + 1]
     }
     
     @objc
     func swipeRight(_ gesture : UISwipeGestureRecognizer){
-        
+        saveCard()
         let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
         indexCard = document!.model.deckContaining(card: indexCard!)!.cards[currentCardIndex! - 1]
     }
