@@ -21,7 +21,14 @@ class StickerEditorViewController: UIViewController,
     
     
     //MARK:- Vars
-    var indexCard : IndexCard?
+    var indexCard : IndexCard?{
+        didSet{
+            guard stickerView != nil else {return}
+            guard let indexCard = indexCard else {return}
+            stickerData = indexCard.stickers
+            stickerView.backgroundImage = indexCard.image
+        }
+    }
     var theme : Theme?
     var document : IndexCardsDocument?
     weak var delegate : StickerEditorDelegate!
@@ -86,15 +93,24 @@ class StickerEditorViewController: UIViewController,
     //for saving data to the model and opening docs
     var stickerData : [StickerData]?{
         get {
-            
             guard let stickerView = stickerView else {return nil}
             
             let stickerDataArray = stickerView.subviews.compactMap{$0 as? StickerObject}.compactMap{StickerData(sticker: $0)}
             return stickerDataArray
         }
         set{
+            
+            guard let newStickers = newValue else {return}
+            
+            //remove all current stickers
+            stickerView.subviews.forEach{ view in
+                if view is StickerObject {
+                    view.removeFromSuperview()
+                }
+            }
+            
             //array of sticker data structs
-            newValue?.forEach { stickerData in
+            newStickers.forEach { stickerData in
                 let newSticker = StickerObject.fromNib(withData: stickerData)
                 importShape(sticker: newSticker)
             }
@@ -184,6 +200,7 @@ class StickerEditorViewController: UIViewController,
             stickerView.contentMode = .redraw
             
             setUpDeselectGesture()
+            setUpSwipeToNextCardGestures()
         }
     }
     
@@ -420,20 +437,26 @@ class StickerEditorViewController: UIViewController,
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        //make sure nothing is selected/highlighted
-        deselectSticker()
-        
-        //store thumbnail snapshot
-        indexCard?.thumbnail = stickerView.snapshot
-        
-        //update model
-        indexCard?.stickers = stickerData
-        
-        document?.undoManager.removeAllActions(withTarget: self)
-        document?.updateChangeCount(.done)
-        
-        delegate?.editorDidMakeChanges = true
+       saveCard()
     }
+    
+    func saveCard(){
+        //make sure nothing is selected/highlighted
+               deselectSticker()
+               
+               //store thumbnail snapshot
+               indexCard?.thumbnail = stickerView.snapshot
+               
+               //update model
+               indexCard?.stickers = stickerData
+               
+               document?.undoManager.removeAllActions(withTarget: self)
+               document?.updateChangeCount(.done)
+               
+               delegate?.editorDidMakeChanges = true
+    }
+    
+    
     
 }//class
 

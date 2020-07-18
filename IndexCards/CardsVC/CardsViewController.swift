@@ -72,9 +72,11 @@ class CardsViewController:
         didSet{
             if cardScaleFactor > 3.0 {
                 cardScaleFactor = 3.0
+            } else if cardScaleFactor < 0.3 {
+                cardScaleFactor = 0.3
             }
             cardLayout.invalidateLayout()
-            updateCardGeometry() //if let
+            updateCardAppearance()
         } //didset
     }
     var cardLayout : UICollectionViewFlowLayout {
@@ -147,7 +149,7 @@ class CardsViewController:
         redoButton.isEnabled = canRedo
     }
     
-    fileprivate func updateCardGeometry() {
+    fileprivate func updateCardAppearance() {
         //update card geometry
         guard let theme = theme else {return}
             
@@ -259,10 +261,6 @@ class CardsViewController:
         //default value
         return CGSize(width: 300, height: 200)
     }
-    
-    
-    
-    
  
    
     

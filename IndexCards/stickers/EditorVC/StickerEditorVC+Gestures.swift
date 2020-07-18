@@ -201,8 +201,34 @@ UIGestureRecognizerDelegate
         stickerView.addGestureRecognizer(self.deselectGestureRecognizer)
     }
         
-    
+    func setUpSwipeToNextCardGestures(){
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeLeft(_:)))
+        swipeLeft.direction = .left
+        swipeLeft.delegate = self
+        stickerView.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeRight(_:)))
+        swipeRight.direction = .right
+        swipeRight.delegate = self
+        stickerView.addGestureRecognizer(swipeRight)
+    }
 
+    @objc
+    func swipeLeft(_ gesture : UISwipeGestureRecognizer){
+        
+        let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
+        
+        indexCard = document!.model.deckContaining(card: indexCard!)!.cards[currentCardIndex! + 1]
+        
+    }
+    
+    @objc
+    func swipeRight(_ gesture : UISwipeGestureRecognizer){
+        let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
+        
+        indexCard = document!.model.deckContaining(card: indexCard!)!.cards[currentCardIndex! - 1]
+    }
+    
     
     //MARK:- UIGestureRecognizerDelegate
     
