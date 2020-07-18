@@ -27,6 +27,7 @@ class StickerEditorViewController: UIViewController,
             guard let indexCard = indexCard else {return}
             stickerData = indexCard.stickers
             stickerView.backgroundImage = indexCard.image
+            self.updateSwipeGestures()
         }
     }
     var theme : Theme?
@@ -80,6 +81,18 @@ class StickerEditorViewController: UIViewController,
     var distanceToShiftStickerWhenKeyboardShown : CGFloat?
     var notificationObservers : [NSObjectProtocol] = []
     lazy var deselectGestureRecognizer = UITapGestureRecognizer()
+    lazy var swipeLeftGestureRecognizer : UISwipeGestureRecognizer = {
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeLeft(_:)))
+        swipe.direction = .left
+        swipe.delegate = self
+        return swipe
+    }()
+    lazy var swipeRightGestureRecognizer : UISwipeGestureRecognizer = {
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeRight(_:)))
+        swipe.direction = .right
+        swipe.delegate = self
+        return swipe
+    }()
     
     //accessed by the presenting animator
     lazy var stickerMenus : [UIView] = {return [toolBarView, shapeCollectionView, contextMenuBar]}()
@@ -186,8 +199,11 @@ class StickerEditorViewController: UIViewController,
             if let indexCard = indexCard{
                 stickerData = indexCard.stickers
                 stickerView.backgroundImage = indexCard.image
+                
+                //update swipe gestures
+                self.updateSwipeGestures()
             }
-            
+
             
             stickerView.addInteraction(UIDropInteraction(delegate: self))
             
@@ -203,6 +219,7 @@ class StickerEditorViewController: UIViewController,
             setUpSwipeToNextCardGestures()
         }
     }
+    
     
     
     @IBOutlet weak var cardBackgroundView: UIView!
@@ -387,10 +404,9 @@ class StickerEditorViewController: UIViewController,
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath) {
         tappedStickerMenu(indexPath)
-        
     }
     
     
