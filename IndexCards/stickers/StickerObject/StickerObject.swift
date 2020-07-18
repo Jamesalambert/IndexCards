@@ -181,15 +181,7 @@ UITextFieldDelegate {
         
     }//func
     
-    //to stop deselect taps for the canvas being detected as select taps for the sticker!
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        
-        if gestureRecognizer is UITapGestureRecognizer,
-            gestureRecognizer.view == superview{
-            return false
-        }
-        return true
-    }
+
     
     
     //MARK:- Init()

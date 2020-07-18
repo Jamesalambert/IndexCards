@@ -72,7 +72,7 @@ class StickerEditorViewController: UIViewController,
     var originalPositionOfDraggedSticker : CGPoint?
     var distanceToShiftStickerWhenKeyboardShown : CGFloat?
     var notificationObservers : [NSObjectProtocol] = []
-    
+    lazy var deselectGestureRecognizer = UITapGestureRecognizer()
     
     //accessed by the presenting animator
     lazy var stickerMenus : [UIView] = {return [toolBarView, shapeCollectionView, contextMenuBar]}()

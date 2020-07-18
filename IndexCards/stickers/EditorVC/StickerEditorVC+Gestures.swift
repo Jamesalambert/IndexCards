@@ -22,12 +22,14 @@ UIGestureRecognizerDelegate
         
         switch sticker {
         case is QuizSticker:
-            let _ = addTapGesture(to: sticker)
+            let tap = addTapGesture(to: sticker)
             let _ = addPressGesture(to: sticker)
+            self.deselectGestureRecognizer.require(toFail: tap)
         default:
             let tap = addTapGesture(to: sticker)
             let doubleTap = addDoubleTapGesture(to: sticker)
             tap.require(toFail: doubleTap)
+            self.deselectGestureRecognizer.require(toFail: tap)
         }
     }
 
@@ -168,8 +170,9 @@ UIGestureRecognizerDelegate
     @objc
     func doubleTap(_ gesture : UITapGestureRecognizer){
         guard let sticker = gesture.view as? StickerObject else {return}
-        sticker.responder?.becomeFirstResponder()
+        
         self.selectSticker(sticker)
+        sticker.responder?.becomeFirstResponder()
     }
     
     @objc
@@ -190,17 +193,21 @@ UIGestureRecognizerDelegate
     }
     
     func setUpDeselectGesture(){
-        let tap = UITapGestureRecognizer(target: self,
-                                         action: #selector(deselectSticker))
-        tap.delegate = self
-        stickerView.addGestureRecognizer(tap)
+        self.deselectGestureRecognizer
+            .addTarget(self,
+                       action: #selector(deselectSticker))
+
+        self.deselectGestureRecognizer.delegate = self
+        stickerView.addGestureRecognizer(self.deselectGestureRecognizer)
     }
         
+    
 
     
     //MARK:- UIGestureRecognizerDelegate
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     

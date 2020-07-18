@@ -61,7 +61,8 @@ UITextViewDelegate
     override var isSelected: Bool{
         didSet{
             guard let textView = self.textView else {return}
-            textView.isScrollEnabled = isSelected
+            textView.isUserInteractionEnabled = isSelected
+            //textView.isScrollEnabled = isSelected
         }
     }
     
