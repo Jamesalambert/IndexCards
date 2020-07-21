@@ -206,12 +206,12 @@
                                         </collectionViewCellContentView>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="DeletedHeader" id="cd6-xi-l3A">
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="HeaderCell" id="cd6-xi-l3A" customClass="HeaderTitleCell" customModule="IndexCards" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="deleted decks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDH-Ch-843">
-                                            <rect key="frame" x="106" y="14.5" width="108" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Header Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDH-Ch-843">
+                                            <rect key="frame" x="113" y="14.5" width="94" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -221,6 +221,9 @@
                                         <constraint firstItem="dDH-Ch-843" firstAttribute="centerY" secondItem="cd6-xi-l3A" secondAttribute="centerY" id="Nlz-AX-okt"/>
                                         <constraint firstItem="dDH-Ch-843" firstAttribute="centerX" secondItem="cd6-xi-l3A" secondAttribute="centerX" id="aIb-3J-MlT"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="headerLabel" destination="dDH-Ch-843" id="Qvo-1r-djN"/>
+                                    </connections>
                                 </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="DeletedFooter" id="pFA-5J-feL">
                                     <rect key="frame" x="0.0" y="150" width="320" height="50"/>

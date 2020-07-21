@@ -14,27 +14,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var fileLocationURL : URL?
     var document : IndexCardsDocument?
-    var documentObserver : NSObjectProtocol?
-    var undoObserver : NSObjectProtocol?
+    let filename = "IndexCardsDB.ic"
+    lazy var documentURLQuery : NSMetadataQuery = {
+       let query = NSMetadataQuery()
+        query.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope] //append fileLocationURL to this...
+        query.operationQueue = .main
+        query.predicate = NSPredicate(format: "%K like %@", argumentArray: [NSMetadataItemFSNameKey, self.filename])
+        return query
+    }()
+    
+    //var documentObserver : NSObjectProtocol?
+    //var undoObserver : NSObjectProtocol?
 
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         self.openFile()
         
         guard let splitView = window?.rootViewController as? UISplitViewController else {return true}
-        
-        let idiom = splitView.traitCollection.userInterfaceIdiom
-        
-        if idiom == .pad {
+                
+        if splitView.traitCollection.userInterfaceIdiom == .pad {
             splitView.preferredDisplayMode = .allVisible
         }
         
         if let document = self.document {
-            
+    
             guard let decksVC = splitView.viewControllers[0].contents as? DecksViewController else {return false}
-                
             guard let cardsVC = splitView.viewControllers[1].contents as? CardsViewController else {return false}
             
             decksVC.document = document
@@ -42,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             decksVC.cardsView = cardsVC
             cardsVC.decksView = decksVC
-            
         }
 
         return true
@@ -71,24 +77,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    
-    
     private func openFile(){
         //choose a location and filename
         if let saveTemplateURL = try? FileManager.default.url(
             for: .documentDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
-            create: true).appendingPathComponent("IndexCardsDB.ic") {
+            create: true).appendingPathComponent(filename) {
             
             //check it exists and create if not
             if !FileManager.default.fileExists(atPath: saveTemplateURL.path){
                 //create
                 FileManager.default.createFile(atPath: saveTemplateURL.path, contents: Data(), attributes: nil)
             }
-            
+
             //record so we can quickly save if the app is suddenly closed
             fileLocationURL = saveTemplateURL
+            documentURLQuery.searchScopes += [saveTemplateURL]
             
             //init Document object
             self.document = IndexCardsDocument(fileURL: saveTemplateURL)
@@ -98,7 +103,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }//func
     
    
-    
+    private func registerForQueryUpdateNotifications(){
+        
+        let _ = NotificationCenter.default.addObserver(
+            forName: .NSMetadataQueryDidUpdate,
+            object: nil,
+            queue: nil,
+            using: { notification in
+                //save the reported URL
+                self.fileLocationURL = notification.userInfo?[NSMetadataItemURLKey] as? URL
+        })
+    }
     
     
     

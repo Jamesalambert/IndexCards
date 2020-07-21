@@ -96,11 +96,9 @@ class DecksViewController:
     @IBAction func emptyTrash(_ sender: Any) {
         if !model.deletedDecks.isEmpty{
             
-            
             let indexPathsOfItemsToDelete = model.deletedDecks.indices.map { index in
                 return IndexPath(item: index, section: 1)
             }
-            
             
             decksCollectionView.performBatchUpdates({
                 //model
@@ -198,7 +196,7 @@ class DecksViewController:
             case 1:
                 return model.deletedDecks.count
             case 2:
-                return 1 //deleted cards
+                return 1 //deleted cards deck
             default:
                 return 0
             }
@@ -257,14 +255,15 @@ class DecksViewController:
         var view : UICollectionReusableView
         
         switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedHeader", for: indexPath)
         case UICollectionView.elementKindSectionFooter:
             view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedFooter", for: indexPath)
         default:
-            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DeletedHeader", for: indexPath)
-        }
+            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderCell", for: indexPath)
 
+            if let view = view as? HeaderTitleCell{
+                view.title = "Deleted Decks"
+            }
+        }
         return view        
     }
     
@@ -287,7 +286,7 @@ class DecksViewController:
                 return CGSize.zero
             }
         default:
-            return CGSize.zero
+            return CGSize(width: collectionView.bounds.width, height: CGFloat(50))
         }
         
     }
@@ -329,7 +328,6 @@ class DecksViewController:
   
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
-        
         selectedIndexPath = indexPath
     }
 

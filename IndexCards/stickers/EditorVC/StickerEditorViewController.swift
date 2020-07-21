@@ -36,11 +36,9 @@ class StickerEditorViewController: UIViewController,
     var passedImageForCropping : UIImage?
     var currentSticker : StickerObject?{
         willSet{
-            //print(currentSticker.hashValue,newValue.hashValue)
             if currentSticker != newValue{
                 currentSticker?.isSelected = false
                 currentSticker?.responder?.resignFirstResponder()
-                
                 showContextMenu(for: newValue)
             }
         }
@@ -84,12 +82,14 @@ class StickerEditorViewController: UIViewController,
     lazy var swipeLeftGestureRecognizer : UISwipeGestureRecognizer = {
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeLeft(_:)))
         swipe.direction = .left
+        swipe.numberOfTouchesRequired = 2
         swipe.delegate = self
         return swipe
     }()
     lazy var swipeRightGestureRecognizer : UISwipeGestureRecognizer = {
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeRight(_:)))
         swipe.direction = .right
+        swipe.numberOfTouchesRequired = 2
         swipe.delegate = self
         return swipe
     }()
