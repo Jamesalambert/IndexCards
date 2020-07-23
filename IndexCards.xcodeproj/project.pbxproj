@@ -31,6 +31,7 @@
 		1AB049CB24A7DAEB005A7829 /* WritingSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AB049CA24A7DAEB005A7829 /* WritingSticker.xib */; };
 		1AB1215024A7DCA9002F26AB /* WritingSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */; };
 		1ABD3EED249169A20011299E /* StickerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD3EEC249169A20011299E /* StickerObject.swift */; };
+		1AC0590424C7A6F600A69F07 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC0590324C7A6F600A69F07 /* CloudKit.framework */; };
 		1AD30D5924AD4A5A00B93643 /* ColourChooser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */; };
 		1AD30D5B24AD4A8300B93643 /* textSizeSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */; };
 		1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */; };
@@ -74,6 +75,7 @@
 		1A660578249EAC830000EE50 /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		1A677D8624B14243007C8078 /* ColourCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourCell.swift; sourceTree = SOURCE_ROOT; };
 		1A677D8724B14244007C8078 /* ColourCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColourCell.xib; sourceTree = SOURCE_ROOT; };
+		1A6D7E5224C7A0E40026594F /* IndexCards.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IndexCards.entitlements; sourceTree = "<group>"; };
 		1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsCell.swift; sourceTree = "<group>"; };
 		1A768906249412F10062CF44 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
 		1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEditorViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 		1AB049CA24A7DAEB005A7829 /* WritingSticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritingSticker.xib; sourceTree = "<group>"; };
 		1AB1214F24A7DCA9002F26AB /* WritingSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingSticker.swift; sourceTree = "<group>"; };
 		1ABD3EEC249169A20011299E /* StickerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerObject.swift; sourceTree = "<group>"; };
+		1AC0590324C7A6F600A69F07 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		1AD30D5824AD4A5A00B93643 /* ColourChooser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColourChooser.xib; sourceTree = "<group>"; };
 		1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = textSizeSlider.xib; sourceTree = "<group>"; };
 		1ADD73BD246DEFAC00A9186A /* ShapeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
@@ -123,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AC0590424C7A6F600A69F07 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +176,14 @@
 				1AD30D5A24AD4A8300B93643 /* textSizeSlider.xib */,
 			);
 			path = "menu controls";
+			sourceTree = "<group>";
+		};
+		1AC0590224C7A6F600A69F07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1AC0590324C7A6F600A69F07 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		1ADD73C7246E10A100A9186A /* stickers */ = {
@@ -240,6 +252,7 @@
 			children = (
 				1AFD95FD245CDE630092CF99 /* IndexCards */,
 				1AFD95FC245CDE630092CF99 /* Products */,
+				1AC0590224C7A6F600A69F07 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -254,6 +267,7 @@
 		1AFD95FD245CDE630092CF99 /* IndexCards */ = {
 			isa = PBXGroup;
 			children = (
+				1A6D7E5224C7A0E40026594F /* IndexCards.entitlements */,
 				1AFD960A245CDE650092CF99 /* Info.plist */,
 				1AFD9611245CE9C90092CF99 /* ModelOfIndexCard.swift */,
 				1AFD9602245CDE630092CF99 /* Main.storyboard */,
@@ -551,6 +565,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = IndexCards/IndexCards.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3F7MQRNEB5;
 				INFOPLIST_FILE = IndexCards/Info.plist;
@@ -560,6 +576,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jameslambert.IndexCards;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -569,6 +586,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = IndexCards/IndexCards.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3F7MQRNEB5;
 				INFOPLIST_FILE = IndexCards/Info.plist;
@@ -578,6 +597,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jameslambert.IndexCards;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

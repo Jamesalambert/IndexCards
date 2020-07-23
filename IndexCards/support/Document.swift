@@ -29,8 +29,14 @@ class IndexCardsDocument: UIDocument {
     }
     
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        model = Notes(json: contents as! Data)
+        if let contents = contents as? Data {
+            model = Notes(json: contents)
+        } else {
+            model = Notes()
+        }
+        
     }
+
 }
 
 struct DeletedCardUndoData{

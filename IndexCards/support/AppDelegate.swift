@@ -10,50 +10,63 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
-    var fileLocationURL : URL?
-    var document : IndexCardsDocument?
+    
+    
     let filename = "IndexCardsDB.ic"
+    var document : IndexCardsDocument?
+    var observer : NSObjectProtocol?
+    var window: UIWindow?
+
+    
     lazy var documentURLQuery : NSMetadataQuery = {
-       let query = NSMetadataQuery()
+        let query = NSMetadataQuery()
         query.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope] //append fileLocationURL to this...
-        query.operationQueue = .main
-        query.predicate = NSPredicate(format: "%K like %@", argumentArray: [NSMetadataItemFSNameKey, self.filename])
+        query.predicate = NSPredicate(format: "%K like %@",
+                                      argumentArray: [NSMetadataItemFSNameKey, self.filename])
         return query
     }()
     
-    //var documentObserver : NSObjectProtocol?
-    //var undoObserver : NSObjectProtocol?
-
+    
     
     func application(_ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
-        self.openFile()
+            didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        self.setUpFile()
         
         guard let splitView = window?.rootViewController as? UISplitViewController else {return true}
-                
+        
         if splitView.traitCollection.userInterfaceIdiom == .pad {
             splitView.preferredDisplayMode = .allVisible
         }
         
-        if let document = self.document {
-    
-            guard let decksVC = splitView.viewControllers[0].contents as? DecksViewController else {return false}
-            guard let cardsVC = splitView.viewControllers[1].contents as? CardsViewController else {return false}
-            
-            decksVC.document = document
-            cardsVC.document = document
-            
-            decksVC.cardsView = cardsVC
-            cardsVC.decksView = decksVC
-        }
-
+        
+        self.refresh()
+        
         return true
     }
 
+    
+    func refresh(){
+        
+        guard let splitView = window?.rootViewController as? UISplitViewController else {return}
+        
+        if let document = self.document {
+
+            guard let decksVC = splitView.viewControllers[0].contents as? DecksViewController else {return}
+            guard let cardsVC = splitView.viewControllers[1].contents as? CardsViewController else {return}
+
+            decksVC.document = document
+            cardsVC.document = document
+
+            decksVC.cardsView = cardsVC
+            cardsVC.decksView = decksVC
+            
+            
+            decksVC.refresh()
+        }
+    }
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -77,48 +90,101 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    private func openFile(){
-        //choose a location and filename
-        if let saveTemplateURL = try? FileManager.default.url(
-            for: .documentDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true).appendingPathComponent(filename) {
-            
-            //check it exists and create if not
-            if !FileManager.default.fileExists(atPath: saveTemplateURL.path){
-                //create
-                FileManager.default.createFile(atPath: saveTemplateURL.path, contents: Data(), attributes: nil)
-            }
+    private func setUpFile(){
+        
+        self.makeLocalFile()
+        
+            //try to set up iCloud ubiquity container
+            DispatchQueue.global(qos: .userInitiated).async {
+                
+                if let _ = FileManager.default.url(forUbiquityContainerIdentifier: nil){
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        print("got iCloud container")
+                        self?.registerForQueryUpdateNotifications()
+                        self?.documentURLQuery.start()
+                    }
+                    
+                } else {
+                    print("Couldn't get container!")
+                }
 
-            //record so we can quickly save if the app is suddenly closed
-            fileLocationURL = saveTemplateURL
-            documentURLQuery.searchScopes += [saveTemplateURL]
-            
-            //init Document object
-            self.document = IndexCardsDocument(fileURL: saveTemplateURL)
-            self.document!.open(completionHandler: nil)
-            
-        }//if let
+            } //async
     }//func
     
-   
-    private func registerForQueryUpdateNotifications(){
+    
+    
+    func makeLocalFile(){
+        do {
+            let url = try FileManager.default.url(for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true)
+    
+            self.document = IndexCardsDocument(fileURL: url)
+            
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+
+    func queryDidReturn(_ notification : Notification){
+        print("query returned")
+        let object = notification.object as! NSMetadataQuery
+        object.disableUpdates()
+        object.stop()
         
-        let _ = NotificationCenter.default.addObserver(
-            forName: .NSMetadataQueryDidUpdate,
-            object: nil,
-            queue: nil,
-            using: { notification in
-                //save the reported URL
-                self.fileLocationURL = notification.userInfo?[NSMetadataItemURLKey] as? URL
-        })
+        NotificationCenter.default.removeObserver(self.observer!)
+        
+        loadData(query: object)
+    }
+    
+    
+    func loadData(query : NSMetadataQuery){
+        if query.resultCount == 1 {
+            print("found iCloud file")
+            //open it
+            let item = query.result(at: 0) as! NSMetadataItem
+            let url = item.value(forAttribute: NSMetadataItemURLKey) as! URL
+            
+            self.document = IndexCardsDocument(fileURL: url)
+            self.document?.open(completionHandler: { finished in
+                print("opened doc with url : \(String(describing: self.document?.fileURL))")
+                self.refresh()
+            })
+            
+        } else {
+            //make a new doc
+            print("Got \(query.resultCount) results searching for \(filename)")
+            
+            guard let ubiq = FileManager.default.url(forUbiquityContainerIdentifier: nil) else {return}
+            
+            let packageURL = ubiq.appendingPathComponent(filename)
+            print("making file at \(packageURL)")
+            self.document = IndexCardsDocument(fileURL: packageURL)
+            self.document?.open(completionHandler: { finished in
+                print("opened doc with url : \(String(describing: self.document?.fileURL))")
+                self.refresh()
+            })
+        }
     }
     
     
     
     
-    
+   
+    private func registerForQueryUpdateNotifications(){
+        
+        self.observer = NotificationCenter.default.addObserver(
+            forName: .NSMetadataQueryDidFinishGathering,
+            object: nil,
+            queue: nil,
+            using: { [weak self] notification in
+                self?.queryDidReturn(notification)
+        })
+    }
+
     
     
 }

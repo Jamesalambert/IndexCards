@@ -174,6 +174,12 @@ class CardsViewController:
             } //for
     }
     
+    
+    func refresh(){
+        guard let cardsCV = indexCardsCollectionView else {return}
+        cardsCV.reloadData()
+    }
+    
     //MARK:- Gesture handlers
     @objc
     private func tappedIndexCard(indexPath : IndexPath){

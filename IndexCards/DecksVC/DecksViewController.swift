@@ -29,7 +29,11 @@ class DecksViewController:
         }
     }
 
-    var document : IndexCardsDocument!
+    var document : IndexCardsDocument!{
+        didSet{
+            
+        }
+    }
     
     var fileLocationURL : URL?
     var theme = Theme()
@@ -45,7 +49,11 @@ class DecksViewController:
     }
     var documentObserver : NSObjectProtocol?
     var undoObserver : NSObjectProtocol?
-    var cardsView : CardsViewController?
+    var cardsView : CardsViewController?{
+        didSet{
+            cardsView?.theme = self.theme
+        }
+    }
     
     //MARK:- Outlets
     @IBOutlet weak var decksCollectionView: UICollectionView!{
@@ -138,6 +146,9 @@ class DecksViewController:
         guard let deck = deckFor(selectedIndexPath)
         else {return}
         
+        guard selectedIndexPath != lastSelectedIndexPath
+        else {return}
+        
         //save deck for segue
         selectedDeck = deck
         
@@ -179,6 +190,14 @@ class DecksViewController:
                 return nil
             }
         return nil
+    }
+    
+    
+    func refresh(){
+        guard let decksCV = decksCollectionView else {return}
+        decksCV.reloadData()
+        print("reloading data")
+        cardsView?.refresh()
     }
     
     // MARK:- UICollectionViewDataSource
