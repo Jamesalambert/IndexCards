@@ -143,9 +143,8 @@ final class Deck : NSObject, Codable{
         assert(index < cards.count && index >= 0,
                "There is no card to duplicate at index \(index)")
         
-            let cardToDuplicate = cards[index]
-            cards.insert(cardToDuplicate.copy() as! IndexCard, at: index)
-        
+        let cardToDuplicate = cards[index]
+        cards.insert(IndexCard(indexCard: cardToDuplicate), at: index)
     }
     
     
