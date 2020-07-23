@@ -31,7 +31,7 @@ class CardsViewController:
     }
     var currentDeck : Deck {
         get{
-        return document.currentDeck
+            return document.currentDeck
         }
         set{
             document.currentDeck = newValue

@@ -39,11 +39,11 @@ class StickerEditorViewController: UIViewController,
             if currentSticker != newValue{
                 currentSticker?.isSelected = false
                 currentSticker?.responder?.resignFirstResponder()
-                showContextMenu(for: newValue)
             }
         }
         didSet{
             currentSticker?.isSelected = true
+            showContextMenu(for: currentSticker)
         }
     }
     

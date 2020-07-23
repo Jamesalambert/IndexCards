@@ -34,7 +34,7 @@ class IndexCardsDocument: UIDocument {
         } else {
             model = Notes()
         }
-        
+
     }
 
 }

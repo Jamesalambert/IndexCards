@@ -14,8 +14,8 @@
             filePath = "IndexCards/support/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "loadData(query:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -39,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             splitView.preferredDisplayMode = .allVisible
         }
         
-        
         self.refresh()
         
         return true
