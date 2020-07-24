@@ -280,8 +280,17 @@ class DecksViewController:
             view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderCell", for: indexPath)
 
             if let view = view as? HeaderTitleCell{
-                view.title = "Deleted Decks"
-            }
+                
+                switch indexPath.section {
+                case 1:
+                    view.title = "Deleted Decks"
+                case 2:
+                    view.title = "Deleted Cards"
+                default:
+                    view.title = ""
+                }
+                
+            } //if let
         }
         return view        
     }
@@ -298,6 +307,8 @@ class DecksViewController:
             referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         switch section {
+        case 0:
+            return CGSize.zero
         case 1:
             if !model.deletedDecks.isEmpty{
                 return CGSize(width: collectionView.bounds.width, height: CGFloat(50))
