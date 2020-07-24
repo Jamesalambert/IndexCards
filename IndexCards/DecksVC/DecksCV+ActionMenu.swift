@@ -18,25 +18,29 @@ extension DecksViewController {
     func collectionView(_ collectionView: UICollectionView,
         canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
+        let deleteAction = UIMenuItem(title: "Delete Deck",
+                                      action: #selector(DeckOfCardsCell.deleteDeck))
+        let unDeleteAction = UIMenuItem(title: "Undelete Deck",
+                                        action: #selector(DeckOfCardsCell.unDeleteDeck))
         
         switch indexPath.section {
+        case 0:
+            UIMenuController.shared.menuItems = [deleteAction] //my decks
         case 1:
-            let deleteAction = UIMenuItem(title: "Delete Deck", action: #selector(DeckOfCardsCell.deleteDeck))
-            let unDeleteAction = UIMenuItem(title: "Undelete Deck", action: #selector(DeckOfCardsCell.unDeleteDeck))
-            
-            UIMenuController.shared.menuItems = [deleteAction, unDeleteAction]
-            
+            UIMenuController.shared.menuItems = [deleteAction, unDeleteAction] //deleted decks
+        case 2:
+            UIMenuController.shared.menuItems = [] //deleted cards deck
         default:
-            let deleteAction = UIMenuItem(title: "Delete Deck", action: #selector(DeckOfCardsCell.deleteDeck))
-            
-            UIMenuController.shared.menuItems = [deleteAction]
+            UIMenuController.shared.menuItems = []
         }
-        
         
         //store info so we know which one to delete
         actionMenuIndexPath = indexPath
 
-        return UIMenuController.shared.menuItems?.compactMap{$0.action}.contains(action) ?? false
+        return UIMenuController
+            .shared
+            .menuItems?
+            .compactMap{$0.action}.contains(action) ?? false
     }
 
     
