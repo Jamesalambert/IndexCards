@@ -126,6 +126,11 @@ extension UIColor{
 }
 
 extension IndexPath{
+    
+    /// convenience init
+    /// - Parameters:
+    ///   - x: item
+    ///   - y: section
     init(_ x : Int, _ y: Int){
         self = IndexPath(item: x, section: y)
     }

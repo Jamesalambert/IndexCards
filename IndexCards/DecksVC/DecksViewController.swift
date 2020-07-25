@@ -115,7 +115,14 @@ class DecksViewController:
                 //collection view
                 decksCollectionView.deleteItems(at: indexPathsOfItemsToDelete)
                 
-            }, completion: nil)
+            }, completion: { finished in
+                
+                guard self.model.decks.count > 0 else {return}
+                self.decksCollectionView.selectItem(at: IndexPath(0,0), animated: true, scrollPosition: .top)
+                
+                self.selectedDeck = self.model.decks.first!
+                
+            })
             
         }//iflet
     }
@@ -151,10 +158,6 @@ class DecksViewController:
         
         //save deck for segue
         selectedDeck = deck
-        
-        //reload cells
-        decksCollectionView.reloadItems(
-            at: [selectedIndexPath, lastSelectedIndexPath])
         
         performSegue(withIdentifier: "ShowCardsFromDeck", sender: self)
         
@@ -226,17 +229,15 @@ class DecksViewController:
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         switch indexPath.section {
-        case 0: //visible decks
+        case 2: //deleted cards deck
             
                 if let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
+                    withReuseIdentifier: "DeletedCardsCell", for: indexPath) as? DeletedCardsCell {
                     
                     cell.theme = theme
                     cell.delegate = self
                     
-                    if let deck = deckFor(indexPath){
-                        cell.image = deck.thumbnail
-                    }
+                    cell.count = deckFor(indexPath)?.cards.count ?? -1
                     
                     //highlight selected deck
                     cell.isSelected = deckFor(indexPath) == selectedDeck
@@ -245,7 +246,7 @@ class DecksViewController:
                 }
             
             
-        default: //deleted decks
+        default: //regular decks and deleted decks
             if let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                 

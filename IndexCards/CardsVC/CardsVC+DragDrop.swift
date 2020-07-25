@@ -158,15 +158,21 @@ extension CardsViewController :
     
     
     
-    func moveCardUndoably(cardToMove : IndexCard,
-                          toDeck: Deck, destinationIndexPath: IndexPath){
+    /// Move a card between Decks and add the operation to the undo stack
+    /// - Parameters:
+    ///   - cardToMove: The card being moved
+    ///   - toDeck: The destination deck
+    ///   - destinationIndexPath: The index path the card will occupy in the destination collection view if it's on screen, otherwise this Item value is used to locate the card in the destination deck.
+    func moveCardUndoably(cardToMove :          IndexCard,
+                          toDeck:               Deck,
+                          destinationIndexPath: IndexPath){
         
         guard let fromDeck =  model.deckContaining(card: cardToMove)
-            else {return}
+        else {return}
         
-        let originIndexPath = IndexPath(item:fromDeck.cards
-                                            .firstIndex(of:
-                                                cardToMove)!,
+        let originIndexPath = IndexPath(item:   fromDeck
+                                                .cards
+                                                .firstIndex(of: cardToMove)!,
                                         section: 0)
         ///set up undo
         let card = cardToMove
@@ -175,13 +181,15 @@ extension CardsViewController :
         self.document.undoManager.beginUndoGrouping()
         self.document.undoManager.registerUndo(withTarget: self,
                                                handler: { VC in
-                        //call with decks reversed.
-                        VC.moveCardUndoably(cardToMove: card,
-                                            toDeck: from,
-                                            destinationIndexPath: originIndexPath)
+        //call with decks reversed.
+        VC.moveCardUndoably(cardToMove: card,
+                            toDeck: from,
+                            destinationIndexPath: originIndexPath)
         })
         self.document.undoManager.endUndoGrouping()
         ///
+        
+        
         //deleting from onscreen deck or moving
         if currentDeck == fromDeck {
             indexCardsCollectionView.performBatchUpdates({
@@ -199,7 +207,11 @@ extension CardsViewController :
                     toDeck.cards.append(cardToMove)
                 }
                 
-            }, completion: nil)
+            }, completion: { finished in
+            
+                self.decksView?.decksCollectionView.reloadItems(at: [IndexPath(0,2)])
+                
+            })
             
             //undeleting back to onscreen deck
         } else if currentDeck == toDeck {
@@ -219,6 +231,7 @@ extension CardsViewController :
             //move card to destination Deck!
             toDeck.cards.insert(cardToMove, at: 0)
         }
+        
         
     }//func
     
@@ -275,6 +288,8 @@ NSItemProviderReading
             fatalError(error.localizedDescription)
         }
     }
+    
+    
     
     func copy(with zone: NSZone? = nil) -> Any {
         return IndexCard(indexCard: self)

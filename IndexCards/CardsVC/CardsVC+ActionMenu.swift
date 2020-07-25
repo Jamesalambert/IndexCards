@@ -63,7 +63,11 @@ extension CardsViewController {
                  model.permanentlyDelete(card: currentDeck.cards[indexPath.item])
                 
                 indexCardsCollectionView.deleteItems(at: [indexPath])
-            }, completion: nil)
+            }, completion: { finished in
+            
+                self.decksView?.decksCollectionView.reloadItems(at: [IndexPath(0,2)])
+            
+            })
            
         } else{
             moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
