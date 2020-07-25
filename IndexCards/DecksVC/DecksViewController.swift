@@ -30,11 +30,11 @@ class DecksViewController:
     }
 
     var document : IndexCardsDocument!{
-        didSet{
-            
+        if let delegate = UIApplication.shared.delegate as? DocumentProvider {
+           return delegate.document
         }
+        return nil
     }
-    
     var fileLocationURL : URL?
     var theme = Theme()
     var tappedDeckCell : UIView?
@@ -50,8 +50,8 @@ class DecksViewController:
     var documentObserver : NSObjectProtocol?
     var undoObserver : NSObjectProtocol?
     var cardsView : CardsViewController?{
-        didSet{
-            cardsView?.theme = self.theme
+        get{
+            return splitViewController?.viewControllers[1].contents as? CardsViewController
         }
     }
     
@@ -167,10 +167,10 @@ class DecksViewController:
         
         guard let cardsView = segue.destination.contents as? CardsViewController else {return}
         
-        self.cardsView = cardsView
+        //self.cardsView = cardsView
         
-        cardsView.decksView = self
-        cardsView.document = self.document
+        //cardsView.decksView = self
+        //cardsView.document = self.document
         cardsView.theme = self.theme
     }
     
@@ -199,8 +199,8 @@ class DecksViewController:
     func refresh(){
         guard let decksCV = decksCollectionView else {return}
         decksCV.reloadData()
-        print("reloading data")
-        cardsView?.refresh()
+        print("reloading Decks")
+        //cardsView?.refresh()
     }
     
     // MARK:- UICollectionViewDataSource

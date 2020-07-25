@@ -8,9 +8,13 @@
 
 import UIKit
 
+protocol DocumentProvider {
+    var document : IndexCardsDocument? { get set }
+}
+
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
     
     let filename = "IndexCardsDB.ic"
     var document : IndexCardsDocument?
@@ -49,20 +53,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         guard let splitView = window?.rootViewController as? UISplitViewController else {return}
         
-        if let document = self.document {
+        guard self.document != nil else {return}
 
-            guard let decksVC = splitView.viewControllers[0].contents as? DecksViewController else {return}
-            guard let cardsVC = splitView.viewControllers[1].contents as? CardsViewController else {return}
-
-            decksVC.document = document
-            cardsVC.document = document
-
-            decksVC.cardsView = cardsVC
-            cardsVC.decksView = decksVC
-            
-            
+        if let decksVC = splitView.viewControllers.first?.contents as? DecksViewController{
             decksVC.refresh()
         }
+        
+        if let cardsVC = splitView.viewControllers.last?.contents as? CardsViewController{
+            cardsVC.refresh()
+        }       
+        
     }
     
     
@@ -130,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func queryDidReturn(_ notification : Notification){
         print("query returned")
+        
         let object = notification.object as! NSMetadataQuery
         object.disableUpdates()
         object.stop()

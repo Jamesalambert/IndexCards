@@ -41,9 +41,10 @@ class CardsViewController:
     var theme : Theme?
     var cardWidth : CGFloat = 300
     var document : IndexCardsDocument!{
-        didSet{
-            registerForUndoNotification()
+        if let delegate = UIApplication.shared.delegate as? DocumentProvider {
+           return delegate.document
         }
+        return nil
     }
    
     //MARK:- vars
@@ -65,7 +66,12 @@ class CardsViewController:
             }
         }
     }
-    var decksView : DecksViewController?
+    
+    var decksView : DecksViewController?{
+        get{
+            return splitViewController?.viewControllers[0].contents as? DecksViewController
+        }
+    }
     var actionMenuIndexPath : IndexPath?
     var cardDragPreview : UIView?
     var cardScaleFactor = CGFloat(1.0){
@@ -178,6 +184,7 @@ class CardsViewController:
     func refresh(){
         guard let cardsCV = indexCardsCollectionView else {return}
         cardsCV.reloadData()
+        print("reloading Index Cards")
     }
     
     //MARK:- Gesture handlers
@@ -277,6 +284,7 @@ class CardsViewController:
         super.viewDidLoad()
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self
+        self.registerForUndoNotification()
     }//func
     
     override func viewWillAppear(_ animated: Bool) {
