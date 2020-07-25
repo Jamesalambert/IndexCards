@@ -58,7 +58,13 @@ extension CardsViewController {
         guard let indexPath = actionMenuIndexPath  else {return}
         
         if currentDeck == model.deletedCards{
-            model.permanentlyDelete(card: currentDeck.cards[indexPath.item])
+            
+            indexCardsCollectionView.performBatchUpdates({
+                 model.permanentlyDelete(card: currentDeck.cards[indexPath.item])
+                
+                indexCardsCollectionView.deleteItems(at: [indexPath])
+            }, completion: nil)
+           
         } else{
             moveCardUndoably(cardToMove: (currentDeck.cards[indexPath.item]),
                             toDeck: model.deletedCards,

@@ -74,7 +74,7 @@ extension DecksViewController {
                 }
 
             }
-        }, completion: { finished in
+        },completion: { finished in
             self.document?.updateChangeCount(.done)
             self.selectedIndexPath =  IndexPath(0,0)
         })

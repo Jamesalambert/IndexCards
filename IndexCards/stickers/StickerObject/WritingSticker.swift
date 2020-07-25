@@ -12,7 +12,6 @@ class WritingSticker: StickerObject,
 UITextViewDelegate
 {
     func sliderValueChanged(value: Double) {
-        
         //store the value
         fontSizeMultiplier = value
         
@@ -51,7 +50,8 @@ UITextViewDelegate
     }
     
     private var fontColour : UIColor {
-        if customColor == UIColor.white{
+        //check the brightness of the background
+        if stickerColor.hsbaValues()[2] > CGFloat(0.95){
             return UIColor.black
         } else {
             return UIColor.white
@@ -70,8 +70,7 @@ UITextViewDelegate
     @IBOutlet weak var textView: UITextView!{
         didSet{
             responder = textView
-            
-            
+
             textView.delegate = self
             
             textView.font = UIFontMetrics

@@ -98,6 +98,19 @@ extension UIColor{
         return colorDescription
     }
     
+    func hsbaValues() -> [CGFloat]{
+        var h,s,b,a : CGFloat
+        let z = CGFloat.zero
+        (h,s,b,a) = (z,z,z,z)
+        
+        self.getHue(&h,
+                    saturation: &s,
+                    brightness: &b,
+                    alpha: &a)
+        return [h,s,b,a]
+    }
+    
+    
     func rgbaValues() -> [CGFloat]{
         var r,g,b,a : CGFloat
         let z = CGFloat.zero

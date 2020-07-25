@@ -23,11 +23,11 @@ class StickerEditorViewController: UIViewController,
     //MARK:- Vars
     var indexCard : IndexCard?{
         didSet{
+            guard document != nil else {return}
             guard stickerView != nil else {return}
             guard let indexCard = indexCard else {return}
             stickerData = indexCard.stickers
             stickerView.backgroundImage = indexCard.image
-            self.updateSwipeGestures()
         }
     }
     var theme : Theme?
@@ -80,14 +80,16 @@ class StickerEditorViewController: UIViewController,
     var notificationObservers : [NSObjectProtocol] = []
     lazy var deselectGestureRecognizer = UITapGestureRecognizer()
     lazy var swipeLeftGestureRecognizer : UISwipeGestureRecognizer = {
-        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeLeft(_:)))
+        let swipe = UISwipeGestureRecognizer(target: self,
+                                             action: #selector(self.swipeLeft(_:)))
         swipe.direction = .left
         swipe.numberOfTouchesRequired = 2
         swipe.delegate = self
         return swipe
     }()
     lazy var swipeRightGestureRecognizer : UISwipeGestureRecognizer = {
-        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeRight(_:)))
+        let swipe = UISwipeGestureRecognizer(target: self,
+                                             action: #selector(swipeRight(_:)))
         swipe.direction = .right
         swipe.numberOfTouchesRequired = 2
         swipe.delegate = self
@@ -199,9 +201,6 @@ class StickerEditorViewController: UIViewController,
             if let indexCard = indexCard{
                 stickerData = indexCard.stickers
                 stickerView.backgroundImage = indexCard.image
-                
-                //update swipe gestures
-                self.updateSwipeGestures()
             }
 
             
@@ -452,7 +451,6 @@ class StickerEditorViewController: UIViewController,
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
        saveCard()
     }
     

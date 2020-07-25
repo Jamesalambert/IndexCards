@@ -186,15 +186,25 @@ UIGestureRecognizerDelegate
     @objc
     func swipeLeft(_ gesture : UISwipeGestureRecognizer){
         saveCard()
-        let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
-        indexCard = document!.model.deckContaining(card: indexCard!)!.cards[currentCardIndex! + 1]
+        
+        guard let currentDeck = document?.currentDeck.cards else {return}
+        guard let currentCardIndex = currentDeck.firstIndex(of: indexCard!) else {return}
+        
+        if currentDeck.indices.contains(currentCardIndex.advanced(by: 1)){
+            indexCard = currentDeck[currentCardIndex.advanced(by: 1)]
+        }
     }
     
     @objc
     func swipeRight(_ gesture : UISwipeGestureRecognizer){
         saveCard()
-        let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
-        indexCard = document!.model.deckContaining(card: indexCard!)!.cards[currentCardIndex! - 1]
+        
+        guard let currentDeck = document?.currentDeck.cards else {return}
+        guard let currentCardIndex = currentDeck.firstIndex(of: indexCard!) else {return}
+        
+        if currentDeck.indices.contains(currentCardIndex.advanced(by: -1)){
+            indexCard = currentDeck[currentCardIndex.advanced(by: -1)]
+        }
     }
     
 
@@ -218,23 +228,6 @@ UIGestureRecognizerDelegate
     func setUpSwipeToNextCardGestures(){
         stickerView.addGestureRecognizer(swipeLeftGestureRecognizer)
         stickerView.addGestureRecognizer(swipeRightGestureRecognizer)
-    }
-
-    
-    func updateSwipeGestures(){
-        let currentCardIndex = document!.currentDeck.cards.firstIndex(of: indexCard!)
-        let numberOfCardsInDeck = document!.currentDeck.cards.count
-        if currentCardIndex! < numberOfCardsInDeck{
-            swipeLeftGestureRecognizer.isEnabled = true
-        } else {
-            swipeLeftGestureRecognizer.isEnabled = false
-        }
-        
-        if currentCardIndex! > 0 {
-            swipeRightGestureRecognizer.isEnabled = true
-        } else {
-            swipeRightGestureRecognizer.isEnabled = false
-        }
     }
     
     
