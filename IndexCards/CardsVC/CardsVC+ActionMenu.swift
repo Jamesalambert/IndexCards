@@ -17,7 +17,7 @@ extension CardsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
         let delete = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
         

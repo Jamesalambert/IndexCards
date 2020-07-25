@@ -185,14 +185,16 @@ class CardsViewController:
     private func tappedIndexCard(indexPath : IndexPath){
         //get tapped cell
         
+        //prevent editing of deleted decks or cards
+        if model.deletedDecks.contains(currentDeck) {return}
+        if model.deletedCards == currentDeck {return}
+        
+        
         guard let cell = indexCardsCollectionView.cellForItem(at: indexPath)
             else {return}
         
-         let chosenCard = currentDeck.cards[indexPath.item]
-        
-        //prevent editing of deleted decks
-        if model.deletedDecks.contains(currentDeck){return}
-        
+        let chosenCard = currentDeck.cards[indexPath.item]
+    
         //save for later
         indexPathOfEditedCard = indexPath
         
