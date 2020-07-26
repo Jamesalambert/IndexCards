@@ -156,21 +156,18 @@ class DecksViewController:
         guard selectedIndexPath != lastSelectedIndexPath
         else {return}
         
-        //save deck for segue
+        //save deck
+        cardsView?.saveCardScale()
         selectedDeck = deck
         
-        performSegue(withIdentifier: "ShowCardsFromDeck", sender: self)
-        
+        performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         guard let cardsView = segue.destination.contents as? CardsViewController else {return}
         
-        //self.cardsView = cardsView
-        
-        //cardsView.decksView = self
-        //cardsView.document = self.document
+        cardsView.readCardScale()
         cardsView.theme = self.theme
     }
     

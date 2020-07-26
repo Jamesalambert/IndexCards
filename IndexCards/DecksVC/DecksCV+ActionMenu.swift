@@ -66,6 +66,10 @@ extension DecksViewController {
                     decksCollectionView.deleteItems(at: [indexPath])
                     decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 1)])
                 case 1:
+                    //remove card scale factor data from plist
+                    let deckHash = self.deckFor(indexPath).hashValue.description
+                    UserDefaults.standard.removeObject(forKey: deckHash)
+                    
                     model.permanentlyDelete(at: indexPath.item)
                     
                     decksCollectionView.deleteItems(at: [indexPath])

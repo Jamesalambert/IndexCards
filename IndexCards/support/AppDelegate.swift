@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
     var observer : NSObjectProtocol?
     var window: UIWindow?
 
-    
     lazy var documentURLQuery : NSMetadataQuery = {
         let query = NSMetadataQuery()
         query.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope] //append fileLocationURL to this...
@@ -30,8 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
         return query
     }()
     
-    
-    
+
     func application(_ application: UIApplication,
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -50,7 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
 
     
     func refresh(){
-        
         guard let splitView = window?.rootViewController as? UISplitViewController else {return}
         
         guard self.document != nil else {return}
@@ -61,8 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
         
         if let cardsVC = splitView.viewControllers.last?.contents as? CardsViewController{
             cardsVC.refresh()
-        }       
-        
+        }
     }
     
     

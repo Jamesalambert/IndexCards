@@ -20,6 +20,13 @@ class CardsViewController:
 {
     
     //model
+    var document : IndexCardsDocument!{
+        if let delegate = UIApplication.shared.delegate as? DocumentProvider {
+           return delegate.document
+        }
+        return nil
+    }
+    
     var model : Notes{
         get {
             return document.model
@@ -29,23 +36,20 @@ class CardsViewController:
             indexCardsCollectionView.reloadData()
         }
     }
+    
     var currentDeck : Deck {
         get{
             return document.currentDeck
         }
         set{
             document.currentDeck = newValue
+            guard let indexCardsCollectionView = indexCardsCollectionView else {return}
             indexCardsCollectionView.reloadData()
         }
     }
     var theme : Theme?
     var cardWidth : CGFloat = 300
-    var document : IndexCardsDocument!{
-        if let delegate = UIApplication.shared.delegate as? DocumentProvider {
-           return delegate.document
-        }
-        return nil
-    }
+    
    
     //MARK:- vars
     private var undoObserver : NSObjectProtocol?
@@ -81,6 +85,9 @@ class CardsViewController:
             } else if cardScaleFactor < 0.3 {
                 cardScaleFactor = 0.3
             }
+            
+            guard indexCardsCollectionView != nil else {return}
+            
             cardLayout.invalidateLayout()
             updateCardAppearance()
         } //didset
@@ -280,17 +287,41 @@ class CardsViewController:
    
     
     //MARK:- UIView
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           
+           self.updateUndoButtons()
+       }
+    
+   
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self
         self.registerForUndoNotification()
+        
     }//func
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.updateUndoButtons()
+    func readCardScale() {
+        //get card scale factor if previously saved
+        //returns 0 if the key isn't found
+        cardScaleFactor = CGFloat(UserDefaults
+                                    .standard
+                                    .double(forKey:
+                                        currentDeck.hashValue.description))
     }
+    
+    func saveCardScale(){
+        UserDefaults
+            .standard
+            .set(Double(cardScaleFactor),
+                forKey: currentDeck.hashValue.description)
+    }
+    
     
     deinit {
         print("Cards controller removed!")
