@@ -149,11 +149,6 @@ class DecksViewController:
        }
     
     func displayDeck(){
-        
-        ////save deck
-        cardsView?.saveCardScale()
-        //selectedDeck = deck
-        
         performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
     }
     
@@ -362,6 +357,7 @@ class DecksViewController:
         
         guard let tappedDeck = deckFor(indexPath) else {return}
         
+        cardsView?.saveCardScale()
         //save to the document
         self.selectedDeck = tappedDeck
         
@@ -423,7 +419,6 @@ class DecksViewController:
             decksCollectionView.reloadData()
             appearingForTheFirstTime = false
         }
-
     }
     
 
