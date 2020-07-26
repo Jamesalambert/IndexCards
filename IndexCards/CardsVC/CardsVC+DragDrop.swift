@@ -23,6 +23,7 @@ extension CardsViewController :
         itemsForBeginning session: UIDragSession,
                         at indexPath: IndexPath) -> [UIDragItem] {
 
+
         return dragItemsAtIndexPath(at: indexPath)
     }
     
@@ -39,15 +40,13 @@ extension CardsViewController :
     // helper func
     func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
         
-        
-        //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-        let draggedData = currentDeck!.cards[indexPath.item]
+        let draggedCard = currentDeck!.cards[indexPath.item]
         
         let dragItem = UIDragItem(
-            itemProvider: NSItemProvider(object: draggedData))
+            itemProvider: NSItemProvider(object: draggedCard))
         
         //useful shortcut we can use when dragging inside our app
-        dragItem.localObject = draggedData
+        dragItem.localObject = draggedCard
         
         return [dragItem]
         
@@ -109,6 +108,7 @@ extension CardsViewController :
         //all items use this index path with the result that
         //they're all inserted one after the other from the drop point.
          guard let currentDeck = currentDeck else {return}
+        
          let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(currentDeck.cards.count ,0)
         
         
@@ -125,6 +125,13 @@ extension CardsViewController :
                     //animate nicely!
                     coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
                     
+                //update thumbnail for deck 
+                if let dv = decksView{
+                    dv.decksCollectionView.reloadItems(
+                        at: [dv.indexPathFor(deck: currentDeck)].compactMap{$0} )
+                }
+                
+                
             } else {
             
             
@@ -149,13 +156,17 @@ extension CardsViewController :
     }
     
     func userDropped(image: UIImage, at point: CGPoint){
-        let tempView = UIView(frame: CGRect(center: point,
-                                            size: CGSize(width: cardWidth,
-                                                         height: cardWidth/1.5)))
+        
+        let tempView = UIView(  frame: CGRect(center: point,
+                                size: CGSize(width: cardWidth,
+                                             height: cardWidth/1.5)))
         
         view.addSubview(tempView)
         
-        presentStickerEditor(from: tempView, with: nil, forCropping: image, temporaryView: true)
+        presentStickerEditor(from: tempView,
+                             with: nil,
+                             forCropping: image,
+                             temporaryView: true)
     }
     
     
