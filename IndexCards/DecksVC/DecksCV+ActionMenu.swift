@@ -125,10 +125,13 @@ extension DecksViewController {
                 model.deletedCards.cards.removeAll()
 
                 cv.deleteItems(at: cv.indexPathsForVisibleItems)
-            }, completion: nil)
+            }, completion: { finished in
+                self.decksCollectionView.reloadItems(at: [IndexPath(0,2)])
+            })
             
         } else {
             model.deletedCards.cards.removeAll()
+            decksCollectionView.reloadItems(at: [IndexPath(0,2)])
         }
     }
 
