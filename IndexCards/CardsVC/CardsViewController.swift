@@ -37,7 +37,7 @@ class CardsViewController:
         }
     }
     
-    var currentDeck : Deck {
+    var currentDeck : Deck? {
         get{
             return document.currentDeck
         }
@@ -58,15 +58,18 @@ class CardsViewController:
     var editorDidMakeChanges : Bool = false{
         didSet{
             if let indexPath = indexPathOfEditedCard{
+                
                 document.updateChangeCount(.done)
                 indexCardsCollectionView.reloadItems(at: [indexPath])
                 
-                guard let selectedDeck = decksView?.selectedIndexPath
-                else {return}
+                guard let currentDeck = currentDeck else {return}
+                
+                guard let indexPath = decksView?.indexPathFor(deck: currentDeck)
+                    else {return}
                 
                 decksView?
                         .decksCollectionView
-                        .reloadItems(at: [selectedDeck])
+                        .reloadItems(at: [indexPath])
             }
         }
     }
@@ -197,6 +200,7 @@ class CardsViewController:
     //MARK:- Gesture handlers
     @objc
     private func tappedIndexCard(indexPath : IndexPath){
+        guard let currentDeck = currentDeck else {return}
         //get tapped cell
         
         //prevent editing of deleted decks or cards
@@ -240,18 +244,18 @@ class CardsViewController:
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return currentDeck.cards.count
+        return currentDeck?.cards.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+                
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath) as? IndexCardViewCell {
             
             cell.theme = theme
             cell.delegate = self
             
-            let currentIndexCard = currentDeck.cards[indexPath.item]
+            let currentIndexCard = currentDeck!.cards[indexPath.item]
                 
             cell.image = currentIndexCard.thumbnail
             return cell

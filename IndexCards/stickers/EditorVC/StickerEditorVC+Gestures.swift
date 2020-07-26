@@ -187,7 +187,7 @@ UIGestureRecognizerDelegate
     func swipeLeft(_ gesture : UISwipeGestureRecognizer){
         saveCard()
         
-        guard let currentDeck = document?.currentDeck.cards else {return}
+        guard let currentDeck = document?.currentDeck?.cards else {return}
         guard let currentCardIndex = currentDeck.firstIndex(of: indexCard!) else {return}
         
         if currentDeck.indices.contains(currentCardIndex.advanced(by: 1)){
@@ -199,7 +199,7 @@ UIGestureRecognizerDelegate
     func swipeRight(_ gesture : UISwipeGestureRecognizer){
         saveCard()
         
-        guard let currentDeck = document?.currentDeck.cards else {return}
+        guard let currentDeck = document?.currentDeck?.cards else {return}
         guard let currentCardIndex = currentDeck.firstIndex(of: indexCard!) else {return}
         
         if currentDeck.indices.contains(currentCardIndex.advanced(by: -1)){

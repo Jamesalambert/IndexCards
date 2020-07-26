@@ -39,8 +39,9 @@ extension CardsViewController :
     // helper func
     func dragItemsAtIndexPath(at indexPath: IndexPath)->[UIDragItem]{
         
+        
         //cellForItem only works for visible items, but, that's fine becuse we're dragging it!
-        let draggedData = currentDeck.cards[indexPath.item]
+        let draggedData = currentDeck!.cards[indexPath.item]
         
         let dragItem = UIDragItem(
             itemProvider: NSItemProvider(object: draggedData))
@@ -107,6 +108,7 @@ extension CardsViewController :
                         performDropWith coordinator: UICollectionViewDropCoordinator) {
         //all items use this index path with the result that
         //they're all inserted one after the other from the drop point.
+         guard let currentDeck = currentDeck else {return}
          let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(currentDeck.cards.count ,0)
         
         

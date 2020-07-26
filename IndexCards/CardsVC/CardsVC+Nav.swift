@@ -21,6 +21,8 @@ extension CardsViewController {
                               forCropping image : UIImage?,
                               temporaryView: Bool){
         
+        guard let currentDeck = currentDeck else {return}
+        
         //get the next VC
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
@@ -77,6 +79,8 @@ extension CardsViewController {
     }
     
     private func addCard(card : IndexCard){
+        
+        guard let currentDeck = currentDeck else {return}
         
         indexCardsCollectionView.performBatchUpdates({
             //model

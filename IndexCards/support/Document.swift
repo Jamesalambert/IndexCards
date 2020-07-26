@@ -19,9 +19,17 @@ class IndexCardsDocument: UIDocument {
     }
 
     //temp data that isn't saved
-    //var deletedCardsDeck = Deck()
     var deletedStickers : [StickerObject] = []
-    var currentDeck = Deck()
+    var currentDeck : Deck?{
+        willSet{
+            //remember last deck
+            if newValue != currentDeck{
+                lastDeck = currentDeck
+            }
+        }
+    }
+    var lastDeck : Deck?
+    
     
     override func contents(forType typeName: String) throws -> Any {
         //return model.json ?? Data()

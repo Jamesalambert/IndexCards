@@ -55,6 +55,12 @@ extension DecksViewController {
     
     @objc
     func deleteTappedDeck(_ sender : UIMenuController){
+        
+        //update selection
+        if model.decks.count > 0{
+            selectedDeck = model.decks.first!
+        }
+        
         //batch updates
         decksCollectionView.performBatchUpdates({
             if let indexPath = actionMenuIndexPath {
@@ -65,6 +71,7 @@ extension DecksViewController {
                     
                     decksCollectionView.deleteItems(at: [indexPath])
                     decksCollectionView.insertItems(at: [IndexPath(item: 0, section: 1)])
+                    
                 case 1:
                     //remove card scale factor data from plist
                     let deckHash = self.deckFor(indexPath).hashValue.description
@@ -80,7 +87,6 @@ extension DecksViewController {
             }
         },completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.selectedIndexPath =  IndexPath(0,0)
         })
         
     }
@@ -100,7 +106,10 @@ extension DecksViewController {
             }
         }, completion: { finished in
             self.document?.updateChangeCount(.done)
-            self.selectedIndexPath =  IndexPath(0,0)
+            //update selection
+            if self.model.decks.count > 0{
+                self.selectedDeck = self.model.decks.first!
+            }
         })
     }
 

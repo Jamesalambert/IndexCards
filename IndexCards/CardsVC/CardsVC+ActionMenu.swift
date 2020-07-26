@@ -40,6 +40,8 @@ extension CardsViewController {
 
     
     func duplicateCard(){
+         guard let currentDeck = currentDeck else {return}
+        
         indexCardsCollectionView?.performBatchUpdates({
             
             if let indexPath = actionMenuIndexPath{
@@ -56,6 +58,7 @@ extension CardsViewController {
     
     func deleteCard(){
         guard let indexPath = actionMenuIndexPath  else {return}
+        guard let currentDeck = currentDeck else {return}
         
         if currentDeck == model.deletedCards{
             

@@ -39,7 +39,7 @@ class DecksViewController:
     var theme = Theme()
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?
-    var selectedDeck : Deck {
+    var selectedDeck : Deck? {
         get{
             return document.currentDeck
         }
@@ -150,15 +150,9 @@ class DecksViewController:
     
     func displayDeck(){
         
-        guard let deck = deckFor(selectedIndexPath)
-        else {return}
-        
-        guard selectedIndexPath != lastSelectedIndexPath
-        else {return}
-        
-        //save deck
+        ////save deck
         cardsView?.saveCardScale()
-        selectedDeck = deck
+        //selectedDeck = deck
         
         performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
     }
@@ -192,12 +186,31 @@ class DecksViewController:
         return nil
     }
     
+    func indexPathFor(deck : Deck) -> IndexPath?{
+        
+        var item = 0
+        var section = 0
+        
+        if model.decks.contains(deck){
+            section = 0
+            item = model.decks.firstIndex(of: deck)!
+            
+            return IndexPath(item: item, section: section)
+            
+        } else if model.deletedDecks.contains(deck){
+            section = 1
+            item = model.deletedDecks.firstIndex(of: deck)!
+            
+            return IndexPath(item: item, section: section)
+        }
+        return nil
+    }
+    
     
     func refresh(){
         guard let decksCV = decksCollectionView else {return}
         decksCV.reloadData()
         print("reloading Decks")
-        //cardsView?.refresh()
     }
     
     // MARK:- UICollectionViewDataSource
@@ -342,22 +355,27 @@ class DecksViewController:
         return true
     }
     
-    var lastSelectedIndexPath = IndexPath(0,0)
-    
-    var selectedIndexPath = IndexPath(0,0) {
-        willSet{
-            if selectedIndexPath != newValue{
-                lastSelectedIndexPath = selectedIndexPath
-            }
-        }
-        didSet{
-             displayDeck()
-        }
-    }
+
   
     func collectionView(_ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
-        selectedIndexPath = indexPath
+        
+        guard let tappedDeck = deckFor(indexPath) else {return}
+        
+        //save to the document
+        self.selectedDeck = tappedDeck
+        
+        //update selection highlight
+        
+        let lastDecks = [selectedDeck, document.lastDeck]
+        
+        let indexPaths = lastDecks
+                            .compactMap{$0}
+                            .compactMap{indexPathFor(deck: $0)}
+        
+        decksCollectionView.reloadItems(at: indexPaths)
+        
+        displayDeck()
     }
 
     
