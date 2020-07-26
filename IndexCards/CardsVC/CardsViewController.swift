@@ -131,11 +131,11 @@ class CardsViewController:
     //MARK:- Actions
     @IBAction func tappedUndo(_ sender: Any) {
         document.undoManager.undo()
-       }
+    }
        
     @IBAction func tappedRedo(_ sender: Any) {
         document.undoManager.redo()
-       }
+    }
     
     @IBAction func tappedAddCardButton(_ sender: UIBarButtonItem) {
         
@@ -195,6 +195,22 @@ class CardsViewController:
         guard let cardsCV = indexCardsCollectionView else {return}
         cardsCV.reloadData()
         print("reloading Index Cards")
+    }
+    
+    func readCardScale() {
+        //get card scale factor if previously saved
+        //returns 0 if the key isn't found
+        cardScaleFactor = CGFloat(UserDefaults
+                                    .standard
+                                    .double(forKey:
+                                        currentDeck.hashValue.description))
+    }
+    
+    func saveCardScale(){
+        UserDefaults
+            .standard
+            .set(Double(cardScaleFactor),
+                forKey: currentDeck.hashValue.description)
     }
     
     //MARK:- Gesture handlers
@@ -309,22 +325,6 @@ class CardsViewController:
         self.registerForUndoNotification()
         
     }//func
-    
-    func readCardScale() {
-        //get card scale factor if previously saved
-        //returns 0 if the key isn't found
-        cardScaleFactor = CGFloat(UserDefaults
-                                    .standard
-                                    .double(forKey:
-                                        currentDeck.hashValue.description))
-    }
-    
-    func saveCardScale(){
-        UserDefaults
-            .standard
-            .set(Double(cardScaleFactor),
-                forKey: currentDeck.hashValue.description)
-    }
     
     
     deinit {

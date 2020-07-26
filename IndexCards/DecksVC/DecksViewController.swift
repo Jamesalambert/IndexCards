@@ -13,10 +13,9 @@ class DecksViewController:
     UIViewController,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
-    UICollectionViewDelegateFlowLayout
+    UICollectionViewDelegateFlowLayout,
+    DeckMenuActionsDelegate
 {
-   
-    
     
     //MARK:- vars
     var model : Notes{
@@ -409,17 +408,6 @@ class DecksViewController:
         view.backgroundColor = theme.colorOf(.table)
     }
     
-    
-    var appearingForTheFirstTime = true
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if appearingForTheFirstTime{
-            decksCollectionView.reloadData()
-            appearingForTheFirstTime = false
-        }
-    }
     
 
     

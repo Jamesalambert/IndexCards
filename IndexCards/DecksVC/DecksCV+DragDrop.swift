@@ -21,13 +21,17 @@ UIDropInteractionDelegate
     //for dragging from a collection view
     //items for beginning means 'this is what we're dragging'
     func collectionView(_ collectionView: UICollectionView,
-                        itemsForBeginning session: UIDragSession,
+        itemsForBeginning session: UIDragSession,
                         at indexPath: IndexPath) -> [UIDragItem] {
         
-        //lets dragged items know/report that they were dragged from the emoji collection view
-        session.localContext = self
-        return dragItemsAtIndexPath(at: indexPath)
-        
+        switch indexPath.section {
+        case 2:
+            return []   //deleted cards deck can't be moved
+        default:
+    //lets dragged items know/report that they were dragged from the  collection view
+            session.localContext = self
+            return dragItemsAtIndexPath(at: indexPath)
+        }
     }
     
     
@@ -78,23 +82,41 @@ UIDropInteractionDelegate
         //check to see if it came from the DecksCollectionVC
         let isFromSelf = (session.localDragSession?.localContext as? DecksViewController) == self
         
+        //dragging a deck
         if isFromSelf{
-            return UICollectionViewDropProposal(
+            
+            switch destinationIndexPath?.section {
+            case 2:
+                //can't drag decks next to the deletd cards deck
+                return UICollectionViewDropProposal(operation: .forbidden)
+            default:
+                //can rearrange regular and deleted decks
+                return UICollectionViewDropProposal(
                 operation: .move,
                 intent: .insertAtDestinationIndexPath)
-            
-        } else {
-            if session.canLoadObjects(ofClass: IndexCard.self),
-                destinationIndexPath?.section == 0{
-    
-                return UICollectionViewDropProposal(
-                    operation: .move,
-                    intent: .insertIntoDestinationIndexPath)
             }
-            //can't drag cards into deleted decks
-            return UICollectionViewDropProposal(operation: .forbidden)
-        }
-    }
+ 
+        //not dragging a deck
+        } else {
+            
+            switch destinationIndexPath?.section {
+            case 1:
+                //can't drag cards into deleted decks
+                return UICollectionViewDropProposal(operation: .forbidden)
+            default:
+                //drag card to any deck or deleted cards deck
+                if session.canLoadObjects(ofClass: IndexCard.self){
+                    return UICollectionViewDropProposal(
+                        operation: .move,
+                        intent: .insertIntoDestinationIndexPath)
+                }
+            }
+            
+            
+        } //else
+        
+        return UICollectionViewDropProposal(operation: .forbidden)
+    } //func
     
     
     
@@ -143,9 +165,11 @@ UIDropInteractionDelegate
             
             for item in coordinator.items {
                 
-                guard let droppedCard = item.dragItem.localObject as? IndexCard else {return}
+                guard let droppedCard = item.dragItem.localObject as? IndexCard
+                else {return}
                 
-                let destinationDeck = model.decks[destinationIndexPath.item]
+                guard let destinationDeck = deckFor(destinationIndexPath) else
+                {return}
 
                 //moveCardsFromDeck....
                 cardsView?.moveCardUndoably(cardToMove: droppedCard,

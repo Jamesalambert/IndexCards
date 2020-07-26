@@ -19,9 +19,11 @@ extension DecksViewController {
         canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
         let deleteAction = UIMenuItem(title: "Delete Deck",
-                                      action: #selector(DeckOfCardsCell.deleteDeck))
+                                      action: #selector(DeckOfCardsCell.deleteDeck(_:)))
         let unDeleteAction = UIMenuItem(title: "Undelete Deck",
-                                        action: #selector(DeckOfCardsCell.unDeleteDeck))
+                                        action: #selector(DeckOfCardsCell.unDeleteDeck(_:)))
+        let emptyDeletedCards = UIMenuItem(title: "Empty Deleted Cards",
+                                           action: #selector(DeckOfCardsCell.emptyDeletedCards(_:)))
         
         switch indexPath.section {
         case 0:
@@ -29,7 +31,7 @@ extension DecksViewController {
         case 1:
             UIMenuController.shared.menuItems = [deleteAction, unDeleteAction] //deleted decks
         case 2:
-            UIMenuController.shared.menuItems = [] //deleted cards deck
+            UIMenuController.shared.menuItems = [emptyDeletedCards] //deleted cards deck
         default:
             UIMenuController.shared.menuItems = []
         }
@@ -53,7 +55,7 @@ extension DecksViewController {
 
     
     
-    @objc
+    
     func deleteTappedDeck(_ sender : UIMenuController){
         
         //update selection
@@ -93,7 +95,7 @@ extension DecksViewController {
     
     
     
-    @objc
+    
     func unDeleteTappedDeck(_ sender: UIMenuController){
         
         decksCollectionView.performBatchUpdates({
@@ -111,6 +113,23 @@ extension DecksViewController {
                 self.selectedDeck = self.model.decks.first!
             }
         })
+    }
+    
+    
+    func emptyDeletedCards(_ sender: UIMenuController) {
+        if selectedDeck == model.deletedCards{
+            guard let cv = cardsView?.indexCardsCollectionView
+            else {return}
+            
+            cv.performBatchUpdates({
+                model.deletedCards.cards.removeAll()
+
+                cv.deleteItems(at: cv.indexPathsForVisibleItems)
+            }, completion: nil)
+            
+        } else {
+            model.deletedCards.cards.removeAll()
+        }
     }
 
    

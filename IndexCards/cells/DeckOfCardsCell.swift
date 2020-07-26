@@ -8,9 +8,16 @@
 
 import UIKit
 
+protocol DeckMenuActionsDelegate {
+    func deleteTappedDeck(_ sender : UIMenuController)
+    func unDeleteTappedDeck(_ sender : UIMenuController)
+    func emptyDeletedCards(_ sender : UIMenuController)
+}
+
+
 class DeckOfCardsCell: UICollectionViewCell {
     
-    var delegate : DecksViewController?
+    var delegate : DeckMenuActionsDelegate?
     var theme : Theme?
     
     var image : UIImage? {
@@ -52,7 +59,6 @@ class DeckOfCardsCell: UICollectionViewCell {
         //background color
         self.backgroundColor = nil
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
-        
     }
 
     @objc
@@ -65,6 +71,11 @@ class DeckOfCardsCell: UICollectionViewCell {
         delegate?.unDeleteTappedDeck(sender)
     }
   
+    @objc
+    func emptyDeletedCards(_ sender : UIMenuController){
+        delegate?.emptyDeletedCards(sender)
+    }
+    
     override func draw(_ layer: CALayer, in ctx: CGContext) {
         //border
         if isSelected{
