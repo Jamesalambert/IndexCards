@@ -76,7 +76,9 @@ class CardsViewController:
     
     var decksView : DecksViewController?{
         get{
-            return splitViewController?.viewControllers[0].contents as? DecksViewController
+            return splitViewController?
+                        .viewControllers[0]
+                        .contents as? DecksViewController
         }
     }
     var actionMenuIndexPath : IndexPath?
@@ -96,7 +98,8 @@ class CardsViewController:
         } //didset
     }
     var cardLayout : UICollectionViewFlowLayout {
-        return indexCardsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        return indexCardsCollectionView
+                    .collectionViewLayout as! UICollectionViewFlowLayout
     }
     //MARK:- Outlets
     @IBOutlet weak var indexCardsCollectionView: UICollectionView!{
@@ -106,7 +109,8 @@ class CardsViewController:
             indexCardsCollectionView.dragDelegate = self
             indexCardsCollectionView.dropDelegate = self
             
-            let pinch = UIPinchGestureRecognizer(target: self, action: #selector(pinch(_:)))
+            let pinch = UIPinchGestureRecognizer(target: self,
+                                                 action: #selector(pinch(_:)))
             pinch.delegate = self
             indexCardsCollectionView.addGestureRecognizer(pinch)
         }

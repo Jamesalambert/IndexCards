@@ -22,7 +22,7 @@ UINavigationControllerDelegate{
     //var layoutObject = CircularCollectionViewLayout()
     private var tappedCell : UICollectionViewCell?
     private var listOfCards : [BackgroundSourceType] = []
-    var delegate : CardsViewController?
+    weak var delegate : CardsViewController?
     var cardWidth : CGFloat = CGFloat(150)
     
     //MARK:- Outlets

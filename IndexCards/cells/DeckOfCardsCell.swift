@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DeckMenuActionsDelegate {
+protocol DeckMenuActionsDelegate : DecksViewController{
     func deleteTappedDeck(_ sender : UIMenuController)
     func unDeleteTappedDeck(_ sender : UIMenuController)
     func emptyDeletedCards(_ sender : UIMenuController)
@@ -17,7 +17,7 @@ protocol DeckMenuActionsDelegate {
 
 class DeckOfCardsCell: UICollectionViewCell {
     
-    var delegate : DeckMenuActionsDelegate?
+    weak var delegate : DeckMenuActionsDelegate?
     var theme : Theme?
     
     var image : UIImage? {

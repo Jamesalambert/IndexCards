@@ -130,33 +130,36 @@ class DecksViewController:
     //MARK:- Actions
     
     private func registerForNotifications(){
-           //register for UIDocument notifications
-               self.documentObserver = NotificationCenter.default.addObserver(
-               forName: UIDocument.stateChangedNotification,
-               object: self.document,
-               queue: nil,
-               using: {notification in
-               
-                   guard self.document!.documentState == UIDocument.State.normal else {return}
-                   
-                   guard let selectedDeckIndexPath = self.decksCollectionView.indexPathsForSelectedItems?.first else {return}
-               
-                   self.decksCollectionView.reloadItems(
-               at:[selectedDeckIndexPath])
-                   self.decksCollectionView.selectItem(at: selectedDeckIndexPath, animated: false, scrollPosition: .top)
-               })
+        //register for UIDocument notifications
+        self.documentObserver = NotificationCenter.default.addObserver(
+            forName: UIDocument.stateChangedNotification,
+            object: self.document,
+            queue: nil,
+            using: {[weak self] notification in
+                
+                guard self?.document!.documentState == UIDocument.State.normal else {return}
+                
+                guard let selectedDeckIndexPath = self!.decksCollectionView.indexPathsForSelectedItems?.first else {return}
+                
+                self?.decksCollectionView.reloadItems(
+                    at:[selectedDeckIndexPath])
+                self?.decksCollectionView.selectItem(at: selectedDeckIndexPath, animated: false, scrollPosition: .top)
+        })
        }
+    
+    
     
     func displayDeck(){
         performSegue(withIdentifier: "ShowCardsFromDeck", sender: nil)
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        guard let cardsView = segue.destination.contents as? CardsViewController else {return}
+        guard let cv = segue.destination.contents as? CardsViewController else {return}
         
-        cardsView.readCardScale()
-        cardsView.theme = self.theme
+        cv.readCardScale()
+        cv.theme = self.theme
     }
     
 

@@ -11,7 +11,7 @@ import UIKit
 class IndexCardViewCell: UICollectionViewCell {
     
     var theme : Theme?
-    var delegate : CardsViewController?
+    weak var delegate : CardsViewController?
     
     var image : UIImage?{
         didSet{

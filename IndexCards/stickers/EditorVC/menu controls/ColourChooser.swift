@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ColourChooserDelegate {
+protocol ColourChooserDelegate : StickerEditorViewController {
     func userDidSelectColour(colour : UIColor) -> Void
 }
 
@@ -24,7 +24,7 @@ class ColourChooser: UIViewController,
     var colourForEmoji : [String : UIColor] = [:]
     
     
-    var delegate : ColourChooserDelegate?
+    weak var delegate : ColourChooserDelegate?
     var theme : Theme?{
         didSet{
             guard
