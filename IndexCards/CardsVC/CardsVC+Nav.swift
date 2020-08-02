@@ -51,9 +51,8 @@ extension CardsViewController {
         //get index card location on screen so we can animate back to it after editing
         let cardIndexPath = IndexPath(item: currentDeck.cards.firstIndex(of: indexCard)!,
                                       section: 0)
-        guard let endCell = indexCardsCollectionView.cellForItem(at:
-                                                                IndexPath(
-                                                                    item: cardIndexPath.item,        section: 0))
+        guard let endCell = indexCardsCollectionView
+                                .cellForItem(at:IndexPath(item: cardIndexPath.item,                                   section: 0))
         else {return}
         
         self.indexPathOfEditedCard = cardIndexPath

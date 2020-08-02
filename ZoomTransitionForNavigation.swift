@@ -55,7 +55,7 @@ UIViewControllerAnimatedTransitioning {
         guard let collectionVC = transitionContext.viewController(forKey: .from)
             else {return}
         
-        guard let editorVC = transitionContext.viewController(forKey: .to)
+        guard let editorVC = transitionContext.viewController(forKey: .to) as? StickerEditorViewController
             else {return}
         
         let containerView = transitionContext.containerView
@@ -64,6 +64,12 @@ UIViewControllerAnimatedTransitioning {
         startCenter = collectionVC.view.convert(originView.center,
                                                 from: originView.superview)
         startScale = CGFloat(originView.bounds.width / editorVC.view.bounds.width)
+        
+        //offset because the stickerCanvas is not in the center of the editorVC
+        let centerOffset = startScale! * (editorVC.view.bounds.midY - editorVC.stickerView.center.y)
+        
+        //shift the start center of the editor as it zooms in
+        startCenter = startCenter?.offsetBy(dx: CGFloat.zero, dy: -centerOffset)
         
         //save for later
         if originView == destinationView {
