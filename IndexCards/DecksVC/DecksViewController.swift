@@ -34,8 +34,16 @@ class DecksViewController:
         }
         return nil
     }
+    
+    var theme : Theme?{
+        if let delegate = UIApplication.shared.delegate as? DocumentProvider{
+            return delegate.theme
+        }
+        return nil
+    }
+    
     var fileLocationURL : URL?
-    var theme = Theme()
+    
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?
     var selectedDeck : Deck? {
@@ -159,7 +167,7 @@ class DecksViewController:
         guard let cv = segue.destination.contents as? CardsViewController else {return}
         
         cv.readCardScale()
-        cv.theme = self.theme
+        //cv.theme = self.theme
     }
     
 
@@ -244,7 +252,7 @@ class DecksViewController:
                     cell.theme = theme
                     cell.delegate = self
                     
-                    cell.backgroundColor = theme.colorOf(.deck)
+                    cell.backgroundColor = theme?.colorOf(.deck)
                     cell.count = deckFor(indexPath)?.cards.count ?? -1
                     
                     //highlight selected deck
@@ -308,7 +316,7 @@ class DecksViewController:
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = CGFloat(100)
-        let width = theme.sizeOf(.indexCardAspectRatio) * height
+        let width = theme!.sizeOf(.indexCardAspectRatio) * height
         return CGSize(width: width, height: height)
     }
     
@@ -407,8 +415,8 @@ class DecksViewController:
         super.viewDidLoad()
         
         //set up appearance
-        theme.chosenTheme = 0
-        view.backgroundColor = theme.colorOf(.table)
+        //theme.chosenTheme = 0
+        view.backgroundColor = theme?.colorOf(.table)
     }
     
     

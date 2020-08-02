@@ -10,7 +10,11 @@ import Foundation
 import UIKit
 
 class Theme : ThemeDelegateProtocol {
-   
+    
+    internal init(chosenTheme: Int = 0) {
+        self.chosenTheme = chosenTheme
+    }
+
     //MARK:- ThemeDelegateProtocol
     func colorOf(_ item: Item ) -> UIColor {
         switch item {
@@ -53,7 +57,7 @@ class Theme : ThemeDelegateProtocol {
     
     //MARK:- ThemeDelegate
     
-    var chosenTheme = 0
+    var chosenTheme : Int = 0
     
     //set of themes
     private static let themes : [ThemeStructure] = [retro]
@@ -87,6 +91,7 @@ class Theme : ThemeDelegateProtocol {
         tapDeckTurn: 0.2,
         showMenu: 0.2,
         addShape: 0.2)
+
 }
 
 

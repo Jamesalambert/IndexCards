@@ -10,6 +10,7 @@ import UIKit
 
 protocol DocumentProvider {
     var document : IndexCardsDocument? { get set }
+    var theme : Theme? {get set}
 }
 
 
@@ -17,6 +18,8 @@ protocol DocumentProvider {
 class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
     
     let filename = "IndexCardsDB.ic"
+    
+    var theme : Theme? = Theme(chosenTheme: 0)
     var document : IndexCardsDocument?
     var observer : NSObjectProtocol?
     var window: UIWindow?

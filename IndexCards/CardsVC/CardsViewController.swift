@@ -47,7 +47,13 @@ class CardsViewController:
             indexCardsCollectionView.reloadData()
         }
     }
-    var theme : Theme?
+
+    var theme : Theme?{
+        if let delegate = UIApplication.shared.delegate as? DocumentProvider{
+            return delegate.theme
+        }
+        return nil
+    }
     var cardWidth : CGFloat = 300
     
    
