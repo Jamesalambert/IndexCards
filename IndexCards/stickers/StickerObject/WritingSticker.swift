@@ -38,6 +38,15 @@ UITextViewDelegate
         }
     }
         
+    
+    var stickerAttributedText : NSAttributedString?{
+        didSet{
+            guard textView != nil else {return}
+            textView.attributedText = stickerAttributedText
+        }
+    }
+    
+    
     private var fontSize : CGFloat {
         return 40.0 * CGFloat(fontSizeMultiplier)
     }
@@ -97,6 +106,5 @@ UITextViewDelegate
         stickerText = textView.text
     }
 
-    
     
 }

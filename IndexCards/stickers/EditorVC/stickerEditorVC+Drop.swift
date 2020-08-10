@@ -32,7 +32,7 @@ UIDropInteractionDelegate
     
     
     func dropInteraction(_ interaction: UIDropInteraction,
-                         sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+            sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         
         return UIDropProposal(operation: .copy)
     }
@@ -67,10 +67,18 @@ UIDropInteractionDelegate
                         if error == nil {
                             if let draggedURL = (provider as? NSURL){
                                 
+                                let newStickerText = NSAttributedString(
+                                    string: draggedURL.absoluteString ?? "",
+                                    attributes:
+                                    [NSAttributedString.Key.link : draggedURL.absoluteString ?? "" ])
+                                
                                 let newSticker = self?.addDroppedShape(shape: .RoundRect,
                                                                        atLocation: dropPoint)
                                 
-                                newSticker?.stickerText = draggedURL.absoluteString ?? ""
+                                if let newSticker = newSticker as? WritingSticker{
+                                    newSticker.stickerAttributedText = newStickerText
+                                }
+                                
                             }
                         } //if
                     } //dispatch
