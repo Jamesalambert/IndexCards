@@ -51,29 +51,38 @@ UIDropInteractionDelegate
             if let stickerKind = item.localObject as? StickerKind{
                 let _ = self.addDroppedShape(shape: stickerKind,
                 atLocation: dropPoint)
+                
+                continue
             }
  
             //dropping URLS
-            item.itemProvider.loadObject(ofClass: NSURL.self, completionHandler: {
-                [weak self] (provider, error) in
+            if item.itemProvider.canLoadObject(ofClass: NSURL.self){
                 
-                DispatchQueue.main.async {
-                    if error == nil {
-                        if let draggedURL = (provider as? NSURL){
-                            
-                            let newSticker = self?.addDroppedShape(shape: .RoundRect,
-                                                                   atLocation: dropPoint)
-                            
-                            newSticker?.stickerText = draggedURL.absoluteString ?? ""
-                            
-                        }
-                    } //if
-                } //dispatch
-    
-            })
+                item.itemProvider.loadObject(ofClass: NSURL.self,
+                                             completionHandler:
+                    
+                    {[weak self] (provider, error) in
+                    
+                    DispatchQueue.main.async {
+                        if error == nil {
+                            if let draggedURL = (provider as? NSURL){
+                                
+                                let newSticker = self?.addDroppedShape(shape: .RoundRect,
+                                                                       atLocation: dropPoint)
+                                
+                                newSticker?.stickerText = draggedURL.absoluteString ?? ""
+                            }
+                        } //if
+                    } //dispatch
+                    
+                })
+                
+                continue  //so we don't try to load a url as text below
+            } //if
+           
             
             
-            
+            //dropping strings
             item.itemProvider.loadObject(ofClass: NSAttributedString.self, completionHandler: {
                 [weak self] (provider, error) in
                 
@@ -87,12 +96,10 @@ UIDropInteractionDelegate
                         }
                     } //if
                 } //dispatch
- 
-                
             })
             
             
-        } //for
+        } //for items
         
     } // func
 }
