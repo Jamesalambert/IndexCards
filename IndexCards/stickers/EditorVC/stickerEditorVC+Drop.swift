@@ -21,7 +21,11 @@ UIDropInteractionDelegate
         })
         
         
-        return !draggedStickers.isEmpty || session.canLoadObjects(ofClass: NSAttributedString.self)
+        return  !draggedStickers.isEmpty
+                            ||
+                session.canLoadObjects(ofClass: NSAttributedString.self)
+                            ||
+                session.canLoadObjects(ofClass: NSURL.self)
     }
     
     
@@ -36,28 +40,59 @@ UIDropInteractionDelegate
     
     
     func dropInteraction(_ interaction: UIDropInteraction,
-                         performDrop session: UIDropSession) {
+                performDrop session: UIDropSession) {
         
         let dropPoint = session.location(in: stickerView)
         
-        //dropping stickers locally
+        
         for item in session.items{
+            
+            //dropping stickers locally
             if let stickerKind = item.localObject as? StickerKind{
                 let _ = self.addDroppedShape(shape: stickerKind,
                 atLocation: dropPoint)
             }
-        } //for
-        
-        //dropped text from another app
-        session.loadObjects(ofClass: NSAttributedString.self, completion: {
-            providers in
+ 
+            //dropping URLS
+            item.itemProvider.loadObject(ofClass: NSURL.self, completionHandler: {
+                [weak self] (provider, error) in
+                
+                DispatchQueue.main.async {
+                    if error == nil {
+                        if let draggedURL = (provider as? NSURL){
+                            
+                            let newSticker = self?.addDroppedShape(shape: .RoundRect,
+                                                                   atLocation: dropPoint)
+                            
+                            newSticker?.stickerText = draggedURL.absoluteString ?? ""
+                            
+                        }
+                    } //if
+                } //dispatch
+    
+            })
             
-            for draggedString in providers as? [NSAttributedString] ?? [] {
-                let newSticker = self.addDroppedShape(shape: .RoundRect,
-                                                      atLocation: dropPoint)
-                newSticker.stickerText = draggedString.string
-            }
-        })
+            
+            
+            item.itemProvider.loadObject(ofClass: NSAttributedString.self, completionHandler: {
+                [weak self] (provider, error) in
+                
+                DispatchQueue.main.async {
+                    if error == nil {
+                        if let draggedString = provider as? NSAttributedString {
+                            
+                            let newSticker = self?.addDroppedShape(shape: .RoundRect,
+                                                                  atLocation: dropPoint)
+                            newSticker?.stickerText = draggedString.string
+                        }
+                    } //if
+                } //dispatch
+ 
+                
+            })
+            
+            
+        } //for
         
     } // func
 }

@@ -43,7 +43,6 @@ class DecksViewController:
     }
     
     var fileLocationURL : URL?
-    
     var tappedDeckCell : UIView?
     var actionMenuIndexPath : IndexPath?
     var selectedDeck : Deck? {
@@ -166,8 +165,8 @@ class DecksViewController:
         
         guard let cv = segue.destination.contents as? CardsViewController else {return}
         
+        //get the correct display size for cards in this deck
         cv.readCardScale()
-        //cv.theme = self.theme
     }
     
 
@@ -415,7 +414,6 @@ class DecksViewController:
         super.viewDidLoad()
         
         //set up appearance
-        //theme.chosenTheme = 0
         view.backgroundColor = theme?.colorOf(.table)
     }
     
