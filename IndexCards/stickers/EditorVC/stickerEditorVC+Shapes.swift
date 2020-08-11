@@ -123,6 +123,8 @@ extension StickerObject{
             newSticker = Bundle.main.loadNibNamed("TextSticker",
                                                   owner: nil,
                                                   options: nil)?.first as! TextSticker
+        case .Image:
+            newSticker = ImageSticker();
         default:
             newSticker = Bundle.main.loadNibNamed("WritingSticker",
                                                   owner: nil,

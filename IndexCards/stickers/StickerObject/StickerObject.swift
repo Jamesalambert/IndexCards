@@ -13,6 +13,7 @@ enum StickerKind : Int{
     case Quiz = 2
     case RoundRect = 3
     case Highlight = 4
+    case Image = 5
 }
 
 
@@ -66,6 +67,8 @@ UITextFieldDelegate {
                 color = UIColor.red
             case .Highlight:
                 color = UIColor.green.withAlphaComponent(CGFloat(0.2))
+            case .Image:
+                color = UIColor.red
             }
         }
         return color

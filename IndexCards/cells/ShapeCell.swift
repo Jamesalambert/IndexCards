@@ -24,6 +24,8 @@ class ShapeCell: UICollectionViewCell {
                 return UIColor.red.withAlphaComponent(CGFloat(0.8))
             case .Highlight:
                 return UIColor.green.withAlphaComponent(CGFloat(0.25))
+            case .Image:
+                return UIColor.red
             }
         }
     }

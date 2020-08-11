@@ -30,7 +30,6 @@ UIDropInteractionDelegate
     
     
     
-    
     func dropInteraction(_ interaction: UIDropInteraction,
             sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         
@@ -40,39 +39,27 @@ UIDropInteractionDelegate
     
 
     func dropInteraction(_ interaction: UIDropInteraction,
-                performDrop session: UIDropSession) {
+                            performDrop session: UIDropSession) {
         
         let dropPoint = session.location(in: stickerView)
         
         for item in session.items{
-            
-            //dropping stickers locally
             if let stickerKind = item.localObject as? StickerKind{
-                let _ = self.addDroppedShape(   shape:      stickerKind,
-                                                atLocation: dropPoint)
-                continue
-            }
-            
-            //drop images???
- 
-            //dropping URLS
-            if item.itemProvider.canLoadObject(ofClass: NSURL.self){
-                let _ = loadDroppedURLS(item, dropPoint)
-                continue  //so we don't try to load a url as text below
-            }
-
-            //dropping strings
-            if item.itemProvider.canLoadObject(ofClass: NSAttributedString.self){
+                let _ = self.addDroppedShape(shape: stickerKind, atLocation: dropPoint)
+            } else if item.itemProvider.canLoadObject(ofClass: UIImage.self){
+                let _ = loadDroppedImage(item, dropPoint)
+            } else if item.itemProvider.canLoadObject(ofClass: NSURL.self){
+                let _ = loadDroppedURL(item, dropPoint)
+            } else if item.itemProvider.canLoadObject(ofClass: NSAttributedString.self){
                 let _ = loadDroppedText(item, dropPoint)
             }
         }
-        
     }
     
     
     //MARK:- private methods
     
-    fileprivate func loadDroppedURLS(_ item: UIDragItem, _ dropPoint: CGPoint) -> Progress {
+    fileprivate func loadDroppedURL(_ item: UIDragItem, _ dropPoint: CGPoint) -> Progress {
          
          return  item
                  .itemProvider
@@ -121,6 +108,27 @@ UIDropInteractionDelegate
                      })
      }
     
+    fileprivate func loadDroppedImage(_ item: UIDragItem, _ dropPoint: CGPoint) -> Progress {
+        
+        return  item
+                .itemProvider
+                .loadObject(    ofClass: UIImage.self,
+                                completionHandler:
+            
+            {[weak self] (provider, error) in
+            
+                DispatchQueue.main.async {
+                    guard error == nil else {return}
+                    guard let draggedImage = provider as? UIImage else {return}
+                    
+                    let newSticker = self?.addDroppedShape(shape: .Image,
+                                                           atLocation: dropPoint) as? ImageSticker
+                    newSticker?.backgroundImage = draggedImage
+                }
+            })
+        
+
+    }
     
     
     

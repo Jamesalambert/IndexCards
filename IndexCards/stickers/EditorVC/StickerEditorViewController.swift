@@ -489,6 +489,8 @@ extension StickerData{
             typeOfShape = "Highlight"
         case .Quiz:
             typeOfShape = "Quiz"
+        case .Image:
+            typeOfShape = "Image"
         }
         
         center = sticker.unitLocation
