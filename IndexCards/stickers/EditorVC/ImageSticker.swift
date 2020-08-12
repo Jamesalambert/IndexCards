@@ -13,6 +13,16 @@ class ImageSticker: StickerObject {
     var backgroundImage : UIImage? {didSet{self.setNeedsDisplay()}}
     
     override func draw(_ rect: CGRect) {
-        backgroundImage?.draw(in: bounds)
+        
+        
+        if isAboutToBeDeleted{
+            stickerColor.setFill()
+            let path = UIBezierPath(rect: bounds)
+            path.fill()
+        } else {
+            backgroundImage?.draw(in: bounds)
+        }
+        
+        
     }
 }
