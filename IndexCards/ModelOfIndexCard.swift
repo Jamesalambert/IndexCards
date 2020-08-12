@@ -245,6 +245,18 @@ struct StickerData : Codable{
     var rotation : Double = 0
     var fontSizeMultiplier : Double = 1
     var customColour : String = ""
+    var imageData : Data?
+    var image : UIImage? {
+        get{
+            return UIImage(data: imageData ?? Data())
+        }
+        set{
+            if let data = newValue?.pngData(){
+                imageData = data
+            }
+        }
+    }
+    
     
     enum CodingKeys : CodingKey{
         case typeOfShape
@@ -258,6 +270,7 @@ struct StickerData : Codable{
         case rotation
         case fontSizeMultiplier
         case customColour
+        case imageData
     }
 
     
@@ -285,6 +298,10 @@ struct StickerData : Codable{
                                                       forKey: .customColour)
         } catch {print("error decoding customColour")}
        
+        do{
+            imageData = try extraProperties.decode(Data.self, forKey: .imageData)
+        } catch {print("error decoding image sticker data")}
+        
     }
     
     func encode(to encoder: Encoder) throws {
@@ -299,6 +316,7 @@ struct StickerData : Codable{
         try nestedContainer.encode(rotation, forKey: .rotation)
         try nestedContainer.encode(fontSizeMultiplier, forKey: .fontSizeMultiplier)
         try nestedContainer.encode(customColour, forKey: .customColour)
+        try nestedContainer.encode(imageData, forKey: .imageData)
     }
     
 }

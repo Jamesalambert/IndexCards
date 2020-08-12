@@ -144,6 +144,11 @@ extension StickerObject{
         newSticker.fontSizeMultiplier = data.fontSizeMultiplier
         newSticker.customColor = colourFromDescription(data.customColour)
         
+        if let newSticker = newSticker as? ImageSticker{
+            newSticker.backgroundImage = data.image
+        }
+        
+        
         newSticker.backgroundColor = UIColor.clear
         newSticker.transform = CGAffineTransform
                                 .identity
@@ -181,7 +186,10 @@ extension String{
             return .Highlight
         case "Quiz":
             return .Quiz
+        case "Image":
+            return .Image
         default:
+            print("unknown sticker shape!!")
             return.Circle
         }
     }

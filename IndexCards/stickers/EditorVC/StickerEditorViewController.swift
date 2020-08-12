@@ -499,6 +499,11 @@ extension StickerData{
         rotation = -Double(atan2(sticker.transform.c, sticker.transform.a))
         fontSizeMultiplier = sticker.fontSizeMultiplier
         customColour = sticker.customColor?.rgbaDescription() ?? ""
+        
+        if let sticker = sticker as? ImageSticker{
+            image = sticker.backgroundImage
+        }
+        
     }
     
     
