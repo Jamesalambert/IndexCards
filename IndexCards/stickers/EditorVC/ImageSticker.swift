@@ -14,6 +14,7 @@ class ImageSticker: StickerObject {
         didSet{
             guard backgroundImage != nil else {return}
             imageView.image = backgroundImage!
+            imageView.sizeToFit()
         }
     }
     
@@ -23,10 +24,18 @@ class ImageSticker: StickerObject {
     override func draw(_ rect: CGRect) {
         
         if isAboutToBeDeleted{
+            
+            imageView.alpha = 0.0
+            
             stickerColor.setFill()
             let path = UIBezierPath(rect: bounds)
             path.fill()
+            
+        } else {
+            imageView.alpha = 1.0
         }
+        
+        
     }
     
     
