@@ -57,7 +57,8 @@ class DecksViewController:
     var undoObserver : NSObjectProtocol?
     var cardsView : CardsViewController?{
         get{
-            return splitViewController?.viewControllers[1].contents as? CardsViewController
+            guard let cardsVC = splitViewController?.viewControllers.last else {return nil}
+            return cardsVC.contents as? CardsViewController
         }
     }
     

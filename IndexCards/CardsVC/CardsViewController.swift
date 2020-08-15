@@ -82,9 +82,8 @@ class CardsViewController:
     
     var decksView : DecksViewController?{
         get{
-            return splitViewController?
-                        .viewControllers[0]
-                        .contents as? DecksViewController
+            guard let decksVC = splitViewController?.viewControllers.first else {return nil}
+            return decksVC.contents as? DecksViewController
         }
     }
     var actionMenuIndexPath : IndexPath?

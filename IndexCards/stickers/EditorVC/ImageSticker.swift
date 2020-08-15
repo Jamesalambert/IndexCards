@@ -10,10 +10,15 @@ import UIKit
 
 class ImageSticker: StickerObject {
 
-    var backgroundImage : UIImage? {didSet{self.setNeedsDisplay()}}
+    var backgroundImage : UIImage? {
+        didSet{
+            guard let backgroundImage = backgroundImage else {return}
+            self.bounds.size = backgroundImage.size
+            self.setNeedsDisplay()
+        }
+    }
     
     override func draw(_ rect: CGRect) {
-        
         
         if isAboutToBeDeleted{
             stickerColor.setFill()
@@ -23,6 +28,7 @@ class ImageSticker: StickerObject {
             backgroundImage?.draw(in: bounds)
         }
         
-        
     }
+    
+    
 }

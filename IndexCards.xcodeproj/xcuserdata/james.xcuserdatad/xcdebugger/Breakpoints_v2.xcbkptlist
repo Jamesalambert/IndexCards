@@ -14,8 +14,8 @@
             filePath = "IndexCards/DecksVC/DecksViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "emptyTrash(_:)"
             landmarkType = "7">
             <Locations>
@@ -30,8 +30,8 @@
                   urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/DecksVC/DecksViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
                   offsetFromSymbolStart = "932">
                </Location>
                <Location
@@ -45,8 +45,8 @@
                   urlString = "file:///Users/james/Documents/Programming/IndexCards/IndexCards/DecksVC/DecksViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "119"
-                  endingLineNumber = "119"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
                   offsetFromSymbolStart = "116">
                </Location>
             </Locations>
@@ -62,8 +62,8 @@
             filePath = "IndexCards/DecksVC/DecksViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "emptyTrash(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -167,64 +167,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A4F9E509-E53E-4BFD-A9F6-E1A8A58FAA86"
+            uuid = "25B79F70-9596-4F91-AEF4-55F5EDB93B31"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Drop.swift"
+            filePath = "IndexCards/stickers/EditorVC/ImageSticker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "dropInteraction(_:performDrop:)"
-            landmarkType = "7">
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "backgroundImage"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "808E3A88-BC11-47BE-A38F-152027450737"
+            uuid = "6D5829CA-610C-48DC-9E39-CE79290DC3AC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IndexCards/ModelOfIndexCard.swift"
+            filePath = "IndexCards/stickers/EditorVC/ImageSticker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
-            landmarkName = "init(from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AF406B9D-8BCC-4CDC-80C9-B57BBF97836E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "fromNib(withData:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1A791DF7-BD0E-40A3-A5A1-4C9319B3C0AA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IndexCards/stickers/EditorVC/stickerEditorVC+Shapes.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "fromNib(shape:)"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "draw(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
