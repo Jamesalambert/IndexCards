@@ -21,6 +21,7 @@
 		1A677D8824B14244007C8078 /* ColourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A677D8624B14243007C8078 /* ColourCell.swift */; };
 		1A677D8924B14244007C8078 /* ColourCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A677D8724B14244007C8078 /* ColourCell.xib */; };
 		1A69107D24E3635E0005D110 /* ImageSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A69107C24E3635E0005D110 /* ImageSticker.swift */; };
+		1A69107F24E8969E0005D110 /* ImageSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A69107E24E8969E0005D110 /* ImageSticker.xib */; };
 		1A74F41824CC5CCE00E74F7A /* DeletedCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74F41724CC5CCE00E74F7A /* DeletedCardsCell.swift */; };
 		1A7544D1245F3CAD007229F4 /* DeckOfCardsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */; };
 		1A768907249412F10062CF44 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A768906249412F10062CF44 /* CardsViewController.swift */; };
@@ -78,6 +79,7 @@
 		1A677D8624B14243007C8078 /* ColourCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourCell.swift; sourceTree = SOURCE_ROOT; };
 		1A677D8724B14244007C8078 /* ColourCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColourCell.xib; sourceTree = SOURCE_ROOT; };
 		1A69107C24E3635E0005D110 /* ImageSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageSticker.swift; path = IndexCards/stickers/EditorVC/ImageSticker.swift; sourceTree = SOURCE_ROOT; };
+		1A69107E24E8969E0005D110 /* ImageSticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageSticker.xib; sourceTree = SOURCE_ROOT; };
 		1A6D7E5224C7A0E40026594F /* IndexCards.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IndexCards.entitlements; sourceTree = "<group>"; };
 		1A74F41724CC5CCE00E74F7A /* DeletedCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedCardsCell.swift; sourceTree = SOURCE_ROOT; };
 		1A7544D0245F3CAD007229F4 /* DeckOfCardsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsCell.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		1AFAB2AB24A40C780015B522 /* StickerObject */ = {
 			isa = PBXGroup;
 			children = (
+				1A69107E24E8969E0005D110 /* ImageSticker.xib */,
 				1A69107C24E3635E0005D110 /* ImageSticker.swift */,
 				1AFBD42724A40D6000D61811 /* QuizSticker.xib */,
 				1AFBD42924A40D6900D61811 /* QuizSticker.swift */,
@@ -373,6 +376,7 @@
 				1A2012C6247AD8BB00849A97 /* TextSticker.xib in Resources */,
 				1AFD9606245CDE650092CF99 /* Assets.xcassets in Resources */,
 				1AFD9604245CDE630092CF99 /* Main.storyboard in Resources */,
+				1A69107F24E8969E0005D110 /* ImageSticker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

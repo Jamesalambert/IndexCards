@@ -12,11 +12,13 @@ class ImageSticker: StickerObject {
 
     var backgroundImage : UIImage? {
         didSet{
-            guard let backgroundImage = backgroundImage else {return}
-            self.bounds.size = backgroundImage.size
-            self.setNeedsDisplay()
+            guard backgroundImage != nil else {return}
+            imageView.image = backgroundImage!
         }
     }
+    
+    
+    @IBOutlet weak var imageView: UIImageView!
     
     override func draw(_ rect: CGRect) {
         
@@ -24,10 +26,7 @@ class ImageSticker: StickerObject {
             stickerColor.setFill()
             let path = UIBezierPath(rect: bounds)
             path.fill()
-        } else {
-            backgroundImage?.draw(in: bounds)
         }
-        
     }
     
     

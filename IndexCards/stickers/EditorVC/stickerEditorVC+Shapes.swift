@@ -124,7 +124,9 @@ extension StickerObject{
                                                   owner: nil,
                                                   options: nil)?.first as! TextSticker
         case .Image:
-            newSticker = ImageSticker();
+            newSticker = Bundle.main.loadNibNamed("ImageSticker",
+                                                        owner: nil,
+                                                        options: nil)?.first as! ImageSticker
         default:
             newSticker = Bundle.main.loadNibNamed("WritingSticker",
                                                   owner: nil,
