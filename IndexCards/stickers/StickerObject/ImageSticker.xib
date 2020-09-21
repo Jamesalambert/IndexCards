@@ -27,6 +27,9 @@
                 <constraint firstItem="WuM-0v-4an" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jty-1L-8s2"/>
                 <constraint firstItem="WuM-0v-4an" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="mPb-mx-h0G"/>
             </constraints>
+            <connections>
+                <outlet property="imageView" destination="WuM-0v-4an" id="SuH-cI-wl9"/>
+            </connections>
             <point key="canvasLocation" x="139" y="96"/>
         </view>
     </objects>

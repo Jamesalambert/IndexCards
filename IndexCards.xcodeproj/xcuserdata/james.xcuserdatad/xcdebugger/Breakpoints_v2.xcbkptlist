@@ -20,7 +20,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "E5C94A2F-BA14-43D4-87C8-0B5F03B6B238 - 703b3acc6bcdd774"
+                  uuid = "E5C94A2F-BA14-43D4-87C8-0B5F03B6B238 - d5a5dd0a1ea1f27e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -32,10 +32,10 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "118"
                   endingLineNumber = "118"
-                  offsetFromSymbolStart = "932">
+                  offsetFromSymbolStart = "1056">
                </Location>
                <Location
-                  uuid = "E5C94A2F-BA14-43D4-87C8-0B5F03B6B238 - eacc9c674f229961"
+                  uuid = "E5C94A2F-BA14-43D4-87C8-0B5F03B6B238 - 4f527ba13a4ebca9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -47,7 +47,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "120"
                   endingLineNumber = "120"
-                  offsetFromSymbolStart = "116">
+                  offsetFromSymbolStart = "56">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -132,7 +132,7 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "BF0231FA-81A6-41E7-8C28-CC8E7A90BB2D - c2de92a4915088c7"
+                  uuid = "BF0231FA-81A6-41E7-8C28-CC8E7A90BB2D - c9504b8040e66914"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -144,10 +144,10 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "211"
                   endingLineNumber = "211"
-                  offsetFromSymbolStart = "280">
+                  offsetFromSymbolStart = "340">
                </Location>
                <Location
-                  uuid = "BF0231FA-81A6-41E7-8C28-CC8E7A90BB2D - 529698c326814827"
+                  uuid = "BF0231FA-81A6-41E7-8C28-CC8E7A90BB2D - 591841e7f737a9f4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -159,7 +159,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "211"
                   endingLineNumber = "211"
-                  offsetFromSymbolStart = "64">
+                  offsetFromSymbolStart = "60">
                </Location>
             </Locations>
          </BreakpointContent>

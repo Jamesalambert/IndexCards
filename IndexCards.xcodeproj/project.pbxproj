@@ -18,6 +18,7 @@
 		1A390808251924CE00AC96EE /* ImageSticker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A390807251924CE00AC96EE /* ImageSticker.xib */; };
 		1A41241D2496B3F300B3D157 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41241C2496B3F300B3D157 /* DecksViewController.swift */; };
 		1A41242124980FB700B3D157 /* ZoomTransitionForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41242024980FB700B3D157 /* ZoomTransitionForNavigation.swift */; };
+		1A4DB125251937F000E092CC /* StickerEditorVC+PencilKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4DB124251937F000E092CC /* StickerEditorVC+PencilKit.swift */; };
 		1A660579249EAC830000EE50 /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A660578249EAC830000EE50 /* DropView.swift */; };
 		1A677D8824B14244007C8078 /* ColourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A677D8624B14243007C8078 /* ColourCell.swift */; };
 		1A677D8924B14244007C8078 /* ColourCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A677D8724B14244007C8078 /* ColourCell.xib */; };
@@ -76,6 +77,7 @@
 		1A390807251924CE00AC96EE /* ImageSticker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageSticker.xib; sourceTree = "<group>"; };
 		1A41241C2496B3F300B3D157 /* DecksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
 		1A41242024980FB700B3D157 /* ZoomTransitionForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransitionForNavigation.swift; sourceTree = SOURCE_ROOT; };
+		1A4DB124251937F000E092CC /* StickerEditorVC+PencilKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickerEditorVC+PencilKit.swift"; sourceTree = "<group>"; };
 		1A660578249EAC830000EE50 /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		1A677D8624B14243007C8078 /* ColourCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourCell.swift; sourceTree = SOURCE_ROOT; };
 		1A677D8724B14244007C8078 /* ColourCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColourCell.xib; sourceTree = SOURCE_ROOT; };
@@ -236,6 +238,7 @@
 				1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */,
 				1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */,
 				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
+				1A4DB124251937F000E092CC /* StickerEditorVC+PencilKit.swift */,
 			);
 			path = EditorVC;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				1ADD73BE246DEFAC00A9186A /* ShapeCell.swift in Sources */,
 				1A768907249412F10062CF44 /* CardsViewController.swift in Sources */,
 				1AEEC97C24A1225C003AE94F /* CardsVC+Nav.swift in Sources */,
+				1A4DB125251937F000E092CC /* StickerEditorVC+PencilKit.swift in Sources */,
 				1AFAB2A524A400100015B522 /* stickerEditorVC+Drop.swift in Sources */,
 				1A0696A0248858B7005AB3FC /* ChooseBackgroundCollectionViewController.swift in Sources */,
 				1A69107D24E3635E0005D110 /* ImageSticker.swift in Sources */,
@@ -508,12 +512,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -563,7 +568,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -582,6 +587,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3F7MQRNEB5;
 				INFOPLIST_FILE = IndexCards/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -603,6 +609,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3F7MQRNEB5;
 				INFOPLIST_FILE = IndexCards/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

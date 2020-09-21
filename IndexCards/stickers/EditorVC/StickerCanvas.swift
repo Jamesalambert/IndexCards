@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PencilKit
 
 class StickerCanvas:
 UIView,
@@ -63,6 +64,9 @@ UIActivityItemSource
     }
     
     
+    
+  
+    
     //MARK:- init()
     
     override init(frame: CGRect) {
@@ -72,8 +76,6 @@ UIActivityItemSource
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
     
 }//class
 

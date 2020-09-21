@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PencilKit
 
 protocol StickerEditorDelegate: UIViewController {
     var editorDidMakeChanges : Bool {get set}
@@ -46,6 +47,14 @@ class StickerEditorViewController: UIViewController,
             showContextMenu(for: currentSticker)
         }
     }
+    
+    lazy var pencilToolPicker : PKToolPicker = {
+        return PKToolPicker()
+    }()
+    
+    lazy var pencilCanvas : PKCanvasView = {
+        return PKCanvasView()
+    }()
     
     var backgroundImage : UIImage?{
         didSet{
@@ -114,7 +123,6 @@ class StickerEditorViewController: UIViewController,
             return stickerDataArray
         }
         set{
-            
             guard let newStickers = newValue else {return}
             
             //remove all current stickers
@@ -337,8 +345,13 @@ class StickerEditorViewController: UIViewController,
     
     @objc
     func deselectSticker(){
-        currentSticker = nil
         
+        if currentSticker == nil {
+            self.pencilCanvas.becomeFirstResponder()
+        } else {
+            currentSticker = nil
+        }
+    
         //if there's a action menu displayed then hide it
         dismissActionMenu()
     }
@@ -446,6 +459,9 @@ class StickerEditorViewController: UIViewController,
         self.registerForKeyboardNotifications()
         self.registerForUndoNotifications()
         self.setupPasteGestures()
+        
+        self.setUpPencil()
+        
     }
     
     
