@@ -230,6 +230,7 @@
 			children = (
 				1A96603324AD49FE0050F4CA /* menu controls */,
 				1ADD73C1246E041D00A9186A /* StickerCanvas.swift */,
+				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 				1A96602D24AB75970050F4CA /* StickerEditorVC+ContextMenu.swift */,
 				1AFAB29E24A3FA7C0015B522 /* StickerEditorVC+Drag.swift */,
 				1AFAB2A424A400100015B522 /* stickerEditorVC+Drop.swift */,
@@ -237,7 +238,6 @@
 				1AFAB29C24A3F9790015B522 /* StickerEditorVC+Keyboard.swift */,
 				1AFAB2A824A408B40015B522 /* StickerEditorVC+Paste.swift */,
 				1AFAB2A224A3FF7D0015B522 /* stickerEditorVC+Shapes.swift */,
-				1A82AEFE246C9716000CF14A /* StickerEditorViewController.swift */,
 				1A4DB124251937F000E092CC /* StickerEditorVC+PencilKit.swift */,
 			);
 			path = EditorVC;

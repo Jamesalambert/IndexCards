@@ -46,7 +46,7 @@ extension StickerEditorViewController {
         switch sender.state {
         case .began:
             
-            menu.setMenuVisible(false, animated: true)
+            menu.hideMenu()
             
             becomeFirstResponder()
             
@@ -61,7 +61,7 @@ extension StickerEditorViewController {
             }
             
         case .cancelled:
-            menu.setMenuVisible(false, animated: true)
+            menu.hideMenu()
         default:
             return
         }
@@ -69,7 +69,7 @@ extension StickerEditorViewController {
     }
     
     func dismissActionMenu(){
-        UIMenuController.shared.setMenuVisible(false, animated: true)
+        UIMenuController.shared.hideMenu()
     }
     
     

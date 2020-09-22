@@ -52,8 +52,8 @@ class StickerEditorViewController: UIViewController,
         return PKToolPicker()
     }()
     
-    lazy var pencilCanvas : PKCanvasView = {
-        return PKCanvasView()
+    var pencilCanvas : PKCanvasView = {
+        return PKCanvasView(frame: .zero)
     }()
     
     var backgroundImage : UIImage?{

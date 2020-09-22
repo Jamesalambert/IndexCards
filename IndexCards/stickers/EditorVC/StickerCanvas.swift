@@ -61,6 +61,8 @@ UIActivityItemSource
             sticker.unitLocation = location
    
         }
+        
+        
     }
     
     

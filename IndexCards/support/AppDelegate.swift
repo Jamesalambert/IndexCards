@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DocumentProvider {
         guard let splitView = window?.rootViewController as? UISplitViewController else {return true}
         
         if splitView.traitCollection.userInterfaceIdiom == .pad {
-            splitView.preferredDisplayMode = .allVisible
+            splitView.preferredDisplayMode = .oneBesideSecondary
         }
         
         self.refresh()
