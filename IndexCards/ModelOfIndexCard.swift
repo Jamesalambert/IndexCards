@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MobileCoreServices
+import PencilKit
 
 //MARK:- Notes
 final class Notes : Codable{
@@ -210,6 +211,7 @@ Codable
         }
     }
     
+    var drawing : PKDrawing?
 
     // init()
     override init(){
@@ -223,7 +225,42 @@ Codable
         self.thumbnailData = indexCard.thumbnailData
     }
     
-
+    //decoder stuff!
+    enum CodingKeys : CodingKey {
+        case stickerList
+        case imageData
+        case thumbnailData
+        case identifier
+        case drawing
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        stickers = try values.decode(Array<StickerData>?.self, forKey: .stickerList)
+        imageData = try values.decode(Data?.self, forKey: .imageData)
+        thumbnailData = try values.decode(Data?.self, forKey: .thumbnailData)
+        identifier = try values.decode(String.self, forKey: .identifier)
+        
+        do{
+            drawing = try values.decode(PKDrawing.self, forKey: .drawing)
+        } catch {print("no drawing to decode.")}
+        
+    }
+       
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(stickers, forKey: .stickerList)
+        try container.encode(imageData, forKey: .imageData)
+        try container.encode(thumbnailData, forKey: .thumbnailData)
+        try container.encode(identifier, forKey: .identifier)
+        do{
+            try container.encode(drawing, forKey: .drawing)
+        } catch{print("error encoding drawing.")}
+    }
+    
+    
+    
     //unique id
     static func ==(lhs:IndexCard, rhs:IndexCard) -> Bool{
         return lhs.identifier == rhs.identifier

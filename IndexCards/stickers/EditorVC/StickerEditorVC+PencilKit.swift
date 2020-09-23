@@ -16,11 +16,11 @@ extension StickerEditorViewController{
         
         pencilCanvas.backgroundColor = UIColor.clear
         pencilCanvas.contentSize = stickerView.bounds.size
+        pencilCanvas.drawing = indexCard?.drawing ?? PKDrawing()
         pencilCanvas.maximumZoomScale = 2.0
         pencilCanvas.minimumZoomScale = 0.2
         pencilCanvas.zoomScale = 1.0
         stickerView.insertSubview(pencilCanvas, at: 0)
-        
         
         //center pencil canvas over card
         pencilCanvas.translatesAutoresizingMaskIntoConstraints = false
@@ -32,24 +32,10 @@ extension StickerEditorViewController{
             pencilCanvas.heightAnchor.constraint(equalTo: stickerView.heightAnchor),
         ])
         
-        //center canvas subviews
-//        let subViews = pencilCanvas.subviews
-//
-//        subViews.forEach{ subView in
-//
-//            subView.translatesAutoresizingMaskIntoConstraints = false
-//
-//            NSLayoutConstraint.activate([
-//                subView.topAnchor.constraint(equalTo: stickerView.topAnchor),
-//                subView.bottomAnchor.constraint(equalTo: stickerView.bottomAnchor),
-//                subView.leadingAnchor.constraint(equalTo: stickerView.leadingAnchor),
-//                subView.trailingAnchor.constraint(equalTo: stickerView.trailingAnchor),
-//            ])
-//        }
-        
+        //set up toolPicker
         self.pencilToolPicker.setVisible(true, forFirstResponder: self.pencilCanvas)
         self.pencilToolPicker.addObserver(self.pencilCanvas)
-                
+        
         self.pencilCanvas.becomeFirstResponder()
     }
     

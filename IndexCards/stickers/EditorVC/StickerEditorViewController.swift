@@ -29,8 +29,10 @@ class StickerEditorViewController: UIViewController,
             guard let indexCard = indexCard else {return}
             stickerData = indexCard.stickers
             stickerView.backgroundImage = indexCard.image
+            
         }
     }
+    
     var theme : Theme?
     var document : IndexCardsDocument?
     weak var delegate : StickerEditorDelegate!
@@ -472,18 +474,19 @@ class StickerEditorViewController: UIViewController,
     
     func saveCard(){
         //make sure nothing is selected/highlighted
-               deselectSticker()
-               
-               //store thumbnail snapshot
-               indexCard?.thumbnail = stickerView.snapshot
-               
-               //update model
-               indexCard?.stickers = stickerData
-               
-               document?.undoManager.removeAllActions(withTarget: self)
-               document?.updateChangeCount(.done)
-               
-               delegate?.editorDidMakeChanges = true
+        deselectSticker()
+        
+        //store thumbnail snapshot
+        indexCard?.thumbnail = stickerView.snapshot
+        
+        //update model
+        indexCard?.stickers = stickerData
+        indexCard?.drawing = pencilCanvas.drawing
+        
+        document?.undoManager.removeAllActions(withTarget: self)
+        document?.updateChangeCount(.done)
+        
+        delegate?.editorDidMakeChanges = true
     }
     
     
