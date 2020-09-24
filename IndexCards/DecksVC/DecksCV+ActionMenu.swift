@@ -34,7 +34,7 @@ extension DecksViewController {
         case 0:
             actions = [delete]
         case 1:
-            actions = [delete, undelete]
+            actions = [undelete, delete]
         case 2:
             actions = [emptyTrash]
         default:

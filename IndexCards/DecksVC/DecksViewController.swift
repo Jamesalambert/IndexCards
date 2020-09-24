@@ -251,7 +251,6 @@ class DecksViewController:
                     withReuseIdentifier: "DeletedCardsCell", for: indexPath) as? DeletedCardsCell {
                     
                     cell.theme = theme
-                    //cell.delegate = self
                     
                     cell.backgroundColor = theme?.colorOf(.deck)
                     cell.count = deckFor(indexPath)?.cards.count ?? -1

@@ -29,7 +29,7 @@ extension CardsViewController {
             UIMenu(title: "actions",
                    image: nil, identifier: nil,
                    options: .displayInline,
-                   children: [delete,duplicate])
+                   children: [duplicate, delete])
         }
         
         

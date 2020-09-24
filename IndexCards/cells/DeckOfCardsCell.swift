@@ -8,16 +8,9 @@
 
 import UIKit
 
-protocol DeckMenuActionsDelegate : DecksViewController{
-    func deleteTappedDeck()
-    func unDeleteTappedDeck()
-    func emptyDeletedCards()
-}
-
 
 class DeckOfCardsCell: UICollectionViewCell {
     
-    weak var delegate : DeckMenuActionsDelegate?
     var theme : Theme?
     
     var image : UIImage? {
@@ -61,20 +54,7 @@ class DeckOfCardsCell: UICollectionViewCell {
         self.layer.backgroundColor = theme?.colorOf(.deck).cgColor
     }
 
-    @objc
-    func deleteDeck(){
-        delegate?.deleteTappedDeck()
-    }
-    
-    @objc
-    func unDeleteDeck(){
-        delegate?.unDeleteTappedDeck()
-    }
-  
-    @objc
-    func emptyDeletedCards(){
-        delegate?.emptyDeletedCards()
-    }
+
     
     override func draw(_ layer: CALayer, in ctx: CGContext) {
         //border
