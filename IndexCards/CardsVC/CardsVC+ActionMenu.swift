@@ -36,15 +36,6 @@ extension CardsViewController {
     }
     
     
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return nil
-    }
-    
-    
-
-    
-
-    
     func duplicateCard(){
          guard let currentDeck = currentDeck else {return}
         

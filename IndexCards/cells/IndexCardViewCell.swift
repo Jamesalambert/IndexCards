@@ -11,7 +11,6 @@ import UIKit
 class IndexCardViewCell: UICollectionViewCell {
     
     var theme : Theme?
-    weak var delegate : CardsViewController?
     
     var image : UIImage?{
         didSet{
@@ -50,15 +49,6 @@ class IndexCardViewCell: UICollectionViewCell {
     }
     
     
-    //MARK:- Action menu handlers
-    @objc
-    func deleteCard(){
-        delegate?.deleteCard()
-    }
-    
-    @objc
-    func duplicateCard(){
-        delegate?.duplicateCard()
-    }
+
     
 }

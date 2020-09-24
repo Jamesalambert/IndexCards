@@ -16,8 +16,7 @@ class CardsViewController:
     UICollectionViewDelegateFlowLayout,
     StickerEditorDelegate,
     UINavigationControllerDelegate,
-    UIGestureRecognizerDelegate,
-    UIContextMenuInteractionDelegate
+    UIGestureRecognizerDelegate
 {
     
     
@@ -282,10 +281,6 @@ class CardsViewController:
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndexCardCell", for: indexPath) as? IndexCardViewCell {
             
             cell.theme = theme
-            cell.delegate = self
-            
-//            let interaction = UIContextMenuInteraction(delegate: self)
-//            indexCardsCollectionView.addInteraction(interaction)
             
             let currentIndexCard = currentDeck!.cards[indexPath.item]
                 
@@ -335,9 +330,6 @@ class CardsViewController:
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let interaction = UIContextMenuInteraction(delegate: self)
-//        indexCardsCollectionView.addInteraction(interaction)
         
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self

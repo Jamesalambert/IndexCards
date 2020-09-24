@@ -51,11 +51,6 @@ extension DecksViewController {
                                         }
     }
     
-    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-       return nil
-    }
-    
  
     
     func deleteTappedDeck(){

@@ -13,9 +13,7 @@ class DecksViewController:
     UIViewController,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
-    UICollectionViewDelegateFlowLayout,
-    UIContextMenuInteractionDelegate
-    //DeckMenuActionsDelegate
+    UICollectionViewDelegateFlowLayout
 {
     
     
@@ -419,10 +417,7 @@ class DecksViewController:
         
         //set up appearance
         view.backgroundColor = theme?.colorOf(.table)
-        
-        //context menus
-        let interaction = UIContextMenuInteraction(delegate: self)
-        decksCollectionView.addInteraction(interaction)
+
     }
     
     
