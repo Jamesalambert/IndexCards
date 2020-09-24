@@ -16,8 +16,10 @@ class CardsViewController:
     UICollectionViewDelegateFlowLayout,
     StickerEditorDelegate,
     UINavigationControllerDelegate,
-    UIGestureRecognizerDelegate
+    UIGestureRecognizerDelegate,
+    UIContextMenuInteractionDelegate
 {
+    
     
     //model
     var document : IndexCardsDocument!{
@@ -328,6 +330,9 @@ class CardsViewController:
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let interaction = UIContextMenuInteraction(delegate: self)
+        indexCardsCollectionView.addInteraction(interaction)
         
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self

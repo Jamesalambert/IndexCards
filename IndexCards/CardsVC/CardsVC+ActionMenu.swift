@@ -10,33 +10,33 @@ import UIKit
 
 extension CardsViewController {
    
-    
-    func collectionView(_ collectionView: UICollectionView,
-                    shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         
-        let delete = UIMenuItem(title: "Delete Card", action: #selector(IndexCardViewCell.deleteCard))
-        
-        let duplicate = UIMenuItem(title: "Duplicate", action: #selector(IndexCardViewCell.duplicateCard))
-        
-        let cardActions = [delete, duplicate]
-        
-        UIMenuController.shared.menuItems = cardActions
+        let indexPath = indexCardsCollectionView.indexPathForItem(at: location)
         
         actionMenuIndexPath = indexPath
         
-        return cardActions.compactMap{$0.action}.contains(action)
+        let delete = UIAction(title: "delete"){_ in
+            self.deleteCard()
+        }
+        
+        let duplicate = UIAction(title: "duplicate"){_ in
+            self.duplicateCard()
+        }
+        
+        
+        
+        return UIContextMenuConfiguration(identifier: nil,
+                                          previewProvider: nil)
+        {_ in
+            
+            UIMenu(title: "actions",
+                   image: nil, identifier: nil,
+                   options: .displayInline,
+                   children: [delete,duplicate])
+        }
     }
     
-
-    
-    //this function does nothing but is needed for the action menu
-    func collectionView(_ collectionView: UICollectionView,
-            performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {}
 
     
     func duplicateCard(){
@@ -77,10 +77,7 @@ extension CardsViewController {
                             toDeck: model.deletedCards,
                             destinationIndexPath: indexPath)
         }
-        
-       
-        
-        
+   
     }//func
     
     

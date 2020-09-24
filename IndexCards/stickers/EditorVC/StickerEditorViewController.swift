@@ -24,12 +24,11 @@ class StickerEditorViewController: UIViewController,
     //MARK:- Vars
     var indexCard : IndexCard?{
         didSet{
-            guard document != nil else {return}
+            //guard document != nil else {return}
             guard stickerView != nil else {return}
             guard let indexCard = indexCard else {return}
             stickerData = indexCard.stickers
             stickerView.backgroundImage = indexCard.image
-            
         }
     }
     

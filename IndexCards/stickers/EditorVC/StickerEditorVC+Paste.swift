@@ -50,8 +50,8 @@ extension StickerEditorViewController {
             
             becomeFirstResponder()
             
-            menu.setTargetRect(stickerView.bounds.zoom(by: CGFloat(0.1)),
-                               in: stickerView)
+            //menu.setTargetRect(stickerView.bounds.zoom(by: CGFloat(0.1)),
+                     //          in: stickerView)
             
             if #available(iOS 13.0, *) {
                 menu.showMenu(from: stickerView,
