@@ -24,8 +24,6 @@ extension CardsViewController {
             self.duplicateCard()
         }
         
-        
-        
         return UIContextMenuConfiguration(identifier: nil,
                                           previewProvider: nil)
         {_ in

@@ -9,9 +9,9 @@
 import UIKit
 
 protocol DeckMenuActionsDelegate : DecksViewController{
-    func deleteTappedDeck(_ sender : UIMenuController)
-    func unDeleteTappedDeck(_ sender : UIMenuController)
-    func emptyDeletedCards(_ sender : UIMenuController)
+    func deleteTappedDeck()
+    func unDeleteTappedDeck()
+    func emptyDeletedCards()
 }
 
 
@@ -62,18 +62,18 @@ class DeckOfCardsCell: UICollectionViewCell {
     }
 
     @objc
-    func deleteDeck(_ sender : UIMenuController){
-        delegate?.deleteTappedDeck(sender)
+    func deleteDeck(){
+        delegate?.deleteTappedDeck()
     }
     
     @objc
-    func unDeleteDeck(_ sender : UIMenuController){
-        delegate?.unDeleteTappedDeck(sender)
+    func unDeleteDeck(){
+        delegate?.unDeleteTappedDeck()
     }
   
     @objc
-    func emptyDeletedCards(_ sender : UIMenuController){
-        delegate?.emptyDeletedCards(sender)
+    func emptyDeletedCards(){
+        delegate?.emptyDeletedCards()
     }
     
     override func draw(_ layer: CALayer, in ctx: CGContext) {

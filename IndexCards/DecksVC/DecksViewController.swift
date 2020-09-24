@@ -14,8 +14,11 @@ class DecksViewController:
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
-    DeckMenuActionsDelegate
+    UIContextMenuInteractionDelegate
+    //DeckMenuActionsDelegate
 {
+    
+    
     
     //MARK:- vars
     var model : Notes{
@@ -250,7 +253,7 @@ class DecksViewController:
                     withReuseIdentifier: "DeletedCardsCell", for: indexPath) as? DeletedCardsCell {
                     
                     cell.theme = theme
-                    cell.delegate = self
+                    //cell.delegate = self
                     
                     cell.backgroundColor = theme?.colorOf(.deck)
                     cell.count = deckFor(indexPath)?.cards.count ?? -1
@@ -267,7 +270,7 @@ class DecksViewController:
                 withReuseIdentifier: "DeckOfIndexCardsCell", for: indexPath) as? DeckOfCardsCell {
                 
                 cell.theme = theme
-                cell.delegate = self
+                //cell.delegate = self
                 
                 if let deck = deckFor(indexPath){
                     cell.image = deck.thumbnail
@@ -416,6 +419,10 @@ class DecksViewController:
         
         //set up appearance
         view.backgroundColor = theme?.colorOf(.table)
+        
+        //context menus
+        let interaction = UIContextMenuInteraction(delegate: self)
+        decksCollectionView.addInteraction(interaction)
     }
     
     

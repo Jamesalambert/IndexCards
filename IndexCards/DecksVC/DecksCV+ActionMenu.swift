@@ -10,53 +10,53 @@ import UIKit
 
 extension DecksViewController {
     
-    func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    
-    func collectionView(_ collectionView: UICollectionView,
-        canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         
-        let deleteAction = UIMenuItem(title: "Delete Deck",
-                                      action: #selector(DeckOfCardsCell.deleteDeck(_:)))
-        let unDeleteAction = UIMenuItem(title: "Undelete Deck",
-                                        action: #selector(DeckOfCardsCell.unDeleteDeck(_:)))
-        let emptyDeletedCards = UIMenuItem(title: "Empty Deleted Cards",
-                                           action: #selector(DeckOfCardsCell.emptyDeletedCards(_:)))
+        let indexPath = decksCollectionView.indexPathForItem(at: location)
+        actionMenuIndexPath = indexPath
         
-        switch indexPath.section {
-        case 0:
-            UIMenuController.shared.menuItems = [deleteAction] //my decks
-        case 1:
-            UIMenuController.shared.menuItems = [deleteAction, unDeleteAction] //deleted decks
-        case 2:
-            UIMenuController.shared.menuItems = [emptyDeletedCards] //deleted cards deck
-        default:
-            UIMenuController.shared.menuItems = []
+        
+        let delete = UIAction(title: "delete"){_ in
+            self.deleteTappedDeck()
         }
         
-        //store info so we know which one to delete
-        actionMenuIndexPath = indexPath
-
-        return UIMenuController
-            .shared
-            .menuItems?
-            .compactMap{$0.action}.contains(action) ?? false
+        let undelete = UIAction(title: "undelete"){_ in
+            self.unDeleteTappedDeck()
+        }
+        
+        let emptyTrash = UIAction(title: "empty trash"){_ in
+            self.emptyDeletedCards()
+        }
+        
+        var actions : [UIAction] = []
+        
+        switch indexPath?.section {
+        case 0:
+            actions = [delete]
+        case 1:
+            actions = [delete, undelete]
+        case 2:
+            actions = [emptyTrash]
+        default:
+            actions = []
+        }
+        
+        
+        return UIContextMenuConfiguration(identifier: nil,
+                                          previewProvider: nil)
+        {_ in
+            
+            UIMenu(title: "actions",
+                   image: nil, identifier: nil,
+                   options: .displayInline,
+                   children: actions)
+        }
+        
     }
-
     
+ 
     
-    //this function does not appear to be called but needs to be here
-    //to enable deleting decks.
-    func collectionView(_ collectionView: UICollectionView,
-            performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    }
-
-    
-    
-    
-    func deleteTappedDeck(_ sender : UIMenuController){
+    func deleteTappedDeck(){
         
         //update selection
         if model.decks.count > 0{
@@ -96,7 +96,7 @@ extension DecksViewController {
     
     
     
-    func unDeleteTappedDeck(_ sender: UIMenuController){
+    func unDeleteTappedDeck(){
         
         decksCollectionView.performBatchUpdates({
             
@@ -116,7 +116,7 @@ extension DecksViewController {
     }
     
     
-    func emptyDeletedCards(_ sender: UIMenuController) {
+    func emptyDeletedCards() {
         if selectedDeck == model.deletedCards{
             guard let cv = cardsView?.indexCardsCollectionView
             else {return}
