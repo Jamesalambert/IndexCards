@@ -21,6 +21,8 @@ class CardsViewController:
 {
     
     
+    
+    
     //model
     var document : IndexCardsDocument!{
         if let delegate = UIApplication.shared.delegate as? DocumentProvider {
@@ -282,6 +284,9 @@ class CardsViewController:
             cell.theme = theme
             cell.delegate = self
             
+//            let interaction = UIContextMenuInteraction(delegate: self)
+//            indexCardsCollectionView.addInteraction(interaction)
+            
             let currentIndexCard = currentDeck!.cards[indexPath.item]
                 
             cell.image = currentIndexCard.thumbnail
@@ -331,8 +336,8 @@ class CardsViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let interaction = UIContextMenuInteraction(delegate: self)
-        indexCardsCollectionView.addInteraction(interaction)
+//        let interaction = UIContextMenuInteraction(delegate: self)
+//        indexCardsCollectionView.addInteraction(interaction)
         
         view.backgroundColor = theme?.colorOf(.table)
         navigationController?.delegate = self

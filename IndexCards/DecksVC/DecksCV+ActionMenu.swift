@@ -10,13 +10,13 @@ import UIKit
 
 extension DecksViewController {
     
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
-        let indexPath = decksCollectionView.indexPathForItem(at: location)
+        
         actionMenuIndexPath = indexPath
         
         
-        let delete = UIAction(title: "delete"){_ in
+        let delete = UIAction(title: "delete", attributes: .destructive){_ in
             self.deleteTappedDeck()
         }
         
@@ -24,13 +24,13 @@ extension DecksViewController {
             self.unDeleteTappedDeck()
         }
         
-        let emptyTrash = UIAction(title: "empty trash"){_ in
+        let emptyTrash = UIAction(title: "empty trash", attributes: .destructive){_ in
             self.emptyDeletedCards()
         }
         
         var actions : [UIAction] = []
         
-        switch indexPath?.section {
+        switch indexPath.section {
         case 0:
             actions = [delete]
         case 1:
@@ -41,17 +41,19 @@ extension DecksViewController {
             actions = []
         }
         
-        
         return UIContextMenuConfiguration(identifier: nil,
-                                          previewProvider: nil)
-        {_ in
+                                          previewProvider: nil){_ in
             
             UIMenu(title: "actions",
                    image: nil, identifier: nil,
                    options: .displayInline,
                    children: actions)
-        }
-        
+                                        }
+    }
+    
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+       return nil
     }
     
  

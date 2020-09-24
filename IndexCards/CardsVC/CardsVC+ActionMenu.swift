@@ -10,13 +10,11 @@ import UIKit
 
 extension CardsViewController {
    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        
-        let indexPath = indexCardsCollectionView.indexPathForItem(at: location)
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         actionMenuIndexPath = indexPath
         
-        let delete = UIAction(title: "delete"){_ in
+        let delete = UIAction(title: "delete",attributes: .destructive){_ in
             self.deleteCard()
         }
         
@@ -33,7 +31,17 @@ extension CardsViewController {
                    options: .displayInline,
                    children: [delete,duplicate])
         }
+        
+        
     }
+    
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
+    
+
     
 
     

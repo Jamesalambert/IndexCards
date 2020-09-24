@@ -102,12 +102,12 @@ UIViewControllerAnimatedTransitioning {
             completion: { finished in
                 
                 UIView.animate(withDuration: self.duration,
-                               animations: {
+                               animations:
+                {
                     //show menus
-                    if let editor = editorVC as? StickerEditorViewController{
-                        editor.viewsToReveal.forEach {tool in tool.isHidden = false}
-                    }
+                    editorVC.viewsToReveal.forEach {tool in tool.isHidden = false}
                 })
+                
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
         
